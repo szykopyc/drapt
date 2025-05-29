@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap');
+@import "tailwindcss";
+
+@plugin "daisyui" {
+    themes: all;
+}
+@media print {
+  .card {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+
+html{
+  scroll-behavior: smooth;
+  font-family: sans-serif,'Manrope';
+}
