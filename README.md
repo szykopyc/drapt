@@ -26,15 +26,49 @@
 
 ## 📁 Project Structure (simplified)
 
-src/
-├── assets/
-├── components/
-├── pages/
-│   ├── Landing.jsx
-│   ├── Contact.jsx
-│   └── NoPage.jsx
-├── App.jsx
-└── main.jsx
+```
+drapt-ui/
+├── index.html
+├── package.json
+├── README.md
+├── src/
+│   ├── App.jsx
+│   ├── index.css
+│   ├── main.jsx
+│   ├── assets/
+│   │   ├── about-images/
+│   │   │   ├── iteration-1.jpg
+│   │   │   ├── milestone-2-1.png
+│   │   │   ├── milestone-2-2.png
+│   │   │   ├── notts-for-profit.jpeg
+│   │   │   └── signature.png
+│   │   └── contact-images/
+│   │       └── szymon-pfp.jpeg
+│   │   └── dummy-data/
+│   ├── components/
+│   │   ├── baseui/
+│   │   │   ├── BeginText.jsx
+│   │   │   ├── CustomCard.jsx
+│   │   │   ├── CustomCollapseCard.jsx
+│   │   │   ├── CustomList.jsx
+│   │   │   ├── FigureCap.jsx
+│   │   │   ├── InlineCodeBlock.jsx
+│   │   │   ├── LargeCodeBlock.jsx
+│   │   │   ├── MainBlock.jsx
+│   │   │   └── SmallerFigureCap.jsx
+│   │   ├── dashboardui/
+│   │   ├── layout/
+│   │   └── userui/
+│   ├── pages/
+│   │   ├── About.jsx
+│   │   ├── Analyse.jsx
+│   │   ├── Contact.jsx
+│   │   ├── Landing.jsx
+│   │   ├── Login.jsx
+│   │   ├── NoPage.jsx
+│   │   ├── Portfolio.jsx
+│   │   └── Profile.jsx
+```
 
 ---
 
