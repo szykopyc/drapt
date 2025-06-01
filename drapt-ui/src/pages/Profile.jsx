@@ -1,16 +1,18 @@
 import ThemeSwitcher from '../components/userui/ThemeSwitcher'
 import CurrencySwitcher from '../components/userui/CurrencySwitcher';
-import { CardOne } from '../components/otherui/CustomCard';
+import { CardOne } from '../components/baseui/CustomCard';
 import ProfileCard from '../components/userui/ProfileCard';
 import ChangePassword from '../components/userui/ChangePassword';
+import { MainBlock } from '../components/baseui/MainBlock';
+import { BeginText } from '../components/baseui/BeginText';
+
 
 export default function Profile() {
     return (
-        <div className="p-2 flex flex-col gap-3 mx-auto max-w-5xl">
-            <div className="p-2">
-                <h1 className="text-3xl font-bold mb-4">Welcome, Szymon</h1>
+        <MainBlock>
+            <BeginText title={"Welcome, Szymon"}>
                 <p>View your profile and settings here.</p>
-            </div>
+            </BeginText>
             <div className='divider my-1'></div>
             <ProfileCard username="szymon" fullname="Szymon Kopyciński" email="szymon.kopycinski@outlook.com" role="Founder" team="Developers"></ProfileCard>
             <div className='divider my-1'></div>
@@ -26,6 +28,6 @@ export default function Profile() {
             </CardOne>
             <div className='divider my-1'></div>
             <ChangePassword></ChangePassword>
-        </div>
+        </MainBlock>
     );
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CardOne } from "../otherui/CustomCard";
+import { CardOne } from "../baseui/CustomCard";
 
 function isValidEmail(email) {
   // Simple email regex for basic validation
@@ -74,7 +74,7 @@ export default function ProfileCard({ username, fullname, email, role, team, onU
             </button>
           </>
         ) : (
-          <button className="btn btn-xs btn-ghost" onClick={() => setEditMode(true)}>
+          <button className="btn btn-xs btn-primary" onClick={() => setEditMode(true)}>
             Edit
           </button>
         )}

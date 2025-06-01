@@ -5,9 +5,9 @@ export default function Footer() {
     <footer className="flex flex-row justify-center gap-2 p-4 text-sm text-base-content">
         <p>&copy; 2025 Drapt, Szymon Kopyciński</p>
         <p>•</p>
-        <Link to="/about">About</Link>
+        <Link tabIndex={0} to="/about">About</Link>
         <p>•</p>
-        <Link to="/contact">Contact</Link>
+        <Link tabIndex={0} to="/contact">Contact</Link>
     </footer>
   );
 }

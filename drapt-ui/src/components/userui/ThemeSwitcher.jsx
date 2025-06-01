@@ -17,12 +17,12 @@ export default function ThemeSwitcher() {
   };
 
   return (
-    <select className="select select-bordered" value={theme} onChange={handleChange}>
-      <option value="light">Light</option>
-      <option value="dark">Dark</option>
-      <option value="draptlight">NEFS Investment Fund Light</option>
-      <option value="draptdark">NEFS Investment Fund Dark</option>
-      <option value="business">Business</option>
+    <select className="select select-bordered" value={theme} onChange={handleChange}>    
+      <option value="draptlight">NEFSIF Light</option>
+      <option value="draptdark">NEFSIF Dark</option>
+      <option value="cb-light">Colourblind Light</option>
+      <option value="cb-dark">Colourblind Dark</option>
+      <option value="high-contrast">High Contrast</option>
     </select>
   );
 }

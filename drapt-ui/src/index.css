@@ -23,7 +23,7 @@
   --color-neutral: oklch(80% 0.02 240); /* very light slate */
   --color-neutral-content: oklch(25% 0.015 240);
 
-  --color-info: oklch(80% 0.12 230);
+  --color-info: oklch(70% 0.2 240);
   --color-success: oklch(80% 0.15 140);
   --color-warning: oklch(85% 0.15 85);
   --color-error: oklch(75% 0.15 30);
@@ -52,6 +52,139 @@
   --color-warning: oklch(75% 0.25 85);
   --color-error: oklch(65% 0.3 30);
 }
+
+[data-theme="cb-light"] {
+  --color-base-100: #f8f9fa;         /* very light gray */
+  --color-base-200: #e9ecef;
+  --color-base-300: #dee2e6;
+  --color-base-content: #22223b;     /* dark blue-gray */
+
+  --color-primary: #009ca6;          /* teal (deuteranopia-friendly) */
+  --color-primary-content: #f8f9fa;
+
+  --color-secondary: #ffb000;        /* strong yellow-orange */
+  --color-secondary-content: #22223b;
+
+  --color-accent: #a259c6;           /* purple */
+  --color-accent-content: #f8f9fa;
+
+  --color-neutral: #adb5bd;          /* neutral gray */
+  --color-neutral-content: #22223b;
+
+  --color-info: #00b4d8;             /* cyan/teal */
+  --color-success: #43aa8b;          /* greenish, but distinguishable */
+  --color-warning: #ffb000;          /* orange-yellow */
+  --color-error: #f94144;            /* strong red, but not greenish */
+}
+
+[data-theme="cb-dark"] {
+  --color-base-100: #232634;         /* deep blue-gray */
+  --color-base-200: #2c2e3e;
+  --color-base-300: #373a4d;
+  --color-base-content: #f8f9fa;     /* near white */
+
+  --color-primary: #009ca6;          /* teal (deuteranopia-friendly) */
+  --color-primary-content: #232634;
+
+  --color-secondary: #ffb000;        /* strong yellow-orange */
+  --color-secondary-content: #232634;
+
+  --color-accent: #a259c6;           /* purple */
+  --color-accent-content: #232634;
+
+  --color-neutral: #868e96;          /* neutral gray */
+  --color-neutral-content: #f8f9fa;
+
+  --color-info: #00b4d8;             /* cyan/teal */
+  --color-success: #43aa8b;          /* distinguishable green */
+  --color-warning: #ffb000;          /* orange-yellow */
+  --color-error: #f94144;            /* strong red */
+}
+
+[data-theme="high-contrast"] {
+  --color-base-100: #000000;         /* pure black background */
+  --color-base-200: #1a1a1a;
+  --color-base-300: #333333;
+  --color-base-content: #ffffff;     /* pure white text */
+
+  --color-primary: #ffff00;          /* bright yellow */
+  --color-primary-content: #000000;
+
+  --color-secondary: #00ffff;        /* cyan */
+  --color-secondary-content: #000000;
+
+  --color-accent: #ff00ff;           /* magenta */
+  --color-accent-content: #000000;
+
+  --color-neutral: #ffffff;          /* white */
+  --color-neutral-content: #000000;
+
+  --color-info: #00bfff;             /* vivid blue */
+  --color-success: #00ff00;          /* bright green */
+  --color-warning: #ff8800;          /* orange */
+  --color-error: #ff0033;            /* bright red */
+}
+
+[data-theme="cb-light"] .mockup-code code,
+[data-theme="cb-light"] .mockup-code .codeblock-button {
+  color: #fff;
+}
+
+[data-theme="cb-dark"] .mockup-code code,
+[data-theme="cb-dark"] .mockup-code .codeblock-button {
+  color: #fff;
+}
+
+[data-theme="high-contrast"] .mockup-code,
+[data-theme="high-contrast"] .mockup-code *,
+[data-theme="high-contrast"] .mockup-code code,
+[data-theme="high-contrast"] .mockup-code pre {
+  color: #000 !important;
+  background: var(--color-primary);
+}
+
+/* High contrast: force all code/text in mockup-code and large-code-block to black */
+[data-theme="high-contrast"] .mockup-code,
+[data-theme="high-contrast"] .mockup-code *,
+[data-theme="high-contrast"] .mockup-code code,
+[data-theme="high-contrast"] .mockup-code pre,
+[data-theme="high-contrast"] .large-code-block,
+[data-theme="high-contrast"] .large-code-block *,
+[data-theme="high-contrast"] .large-code-block code,
+[data-theme="high-contrast"] .large-code-block pre {
+  color: #000 !important;
+}
+
+[data-theme="high-contrast"] .large-code-block-2,
+[data-theme="high-contrast"] .large-code-block-2 *,
+[data-theme="high-contrast"] .large-code-block-2 code,
+[data-theme="high-contrast"] .large-code-block-2 pre {
+  color: #fff !important;
+}
+
+[data-theme="high-contrast"] .codeblock-button {
+  background: #000;
+}
+
+[data-theme="high-contrast"] .bg-primary,
+[data-theme="high-contrast"] .badge-theme,
+[data-theme="high-contrast"] .card.bg-primary,
+[data-theme="high-contrast"] figcaption {
+  color: #000 !important;
+}
+
+[data-theme*="light"] .large-code-block-2 code {
+  color: var(--color-primary) !important;
+}
+
+[data-theme*="light"] .large-code-block code {
+  color: var(--color-base-100) !important;
+}
+
+[data-theme*="light"] .codeblock-button-2 {
+  background: #000;
+}
+
 @media print {
   .card {
     page-break-inside: avoid;
@@ -59,8 +192,14 @@
   }
 }
 
+.badge-theme {
+  background-color: var(--color-primary);
+  color: var(--color-primary-content);
+}
+
 html{
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
   font-family: sans-serif,'Manrope';
 }
 html,

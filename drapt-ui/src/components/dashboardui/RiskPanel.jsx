@@ -16,6 +16,11 @@ export default function RiskPanel() {
         <ChartCard title="Bearish Asset" data={dummyAsset2} size="medium" />
         <ChartCard title="Neutral Asset" data={dummyAsset3} size="medium" />
       </div>
+      <div className="mb-6"></div>
+      <div className="flex flex-wrap gap-4 mb-6">
+        <MetricCard metric="Beta" value="1.34" tooltip="Measures sensitivity to market movements. 1 means moves with the market." />
+        <MetricCard metric="CVaR 95" value="-2.7%" tooltip="Expected loss in the worst 5% of cases. More conservative than VaR." />
+      </div>
     </>
   );
 }

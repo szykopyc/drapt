@@ -1,8 +1,8 @@
 // src/components/dashboardui/PerformancePanel.jsx
 import MainCard from "./MainCard";
 import MetricCard from "./MetricCard";
-import ChartCard from "./ChartCard";
-import { dummyPerformance } from "../../assets/dummy-data/chartData";
+import ChartCard, { DualChartCard} from "./ChartCard";
+import { dummyPerformance, dummyDualChart } from "../../assets/dummy-data/chartData";
 
 export default function PerformancePanel() {
   return (
@@ -14,9 +14,20 @@ export default function PerformancePanel() {
         <ChartCard title="Performance Chart" data={dummyPerformance} size="large" />
       </div>
       <div className="flex flex-wrap gap-4">
-        <MetricCard metric="Sharpe" value="1.23" tooltip="Measures return per unit of risk. Higher is better." />
-        <MetricCard metric="Sortino" value="1" tooltip="Like Sharpe, but only penalizes downside volatility." />
+        <MetricCard metric="Sharpe" value="1.23" valuestatus="positive" tooltip="Measures return per unit of risk. Higher is better." />
+        <MetricCard metric="Sortino" value="1" valuestatus="neutral" tooltip="Like Sharpe, but only penalizes downside volatility." />
+        <MetricCard metric="Treynor" value="0.3" valuestatus="negative" tooltip="Measures return per unit of market risk (beta). Higher is better." />
       </div>
+      <div className="mt-6"></div>
+      <DualChartCard
+      title="Portfolio vs Benchmark"
+      data={dummyDualChart}
+      dataKey1="value"
+      dataKey2="value2"
+      label1="Portfolio"
+      label2="Benchmark"
+      size="large"
+    />
     </>
   );
 }

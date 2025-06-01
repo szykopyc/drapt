@@ -6,6 +6,7 @@ import Contact from './pages/Contact'
 import NoPage from './pages/NoPage'
 import Login from './pages/Login'
 import Analyse from './pages/Analyse'
+import Portfolio from './pages/Portfolio'
 import Profile from './pages/Profile'
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="contact" element={<Contact />} />
         <Route path="login" element={<Login />} />
         <Route path="analyse" element={<Analyse />} />
+        <Route path="portfolio" element={<Portfolio />} />
         <Route path="profile" element={<Profile />} />
         <Route path="*" element={<NoPage />} />
       </Route>

@@ -1,8 +1,9 @@
 import { FaInfoCircle } from 'react-icons/fa';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
+import { ColouredText } from "./ColouredText";  
 
-export default function MetricCard({ metric, flexsize = 1, value , tooltip=null}) {
+export default function MetricCard({ metric, flexsize = 1, value, valuestatus="positive", tooltip=null}) {
   const flexClasses = {
     1: "flex-[1]",
     2: "flex-[2]",
@@ -26,15 +27,17 @@ export default function MetricCard({ metric, flexsize = 1, value , tooltip=null}
                 // You can also customize boundary:
                 // boundary="viewport" or "window" etc.
               >
-                <button className="btn btn-xs btn-circle btn-ghost text-info">
-                  <FaInfoCircle className="w-4 h-4" />
+                <button className="w-5 h-5 flex items-center justify-center rounded-full text-info hover:bg-transparent focus:outline-none">
+                  <FaInfoCircle className="w-4 h-4 text-info" />
                 </button>
               </Tippy>
             )}
           </div>
         )}
         <div className="text-lg">
-          <p>{value}</p>
+          <ColouredText status={valuestatus}>
+            {value}
+          </ColouredText>
         </div>
       </div>
     </div>

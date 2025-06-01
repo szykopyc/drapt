@@ -1,10 +1,10 @@
 export function CardOne({ id, title, badge = null, children }) {
   return (
-    <div id={id} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow">
+    <div id={id} tabIndex={0} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow">
       <div className="card-body">
         <div className='flex justify-between'>
           <h2 className="card-title text-2xl">{title}</h2>
-          {badge && <span className="badge badge-s badge-primary text-white">{badge}</span>}
+          {badge && <span className="badge badge-s badge-theme">{badge}</span>}
         </div>
         {children}
       </div>
@@ -14,11 +14,11 @@ export function CardOne({ id, title, badge = null, children }) {
 
 export function CardTwo({ id, title, badge = null, children }) {
   return (
-    <div id={id} className="card bg-primary text-white shadow-md hover:shadow-lg transition-shadow">
+    <div id={id} tabIndex={0} className="card bg-primary text-white shadow-md hover:shadow-lg transition-shadow">
       <div className="card-body">
         <div className='flex justify-between items-center'>
           <h2 className="card-title text-2xl">{title}</h2>
-          {badge && <span className="badge badge-s badge-base">{badge}</span>}
+          {badge && <span className="badge badge-s badge-theme">{badge}</span>}
         </div>
         {children}
       </div>
@@ -26,3 +26,10 @@ export function CardTwo({ id, title, badge = null, children }) {
   );
 }
 
+export function SplitCardBody({children}){
+    return (
+        <div className='flex flex-col md:flex-row gap-4 items-start'>
+            {children}
+        </div>
+    );
+}

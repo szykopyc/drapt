@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom';
+import { MainBlock } from '../components/baseui/MainBlock';
+import { BeginText } from '../components/baseui/BeginText';
 
 export default function Login() {
   return (
-    <div className="p-2 flex flex-col gap-6 mx-auto max-w-5xl">
-      <div className="p-2">
-        <h1 className="text-3xl font-bold mb-4">Welcome to Drapt</h1>
-        <p>Please log in, or <span className='underline hover:text-primary'><Link to="/">create an account</Link></span>.</p>
-      </div>
+    <MainBlock>
+      <BeginText title={"Welcome to Drapt"}>
+          <p>Please log in, or <span className='underline hover:text-primary'><Link to="/">create an account</Link></span>.</p>
+      </BeginText>
+      <div className='divider mt-1'></div>
       <div className='card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow'>
         <div className="card-body">
           <h2 className="card-title text-2xl">Login</h2>
@@ -36,16 +38,16 @@ export default function Login() {
                   <div className="flex items-center justify-between">
                     <label className="label cursor-pointer">
                       <input type="checkbox" className="checkbox checkbox-sm mr-2" />
-                      <span className="label-text text-sm">Remember me</span>
+                      <span className="label-text text-base-content text-sm">Remember me</span>
                     </label>
                     <Link to="/forgot-password" className="text-sm text-primary underline hover:text-primary-focus">Forgot password?</Link>
                   </div>
-                  <button type="submit" className="btn btn-primary w-full text-white">Log In</button>
+                  <button type="submit" className="btn btn-primary w-full text-primary-content">Log In</button>
                 </div>
               </form>
             </div>
         </div>
       </div>
-    </div>
+    </MainBlock>
   );
 }

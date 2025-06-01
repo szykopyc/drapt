@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { CardOne } from "../otherui/CustomCard";
+import { useState, useRef } from "react";
+import { CardOne } from "../baseui/CustomCard";
 
 function getPasswordStrength(password) {
   if (!password) return "";
@@ -21,6 +21,7 @@ export default function ChangePassword({ onChange }) {
   const [next, setNext] = useState("");
   const [confirm, setConfirm] = useState("");
   const [message, setMessage] = useState("");
+  const modalRef = useRef(null);
 
   const strength = getPasswordStrength(next);
 
@@ -35,7 +36,7 @@ export default function ChangePassword({ onChange }) {
       return;
     }
     // Call parent handler or API here
-    setMessage("Password changed successfully!");
+    if (modalRef.current) modalRef.current.showModal();
     if (onChange) onChange(current, next);
     setCurrent("");
     setNext("");
@@ -43,62 +44,75 @@ export default function ChangePassword({ onChange }) {
   };
 
   return (
-    <CardOne id="change-password" title="Change Password" badge="Security">
-      <form className="flex flex-col gap-3 w-full" onSubmit={handleSubmit}>
-        <div>
-          <label className="label">
-            <span className="label-text">Current Password</span>
-          </label>
-          <input
-            type="password"
-            className="input input-bordered w-full"
-            value={current}
-            onChange={(e) => setCurrent(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label className="label">
-            <span className="label-text">New Password</span>
-          </label>
-          <input
-            type="password"
-            className="input input-bordered w-full"
-            value={next}
-            onChange={(e) => setNext(e.target.value)}
-            required
-          />
-          {next && (
-            <div className={`mt-1 text-xs font-semibold ${
-              strength === "Strong"
-                ? "text-green-500"
-                : strength === "Medium"
-                ? "text-yellow-500"
-                : "text-red-500"
-            }`}>
-              Strength: {strength}
-            </div>
+    <>
+      <CardOne id="change-password" title="Change Password" badge="Security">
+        <form className="flex flex-col gap-3 w-full" onSubmit={handleSubmit}>
+          <div>
+            <label className="label">
+              <span className="label-text">Current Password</span>
+            </label>
+            <input
+              type="password"
+              className="input input-bordered w-full"
+              value={current}
+              onChange={(e) => setCurrent(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className="label">
+              <span className="label-text">New Password</span>
+            </label>
+            <input
+              type="password"
+              className="input input-bordered w-full"
+              value={next}
+              onChange={(e) => setNext(e.target.value)}
+              required
+            />
+            {next && (
+              <div className={`mt-1 text-xs font-semibold ${
+                strength === "Strong"
+                  ? "text-green-500"
+                  : strength === "Medium"
+                  ? "text-yellow-500"
+                  : "text-red-500"
+              }`}>
+                Strength: {strength}
+              </div>
+            )}
+          </div>
+          <div>
+            <label className="label">
+              <span className="label-text">Confirm New Password</span>
+            </label>
+            <input
+              type="password"
+              className="input input-bordered w-full"
+              value={confirm}
+              onChange={(e) => setConfirm(e.target.value)}
+              required
+            />
+          </div>
+          {message && (
+            <div className="text-sm mt-1 text-primary">{message}</div>
           )}
+          <button type="submit" className="btn btn-primary mt-2 self-end rounded-lg shadow-md hover:shadow-lg transition-shadow text-primary-content">
+            Change Password
+          </button>
+        </form>
+      </CardOne>
+      <dialog id="change_password_success_modal" ref={modalRef} className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Password Changed</h3>
+          <p className="py-4">Your password has been updated successfully.</p>
+          <div className="modal-action">
+            <form method="dialog">
+              <button className="btn">Close</button>
+            </form>
+          </div>
         </div>
-        <div>
-          <label className="label">
-            <span className="label-text">Confirm New Password</span>
-          </label>
-          <input
-            type="password"
-            className="input input-bordered w-full"
-            value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
-            required
-          />
-        </div>
-        {message && (
-          <div className="text-sm mt-1 text-primary">{message}</div>
-        )}
-        <button type="submit" className="btn btn-primary mt-2 self-end rounded-lg shadow-md hover:shadow-lg transition-shadow text-white">
-          Change Password
-        </button>
-      </form>
-    </CardOne>
+      </dialog>
+    </>
   );
 }

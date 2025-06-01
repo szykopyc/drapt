@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import RiskPanel from "../components/dashboardui/RiskPanel";
 import PerformancePanel from "../components/dashboardui/PerformancePanel";
+import { MainBlock } from "../components/baseui/MainBlock"
 
 export default function Analyse() {
   const [activeTab, setActiveTab] = useState("performance");
@@ -19,18 +20,18 @@ export default function Analyse() {
   }, []);
 
   return (
-    <div className="p-4 max-w-5xl mx-auto flex flex-col gap-4">
+    <MainBlock>
       <div className="flex items-center justify-between border-b border-gray-300 mb-4">
         <nav className="flex space-x-4">
           <button
-            className={`pb-2 ${activeTab === "performance" ? "border-b-2 border-blue-600 font-semibold" : "text-gray-500"}`}
+            className={`pb-2 ${activeTab === "performance" ? "border-b-2 border-base font-semibold" : "text-gray-500"}`}
             onClick={() => setActiveTab("performance")}
             aria-selected={activeTab === "performance"}
           >
             Performance
           </button>
           <button
-            className={`pb-2 ${activeTab === "risk" ? "border-b-2 border-blue-600 font-semibold" : "text-gray-500"}`}
+            className={`pb-2 ${activeTab === "risk" ? "border-b-2 border-base font-semibold" : "text-gray-500"}`}
             onClick={() => setActiveTab("risk")}
             aria-selected={activeTab === "risk"}
           >
@@ -38,7 +39,7 @@ export default function Analyse() {
           </button>
         </nav>
 
-        <div className="text-sm text-gray-500 italic">
+        <div className="text-sm text-gray-500 italic hidden sm:block">
           Press <kbd className="border rounded px-1">P</kbd> for Performance, <kbd className="border rounded px-1">R</kbd> for Risk
         </div>
       </div>
@@ -48,6 +49,6 @@ export default function Analyse() {
         {activeTab === "performance" && <PerformancePanel />}
         {activeTab === "risk" && <RiskPanel />}
       </section>
-    </div>
+    </MainBlock>
   );
 }

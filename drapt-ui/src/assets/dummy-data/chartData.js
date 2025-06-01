@@ -61,3 +61,18 @@ export const dummyAsset3 = [
   { name: 'Nov', value: 151.03 },
   { name: 'Dec', value: 150.48 },
 ];
+
+export const dummyDualChart = [
+  { name: 'Jan', value: 110, value2: 120 },
+  { name: 'Feb', value: 113, value2: 122 },
+  { name: 'Mar', value: 111, value2: 119 },
+  { name: 'Apr', value: 115, value2: 123 },
+  { name: 'May', value: 117, value2: 125 },
+  { name: 'Jun', value: 116, value2: 124 },
+  { name: 'Jul', value: 118, value2: 127 },
+  { name: 'Aug', value: 117, value2: 126 },
+  { name: 'Sep', value: 119, value2: 128 },
+  { name: 'Oct', value: 120, value2: 129 },
+  { name: 'Nov', value: 122, value2: 131 },
+  { name: 'Dec', value: 124, value2: 133 },
+];
