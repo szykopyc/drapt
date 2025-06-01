@@ -24,8 +24,8 @@ export default function Navbar() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="flex flex-col items-end text-right gap-2 absolute top-full left-0 w-full bg-base-200 p-4 z-20 md:hidden text-base font-normal border-b border-base-300">
-          <Link to="/analyse" className="hover:font-bold font-mono underline" onClick={() => setMenuOpen(false)}>Holdings</Link>
           <Link to="/analyse" className="hover:font-bold font-mono underline" onClick={() => setMenuOpen(false)}>Analyse</Link>
+          <Link to="/analyse" className="hover:font-bold font-mono underline" onClick={() => setMenuOpen(false)}>Holdings</Link>
           <Link to="/profile" className="hover:font-bold font-mono underline" onClick={() => setMenuOpen(false)}>Profile</Link>
         </div>
       )}

@@ -1,4 +1,4 @@
-export default function LargeCodeBlock({ children, mock = false, cardonetwo = 'one', invert = false }) {
+export default function LargeCodeBlock({ children, mock = false, invert = false }) {
   if (mock) {
     const lines = children.split('\n');
 

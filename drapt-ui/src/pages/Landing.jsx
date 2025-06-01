@@ -4,27 +4,22 @@ import { MainBlock } from '../components/baseui/MainBlock';
 
 export default function Landing() {
   const words = [
-    "insight.",
+    "clarity.",
     "performance.",
     "<span class='text-accent'>Drapt.</span>"
   ];
   const [wordIndex, setWordIndex] = useState(0);
 
   useEffect(() => {
-    
+    if (wordIndex < words.length -1 ){
 
     const interval = setInterval(() => {
       setWordIndex((prevIndex) => (prevIndex + 1) % words.length);
     }, 1270);
 
-    const timeout = setTimeout(() => {
-      clearInterval(interval);
-    }, 5000);
-
     return () => {
       clearInterval(interval);
-      clearTimeout(timeout);
-    };
+    };}
 }, [wordIndex, words.length]);
 
   return (
