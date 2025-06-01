@@ -3,18 +3,18 @@ import { Link } from 'react-router-dom';
 
 export default function Landing() {
   const words = [
-    "insights.",
+    "insight.",
     "performance.",
     "<span class='text-primary'>Drapt.</span>"
   ];
   const [wordIndex, setWordIndex] = useState(0);
 
   useEffect(() => {
-    if (wordIndex === words.length - 1) return;
+    
 
     const interval = setInterval(() => {
       setWordIndex((prevIndex) => (prevIndex + 1) % words.length);
-    }, 1000);
+    }, 1270);
 
     const timeout = setTimeout(() => {
       clearInterval(interval);
@@ -37,7 +37,7 @@ export default function Landing() {
           }}
         ></span>
       </div>
-      <div className='text-xl sm:text-2xl font-light text-gray-600 text-center'>
+      <div className='text-xl sm:text-2xl font-light text-base-content/60 text-center'>
         <p>Welcome aboard.</p>
         <button className="btn btn-primary mt-4 px-10 py-2 text-lg text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-shadow">
           <Link to="/login">Log in to get started</Link>

@@ -2,7 +2,55 @@
 @import "tailwindcss";
 
 @plugin "daisyui" {
-    themes: all;
+  themes: all;
+}
+
+[data-theme="draptlight"] {
+  --color-base-100: oklch(98% 0.015 250); /* near white with hint of blue-green */
+  --color-base-200: oklch(94% 0.02 250);
+  --color-base-300: oklch(90% 0.025 250);
+  --color-base-content: oklch(25% 0.02 250); /* dark grey-blue content */
+
+  --color-primary: rgb(40, 57, 67); /* your color */
+  --color-primary-content: oklch(98% 0.005 240); /* near white */
+  
+  --color-secondary: oklch(85% 0.12 160); /* sage green */
+  --color-secondary-content: oklch(25% 0.02 160);
+
+  --color-accent: oklch(80% 0.13 80); /* warm gold highlight */
+  --color-accent-content: oklch(25% 0.02 80);
+
+  --color-neutral: oklch(80% 0.02 240); /* very light slate */
+  --color-neutral-content: oklch(25% 0.015 240);
+
+  --color-info: oklch(80% 0.12 230);
+  --color-success: oklch(80% 0.15 140);
+  --color-warning: oklch(85% 0.15 85);
+  --color-error: oklch(75% 0.15 30);
+}
+
+[data-theme="draptdark"] {
+  --color-base-100: rgb(20, 26, 30); /* very dark slate */
+  --color-base-200: rgb(28, 37, 43);
+  --color-base-300: rgb(35, 45, 52);
+  --color-base-content: rgb(240, 248, 255); /* near white */
+
+  --color-primary: rgb(40, 57, 67); /* your gunmetal */
+  --color-primary-content: rgb(230, 240, 245);
+
+  --color-secondary: rgb(60, 100, 110); /* desaturated sea green */
+  --color-secondary-content: rgb(235, 245, 240);
+
+  --color-accent: oklch(70% 0.22 85); /* rich gold */
+  --color-accent-content: oklch(15% 0.01 85);
+
+  --color-neutral: rgb(50, 60, 65); /* muted charcoal */
+  --color-neutral-content: rgb(240, 245, 250);
+
+  --color-info: oklch(70% 0.2 240);
+  --color-success: oklch(70% 0.25 140);
+  --color-warning: oklch(75% 0.25 85);
+  --color-error: oklch(65% 0.3 30);
 }
 @media print {
   .card {
@@ -14,4 +62,13 @@
 html{
   scroll-behavior: smooth;
   font-family: sans-serif,'Manrope';
+}
+html,
+body {
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease,
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    fill 0.4s ease;
 }

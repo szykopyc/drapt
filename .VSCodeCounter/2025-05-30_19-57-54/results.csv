@@ -1,0 +1,19 @@
+"filename", "language", "JavaScript JSX", "PostCSS", "JavaScript", "XML", "JSON", "Markdown", "HTML", "YAML", "comment", "blank", "total"
+"/Users/szymonkopycinski/Documents/Programming/Drapt/README.md", "Markdown", 0, 0, 0, 0, 0, 36, 0, 0, 0, 16, 52
+"/Users/szymonkopycinski/Documents/Programming/Drapt/drapt-ui/README.md", "Markdown", 0, 0, 0, 0, 0, 7, 0, 0, 0, 6, 13
+"/Users/szymonkopycinski/Documents/Programming/Drapt/drapt-ui/eslint.config.js", "JavaScript", 0, 0, 32, 0, 0, 0, 0, 0, 0, 2, 34
+"/Users/szymonkopycinski/Documents/Programming/Drapt/drapt-ui/index.html", "HTML", 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 12
+"/Users/szymonkopycinski/Documents/Programming/Drapt/drapt-ui/package.json", "JSON", 0, 0, 0, 0, 34, 0, 0, 0, 0, 1, 35
+"/Users/szymonkopycinski/Documents/Programming/Drapt/drapt-ui/pnpm-lock.yaml", "YAML", 0, 0, 0, 0, 0, 0, 0, 1738, 0, 508, 2246
+"/Users/szymonkopycinski/Documents/Programming/Drapt/drapt-ui/public/vite.svg", "XML", 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1
+"/Users/szymonkopycinski/Documents/Programming/Drapt/drapt-ui/src/App.jsx", "JavaScript JSX", 21, 0, 0, 0, 0, 0, 0, 0, 0, 2, 23
+"/Users/szymonkopycinski/Documents/Programming/Drapt/drapt-ui/src/components/Layout.jsx", "JavaScript JSX", 25, 0, 0, 0, 0, 0, 0, 0, 0, 2, 27
+"/Users/szymonkopycinski/Documents/Programming/Drapt/drapt-ui/src/index.css", "PostCSS", 0, 15, 0, 0, 0, 0, 0, 0, 0, 2, 17
+"/Users/szymonkopycinski/Documents/Programming/Drapt/drapt-ui/src/main.jsx", "JavaScript JSX", 12, 0, 0, 0, 0, 0, 0, 0, 0, 1, 13
+"/Users/szymonkopycinski/Documents/Programming/Drapt/drapt-ui/src/pages/About.jsx", "JavaScript JSX", 178, 0, 0, 0, 0, 0, 0, 0, 0, 1, 179
+"/Users/szymonkopycinski/Documents/Programming/Drapt/drapt-ui/src/pages/Contact.jsx", "JavaScript JSX", 51, 0, 0, 0, 0, 0, 0, 0, 0, 1, 52
+"/Users/szymonkopycinski/Documents/Programming/Drapt/drapt-ui/src/pages/Landing.jsx", "JavaScript JSX", 42, 0, 0, 0, 0, 0, 0, 0, 0, 6, 48
+"/Users/szymonkopycinski/Documents/Programming/Drapt/drapt-ui/src/pages/Login.jsx", "JavaScript JSX", 50, 0, 0, 0, 0, 0, 0, 0, 0, 1, 51
+"/Users/szymonkopycinski/Documents/Programming/Drapt/drapt-ui/src/pages/NoPage.jsx", "JavaScript JSX", 15, 0, 0, 0, 0, 0, 0, 0, 0, 1, 16
+"/Users/szymonkopycinski/Documents/Programming/Drapt/drapt-ui/vite.config.js", "JavaScript", 0, 0, 9, 0, 0, 0, 0, 0, 0, 1, 10
+"Total", "-", 394, 15, 41, 1, 34, 43, 12, 1738, 0, 551, 2829
