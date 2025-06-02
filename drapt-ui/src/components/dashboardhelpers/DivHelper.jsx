@@ -1,0 +1,23 @@
+export function ChartHelper({children}){
+    return (
+        <div className="flex flex-col md:flex-row gap-3">
+            {children}
+        </div>
+    );
+}
+
+export function MetricHelper({children}){
+    return (
+        <div className="flex flex-wrap gap-3">
+            {children}
+        </div>
+    );
+}
+
+export function CardHelper({children}){
+    return (
+        <div className="flex flex-col md:flex-row items-stretch gap-3">
+            {children}
+        </div>
+    );
+}

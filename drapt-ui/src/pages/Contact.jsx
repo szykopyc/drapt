@@ -10,7 +10,7 @@ export default function Contact() {
             <BeginText title={"Contact"}>
                 <p>Feel free to get in touch with Szymon, or the NEFS Investment Fund Executive Team.</p>
             </BeginText>
-            <div className='divider my-1'></div>
+            <div className='divider my-0'></div>
             <CardOne id="szymon-contact" title="Contact Szymon" badge="Direct">
                 <SplitCardBody>
                     <img

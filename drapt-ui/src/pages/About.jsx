@@ -37,7 +37,7 @@ export default function About() {
                     </a>
                 </nav>
             </BeginText>
-            <div className='divider my-1'></div>
+            <div className='divider my-0'></div>
             <CardOne id={"whatisdrapt"} title={"What is Drapt?"} badge={"Drapt"}>
                 <p>Drapt is a modular portfolio analytics platform for portfolio risk and performance analysis - built for clarity, speed, and most importantly to educate.</p>
                 <p>Empowering Portfolio Managers and Analysts alike, it demystifies quantitative portfolio analysis in an intuitive way, making it accessible for all levels of technical proficiency, from students who have never heard of Python to seasoned quants.</p>
@@ -46,7 +46,7 @@ export default function About() {
                 {`drapt init\n> initialising...\n> Done! Welcome to Drapt.`}
                 </LargeCodeBlock>
             </CardOne>
-            <div className='divider my-1'></div>
+            <div className='divider my-0'></div>
             <CardTwo id={"beginnings"} title={"Early vision..."} badge={"November, 2024"}>
                 <p>Drapt began its story as DRAP-T, an acronym for <i>Dynamic Risk Analysis and Performance Tool</i>, in November 2024.</p>
                 <p>The inspiration for starting the project was my desire to incorporate quantitative risk analytics into the NEFS Investment Fund, as around 1 month into being an analyst I realised that The Fund relied on qualitative risk analysis.</p>
@@ -131,7 +131,7 @@ export default function About() {
                 <p>Drapt is still in motion, slowly accelerating, but it's already become something far greater than I imagined when I started. Thanks for reading - and welcome aboard.</p>
                 <p>You may ask, what's next?</p>
                 <ul className='list-none pl-2 space-y-1 text-base'>
-                    <li className="before:content-['-'] before:mr-2  text-sm">
+                    <li className="before:content-['-'] before:mr-2 text-sm text-success">
                         Month 1 → UI Completion + UX Polish
                         <ul className="list-disc list-inside pl-4 text-sm mt-1 space-y-1">
                             <li>Refine visuals, motion and responsiveness.</li>
@@ -176,10 +176,10 @@ export default function About() {
                 <p>Drapt wouldn't be possible without the incredible open-source tools and resources that supported its development:</p>
                 
                 <CustomUL>
-                    <CustomLI>React — the foundation of the frontend.</CustomLI>
-                    <CustomLI>Tailwind CSS & DaisyUI — for styling and UI speed.</CustomLI>
-                    <CustomLI>Python, Pandas, NumPy, FastAPI — for data wrangling, logic, and the rest of the backend.</CustomLI>
-                    <CustomLI>My mentors at NEFS, The Fund, and the WBSS challenge team — for believing in this vision early on.</CustomLI>
+                    <CustomLI>React - the foundation of the frontend.</CustomLI>
+                    <CustomLI>Tailwind CSS & DaisyUI - for styling and UI speed.</CustomLI>
+                    <CustomLI>Python, Pandas, NumPy, FastAPI - for data wrangling, logic, and the rest of the backend.</CustomLI>
+                    <CustomLI>My mentors at NEFS, The Fund, and the WBSS challenge team - for believing in this vision early on.</CustomLI>
                     <CustomLI>And finally, my parents, for their unconditional support throughout my studies.</CustomLI>
                 </CustomUL>
             </CardTwo>

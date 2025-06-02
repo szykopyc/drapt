@@ -125,6 +125,58 @@
   --color-error: #ff0033;            /* bright red */
 }
 
+/* Night Coding Theme: Eye-friendly for night-time coding */
+[data-theme="night-coding"] {
+  --color-base-100: #181c24;         /* deep blue-black background */
+  --color-base-200: #23283a;
+  --color-base-300: #2a3042;
+  --color-base-content: #e0e6f0;     /* soft off-white text */
+
+  --color-primary: #3ba1c8;          /* muted cyan-blue for highlights */
+  --color-primary-content: #e0e6f0;
+
+  --color-secondary: #2e3a4e;        /* desaturated blue for secondary UI */
+  --color-secondary-content: #e0e6f0;
+
+  --color-accent: #7fd1b9;           /* soft teal accent */
+  --color-accent-content: #181c24;
+
+  --color-neutral: #23283a;          /* matches base-200 for neutral elements */
+  --color-neutral-content: #e0e6f0;
+
+  --color-info: #4fc3f7;             /* gentle blue info */
+  --color-success: #81c784;          /* soft green */
+  --color-warning: #ffd54f;          /* muted yellow */
+  --color-error: #e57373;            /* muted red */
+}
+
+/* Optional: Make code blocks extra easy on the eyes in night-coding */
+[data-theme="night-coding"] .mockup-code,
+[data-theme="night-coding"] .mockup-code *,
+[data-theme="night-coding"] .mockup-code code,
+[data-theme="night-coding"] .mockup-code pre,
+[data-theme="night-coding"] .large-code-block,
+[data-theme="night-coding"] .large-code-block *,
+[data-theme="night-coding"] .large-code-block code,
+[data-theme="night-coding"] .large-code-block pre {
+  background: #181c24 !important;
+  color: #b6c2e0 !important;
+  border-radius: 6px;
+}
+
+/* Optional: Soften button backgrounds in night-coding */
+[data-theme="night-coding"] .btn,
+[data-theme="night-coding"] .codeblock-button {
+  background: #23283a;
+  color: #e0e6f0;
+  border: none;
+}
+
+[data-theme="night-coding"] .badge-theme {
+  background-color: #3ba1c8;
+  color: #181c24;
+}
+
 [data-theme="cb-light"] .mockup-code code,
 [data-theme="cb-light"] .mockup-code .codeblock-button {
   color: #fff;

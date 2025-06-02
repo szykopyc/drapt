@@ -1,7 +1,9 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { useEffect, useState } from 'react';
+import { FaInfoCircle } from 'react-icons/fa';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 
-// Custom tooltips
 function LightTooltip({ active, payload, label, currency }) {
   if (!active || !payload || !payload.length) return null;
   return (
@@ -102,7 +104,7 @@ function getCurrencySymbol(code) {
   return currencySymbols[code] || code || "$";
 }
 
-export default function ChartCard({ title, content = null, data, size = 'medium' }) {
+export default function ChartCard({ title, content = null, data, size = 'medium', tooltip=null }) {
   const sizeClasses = {
     small: 'w-full md:w-1/3 h-96',
     medium: 'w-full md:w-1/2 h-96',
@@ -127,10 +129,11 @@ export default function ChartCard({ title, content = null, data, size = 'medium'
 
   useEffect(() => {
     const updateThemeColors = () => {
-      const primary = getComputedStyle(document.documentElement)
-        .getPropertyValue('--color-primary')
+      // Use DaisyUI's --p-info variable for info color
+      const info = getComputedStyle(document.documentElement)
+        .getPropertyValue('--p-info')
         .trim();
-      setLineColor(primary || "#6366f1");
+      setLineColor(info || "#6366f1");
     };
 
     updateThemeColors();
@@ -144,7 +147,23 @@ export default function ChartCard({ title, content = null, data, size = 'medium'
   return (
     <div className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow ${sizeClasses[size]}`}>
       <div className='card-body my-1'>
-        <h2 className={`card-title text-2xl ${!content ? 'mb-4' : ''}`}>{title}</h2>
+        <div className='flex items-center justify-between'>
+          <h2 className={`card-title text-2xl ${!content ? 'mb-4' : ''}`}>{title}</h2>
+          {tooltip && (
+              <Tippy
+                content={tooltip}
+                placement="top"
+                animation="shift-away"
+                arrow={true}
+                interactive={false}
+                delay={0}
+              >
+                <button className="w-5 h-5 flex items-center justify-center rounded-full text-info hover:bg-transparent focus:outline-none mb-4">
+                  <FaInfoCircle className="w-4 h-4 text-info" />
+                </button>
+              </Tippy>
+            )}
+        </div>
         {content && <p className='mb-4'>{content}</p>}
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>
@@ -178,6 +197,7 @@ export function DualChartCard({
   dataKey2 = 'value2',
   label1 = 'Series 1',
   label2 = 'Series 2',
+  tooltip = null
 }) {
   const sizeClasses = {
     small: 'w-full md:w-1/3 h-96',
@@ -204,13 +224,14 @@ export function DualChartCard({
 
   useEffect(() => {
     const updateThemeColors = () => {
-      const primary = getComputedStyle(document.documentElement)
-        .getPropertyValue('--color-primary')
+      // Use DaisyUI's --p-info for lineColor and --p-accent for lineColor2
+      const info = getComputedStyle(document.documentElement)
+        .getPropertyValue('--p-info')
         .trim();
       const accent = getComputedStyle(document.documentElement)
-        .getPropertyValue('--color-accent')
+        .getPropertyValue('--p-accent')
         .trim();
-      setLineColor(primary || "#6366f1");
+      setLineColor(info || "#6366f1");
       setLineColor2(accent || "#f59e42");
     };
 
@@ -225,7 +246,23 @@ export function DualChartCard({
   return (
     <div className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow ${sizeClasses[size]}`}>
       <div className='card-body my-1'>
-        <h2 className={`card-title text-2xl ${!content ? 'mb-4' : ''}`}>{title}</h2>
+        <div className='flex items-center justify-between'>
+          <h2 className={`card-title text-2xl ${!content ? 'mb-4' : ''}`}>{title}</h2>
+          {tooltip && (
+              <Tippy
+                content={tooltip}
+                placement="top"
+                animation="shift-away"
+                arrow={true}
+                interactive={false}
+                delay={0}
+              >
+                <button className="w-5 h-5 flex items-center justify-center rounded-full text-info hover:bg-transparent focus:outline-none mb-4">
+                  <FaInfoCircle className="w-4 h-4 text-info" />
+                </button>
+              </Tippy>
+            )}
+        </div>
         {content && <p className='mb-4'>{content}</p>}
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>

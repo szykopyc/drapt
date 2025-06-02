@@ -5,8 +5,7 @@ import { MainBlock } from "../components/baseui/MainBlock"
 
 export default function Analyse() {
   const [activeTab, setActiveTab] = useState("performance");
-
-  // Keyboard shortcut handler
+  
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key === "p" || e.key === "P") {
@@ -21,7 +20,7 @@ export default function Analyse() {
 
   return (
     <MainBlock>
-      <div className="flex mt-4 items-center justify-between border-b border-gray-300 mb-1">
+      <div className="flex mt-4 items-center justify-between border-b border-gray-300">
         <nav className="flex space-x-4">
           <button
             className={`pb-2 ${activeTab === "performance" ? "border-b-2 border-base font-semibold" : "text-gray-500"}`}

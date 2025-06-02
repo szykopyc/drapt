@@ -23,7 +23,6 @@ export default function LargeCodeBlock({ children, mock = false, invert = false 
       </div>
     );
   }
-  // Swap backgrounds if invert is true
   const bgClass = invert
     ? 'bg-base-100 large-code-block-2'
     : 'bg-primary large-code-block';

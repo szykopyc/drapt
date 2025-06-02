@@ -8,7 +8,7 @@ export default function Login() {
       <BeginText title={"Welcome to Drapt"}>
           <p>Please log in, or <span className='underline hover:text-primary'><Link to="/">create an account</Link></span>.</p>
       </BeginText>
-      <div className='divider mt-1'></div>
+      <div className='divider my-0'></div>
       <div className='card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow'>
         <div className="card-body">
           <h2 className="card-title text-2xl">Login</h2>

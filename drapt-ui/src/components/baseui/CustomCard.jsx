@@ -1,8 +1,8 @@
 export function CardOne({ id, title, badge = null, children }) {
   return (
-    <div id={id} tabIndex={0} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow">
+    <div id={id} tabIndex={0} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow w-full h-full">
       <div className="card-body">
-        <div className='flex justify-between'>
+        <div className='flex justify-between items-center'>
           <h2 className="card-title text-2xl">{title}</h2>
           {badge && <span className="badge badge-s badge-theme">{badge}</span>}
         </div>
@@ -32,4 +32,15 @@ export function SplitCardBody({children}){
             {children}
         </div>
     );
+}
+
+export function AnalyseCard({ id, title, badge = null, children }) {
+  return (
+    <div id={id} tabIndex={0} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow w-full h-full">
+      <div className="card-body flex-col ">
+        <h2 className="card-title text-2xl">{title}</h2>
+        {children}
+      </div>
+    </div>
+  );
 }

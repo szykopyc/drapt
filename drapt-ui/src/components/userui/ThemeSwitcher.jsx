@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export default function ThemeSwitcher() {
-  const [theme, setTheme] = useState("nord"); // default
+  const [theme, setTheme] = useState("nord");
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "light";
@@ -23,6 +23,7 @@ export default function ThemeSwitcher() {
       <option value="cb-light">Colourblind Light</option>
       <option value="cb-dark">Colourblind Dark</option>
       <option value="high-contrast">High Contrast</option>
+      <option value="night-coding">Night Coding</option>
     </select>
   );
 }

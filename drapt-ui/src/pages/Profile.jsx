@@ -13,9 +13,9 @@ export default function Profile() {
             <BeginText title={"Welcome, Szymon"}>
                 <p>View your profile and settings here.</p>
             </BeginText>
-            <div className='divider my-1'></div>
+            <div className='divider my-0'></div>
             <ProfileCard username="szymon" fullname="Szymon Kopyciński" email="szymon.kopycinski@outlook.com" role="Founder" team="Developers"></ProfileCard>
-            <div className='divider my-1'></div>
+            <div className='divider my-0'></div>
             <CardOne id={"profile"} title={"Preferences"} badge={"Preferences"}>
                 <div className='flex flex-col gap-4 md:gap-0 md:flex-row md:justify-between items-start md:items-center'>
                     <h2 className='text-lg'>Select colour scheme</h2>
@@ -26,7 +26,7 @@ export default function Profile() {
                     <CurrencySwitcher />
                 </div>
             </CardOne>
-            <div className='divider my-1'></div>
+            <div className='divider my-0'></div>
             <ChangePassword></ChangePassword>
         </MainBlock>
     );
