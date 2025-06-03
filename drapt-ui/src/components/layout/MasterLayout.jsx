@@ -8,7 +8,7 @@ export default function MasterLayout() {
       <Navbar></Navbar>
 
       <main className="flex-grow">
-        <Outlet /> {/* 🔥 This is required! */}
+        <Outlet />
       </main>
 
       <Footer></Footer>

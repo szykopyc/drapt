@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import ThemeSwitcher from '../userui/ThemeSwitcher';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);

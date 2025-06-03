@@ -13,3 +13,11 @@ export function CustomLI({children}){
         </li>
     );
 }
+
+export function CustomNestedUL({children}){
+    return (
+        <ul className="list-disc list-inside pl-4 text-sm mt-1 space-y-1">
+            {children}
+        </ul>
+    );
+}

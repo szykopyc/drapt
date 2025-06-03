@@ -9,10 +9,12 @@ function getPasswordStrength(password) {
   if (/[a-z]/.test(password)) score++;
   if (/[0-9]/.test(password)) score++;
   if (/[^A-Za-z0-9]/.test(password)) score++;
+  if (/[!@$^&*()_+\-{}\[\],.<>?]/.test(password)) score++;
 
   if (score <= 2) return "Weak";
   if (score === 3 || score === 4) return "Medium";
   if (score === 5) return "Strong";
+  if (score ==6 ) return "Very Strong";
   return "";
 }
 
@@ -35,7 +37,7 @@ export default function ChangePassword({ onChange }) {
       setMessage("Password is too weak.");
       return;
     }
-    // Call parent handler or API here
+    // Call API here
     if (modalRef.current) modalRef.current.showModal();
     if (onChange) onChange(current, next);
     setCurrent("");

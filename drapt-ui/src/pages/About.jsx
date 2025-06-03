@@ -1,14 +1,13 @@
 import iteration1 from '../assets/about-images/iteration-1.jpg';
 import milestone21 from '../assets/about-images/milestone-2-1.png'
 import milestone22 from '../assets/about-images/milestone-2-2.png'
-import nfp from '../assets/about-images/notts-for-profit.jpeg'
-import FigureCap from '../components/baseui/FigureCap';
-import SmallerFigureCap from '../components/baseui/SmallerFigureCap';
+import nottsForProfitPicture from '../assets/about-images/notts-for-profit.jpeg'
+import {FigureCap, SmallerFigureCap} from '../components/baseui/CustomFigures';
 import LargeCodeBlock from '../components/baseui/LargeCodeBlock';
 import { CardOne, CardTwo } from '../components/baseui/CustomCard';
 import { BeginText } from '../components/baseui/BeginText';
 import { MainBlock } from '../components/baseui/MainBlock'
-import { CustomUL, CustomLI } from '../components/baseui/CustomList';
+import { CustomUL, CustomLI, CustomNestedUL } from '../components/baseui/CustomList';
 
 export default function About() {
     return (
@@ -51,23 +50,23 @@ export default function About() {
                 <p>Drapt began its story as DRAP-T, an acronym for <i>Dynamic Risk Analysis and Performance Tool</i>, in November 2024.</p>
                 <p>The inspiration for starting the project was my desire to incorporate quantitative risk analytics into the NEFS Investment Fund, as around 1 month into being an analyst I realised that The Fund relied on qualitative risk analysis.</p>
                 <p>Until the revamp, Drapt was being developed in a very inefficient manner, with the following tech stack:</p>
-                <ul className='list-none pl-2 space-y-1 text-base'>
-                    <li className="before:content-['-'] before:mr-2 text-sm">
+                <CustomUL>
+                    <CustomLI>
                         Python (backend)
-                        <ul className="list-disc list-inside pl-4 text-sm mt-1 space-y-1">
+                        <CustomNestedUL>
                             <li>Flask - used for backend routing, deployed using a test server. Unconventional.</li>
                             <li>NumPy, Pandas, yfinance - quite typical for processing data.</li>
                             <li>Sqlite3 - hosted locally, not very modular as I had to create custom database managers in Python.</li>
-                        </ul>
-                    </li>
-                    <li className='before:content-["-"] before:mr-2 text-sm'>
+                        </CustomNestedUL>
+                    </CustomLI>
+                    <CustomLI>
                         HTML/CSS/JS (frontend)
-                        <ul className='list-disc list-inside pl-4 text-sm mt-1 space-y-1'>
+                        <CustomNestedUL>
                             <li>HTML and CSS - manually written, literally from the ground up. No Tailwind CSS or DaisyUI like is being used today.</li>
                             <li>JS - base JS, including only one package: Chart.js</li>
-                        </ul>
-                    </li>
-                </ul>
+                        </CustomNestedUL>
+                    </CustomLI>
+                </CustomUL>
             </CardTwo>
              
             <CardOne id={"milestone1"} title={"Milestone #1"} badge={"End of November, 2024"}>
@@ -111,7 +110,7 @@ export default function About() {
                 <p>To expand on my previous sentence mentioning the WBSS Investment Challenge, my team <b>Notts for Profit</b> managed to finish top 5 out of 80+ teams across the United Kingdom. We met some heavy competition, from brilliant teams from Warwick, UCL and Imperial, however as a team full of first-year undergraduates we really put Nottingham on the map.</p>
                 <figure className='flex flex-col items-center my-2'>
                     <img
-                        src={nfp}
+                        src={nottsForProfitPicture}
                         alt="Team Notts for Profit representing NEFSIF at The Shard, February 2025"
                         className="aspect-video w-full sm:w-2/3 md:w-1/2 object-cover rounded"
                     />
@@ -130,51 +129,50 @@ export default function About() {
                 <p>As well as this, there was a (yet another) name change, with the platform now called <b>Drapt</b>.</p>
                 <p>Drapt is still in motion, slowly accelerating, but it's already become something far greater than I imagined when I started. Thanks for reading - and welcome aboard.</p>
                 <p>You may ask, what's next?</p>
-                <ul className='list-none pl-2 space-y-1 text-base'>
+                <CustomUL>
                     <li className="before:content-['-'] before:mr-2 text-sm text-success">
                         Month 1 → UI Completion + UX Polish
-                        <ul className="list-disc list-inside pl-4 text-sm mt-1 space-y-1">
+                        <CustomNestedUL>
                             <li>Refine visuals, motion and responsiveness.</li>
                             <li>Finalise component library (e.g., metrics, cards, layouts).</li>
                             <li>Add joy: empty states, tooltips, microcopy.</li>
                             <li>Wrap up with confidence.</li>
-                        </ul>
+                        </CustomNestedUL>
                     </li>
-                    <li className="before:content-['-'] before:mr-2  text-sm">
+                    <CustomLI>
                         Month 2 → Backend Build + API Design
-                        <ul className="list-disc list-inside pl-4 text-sm mt-1 space-y-1">
+                        <CustomNestedUL>
                             <li>FastAPI backend: user, auth, risk/return APIs.</li>
                             <li>Define clear schema: portfolios, metrics, time series.</li>
                             <li>Connect frontend to live/mock endpoints.</li>
                             <li>Handle auth logic and state management.</li>
-                        </ul>
-                    </li>
-                    <li className="before:content-['-'] before:mr-2 text-sm">
+                        </CustomNestedUL>
+                    </CustomLI>
+                    <CustomLI>
                         Month 3 → Infrastructure, Optimisation, Internal Deployment
-                        <ul className="list-disc list-inside pl-4 text-sm mt-1 space-y-1">
+                        <CustomNestedUL>
                             <li>Dockerise frontend + backend.</li>
                             <li>Deploy staging instance (Render/Fly.io).</li>
                             <li>Add basic analytics/logging.</li>
                             <li>Run Drapt internally at NEFS with dummy logins.</li>
-                        </ul>
-                    </li>
-                    <li className="before:content-['-'] before:mr-2  text-sm">
+                        </CustomNestedUL>
+                    </CustomLI>
+                    <CustomLI>
                         Month 4 → Documentation, Rollout, Expansion
-                        <ul className="list-disc list-inside pl-4 text-sm mt-1 space-y-1">
+                        <CustomNestedUL>
                             <li>Create onboarding flows + logic.</li>
                             <li>Finalise README, tech spaces, admin tools.</li>
                             <li>Prep outreach: PDF one-pager, demo videos, live microsite.</li>
                             <li>Integrate feedback, and do a "V1.0" cut.</li>
-                        </ul>
-                    </li>
-                </ul>
+                        </CustomNestedUL>
+                    </CustomLI>
+                </CustomUL>
                 <p><br />Szymon Kopyciński</p>
                 <p>Founder and Lead Developer.</p>
             </CardOne>
              
-            <CardTwo id={"acknowledgments"} title={"Acknowledgments"} badge={""}>
+            <CardTwo id={"acknowledgments"} title={"Acknowledgments"}>
                 <p>Drapt wouldn't be possible without the incredible open-source tools and resources that supported its development:</p>
-                
                 <CustomUL>
                     <CustomLI>React - the foundation of the frontend.</CustomLI>
                     <CustomLI>Tailwind CSS & DaisyUI - for styling and UI speed.</CustomLI>

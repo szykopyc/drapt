@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { AnalyseCard } from "../baseui/CustomCard";
-import MetricCard from "./MetricCard";
-import { MetricHelper, CardHelper } from "../dashboardhelpers/DivHelper";
-import ChartCard, { DualChartCard } from "./ChartCard";
-import { dummyPerformance, dummyDualChart } from "../../assets/dummy-data/chartData";
+import MetricCard from "../analyseui/MetricCard";
+import { MetricHelper, CardHelper, ChartHelper } from "../analysehelpers/DivHelper";
+import ChartCard from "../analyseui/ChartCard";
+import { dummyAsset1, dummyAsset2, dummyAsset3 } from "../../assets/dummy-data/chartData";
 
-export default function PerformancePanel() {
+export default function RiskPanel() {
   const [selectedPortfolio, setSelectedPortfolio] = useState(
     () => localStorage.getItem("selectedPortfolio") || ""
   );
@@ -62,9 +62,9 @@ export default function PerformancePanel() {
           </AnalyseCard>
         </div>
         <div className={`transition-all duration-700 ${loaded && animate ? "flex-col opacity-100 w-full" : "opacity-0 pointer-events-none w-full"}`}>
-          <AnalyseCard id={"welcome"} title={"Welcome to Performance."}>
+          <AnalyseCard id={"welcome"} title={"Welcome to Risk."}>
             <div className="h-full flex flex-col justify-center">
-              <p>This section is where you will be able to analyse the performance of your portfolio, across key metrics and graphs.</p> 
+              <p>This section is where you will be able to analyse the risk of your portfolio, across key metrics and graphs.</p> 
             </div>
           </AnalyseCard>
         </div>
@@ -72,27 +72,24 @@ export default function PerformancePanel() {
       {loaded && (
         <>
           <div className="divider my-0"></div>
-          <ChartCard
-            title="Performance Chart"
-            data={dummyPerformance}
-            size="large"
-            tooltip="This chart visualizes your portfolio's performance over time."
-          />
           <MetricHelper>
-            <MetricCard metric="Sharpe" value="1.23" valuestatus="positive" tooltip="Measures return per unit of risk. Higher is better." />
-            <MetricCard metric="Sortino" value="1" valuestatus="neutral" tooltip="Like Sharpe, but only penalizes downside volatility." />
-            <MetricCard metric="Treynor" value="0.3" valuestatus="negative" tooltip="Measures return per unit of market risk (beta). Higher is better." />
+            <MetricCard metric="VaR 95" value="-1.26%" tooltip="Potential loss in worst 5% of cases over a given period." />
+            <MetricCard metric="VaR 99" value="-2.1%" tooltip="Potential loss in worst 1% of cases over a given period." />
           </MetricHelper>
-          <DualChartCard
-            title="Portfolio vs Benchmark"
-            data={dummyDualChart}
-            dataKey1="value"
-            dataKey2="value2"
-            label1="Portfolio"
-            label2="Benchmark"
+          <ChartCard
+            title="Bullish Asset"
+            data={dummyAsset1}
             size="large"
-            tooltip="Compare your portfolio's returns to a benchmark index."
+            tooltip="This chart shows the performance of a bullish asset over time."
           />
+          <ChartHelper>
+            <ChartCard title="Bearish Asset" data={dummyAsset2} size="medium" tooltip="This chart displays a bearish asset's recent trend."/>
+            <ChartCard title="Neutral Asset" data={dummyAsset3} size="medium" tooltip="This chart represents a neutral asset's stability."/>
+          </ChartHelper>
+          <MetricHelper>
+            <MetricCard metric="Beta" value="1.34" tooltip="Measures sensitivity to market movements. 1 means moves with the market." />
+            <MetricCard metric="CVaR 95" value="-2.7%" tooltip="Expected loss in the worst 5% of cases. More conservative than VaR." />
+          </MetricHelper>
         </>
       )}
       {!loaded && loading && (

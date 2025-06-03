@@ -101,7 +101,7 @@ const currencySymbols = {
 };
 
 function getCurrencySymbol(code) {
-  return currencySymbols[code] || code || "$";
+  return currencySymbols[code] || code || "£";
 }
 
 export default function ChartCard({ title, content = null, data, size = 'medium', tooltip=null }) {
@@ -111,9 +111,9 @@ export default function ChartCard({ title, content = null, data, size = 'medium'
     large: 'w-full h-96',
   };
 
-  const [currency, setCurrency] = useState("USD");
+  const [currency, setCurrency] = useState("GBP");
   useEffect(() => {
-    const saved = localStorage.getItem("currency") || "USD";
+    const saved = localStorage.getItem("currency") || "GBP";
     setCurrency(saved);
   }, []);
 
@@ -121,7 +121,7 @@ export default function ChartCard({ title, content = null, data, size = 'medium'
     ? document.documentElement.getAttribute("data-theme")
     : "light";
   const CustomTooltip = (props) =>
-    theme === "draptdark" || theme === "dark"
+    theme === "draptdark" || theme === "dark" || theme=="cb-dark" || theme=="night-coding"
       ? <DarkTooltip {...props} currency={getCurrencySymbol(currency)} />
       : <LightTooltip {...props} currency={getCurrencySymbol(currency)} />;
 
@@ -129,7 +129,6 @@ export default function ChartCard({ title, content = null, data, size = 'medium'
 
   useEffect(() => {
     const updateThemeColors = () => {
-      // Use DaisyUI's --p-info variable for info color
       const info = getComputedStyle(document.documentElement)
         .getPropertyValue('--p-info')
         .trim();
@@ -187,7 +186,6 @@ export default function ChartCard({ title, content = null, data, size = 'medium'
   );
 }
 
-// DualChartCard component
 export function DualChartCard({
   title,
   content = null,
@@ -205,9 +203,9 @@ export function DualChartCard({
     large: 'w-full h-96',
   };
 
-  const [currency, setCurrency] = useState("USD");
+  const [currency, setCurrency] = useState("GBP");
   useEffect(() => {
-    const saved = localStorage.getItem("currency") || "USD";
+    const saved = localStorage.getItem("currency") || "GBP";
     setCurrency(saved);
   }, []);
 
@@ -215,16 +213,15 @@ export function DualChartCard({
     ? document.documentElement.getAttribute("data-theme")
     : "light";
   const CustomTooltip = (props) =>
-  theme === "draptdark" || theme === "dark"
+  theme === "draptdark" || theme === "dark" || theme == "cb-dark"
     ? <DualTooltipDark {...props} currency={getCurrencySymbol(currency)} />
     : <DualTooltip {...props} currency={getCurrencySymbol(currency)} />;
 
   const [lineColor, setLineColor] = useState("#6366f1");
-  const [lineColor2, setLineColor2] = useState("#f59e42"); // accent color for second line
+  const [lineColor2, setLineColor2] = useState("#f59e42");
 
   useEffect(() => {
     const updateThemeColors = () => {
-      // Use DaisyUI's --p-info for lineColor and --p-accent for lineColor2
       const info = getComputedStyle(document.documentElement)
         .getPropertyValue('--p-info')
         .trim();

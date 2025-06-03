@@ -2,7 +2,6 @@ import { useState } from "react";
 import { CardOne } from "../baseui/CustomCard";
 
 function isValidEmail(email) {
-  // Simple email regex for basic validation
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 

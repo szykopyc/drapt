@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import RiskPanel from "../components/dashboardui/RiskPanel";
-import PerformancePanel from "../components/dashboardui/PerformancePanel";
+import RiskPanel from "../components/analysepanels/RiskPanel";
+import PerformancePanel from "../components/analysepanels/PerformancePanel";
 import { MainBlock } from "../components/baseui/MainBlock"
 
 export default function Analyse() {
@@ -37,13 +37,10 @@ export default function Analyse() {
             Risk
           </button>
         </nav>
-
         <div className="text-sm text-gray-500 italic hidden sm:block">
           Press <kbd className="border rounded px-1">P</kbd> for Performance, <kbd className="border rounded px-1">R</kbd> for Risk
         </div>
       </div>
-
-      {/* Panel Content */}
       <section>
         {activeTab === "performance" && <PerformancePanel />}
         {activeTab === "risk" && <RiskPanel />}

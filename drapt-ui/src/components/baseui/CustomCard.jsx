@@ -1,6 +1,6 @@
 export function CardOne({ id, title, badge = null, children }) {
   return (
-    <div id={id} tabIndex={0} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow w-full h-full">
+    <div id={id} tabIndex={0} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow">
       <div className="card-body">
         <div className='flex justify-between items-center'>
           <h2 className="card-title text-2xl">{title}</h2>
@@ -34,7 +34,7 @@ export function SplitCardBody({children}){
     );
 }
 
-export function AnalyseCard({ id, title, badge = null, children }) {
+export function AnalyseCard({ id, title, children }) {
   return (
     <div id={id} tabIndex={0} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow w-full h-full">
       <div className="card-body flex-col ">
@@ -43,4 +43,17 @@ export function AnalyseCard({ id, title, badge = null, children }) {
       </div>
     </div>
   );
+}
+
+export function LoginCard({ id, title, children }) {
+  return (
+    <div id={id} tabIndex={0} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow w-full h-full">
+      <div className="card-body">
+        <h2 className="card-title text-2xl">{title}</h2>
+        <div className='mt-10 sm:mx-auto sm:w-full sm-max-w-sm'>
+          {children}
+        </div>
+      </div>
+    </div>
+  )
 }

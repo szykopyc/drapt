@@ -43,7 +43,7 @@ export default function Contact() {
             </CardOne>
             <CardOne id="nefsif-contact" title="Contact NEFS Investment Fund" badge="Fund">
                 <SplitCardBody>
-                    {/* Insert NEFSIF contact details here.*/}
+                    {/* Insert NEFSIF contact details here*/}
                 </SplitCardBody>
             </CardOne>
         </MainBlock>

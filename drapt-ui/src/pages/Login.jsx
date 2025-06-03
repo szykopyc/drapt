@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { MainBlock } from '../components/baseui/MainBlock';
 import { BeginText } from '../components/baseui/BeginText';
+import { LoginCard } from '../components/baseui/CustomCard';
 
 export default function Login() {
   return (
@@ -9,11 +10,8 @@ export default function Login() {
           <p>Please log in, or <span className='underline hover:text-primary'><Link to="/">create an account</Link></span>.</p>
       </BeginText>
       <div className='divider my-0'></div>
-      <div className='card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow'>
-        <div className="card-body">
-          <h2 className="card-title text-2xl">Login</h2>
-            <div className='mt-10 sm:mx-auto sm:w-full sm-max-w-sm'>
-              <form className="space-y-6" action="#" method="POST">
+      <LoginCard id={"loginContainer"} title={"Login"}>
+        <form className="space-y-6" action="#" method="POST">
                 <div className="space-y-4">
                   <div>
                     <label htmlFor="text" className="block text-sm font-medium text-base-content">Username</label>
@@ -45,9 +43,7 @@ export default function Login() {
                   <button type="submit" className="btn btn-primary w-full text-primary-content">Log In</button>
                 </div>
               </form>
-            </div>
-        </div>
-      </div>
+      </LoginCard>
     </MainBlock>
   );
 }

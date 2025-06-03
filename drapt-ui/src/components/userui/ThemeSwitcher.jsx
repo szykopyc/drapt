@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
 export default function ThemeSwitcher() {
-  const [theme, setTheme] = useState("nord");
+  const [theme, setTheme] = useState("draptlight");
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") || "light";
+    const savedTheme = localStorage.getItem("theme") || "draptlight";
     setTheme(savedTheme);
     document.documentElement.setAttribute("data-theme", savedTheme);
   }, []);

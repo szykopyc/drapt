@@ -15,7 +15,7 @@ export default function Landing() {
 
     const interval = setInterval(() => {
       setWordIndex((prevIndex) => (prevIndex + 1) % words.length);
-    }, 1270);
+    }, 1100);
 
     return () => {
       clearInterval(interval);
