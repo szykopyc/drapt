@@ -76,11 +76,11 @@ export default function PerformancePanel() {
             title="Performance Chart"
             data={dummyPerformance}
             size="large"
-            tooltip="This chart visualizes your portfolio's performance over time."
+            tooltip="This chart visualises your portfolio's performance over time."
           />
           <MetricHelper>
             <MetricCard metric="Sharpe" value="1.23" valuestatus="positive" tooltip="Measures return per unit of risk. Higher is better." />
-            <MetricCard metric="Sortino" value="1" valuestatus="neutral" tooltip="Like Sharpe, but only penalizes downside volatility." />
+            <MetricCard metric="Sortino" value="1" valuestatus="neutral" tooltip="Like Sharpe, but only penalises downside volatility." />
             <MetricCard metric="Treynor" value="0.3" valuestatus="negative" tooltip="Measures return per unit of market risk (beta). Higher is better." />
           </MetricHelper>
           <DualChartCard
