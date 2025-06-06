@@ -4,7 +4,7 @@ import { FaInfoCircle } from 'react-icons/fa';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 
-function LightTooltip({ active, payload, label, currency }) {
+function LightTooltip({ active, payload, label, currency, currencyEnabled }) {
   if (!active || !payload || !payload.length) return null;
   return (
     <div style={{
@@ -17,13 +17,13 @@ function LightTooltip({ active, payload, label, currency }) {
     }}>
       <div className="font-semibold">{label}</div>
       <div>
-        {currency}{payload[0].value}
+        {currencyEnabled ? currency : ''}{payload[0].value}
       </div>
     </div>
   );
 }
 
-function DarkTooltip({ active, payload, label, currency }) {
+function DarkTooltip({ active, payload, label, currency, currencyEnabled }) {
   if (!active || !payload || !payload.length) return null;
   return (
     <div style={{
@@ -36,13 +36,13 @@ function DarkTooltip({ active, payload, label, currency }) {
     }}>
       <div className="font-semibold">{label}</div>
       <div>
-        {currency}{payload[0].value}
+        {currencyEnabled ? currency : ''}{payload[0].value}
       </div>
     </div>
   );
 }
 
-function DualTooltip({ active, payload, label, currency }) {
+function DualTooltip({ active, payload, label, currency, currencyEnabled }) {
   if (!active || !payload || payload.length < 2) return null;
   return (
     <div style={{
@@ -55,16 +55,16 @@ function DualTooltip({ active, payload, label, currency }) {
     }}>
       <div className="font-semibold">{label}</div>
       <div>
-        <span style={{ color: payload[0].color, fontWeight: 500 }}>{payload[0].name}:</span> {currency}{payload[0].value}
+        <span style={{ color: payload[0].color, fontWeight: 500 }}>{payload[0].name}:</span> {currencyEnabled ? currency : ''}{payload[0].value}
       </div>
       <div>
-        <span style={{ color: payload[1].color, fontWeight: 500 }}>{payload[1].name}:</span> {currency}{payload[1].value}
+        <span style={{ color: payload[1].color, fontWeight: 500 }}>{payload[1].name}:</span> {currencyEnabled ? currency : ''}{payload[1].value}
       </div>
     </div>
   );
 }
 
-function DualTooltipDark({ active, payload, label, currency }) {
+function DualTooltipDark({ active, payload, label, currency, currencyEnabled }) {
   if (!active || !payload || payload.length < 2) return null;
   return (
     <div style={{
@@ -77,10 +77,10 @@ function DualTooltipDark({ active, payload, label, currency }) {
     }}>
       <div className="font-semibold">{label}</div>
       <div>
-        <span style={{ color: payload[0].color, fontWeight: 500 }}>{payload[0].name}:</span> {currency}{payload[0].value}
+        <span style={{ color: payload[0].color, fontWeight: 500 }}>{payload[0].name}:</span> {currencyEnabled ? currency : ''}{payload[0].value}
       </div>
       <div>
-        <span style={{ color: payload[1].color, fontWeight: 500 }}>{payload[1].name}:</span> {currency}{payload[1].value}
+        <span style={{ color: payload[1].color, fontWeight: 500 }}>{payload[1].name}:</span> {currencyEnabled ? currency : ''}{payload[1].value}
       </div>
     </div>
   );
@@ -104,13 +104,13 @@ function getCurrencySymbol(code) {
   return currencySymbols[code] || code || "£";
 }
 
-export default function ChartCard({ title, content = null, data, size = 'medium', tooltip=null }) {
+export default function ChartCard({ title, content = null, data, size = 'medium', tooltip=null, currencyEnabled=true }) {
   const sizeClasses = {
     small: 'w-full md:w-1/3 h-96',
     medium: 'w-full md:w-1/2 h-96',
     large: 'w-full h-96',
   };
-
+  
   const [currency, setCurrency] = useState("GBP");
   useEffect(() => {
     const saved = localStorage.getItem("currency") || "GBP";
@@ -122,8 +122,8 @@ export default function ChartCard({ title, content = null, data, size = 'medium'
     : "light";
   const CustomTooltip = (props) =>
     theme === "draptdark" || theme === "dark" || theme=="cb-dark" || theme=="night-coding"
-      ? <DarkTooltip {...props} currency={getCurrencySymbol(currency)} />
-      : <LightTooltip {...props} currency={getCurrencySymbol(currency)} />;
+      ? <DarkTooltip {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} />
+      : <LightTooltip {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} />;
 
   const [lineColor, setLineColor] = useState("#6366f1");
 
@@ -168,7 +168,7 @@ export default function ChartCard({ title, content = null, data, size = 'medium'
           <LineChart data={data}>
             <XAxis dataKey="name" />
             <YAxis
-              tickFormatter={v => `${getCurrencySymbol(currency)}${v}`}
+              tickFormatter={v => currencyEnabled ? `${getCurrencySymbol(currency)}${v}` : v}
             />
             <Tooltip content={CustomTooltip} />
             <Line
@@ -195,7 +195,8 @@ export function DualChartCard({
   dataKey2 = 'value2',
   label1 = 'Series 1',
   label2 = 'Series 2',
-  tooltip = null
+  tooltip = null,
+  currencyEnabled = true
 }) {
   const sizeClasses = {
     small: 'w-full md:w-1/3 h-96',
@@ -213,9 +214,9 @@ export function DualChartCard({
     ? document.documentElement.getAttribute("data-theme")
     : "light";
   const CustomTooltip = (props) =>
-  theme === "draptdark" || theme === "dark" || theme == "cb-dark"
-    ? <DualTooltipDark {...props} currency={getCurrencySymbol(currency)} />
-    : <DualTooltip {...props} currency={getCurrencySymbol(currency)} />;
+    theme === "draptdark" || theme === "dark" || theme == "cb-dark"
+      ? <DualTooltipDark {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} />
+      : <DualTooltip {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} />;
 
   const [lineColor, setLineColor] = useState("#6366f1");
   const [lineColor2, setLineColor2] = useState("#f59e42");
@@ -265,7 +266,7 @@ export function DualChartCard({
           <LineChart data={data}>
             <XAxis dataKey="name" />
             <YAxis
-              tickFormatter={v => `${getCurrencySymbol(currency)}${v}`}
+              tickFormatter={v => currencyEnabled ? `${getCurrencySymbol(currency)}${v}` : v}
             />
             <Tooltip content={CustomTooltip} />
             <Line

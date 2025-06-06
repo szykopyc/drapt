@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { CardOne } from "../baseui/CustomCard";
+import { ModalHelper } from "../helperui/ModalHelper";
 
 function getPasswordStrength(password) {
   if (!password) return "";
@@ -12,9 +13,9 @@ function getPasswordStrength(password) {
   if (/[!@$^&*()_+\-{}\[\],.<>?]/.test(password)) score++;
 
   if (score <= 2) return "Weak";
-  if (score === 3 || score === 4) return "Medium";
-  if (score === 5) return "Strong";
-  if (score ==6 ) return "Very Strong";
+  if (score === 3) return "Medium";
+  if (score === 4 || score === 5) return "Strong";
+  if (score === 6) return "Very Strong";
   return "";
 }
 
@@ -104,17 +105,9 @@ export default function ChangePassword({ onChange }) {
           </button>
         </form>
       </CardOne>
-      <dialog id="change_password_success_modal" ref={modalRef} className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Password Changed</h3>
-          <p className="py-4">Your password has been updated successfully.</p>
-          <div className="modal-action">
-            <form method="dialog">
-              <button className="btn">Close</button>
-            </form>
-          </div>
-        </div>
-      </dialog>
+      <ModalHelper id={"change_password_success_modal"} reference={modalRef} modalTitle={"Password Changed"}>
+          <p className="py-2">Your password has been updated successfully.</p>
+      </ModalHelper>
     </>
   );
 }

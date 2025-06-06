@@ -14,11 +14,10 @@ export default function Profile() {
                 <p>View your profile and settings here.</p>
             </BeginText>
             <div className='divider my-0'></div>
-            <ProfileCard username="szymon" fullname="Szymon Kopyciński" email="szymon.kopycinski@outlook.com" role="Founder" team="Developers"></ProfileCard>
-            <div className='divider my-0'></div>
+            <ProfileCard username="szymon" fullname="Szymon Kopyciński" email="szymon.kopycinski@outlook.com" role="Developer" team="Executive Team"></ProfileCard>
             <CardOne id={"profile"} title={"Preferences"} badge={"Preferences"}>
                 <div className='flex flex-col gap-4 md:gap-0 md:flex-row md:justify-between items-start md:items-center'>
-                    <h2 className='text-lg'>Select colour scheme</h2>
+                    <h2 className='text-lg'>Select Theme</h2>
                     <ThemeSwitcher />
                 </div>
                 <div className='flex flex-col gap-4 md:gap-0 md:flex-row md:justify-between items-start md:items-center'>
@@ -26,7 +25,6 @@ export default function Profile() {
                     <CurrencySwitcher />
                 </div>
             </CardOne>
-            <div className='divider my-0'></div>
             <ChangePassword></ChangePassword>
         </MainBlock>
     );

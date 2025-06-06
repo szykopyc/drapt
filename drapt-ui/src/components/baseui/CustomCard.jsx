@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export function CardOne({ id, title, badge = null, children }) {
   return (
     <div id={id} tabIndex={0} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow">
@@ -56,4 +58,41 @@ export function LoginCard({ id, title, children }) {
       </div>
     </div>
   )
+}
+
+export function CustomCollapseArrow({ id, title, children, defaultOpen = false }) {
+    const [open, setOpen] = useState(defaultOpen);
+
+    return (
+        <div id={id} tabIndex={0} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow">
+            <div className="card-body">
+                <div className="flex items-center justify-between cursor-pointer select-none w-full" onClick={() => setOpen((prev) => !prev)}>
+                    <h2 className="card-title text-2xl">{title}</h2>
+                    <span className="text-base-content">&#x25BC;</span>
+                </div>
+                <div style={{ display: open ? "block" : "none" }}>
+                    {children}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export function CustomCollapse({ id, title, children, defaultOpen = false }) {
+    const [open, setOpen] = useState(defaultOpen);
+
+    return (
+        <>
+        <div id={id} tabIndex={0} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow">
+            <div className="card-body">
+                <div className="flex items-center cursor-pointer select-none w-full" onClick={() => setOpen((prev) => !prev)}>
+                    <h2 className="card-title text-2xl">{title}</h2>
+                </div>
+                <div style={{ display: open ? "block" : "none" }}>
+                    {children}
+                </div>
+            </div>
+        </div>
+    </>
+    );
 }

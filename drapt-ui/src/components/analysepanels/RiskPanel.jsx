@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import { AnalyseCard } from "../baseui/CustomCard";
 import MetricCard from "../analyseui/MetricCard";
-import { MetricHelper, CardHelper, ChartHelper } from "../analysehelpers/DivHelper";
+import { MetricHelper, CardHelper, ChartHelper } from "../helperui/DivHelper";
 import ChartCard from "../analyseui/ChartCard";
 import { dummyAsset1, dummyAsset2, dummyAsset3 } from "../../assets/dummy-data/chartData";
 
 export default function RiskPanel() {
-  const [selectedPortfolio, setSelectedPortfolio] = useState(
-    () => localStorage.getItem("selectedPortfolio") || ""
-  );
+  const [selectedPortfolio, setSelectedPortfolio] = useState("");
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [animate, setAnimate] = useState(false);
@@ -35,7 +33,6 @@ export default function RiskPanel() {
 
   function handlePortfolioChange(e) {
     setSelectedPortfolio(e.target.value);
-    localStorage.setItem("selectedPortfolio", e.target.value);
     setLoading(false);
     setLoaded(false);
     setAnimate(false);
@@ -45,7 +42,7 @@ export default function RiskPanel() {
     <div className="flex flex-col gap-3">
       <CardHelper>
         <div className={`transition-all duration-700 ${loaded && animate ? "opacity-100 w-full" : "w-full opacity-100"}`}>
-          <AnalyseCard id={"select"} title={"Select Portfolio."}>
+          <AnalyseCard id={"select"} title={"Select Portfolio"}>
             <div className="flex flex-col md:flex-row justify-between md:items-center gap-3 h-full"> 
                 <select value={selectedPortfolio} onChange={handlePortfolioChange} className="select w-full">
                   <option value="" disabled={true}>Select portfolio</option>
@@ -62,7 +59,7 @@ export default function RiskPanel() {
           </AnalyseCard>
         </div>
         <div className={`transition-all duration-700 ${loaded && animate ? "flex-col opacity-100 w-full" : "opacity-0 pointer-events-none w-full"}`}>
-          <AnalyseCard id={"welcome"} title={"Welcome to Risk."}>
+          <AnalyseCard id={"welcome"} title={"Welcome to Risk"}>
             <div className="h-full flex flex-col justify-center">
               <p>This section is where you will be able to analyse the risk of your portfolio, across key metrics and graphs.</p> 
             </div>

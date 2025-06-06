@@ -32,7 +32,7 @@ export default function About() {
                         <span className="hover:underline">Where Drapt currently stands</span>
                     </a>
                     <a tabIndex={0} href="#acknowledgments" className='block before:content-["-"] before:mr-2 text-info text-sm'>
-                        <span className="hover:underline">Acknowledgments</span>
+                        <span className="hover:underline">Acknowledgments and Attributions</span>
                     </a>
                 </nav>
             </BeginText>
@@ -168,17 +168,18 @@ export default function About() {
                     </CustomLI>
                 </CustomUL>
                 <p><br />Szymon Kopyciński</p>
-                <p>Founder and Lead Developer.</p>
+                <p>Founder and Lead Developer</p>
             </CardOne>
              
-            <CardTwo id={"acknowledgments"} title={"Acknowledgments"}>
-                <p>Drapt wouldn't be possible without the incredible open-source tools and resources that supported its development:</p>
+            <CardTwo id={"acknowledgments"} title={"Acknowledgments and Attributions"}>
+                <p>Drapt wouldn't be possible without the incredible open-source tools, resources, and people that are supporting its development:</p>
                 <CustomUL>
                     <CustomLI>React - the foundation of the frontend.</CustomLI>
                     <CustomLI>Tailwind CSS & DaisyUI - for styling and UI speed.</CustomLI>
                     <CustomLI>Python, Pandas, NumPy, FastAPI - for data wrangling, logic, and the rest of the backend.</CustomLI>
+                    <CustomLI>The CEO of <a tabIndex={0} href="https://www.tiingo.com" target="_blank" rel="noopener noreferrer" className='underline'>Tiingo</a>, and its CEO Rishi Singh, for providing Drapt critical data completely free of charge.</CustomLI>
                     <CustomLI>My mentors at NEFS, The Fund, and the WBSS challenge team - for believing in this vision early on.</CustomLI>
-                    <CustomLI>And finally, my parents, for their unconditional support throughout my studies.</CustomLI>
+                    <CustomLI>And finally, my family, for their unconditional support throughout my studies.</CustomLI>
                 </CustomUL>
             </CardTwo>
         </MainBlock>
