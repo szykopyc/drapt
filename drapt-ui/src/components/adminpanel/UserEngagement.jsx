@@ -21,7 +21,7 @@ export default function UserEngagementPanel() {
   return (
     <div className="flex flex-col gap-3">
       <CardHelper>
-        <div className={`transition-all duration-700 ${loaded ? "flex-col opacity-100 w-full" : "opacity-0 pointer-events-none w-full"}`}>
+        <div className="flex-col w-full">
           <AnalyseCard id={"welcome"} title={"User Engagement"}>
             <div className="h-full flex flex-col justify-center">
               <p>

@@ -7,7 +7,7 @@ import { isValidEmail } from "../validators/EmailValidator";
 import { getPasswordStrength } from "../validators/PasswordValidator";
 import { LargeSubmit } from "../helperui/LargeSubmitHelper";
 import { ResetFormButton } from "../helperui/ResetFormHelper";
-import { FormField } from "../helperui/FormFieldHelper"; // <-- import FormField
+import { FormField } from "../helperui/FormFieldHelper";
 
 export function UserUpdateCard() {
   const [loading, setLoading] = useState(false);
