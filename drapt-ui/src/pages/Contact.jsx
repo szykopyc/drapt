@@ -21,6 +21,7 @@ export default function Contact() {
                     />
                     <div className='sm:w-max md:w-1/2'>
                         <h2 className='text-xl font-bold'>Szymon Kopyciński</h2>
+                        <p className='text-gray-500 mb-2'>Head of Systems and Publications</p>
                         <p>Contact me for both technical and fund inquiries.</p>
                         <div className="space-y-2 mt-2 text-base-content">
                             <div className="flex items-center gap-2">

@@ -84,7 +84,22 @@ export default function RiskPanel() {
         </>
       )}
       {!loaded && loading && (
-        <LoadingSpinner/>
+        <>
+          <div className="divider my-0"></div>
+          <MetricHelper>
+            <div className="skeleton flex-1 h-[150px]"></div>
+            <div className="skeleton flex-1 h-[150px]"></div>
+          </MetricHelper>
+          <div className="skeleton w-full h-[461px]"></div>
+          <ChartHelper>
+            <div className="skeleton flex-1 h-[461px]"></div>
+            <div className="skeleton flex-1 h-[461px]"></div>
+          </ChartHelper>
+          <MetricHelper>
+            <div className="skeleton flex-1 h-[150px]"></div>
+            <div className="skeleton flex-1 h-[150px]"></div>
+          </MetricHelper>
+        </>
       )}
     </div>
   );

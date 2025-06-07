@@ -5,6 +5,7 @@ import { MetricHelper, CardHelper } from "../helperui/DivHelper";
 import ChartCard, { DualChartCard } from "../analyseui/ChartCard";
 import { dummyPerformance, dummyDualChart } from "../../assets/dummy-data/chartData";
 import { LoadingSpinner } from "../helperui/LoadingSpinnerHelper";
+import { div } from "framer-motion/client";
 
 export default function PerformancePanel() {
   const [selectedPortfolio, setSelectedPortfolio] = useState("");
@@ -87,7 +88,16 @@ export default function PerformancePanel() {
         </>
       )}
       {!loaded && loading && (
-        <LoadingSpinner/>
+        <>
+          <div className="divider my-0"></div>
+          <div className="skeleton w-full h-[461px]"></div>
+          <MetricHelper>
+            <div className="skeleton flex-1 h-[150px]"></div>
+            <div className="skeleton flex-1 h-[150px]"></div>
+            <div className="skeleton flex-1 h-[150px]"></div>
+          </MetricHelper>
+          <div className="skeleton w-full h-[461px]"></div>
+        </>
       )}
     </div>
   );

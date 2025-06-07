@@ -104,7 +104,7 @@ function getCurrencySymbol(code) {
   return currencySymbols[code] || code || "£";
 }
 
-export default function ChartCard({ title, content = null, data, size = 'medium', tooltip=null, currencyEnabled=true }) {
+export default function ChartCard({ title, content = null, data, size = 'medium', tooltip=null, currencyEnabled=true}) {
   const sizeClasses = {
     small: 'w-full md:w-1/3 h-96',
     medium: 'w-full md:w-1/2 h-96',

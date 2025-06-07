@@ -12,7 +12,7 @@ import { FormField } from "../helperui/FormFieldHelper";
 export function UserUpdateCard() {
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const [targetUsername, setTargetUsername] = useState(null);
+  const [targetUsername, setTargetUsername] = useState("");
   const [showUpdateForm, setShowUpdateForm] = useState(false);
 
   const userUpdateModalRef = useRef(null);
@@ -36,14 +36,18 @@ export function UserUpdateCard() {
     Developer: ["Executive"]
   };
 
+  const watchedUsername = watchSearch("username")?.trim() || "";
+
   const onSearch = (data) => {
-    setTargetUsername(data.username);
+    setTargetUsername(data.username.trim());
     setLoading(true);
+    setLoaded(false);
+    setShowUpdateForm(false);
     setTimeout(() => {
       setLoading(false);
       setLoaded(true);
+      setShowUpdateForm(true);
     }, 1000);
-    setShowUpdateForm(true);
   };
 
   const onSubmit = (data) => {
@@ -53,20 +57,6 @@ export function UserUpdateCard() {
     if (userUpdateModalRef.current) userUpdateModalRef.current.showModal();
     resetUpdate();
   };
-
-  function handleUsernameChange(e) {
-    setLoaded(false);
-    setLoading(false);
-    setTargetUsername(e.target.value);
-    setShowUpdateForm(false);
-    resetUpdate({
-      fullName: "",
-      email: "",
-      password: "",
-      role: "",
-      team: "",
-    });
-  }
 
   const selectedRole = watchUpdate("role");
   const allowedTeams = teamOptionsByRole[selectedRole] || [];
@@ -82,20 +72,24 @@ export function UserUpdateCard() {
   return (
     <>
       <CustomCollapseArrow id={"userCreationCard"} title={"Update a user"} defaultOpen={false}>
-        <form id="searchUser" className="flex flex-col md:flex-row gap-3 w-full" onSubmit={handleSubmitSearch(onSearch)} autoComplete="off">
+        <form
+          id="searchUser"
+          className="flex flex-col md:flex-row gap-3 w-full"
+          onSubmit={handleSubmitSearch(onSearch)}
+          autoComplete="off"
+        >
           <div className="flex-1">
             <FormField label="Username" error={errorsSearch.username && errorsSearch.username.message}>
               <input
                 type="text"
                 className="input input-bordered w-full"
-                {...registerSearch("username")}
+                {...registerSearch("username", { required: "Username is required" })}
                 autoComplete="off"
-                onChange={handleUsernameChange}
               />
             </FormField>
           </div>
           <div className="mt-3">
-            <LargeSubmit size={1} disabled={!targetUsername}>
+            <LargeSubmit size={1} disabled={!watchedUsername}>
               Search
             </LargeSubmit>
           </div>
@@ -103,7 +97,7 @@ export function UserUpdateCard() {
         {!loaded && loading && (
           <LoadingSpinner/>
         )}
-        {showUpdateForm && targetUsername && loaded && (
+        {showUpdateForm && watchedUsername && loaded && (
           <>
             <div className="divider my-2"></div>
             <form id="updateUser" className="flex flex-col gap-3 w-full" onSubmit={handleSubmitUpdate(onSubmit)} autoComplete="off">
@@ -166,7 +160,7 @@ export function UserUpdateCard() {
                 size={4}
                 disabled={!isAnyFieldFilled}
               >
-                Add User
+                Update User
               </LargeSubmit>
               <ResetFormButton resetFn={resetUpdate} />
             </div>
