@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { FaInfoCircle } from 'react-icons/fa';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
+import { ArrowsPointingOutIcon, ArrowsPointingInIcon } from "@heroicons/react/24/outline";
 
 function LightTooltip({ active, payload, label, currency, currencyEnabled }) {
   if (!active || !payload || !payload.length) return null;
@@ -104,13 +105,24 @@ function getCurrencySymbol(code) {
   return currencySymbols[code] || code || "£";
 }
 
-export default function ChartCard({ title, content = null, data, size = 'medium', tooltip=null, currencyEnabled=true}) {
+export default function ChartCard({
+  title,
+  content = null,
+  data,
+  size = 'medium',
+  tooltip = null,
+  currencyEnabled = true,
+  expandButton = false,
+  minimiseButton = false,
+  onExpand,
+  onMinimise
+}) {
   const sizeClasses = {
     small: 'w-full md:w-1/3 h-96',
     medium: 'w-full md:w-1/2 h-96',
     large: 'w-full h-96',
   };
-  
+
   const [currency, setCurrency] = useState("GBP");
   useEffect(() => {
     const saved = localStorage.getItem("currency") || "GBP";
@@ -121,7 +133,7 @@ export default function ChartCard({ title, content = null, data, size = 'medium'
     ? document.documentElement.getAttribute("data-theme")
     : "light";
   const CustomTooltip = (props) =>
-    theme === "draptdark" || theme === "dark" || theme=="cb-dark" || theme=="night-coding"
+    theme === "draptdark" || theme === "dark" || theme == "cb-dark" || theme == "night-coding"
       ? <DarkTooltip {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} />
       : <LightTooltip {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} />;
 
@@ -148,20 +160,34 @@ export default function ChartCard({ title, content = null, data, size = 'medium'
       <div className='card-body my-1'>
         <div className='flex items-center justify-between'>
           <h2 className={`card-title text-2xl ${!content ? 'mb-4' : ''}`}>{title}</h2>
-          {tooltip && (
-              <Tippy
-                content={tooltip}
-                placement="top"
-                animation="shift-away"
-                arrow={true}
-                interactive={false}
-                delay={0}
-              >
-                <button className="w-5 h-5 flex items-center justify-center rounded-full text-info hover:bg-transparent focus:outline-none mb-4">
-                  <FaInfoCircle className="w-4 h-4 text-info" />
-                </button>
-              </Tippy>
-            )}
+          {(tooltip || expandButton || minimiseButton) && (
+            <div className='flex flex-row gap-1'>
+              {tooltip && (
+                <Tippy
+                  content={tooltip}
+                  placement="top"
+                  animation="shift-away"
+                  arrow={true}
+                  interactive={false}
+                  delay={0}
+                >
+                  <span className="w-5 h-5 flex items-center justify-center rounded-full text-info hover:bg-transparent focus:outline-none mb-4">
+                    <FaInfoCircle className="w-4 h-4 text-info" />
+                  </span>
+                </Tippy>
+              )}
+              {(expandButton && !minimiseButton) && (
+                <span className="w-5 h-5 flex items-center justify-center">
+                  <ArrowsPointingOutIcon className="h-5 w-5" />
+                </span>
+              )}
+              {(!expandButton && minimiseButton) && (
+                <span className="w-5 h-5 flex items-center justify-center">
+                  <ArrowsPointingInIcon className="h-5 w-5" />
+                </span>
+              )}
+            </div>
+          )}
         </div>
         {content && <p className='mb-4'>{content}</p>}
         <ResponsiveContainer width="100%" height="100%">
@@ -169,6 +195,7 @@ export default function ChartCard({ title, content = null, data, size = 'medium'
             <XAxis dataKey="name" />
             <YAxis
               tickFormatter={v => currencyEnabled ? `${getCurrencySymbol(currency)}${v}` : v}
+              domain={['dataMin-2', 'dataMax+2']}
             />
             <Tooltip content={CustomTooltip} />
             <Line
@@ -196,7 +223,9 @@ export function DualChartCard({
   label1 = 'Series 1',
   label2 = 'Series 2',
   tooltip = null,
-  currencyEnabled = true
+  currencyEnabled = true,
+  expandButton = false,
+  minimiseButton = false,
 }) {
   const sizeClasses = {
     small: 'w-full md:w-1/3 h-96',
@@ -246,20 +275,34 @@ export function DualChartCard({
       <div className='card-body my-1'>
         <div className='flex items-center justify-between'>
           <h2 className={`card-title text-2xl ${!content ? 'mb-4' : ''}`}>{title}</h2>
-          {tooltip && (
-              <Tippy
-                content={tooltip}
-                placement="top"
-                animation="shift-away"
-                arrow={true}
-                interactive={false}
-                delay={0}
-              >
-                <button className="w-5 h-5 flex items-center justify-center rounded-full text-info hover:bg-transparent focus:outline-none mb-4">
-                  <FaInfoCircle className="w-4 h-4 text-info" />
-                </button>
-              </Tippy>
-            )}
+          {(tooltip || expandButton || minimiseButton) && (
+            <div className='flex flex-row gap-1'>
+              {tooltip && (
+                <Tippy
+                  content={tooltip}
+                  placement="top"
+                  animation="shift-away"
+                  arrow={true}
+                  interactive={false}
+                  delay={0}
+                >
+                  <span className="w-5 h-5 flex items-center justify-center rounded-full text-info hover:bg-transparent focus:outline-none mb-4">
+                    <FaInfoCircle className="w-4 h-4 text-info" />
+                  </span>
+                </Tippy>
+              )}
+              {(expandButton && !minimiseButton) && (
+                <span className="w-5 h-5 flex items-center justify-center">
+                  <ArrowsPointingOutIcon className="h-5 w-5" />
+                </span>
+              )}
+              {(!expandButton && minimiseButton) && (
+                <span className="w-5 h-5 flex items-center justify-center">
+                  <ArrowsPointingInIcon className="h-5 w-5" />
+                </span>
+              )}
+            </div>
+          )}
         </div>
         {content && <p className='mb-4'>{content}</p>}
         <ResponsiveContainer width="100%" height="100%">
@@ -267,6 +310,7 @@ export function DualChartCard({
             <XAxis dataKey="name" />
             <YAxis
               tickFormatter={v => currencyEnabled ? `${getCurrencySymbol(currency)}${v}` : v}
+              domain={['dataMin-2', 'dataMax+2']}
             />
             <Tooltip content={CustomTooltip} />
             <Line

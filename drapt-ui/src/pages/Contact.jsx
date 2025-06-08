@@ -1,4 +1,3 @@
-import szymonpfp from '../assets/contact-images/szymon-pfp.jpeg';
 import { FaLinkedin, FaEnvelope, FaWhatsapp } from 'react-icons/fa';
 import { CardOne, SplitCardBody } from '../components/baseui/CustomCard';
 import { MainBlock } from '../components/baseui/MainBlock';
@@ -14,7 +13,7 @@ export default function Contact() {
             <CardOne id="szymon-contact" title="Contact Szymon" badge="Direct">
                 <SplitCardBody>
                     <img
-                        src={szymonpfp}
+                        src="/contact-images/szymon-pfp.jpeg"
                         alt="Szymon profile picture"
                         className="w-full md:w-1/2 h-128 object-cover object-[10%_20%] rounded"
                         loading='lazy'

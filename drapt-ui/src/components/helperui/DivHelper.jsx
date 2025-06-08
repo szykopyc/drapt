@@ -8,7 +8,7 @@ export function ChartHelper({children}){
 
 export function MetricHelper({children}){
     return (
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-3 items-stretch h-full">
             {children}
         </div>
     );

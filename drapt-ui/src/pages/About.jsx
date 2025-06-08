@@ -1,7 +1,3 @@
-import iteration1 from '../assets/about-images/iteration-1.jpg';
-import milestone21 from '../assets/about-images/milestone-2-1.png'
-import milestone22 from '../assets/about-images/milestone-2-2.png'
-import nottsForProfitPicture from '../assets/about-images/notts-for-profit.jpeg'
 import {FigureCap, SmallerFigureCap} from '../components/baseui/CustomFigures';
 import LargeCodeBlock from '../components/baseui/LargeCodeBlock';
 import { CardOne, CardTwo } from '../components/baseui/CustomCard';
@@ -71,7 +67,7 @@ export default function About() {
              
             <CardOne id={"milestone1"} title={"Milestone #1"} badge={"End of November, 2024"}>
                 <p>The first version of DRAP-T was not the prettiest, or the most functional...</p>
-                <FigureCap srcfile={iteration1} alt={"First version of DRAP-T"}>
+                <FigureCap srcfile="/about-images/iteration-1.jpg" alt={"First version of DRAP-T"}>
                     Figure 1: First functional DRAP-T prototype (Nov 2024)
                 </FigureCap>
                 <p>The first prototype did not allow for portfolio creation, and it only had three features:</p>
@@ -100,17 +96,17 @@ export default function About() {
                 </CustomUL>
                 <p>And a few more features.</p>
                 <div className='flex flex-col md:flex-row justify-center items-center gap-4'>
-                    <SmallerFigureCap srcfile={milestone21} alt={"Rolling Volatility chart screenshot from Milestone 2"}>
+                    <SmallerFigureCap srcfile="/about-images/milestone-2-1.png" alt={"Rolling Volatility chart screenshot from Milestone 2"}>
                         Figure 2: Rolling Volatility
                     </SmallerFigureCap>
-                    <SmallerFigureCap srcfile={milestone22} alt={"Asset correlation matrix screenshot from Milestone 2"}>
+                    <SmallerFigureCap srcfile="/about-images/milestone-2-2.png" alt={"Asset correlation matrix screenshot from Milestone 2"}>
                         Figure 3: Our hedges worked somewhat...
                     </SmallerFigureCap>
                 </div>
                 <p>To expand on my previous sentence mentioning the WBSS Investment Challenge, my team <b>Notts for Profit</b> managed to finish top 5 out of 80+ teams across the United Kingdom. We met some heavy competition, from brilliant teams from Warwick, UCL and Imperial, however as a team full of first-year undergraduates we really put Nottingham on the map.</p>
                 <figure className='flex flex-col items-center my-2'>
                     <img
-                        src={nottsForProfitPicture}
+                        src="/about-images/notts-for-profit.jpeg"
                         alt="Team Notts for Profit representing NEFSIF at The Shard, February 2025"
                         className="aspect-video w-full sm:w-2/3 md:w-1/2 object-cover rounded"
                     />

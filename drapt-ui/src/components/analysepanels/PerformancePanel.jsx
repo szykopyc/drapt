@@ -4,13 +4,14 @@ import MetricCard from "../analyseui/MetricCard";
 import { MetricHelper, CardHelper } from "../helperui/DivHelper";
 import ChartCard, { DualChartCard } from "../analyseui/ChartCard";
 import { dummyPerformance, dummyDualChart } from "../../assets/dummy-data/chartData";
-import { LoadingSpinner } from "../helperui/LoadingSpinnerHelper";
-import { div } from "framer-motion/client";
+import { FullscreenItem } from "../helperui/FullscreenItemHelper";
 
 export default function PerformancePanel() {
   const [selectedPortfolio, setSelectedPortfolio] = useState("");
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
+
+  const [fullScreenItem, setFullScreenItem] = useState(null);
 
   function mockLoadPortfolio() {
     setLoading(true);
@@ -24,6 +25,46 @@ export default function PerformancePanel() {
     setSelectedPortfolio(e.target.value);
     setLoading(false);
     setLoaded(false);
+  }
+
+  function renderMetricFullScreen(item) {
+    switch (item) {
+      case "sharpe":
+        return (
+          <MetricCard
+            metric="Sharpe"
+            value="1.23"
+            valuestatus="positive"
+            tooltip="Measures return per unit of risk. Higher is better."
+            className="text-2xl"
+            expandButton={false}
+          />
+        );
+      case "sortino":
+        return (
+          <MetricCard
+            metric="Sortino"
+            value="1"
+            valuestatus="neutral"
+            tooltip="Like Sharpe, but only penalises downside volatility."
+            className="text-2xl"
+            expandButton={false}
+          />
+        );
+      case "treynor":
+        return (
+          <MetricCard
+            metric="Treynor"
+            value="0.3"
+            valuestatus="negative"
+            tooltip="Measures return per unit of market risk (beta). Higher is better."
+            className="text-2xl"
+            expandButton={false}
+          />
+        );
+      default:
+        return null;
+    }
   }
 
   return (
@@ -64,27 +105,57 @@ export default function PerformancePanel() {
       {loaded && (
         <>
           <div className="divider my-0"></div>
-          <ChartCard
-            title="Performance Chart"
-            data={dummyPerformance}
-            size="large"
-            tooltip="This chart visualises your portfolio's performance over time."
-          />
+          <div onClick={() => setFullScreenItem("performanceChart")} className="cursor-pointer w-full">
+            <ChartCard
+              title="Performance Chart"
+              data={dummyPerformance}
+              size="large"
+              tooltip="This chart visualises your portfolio's performance over time."
+              expandButton={true}
+            />
+          </div>
           <MetricHelper>
-            <MetricCard metric="Sharpe" value="1.23" valuestatus="positive" tooltip="Measures return per unit of risk. Higher is better." />
-            <MetricCard metric="Sortino" value="1" valuestatus="neutral" tooltip="Like Sharpe, but only penalises downside volatility." />
-            <MetricCard metric="Treynor" value="0.3" valuestatus="negative" tooltip="Measures return per unit of market risk (beta). Higher is better." />
+            <div className="flex-1 cursor-pointer" onClick={() => setFullScreenItem("sharpe")}>
+              <MetricCard
+                metric="Sharpe"
+                value="1.23"
+                valuestatus="positive"
+                tooltip="Measures return per unit of risk. Higher is better."
+                expandButton={true}
+              />
+            </div>
+            <div className="flex-1 cursor-pointer" onClick={() => setFullScreenItem("sortino")}>
+              <MetricCard
+                metric="Sortino"
+                value="1"
+                valuestatus="neutral"
+                tooltip="Like Sharpe, but only penalises downside volatility."
+                expandButton={true}
+              />
+            </div>
+            <div className="flex-1 cursor-pointer" onClick={() => setFullScreenItem("treynor")}>
+              <MetricCard
+                metric="Treynor"
+                value="0.3"
+                valuestatus="negative"
+                tooltip="Measures return per unit of market risk (beta). Higher is better."
+                expandButton={true}
+              />
+            </div>
           </MetricHelper>
-          <DualChartCard
-            title="Portfolio vs Benchmark"
-            data={dummyDualChart}
-            dataKey1="value"
-            dataKey2="value2"
-            label1="Portfolio"
-            label2="Benchmark"
-            size="large"
-            tooltip="Compare your portfolio's returns to a benchmark index."
-          />
+          <div onClick={() => setFullScreenItem("portfolioBenchmarkChart")} className="cursor-pointer w-full">
+            <DualChartCard
+              title="Portfolio vs Benchmark"
+              data={dummyDualChart}
+              dataKey1="value"
+              dataKey2="value2"
+              label1="Portfolio"
+              label2="Benchmark"
+              size="large"
+              tooltip="Compare your portfolio's returns to a benchmark index."
+              expandButton={true}
+            />
+          </div>
         </>
       )}
       {!loaded && loading && (
@@ -98,6 +169,31 @@ export default function PerformancePanel() {
           </MetricHelper>
           <div className="skeleton w-full h-[461px]"></div>
         </>
+      )}
+      {fullScreenItem && (
+        <FullscreenItem reference={setFullScreenItem}>
+          {fullScreenItem === "performanceChart" && (
+            <ChartCard
+              title="Performance Chart"
+              data={dummyPerformance}
+              size="large"
+              tooltip="This chart visualises your portfolio's performance over time."
+            />
+          )}
+          {fullScreenItem === "portfolioBenchmarkChart" && (
+            <DualChartCard
+              title="Portfolio vs Benchmark"
+              data={dummyDualChart}
+              dataKey1="value"
+              dataKey2="value2"
+              label1="Portfolio"
+              label2="Benchmark"
+              size="large"
+              tooltip="Compare your portfolio's returns to a benchmark index."
+            />
+          )}
+          {["sharpe", "sortino", "treynor"].includes(fullScreenItem) && renderMetricFullScreen(fullScreenItem)}
+        </FullscreenItem>
       )}
     </div>
   );

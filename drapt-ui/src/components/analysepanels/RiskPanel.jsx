@@ -3,13 +3,15 @@ import { AnalyseCard } from "../baseui/CustomCard";
 import MetricCard from "../analyseui/MetricCard";
 import { MetricHelper, CardHelper, ChartHelper } from "../helperui/DivHelper";
 import ChartCard from "../analyseui/ChartCard";
-import { LoadingSpinner } from "../helperui/LoadingSpinnerHelper";
+import { FullscreenItem } from "../helperui/FullscreenItemHelper";
 import { dummyAsset1, dummyAsset2, dummyAsset3 } from "../../assets/dummy-data/chartData";
 
 export default function RiskPanel() {
   const [selectedPortfolio, setSelectedPortfolio] = useState("");
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
+
+  const [fullScreenItem, setFullScreenItem] = useState(null);
 
   function mockLoadPortfolio() {
     setLoading(true);
@@ -23,6 +25,50 @@ export default function RiskPanel() {
     setSelectedPortfolio(e.target.value);
     setLoading(false);
     setLoaded(false);
+  }
+
+  // Helper for rendering metric content in fullscreen
+  function renderMetricFullScreen(item) {
+    switch (item) {
+      case "var95":
+        return (
+          <MetricCard
+            metric="VaR 95"
+            value="-1.26%"
+            tooltip="Potential loss in worst 5% of cases over a given period."
+            className="text-2xl"
+          />
+        );
+      case "var99":
+        return (
+          <MetricCard
+            metric="VaR 99"
+            value="-2.1%"
+            tooltip="Potential loss in worst 1% of cases over a given period."
+            className="text-2xl"
+          />
+        );
+      case "beta":
+        return (
+          <MetricCard
+            metric="Beta"
+            value="1.34"
+            tooltip="Measures sensitivity to market movements. 1 means moves with the market."
+            className="text-2xl"
+          />
+        );
+      case "cvar95":
+        return (
+          <MetricCard
+            metric="CVaR 95"
+            value="-2.7%"
+            tooltip="Expected loss in the worst 5% of cases. More conservative than VaR."
+            className="text-2xl"
+          />
+        );
+      default:
+        return null;
+    }
   }
 
   return (
@@ -64,22 +110,69 @@ export default function RiskPanel() {
         <>
           <div className="divider my-0"></div>
           <MetricHelper>
-            <MetricCard metric="VaR 95" value="-1.26%" tooltip="Potential loss in worst 5% of cases over a given period." />
-            <MetricCard metric="VaR 99" value="-2.1%" tooltip="Potential loss in worst 1% of cases over a given period." />
+            <div className="flex-1 cursor-pointer" onClick={() => setFullScreenItem("var95")}>
+              <MetricCard
+                metric="VaR 95"
+                value="-1.26%"
+                tooltip="Potential loss in worst 5% of cases over a given period."
+                expandButton={true}
+              />
+            </div>
+            <div className="flex-1 cursor-pointer" onClick={() => setFullScreenItem("var99")}>
+              <MetricCard
+                metric="VaR 99"
+                value="-2.1%"
+                tooltip="Potential loss in worst 1% of cases over a given period."
+                expandButton={true}
+              />
+            </div>
           </MetricHelper>
-          <ChartCard
-            title="Bullish Asset"
-            data={dummyAsset1}
-            size="large"
-            tooltip="This chart shows the performance of a bullish asset over time."
-          />
+          <div onClick={() => setFullScreenItem("bullish")} className="cursor-pointer w-full">
+            <ChartCard
+              title="Bullish Asset"
+              data={dummyAsset1}
+              size="large"
+              tooltip="This chart shows the performance of a bullish asset over time."
+              expandButton={true}
+            />
+          </div>
           <ChartHelper>
-            <ChartCard title="Bearish Asset" data={dummyAsset2} size="medium" tooltip="This chart displays a bearish asset's recent trend."/>
-            <ChartCard title="Neutral Asset" data={dummyAsset3} size="medium" tooltip="This chart represents a neutral asset's stability."/>
+            <div onClick={() => setFullScreenItem("bearish")} className="cursor-pointer w-full">
+              <ChartCard
+                title="Bearish Asset"
+                data={dummyAsset2}
+                size="large"
+                tooltip="This chart displays a bearish asset's recent trend."
+                expandButton={true}
+              />
+            </div>
+            <div onClick={() => setFullScreenItem("neutral")} className="cursor-pointer w-full">
+              <ChartCard
+                title="Neutral Asset"
+                data={dummyAsset3}
+                size="large"
+                tooltip="This chart represents a neutral asset's stability."
+                expandButton={true}
+              />
+            </div>
           </ChartHelper>
           <MetricHelper>
-            <MetricCard metric="Beta" value="1.34" tooltip="Measures sensitivity to market movements. 1 means moves with the market." />
-            <MetricCard metric="CVaR 95" value="-2.7%" tooltip="Expected loss in the worst 5% of cases. More conservative than VaR." />
+            <div className="flex-1 cursor-pointer" onClick={() => setFullScreenItem("beta")}>
+              <MetricCard
+                metric="Beta"
+                value="1.34"
+                tooltip="Measures sensitivity to market movements. 1 means moves with the market."
+                expandButton={true}
+              />
+            </div>
+            <div className="flex-1 cursor-pointer" onClick={() => setFullScreenItem("cvar95")}>
+              <MetricCard
+                metric="CVaR 95"
+                value="-2.7%"
+                tooltip="Expected loss in the worst 5% of cases. More conservative than VaR."
+                expandButton={true}
+              />
+            </div>
           </MetricHelper>
         </>
       )}
@@ -100,6 +193,20 @@ export default function RiskPanel() {
             <div className="skeleton flex-1 h-[150px]"></div>
           </MetricHelper>
         </>
+      )} 
+      {fullScreenItem && (
+        <FullscreenItem reference={setFullScreenItem}>
+          {fullScreenItem === "bearish" && (
+            <ChartCard title="Bearish Asset" data={dummyAsset2} size="large" tooltip=""/>
+          )}
+          {fullScreenItem === "neutral" && (
+            <ChartCard title="Neutral Asset" data={dummyAsset3} size="large" tooltip="" />
+          )}
+          {fullScreenItem === "bullish" && (
+            <ChartCard title="Bullish Asset" data={dummyAsset1} size="large" tooltip="" />
+          )}
+          {["var95", "var99", "beta", "cvar95"].includes(fullScreenItem) && renderMetricFullScreen(fullScreenItem)}
+        </FullscreenItem>
       )}
     </div>
   );

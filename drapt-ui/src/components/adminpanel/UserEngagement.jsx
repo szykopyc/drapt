@@ -3,12 +3,13 @@ import { AnalyseCard } from "../baseui/CustomCard";
 import MetricCard from "../analyseui/MetricCard";
 import { MetricHelper, CardHelper } from "../helperui/DivHelper";
 import ChartCard, { DualChartCard } from "../analyseui/ChartCard";
-import { LoadingSpinner } from "../helperui/LoadingSpinnerHelper";
 import { dummyPerformance, dummyDualChart } from "../../assets/dummy-data/chartData";
+import { FullscreenItem } from "../helperui/FullscreenItemHelper";
 
 export default function UserEngagementPanel() {
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [fullScreenItem, setFullScreenItem] = useState(null);
 
   useEffect(() => {
     setLoading(true);
@@ -17,6 +18,57 @@ export default function UserEngagementPanel() {
       setLoaded(true);
     }, 1000);
   }, []);
+
+  function renderMetricFullScreen(item) {
+    switch (item) {
+      case "dau":
+        return (
+          <MetricCard
+            metric="Daily Active Users"
+            value="128"
+            valuestatus="positive"
+            tooltip="Number of unique users active today."
+            className="text-2xl"
+            expandButton={false}
+          />
+        );
+      case "retention":
+        return (
+          <MetricCard
+            metric="Weekly Retention"
+            value="67%"
+            valuestatus="neutral"
+            tooltip="Percentage of users returning within a week."
+            className="text-2xl"
+            expandButton={false}
+          />
+        );
+      case "duration":
+        return (
+          <MetricCard
+            metric="Avg. Session Duration"
+            value="5.2 min"
+            valuestatus="positive"
+            tooltip="Average time a user spends per session."
+            className="text-2xl"
+            expandButton={false}
+          />
+        );
+      case "bounce":
+        return (
+          <MetricCard
+            metric="Bounce Rate"
+            value="18%"
+            valuestatus="positive"
+            tooltip="Percentage of users who leave after viewing only one page. Lower is better."
+            className="text-2xl"
+            expandButton={false}
+          />
+        );
+      default:
+        return null;
+    }
+  }
 
   return (
     <div className="flex flex-col gap-3">
@@ -34,50 +86,68 @@ export default function UserEngagementPanel() {
       {loaded && (
         <>
           <div className="divider my-0"></div>
-          <ChartCard
-            title="Active Users Over Time"
-            data={dummyPerformance}
-            size="large"
-            tooltip="Shows the number of active users on the platform over time."
-            currencyEnabled={false}
-          />
+          <div onClick={() => setFullScreenItem("activeUsers")} className="cursor-pointer w-full">
+            <ChartCard
+              title="Active Users Over Time"
+              data={dummyPerformance}
+              size="large"
+              tooltip="Shows the number of active users on the platform over time."
+              currencyEnabled={false}
+              expandButton={true}
+            />
+          </div>
           <MetricHelper>
-            <MetricCard
-              metric="Daily Active Users"
-              value="128"
-              valuestatus="positive"
-              tooltip="Number of unique users active today."
-            />
-            <MetricCard
-              metric="Weekly Retention"
-              value="67%"
-              valuestatus="neutral"
-              tooltip="Percentage of users returning within a week."
-            />
-            <MetricCard
-              metric="Avg. Session Duration"
-              value="5.2 min"
-              valuestatus="positive"
-              tooltip="Average time a user spends per session."
-            />
-            <MetricCard
-              metric="Bounce Rate"
-              value="18%"
-              valuestatus="positive"
-              tooltip="Percentage of users who leave after viewing only one page. Lower is better."
-            />
+            <div className="flex-1 cursor-pointer" onClick={() => setFullScreenItem("dau")}>
+              <MetricCard
+                metric="Daily Active Users"
+                value="128"
+                valuestatus="positive"
+                tooltip="Number of unique users active today."
+                expandButton={true}
+              />
+            </div>
+            <div className="flex-1 cursor-pointer" onClick={() => setFullScreenItem("retention")}>
+              <MetricCard
+                metric="Weekly Retention"
+                value="67%"
+                valuestatus="neutral"
+                tooltip="Percentage of users returning within a week."
+                expandButton={true}
+              />
+            </div>
+            <div className="flex-1 cursor-pointer" onClick={() => setFullScreenItem("duration")}>
+              <MetricCard
+                metric="Session Duration"
+                value="5.2 min"
+                valuestatus="positive"
+                tooltip="Average time a user spends per session."
+                expandButton={true}
+              />
+            </div>
+            <div className="flex-1 cursor-pointer" onClick={() => setFullScreenItem("bounce")}>
+              <MetricCard
+                metric="Bounce Rate"
+                value="18%"
+                valuestatus="positive"
+                tooltip="Percentage of users who leave after viewing only one page. Lower is better."
+                expandButton={true}
+              />
+            </div>
           </MetricHelper>
-          <DualChartCard
-            title="User Sign-ups vs. Logins"
-            data={dummyDualChart}
-            dataKey1="value"
-            dataKey2="value2"
-            label1="Sign-ups"
-            label2="Logins"
-            size="large"
-            tooltip="Compare the number of new sign-ups to returning logins over time."
-            currencyEnabled={false}
-          />
+          <div onClick={() => setFullScreenItem("signupsVsLogins")} className="cursor-pointer w-full">
+            <DualChartCard
+              title="User Sign-ups vs. Logins"
+              data={dummyDualChart}
+              dataKey1="value"
+              dataKey2="value2"
+              label1="Sign-ups"
+              label2="Logins"
+              size="large"
+              tooltip="Compare the number of new sign-ups to returning logins over time."
+              currencyEnabled={false}
+              expandButton={true}
+            />
+          </div>
         </>
       )}
       {!loaded && loading && (
@@ -92,6 +162,35 @@ export default function UserEngagementPanel() {
           </MetricHelper>
           <div className="skeleton w-full h-[461px]"></div>
         </>
+      )}
+      {fullScreenItem && (
+        <FullscreenItem reference={setFullScreenItem}>
+          {fullScreenItem === "activeUsers" && (
+            <ChartCard
+              title="Active Users Over Time"
+              data={dummyPerformance}
+              size="large"
+              tooltip="Shows the number of active users on the platform over time."
+              currencyEnabled={false}
+              expandButton={false}
+            />
+          )}
+          {fullScreenItem === "signupsVsLogins" && (
+            <DualChartCard
+              title="User Sign-ups vs. Logins"
+              data={dummyDualChart}
+              dataKey1="value"
+              dataKey2="value2"
+              label1="Sign-ups"
+              label2="Logins"
+              size="large"
+              tooltip="Compare the number of new sign-ups to returning logins over time."
+              currencyEnabled={false}
+              expandButton={false}
+            />
+          )}
+          {["dau", "retention", "duration", "bounce"].includes(fullScreenItem) && renderMetricFullScreen(fullScreenItem)}
+        </FullscreenItem>
       )}
     </div>
   );

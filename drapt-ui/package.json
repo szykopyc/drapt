@@ -12,6 +12,7 @@
   "dependencies": {
     "@dicebear/core": "^9.2.2",
     "@dicebear/initials": "^9.2.2",
+    "@heroicons/react": "^2.2.0",
     "@tippyjs/react": "^4.2.6",
     "framer-motion": "^12.16.0",
     "react": "^19.1.0",
