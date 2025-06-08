@@ -14,7 +14,6 @@ import Profile from './pages/Profile'
 function App() {
   return (
     <>
-      <SpeedInsights />
       <Routes>
         <Route element={<MasterLayout />}>
           <Route path="/" element={<Landing />} />
@@ -29,6 +28,7 @@ function App() {
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>
+      <SpeedInsights />
     </>
   );
 }
