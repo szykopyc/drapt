@@ -4,10 +4,10 @@ import Footer from './Footer'
 
 export default function MasterLayout() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-dvh flex flex-col">
       <Navbar></Navbar>
 
-      <main className="flex-grow">
+      <main className="flex-grow h-full">
         <Outlet />
       </main>
 

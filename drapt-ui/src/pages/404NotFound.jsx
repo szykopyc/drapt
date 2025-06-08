@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-export default function NoPage() {
+export default function NotFound() {
   return (
     <div className="flex flex-col justify-center min-h-[70vh]">
     <div className="flex-1 p-6 flex flex-col items-center justify-center bg-base-100 text-base-content text-center">
