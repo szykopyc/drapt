@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { Analytics } from '@vercel/analytics/next';
+import { Analytics } from '@vercel/analytics/react';
 import MasterLayout from './components/layout/MasterLayout';
 import Landing from './pages/Landing';
 import About from './pages/About'
