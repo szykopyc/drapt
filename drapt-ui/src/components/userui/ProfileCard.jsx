@@ -25,7 +25,7 @@ export default function ProfileCard({ username, fullname, email, role, team, onU
     <CardOne id="profile-view" title="View Profile" badge="Profile">
       <div className="text-xl font-medium">{fullname}</div>
       <div className="flex flex-col gap-1 w-full">
-        <label className="text-sm text-gray-500">Username</label>
+        <label className="text-sm text-base-content/70">Username</label>
         <div className="flex items-center gap-2">
           {editMode ? (
             <input
@@ -39,7 +39,7 @@ export default function ProfileCard({ username, fullname, email, role, team, onU
         </div>
       </div>
       <div className="flex flex-col gap-1 w-full">
-        <label className="text-sm text-gray-500">Email</label>
+        <label className="text-sm text-base-content/70">Email</label>
         <div className="flex items-center gap-2">
           {editMode ? (
             <input
@@ -56,7 +56,7 @@ export default function ProfileCard({ username, fullname, email, role, team, onU
       {error && (
         <div className="text-xs text-red-500 mt-1">{error}</div>
       )}
-      <div className="text-sm text-gray-500 italic mt-1">{role} @ {team}</div>
+      <div className="text-sm text-base-content/70 italic mt-1">{role} @ {team}</div>
       <div className="flex gap-2 mt-3">
         {editMode ? (
           <>

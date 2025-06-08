@@ -1,3 +1,4 @@
+import { option } from "framer-motion/client";
 import { useState } from "react";
 
 export function CardOne({ id, title, badge = null, children }) {
@@ -95,4 +96,19 @@ export function CustomCollapse({ id, title, children, defaultOpen = false }) {
         </div>
     </>
     );
+}
+
+export function ContactProfileCardElement({ name, optionalRole = null ,introText, children }) {
+  return (
+    <div className='sm:w-max md:w-1/2'>
+      <h2 className='text-2xl font-bold'>{name}</h2>
+      {optionalRole && (
+        <p className='text-base-content/70 mb-2'>{optionalRole}</p>
+      )}
+      <p>{introText}</p>
+      <div className="space-y-2 mt-2 text-base-content">
+        {children}
+      </div>
+    </div>
+  );
 }

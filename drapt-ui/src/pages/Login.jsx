@@ -5,6 +5,8 @@ import { CardOne } from '../components/baseui/CustomCard';
 import { useForm } from 'react-hook-form';
 import { FormField } from '../components/helperui/FormFieldHelper';
 import { LargeSubmit } from '../components/helperui/LargeSubmitHelper';
+import { useState } from 'react';
+import { FormErrorHelper } from '../components/helperui/FormErrorHelper';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -16,9 +18,20 @@ export default function Login() {
   const typedPassword = watch("password");
   const fieldFilled = typedUsername && typedPassword;
 
+  const [incorrectPasswordError, setIncorrectPasswordError] = useState("");
+
+  const handleInputChange = (e) => {
+    setIncorrectPasswordError("");
+  }
+
   const onSubmit = (data) => {
     // Handle login logic here
     // For now a simple redirect will suffice...
+    if ((data.username != "szymon") || (data.password != "szymon")){
+      setIncorrectPasswordError("Login failed. Please make sure that your username and password are both correct.");
+      return;
+    }
+    setIncorrectPasswordError("");
     navigate("/analyse");
   };
 
@@ -35,7 +48,12 @@ export default function Login() {
               type="text"
               className="input input-bordered w-full"
               {...register("username", { required: "Username is required" })}
+              onChange={e => {
+                handleInputChange(e);
+                register("username").onChange(e);
+              }}
               autoComplete="username"
+              autoCapitalize='false'
             />
           </FormField>
           <FormField label={"Password"} error={errors.password && errors.password.message}>
@@ -43,6 +61,10 @@ export default function Login() {
               type="password"
               className="input input-bordered w-full"
               {...register("password", { required: "Password is required" })}
+              onChange={e => {
+                handleInputChange(e);
+                register("password").onChange(e);
+              }}
               autoComplete="current-password"
             />
           </FormField>
@@ -54,6 +76,9 @@ export default function Login() {
             <Link to="/forgot-password" className="text-sm text-info underline hover:text-primary-focus">Forgot password?</Link>
           </div>
         </form>
+        {incorrectPasswordError && (
+          <FormErrorHelper textSize='md'>{incorrectPasswordError}</FormErrorHelper>
+        )}
         <div className="flex flex-row gap-2 w-full">
           <LargeSubmit form="loginForm" size={1} disabled={!fieldFilled}>
             Log In

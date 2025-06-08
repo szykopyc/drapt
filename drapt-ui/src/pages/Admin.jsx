@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import UserEngagementPanel from "../components/adminpanel/UserEngagement";
 import UserManagementPanel from "../components/adminpanel/UserManagementPanel";
-import { MainBlock } from "../components/baseui/MainBlock"
+import { MainBlock } from "../components/baseui/MainBlock";
 
 export default function Admin() {
   const [activeTab, setActiveTab] = useState("userManagement");
@@ -27,21 +27,21 @@ export default function Admin() {
       <div className="flex mt-4 items-center justify-between border-b border-gray-300">
         <nav className="flex space-x-4">
           <button
-            className={`pb-2 ${activeTab === "userManagement" ? "border-b-2 border-base font-semibold" : "text-gray-500"}`}
+            className={`pb-2 ${activeTab === "userManagement" ? "border-b-2 border-base font-semibold" : "text-base-content/70"}`}
             onClick={() => setActiveTab("userManagement")}
             aria-selected={activeTab === "userManagement"}
           >
             User Management
           </button>
           <button
-            className={`pb-2 ${activeTab === "userEngagement" ? "border-b-2 border-base font-semibold" : "text-gray-500"}`}
+            className={`pb-2 ${activeTab === "userEngagement" ? "border-b-2 border-base font-semibold" : "text-base-content/70"}`}
             onClick={() => setActiveTab("userEngagement")}
             aria-selected={activeTab === "userEngagement"}
           >
             User Engagement
           </button>
         </nav>
-        <div className="text-sm text-gray-500 italic hidden sm:block">
+        <div className="text-sm text-base-content/70 italic hidden sm:block">
           <kbd className="border rounded px-1">M</kbd> for User Management, Press <kbd className="border rounded px-1">E</kbd> for User Engagement
         </div>
       </div>

@@ -58,9 +58,13 @@ export default function ForgotPassword(){
                     </LargeSubmit>
                 </div>
             </CardOne>
-            <ModalHelper id={"reset_password_modal"} reference={userResetPasswordModalRef} modalTitle={"Please check your email"}>
+            <ModalHelper id={"reset_password_modal"} reference={userResetPasswordModalRef} modalTitle={"Check your email"}>
                 {modalData && (
-                    <p className='py-2'>If your email is connected to a valid account, we have sent an email to <span className='text-info'>{modalData.email}</span>, please follow the instructions to reset your password.</p>
+                    <p className='py-2'>
+                    If an account exists for <span className='text-info'>{modalData.email}</span>, you’ll receive an email with instructions to reset your password.
+                    <br />
+                    Please check your inbox and spam folder, and wait 5 minutes before attempting to reset your password again.
+                    </p>
                 )}
             </ModalHelper>
         </MainBlock>
