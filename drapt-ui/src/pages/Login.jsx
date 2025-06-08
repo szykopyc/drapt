@@ -7,7 +7,7 @@ export default function Login() {
   return (
     <MainBlock>
       <BeginText title={"Welcome to Drapt"}>
-          <p>Please log in, or <span className='underline hover:text-primary'><Link to="/">create an account</Link></span>.</p>
+          <p>Please log in, or <span className='underline hover:text-primary'><Link to="/create">create an account</Link></span>.</p>
       </BeginText>
       <div className='divider my-0'></div>
       <LoginCard id={"loginContainer"} title={"Login"}>
