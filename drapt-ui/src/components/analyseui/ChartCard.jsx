@@ -115,7 +115,8 @@ export default function ChartCard({
   expandButton = false,
   minimiseButton = false,
   onExpand,
-  onMinimise
+  onMinimise,
+  ...props
 }) {
   const sizeClasses = {
     small: 'w-full md:w-1/3 h-96',
@@ -157,7 +158,10 @@ export default function ChartCard({
 
   const xInterval = Math.floor(data.length / 4); 
   return (
-    <div className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow ${sizeClasses[size]}`}>
+    <div
+      className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow ${sizeClasses[size]}`}
+      {...props}
+    >
       <div className='card-body my-1'>
         <div className='flex items-center justify-between'>
           <h2 className={`card-title text-2xl ${!content ? 'mb-4' : ''}`}>{title}</h2>
@@ -178,9 +182,14 @@ export default function ChartCard({
                 </Tippy>
               )}
               {(expandButton && !minimiseButton) && (
-                <span className="w-5 h-5 flex items-center justify-center">
+                <button
+                  type="button"
+                  className="w-5 h-5 flex items-center justify-center"
+                  onClick={onExpand}
+                  aria-label="Expand"
+                >
                   <ArrowsPointingOutIcon className="h-5 w-5" />
-                </span>
+                </button>
               )}
               {(!expandButton && minimiseButton) && (
                 <span className="w-5 h-5 flex items-center justify-center">
@@ -231,6 +240,9 @@ export function DualChartCard({
   currencyEnabled = true,
   expandButton = false,
   minimiseButton = false,
+  onExpand,
+  onMinimise,
+  ...props
 }) {
   const sizeClasses = {
     small: 'w-full md:w-1/3 h-96',
@@ -277,7 +289,10 @@ export function DualChartCard({
 
   const xInterval = Math.floor(data.length / 4);
   return (
-    <div className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow ${sizeClasses[size]}`}>
+    <div
+      className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow ${sizeClasses[size]}`}
+      {...props}
+    >
       <div className='card-body my-1'>
         <div className='flex items-center justify-between'>
           <h2 className={`card-title text-2xl ${!content ? 'mb-4' : ''}`}>{title}</h2>
@@ -298,9 +313,14 @@ export function DualChartCard({
                 </Tippy>
               )}
               {(expandButton && !minimiseButton) && (
-                <span className="w-5 h-5 flex items-center justify-center">
+                <button
+                  type="button"
+                  className="w-5 h-5 flex items-center justify-center"
+                  onClick={onExpand}
+                  aria-label="Expand"
+                >
                   <ArrowsPointingOutIcon className="h-5 w-5" />
-                </span>
+                </button>
               )}
               {(!expandButton && minimiseButton) && (
                 <span className="w-5 h-5 flex items-center justify-center">
