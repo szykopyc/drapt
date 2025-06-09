@@ -3,6 +3,7 @@ import CurrencySwitcher from '../components/userui/CurrencySwitcher';
 import { CardOne } from '../components/baseui/CustomCard';
 import ProfileCard from '../components/userui/ProfileCard';
 import ChangePassword from '../components/userui/ChangePassword';
+import LogoutCard from '../components/userui/LogoutCard';
 import { MainBlock } from '../components/baseui/MainBlock';
 import { BeginText } from '../components/baseui/BeginText';
 
@@ -26,6 +27,7 @@ export default function Profile() {
                 </div>
             </CardOne>
             <ChangePassword></ChangePassword>
+            <LogoutCard/>
         </MainBlock>
     );
 }

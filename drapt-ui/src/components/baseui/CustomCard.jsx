@@ -1,9 +1,9 @@
 import { option } from "framer-motion/client";
 import { useState } from "react";
 
-export function CardOne({ id, title, badge = null, children }) {
+export function CardOne({ id, title, badge = null, flexSize = 1, children }) {
   return (
-    <div id={id} tabIndex={0} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow">
+    <div id={id} tabIndex={0} className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow flex-${flexSize || "1"}`}>
       <div className="card-body">
         <div className='flex justify-between items-center'>
           <h2 className="card-title text-2xl">{title}</h2>
@@ -23,6 +23,16 @@ export function CardTwo({ id, title, badge = null, children }) {
           <h2 className="card-title text-2xl">{title}</h2>
           {badge && <span className="badge badge-s badge-theme">{badge}</span>}
         </div>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+export function CardNoTitle({ id, children }) {
+  return (
+    <div id={id} tabIndex={0} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow">
+      <div className="card-body">
         {children}
       </div>
     </div>

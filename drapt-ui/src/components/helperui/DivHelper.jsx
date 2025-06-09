@@ -14,10 +14,10 @@ export function MetricHelper({children}){
     );
 }
 
-export function CardHelper({children}){
-    return (
-        <div className="flex flex-col md:flex-row items-stretch gap-3">
-            {children}
-        </div>
-    );
+export function CardHelper({ children }) {
+  return (
+    <div className="flex flex-col md:flex-row gap-4 items-stretch w-full">
+      {children}
+    </div>
+  );
 }

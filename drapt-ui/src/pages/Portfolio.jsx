@@ -17,6 +17,7 @@ export default function Portfolio() {
                     <CustomLI>Book, modify and remove trades on portfolios with the correct auth.</CustomLI>
                     <CustomLI>Create, modify and delete portfolios with the correct auth.</CustomLI>
                     <CustomLI>Get an overview of all teams portfolios if you are on the Executive Team.</CustomLI>
+                    <CustomLI>Performance attribution by geography and region.</CustomLI>
                 </CustomUL>
             </CardOne>
             <CardTwo title={"Bonus Ideas"} badge={"Bonus Ideas"}>

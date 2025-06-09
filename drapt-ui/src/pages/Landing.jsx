@@ -1,43 +1,55 @@
-import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
+import { MainBlock } from '../components/baseui/MainBlock';
+import { BeginText } from '../components/baseui/BeginText';
+import { CardOne } from '../components/baseui/CustomCard';
+import { CardHelper } from '../components/helperui/DivHelper';
+import { ChartNoBorderCard } from '../components/analyseui/ChartCard';
+import { dummyPerformance } from '../assets/dummy-data/chartData';
+import { CustomButton } from '../components/baseui/CustomButton';
+import { CustomTable } from '../components/baseui/CustomTable';
+import { dummyPortfolioMetrics } from '../assets/dummy-data/tableData';
+import { dummyNews } from '../assets/dummy-data/tableData';
+import React, { useState, useEffect, useRef } from 'react';
 
 export default function Landing() {
-  const words = [
-    "clarity.",
-    "performance.",
-    "<span class='text-accent'>Drapt.</span>"
-  ];
-  const [wordIndex, setWordIndex] = useState(0);
+  const metricsRef = useRef(null);
+  const [metricsHeight, setMetricsHeight] = useState(0);
 
   useEffect(() => {
-    if (wordIndex < words.length -1 ){
-      const interval = setInterval(() => {
-        setWordIndex((prevIndex) => (prevIndex + 1) % words.length);
-      }, 1100);
-
-      return () => {
-        clearInterval(interval);
-      };
+    if (metricsRef.current) {
+      setMetricsHeight(metricsRef.current.clientHeight);
     }
-  }, [wordIndex, words.length]);
+  }, []);
 
   return (
-    <div className="flex flex-col gap-3 justify-center items-center min-h-[59vh] md:min-h-[calc(100vh-145px)] flex-grow">
-      <div className="text-5xl font-semibold text-center">
-        <span className="text-base-content">Choose </span>
-        <span
-          className="typewriter inline-block"
-          dangerouslySetInnerHTML={{
-            __html: words[wordIndex],
-          }}
-        ></span>
+    <MainBlock>
+      <BeginText title={"Welcome back, Szymon"}>
+        <p>Get a broad sense of how your portfolio is currently performing, and view any news you may have missed.</p>
+      </BeginText>
+      <div className='divider my-0'></div>
+      <CardOne id={"portfolioOverview"} title={"Portfolio Overview"} flexSize={"1"}>
+        <ChartNoBorderCard data={dummyPerformance} />
+        <div className='flex md:flex-row justify-between gap-1 md:gap-3'>
+          <CustomButton to="/analyse">Analyse</CustomButton>
+          <CustomButton to="/portfolio">Portfolio</CustomButton>
+        </div>
+      </CardOne>
+      <div className="flex flex-col md:flex-row gap-4 items-stretch w-full">
+        <CardOne
+          title={"Aggregate Portfolio Metrics"}
+          flexSize={"1"}
+        >
+          <div ref={metricsRef}>
+            <CustomTable data={dummyPortfolioMetrics} />
+          </div>
+        </CardOne>
+        <CardOne
+          title={"News Catchup"}
+          flexSize={"1"}
+        >
+          <CustomTable data={dummyNews} maxHeight={metricsHeight ? `${metricsHeight}px` : undefined} />
+        </CardOne>
       </div>
-      <div className='text-2xl font-light text-base-content/70 text-center'>
-        <p>Welcome aboard.</p>
-        <button className="btn btn-primary mt-3 px-3 text-lg text-primary-content font-semibold rounded-lg shadow-md hover:shadow-lg transition-shadow">
-          <Link to="/login">Log in to get started</Link>
-        </button>
-      </div>
-    </div>
+    </MainBlock>
   );
 }

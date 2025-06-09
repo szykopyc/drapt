@@ -27,12 +27,14 @@ export default function Login() {
   const onSubmit = (data) => {
     // Handle login logic here
     // For now a simple redirect will suffice...
-    if ((data.username != "szymon") || (data.password != "szymon")){
+    if ((data.username != "abc") || (data.password != "abc")){
       setIncorrectPasswordError("Login failed. Please make sure that your username and password are both correct.");
       return;
     }
+    localStorage.setItem('loggedIn', true);
+    window.dispatchEvent(new Event('loggedInChange'));
     setIncorrectPasswordError("");
-    navigate("/analyse");
+    navigate("/landing");
   };
 
   return (
@@ -84,6 +86,8 @@ export default function Login() {
             Log In
           </LargeSubmit>
         </div>
+        <p>For the purposes of testing, dummy login credentials are "abc" and "abc". This is only the case while I develop the frontend, and it is very insecure.</p>
+        <p>Please do not remind me of how insecure it is - I know.</p>
       </CardOne>
     </MainBlock>
   );

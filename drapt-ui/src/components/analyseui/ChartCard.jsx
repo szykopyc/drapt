@@ -88,7 +88,7 @@ function DualTooltipDark({ active, payload, label, currency, currencyEnabled }) 
 }
 
 
-// Currency symbol mapping
+
 const currencySymbols = {
   USD: "$",
   GBP: "£",
@@ -155,6 +155,7 @@ export default function ChartCard({
     return () => observer.disconnect();
   }, []);
 
+  const xInterval = Math.floor(data.length / 4); 
   return (
     <div className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow ${sizeClasses[size]}`}>
       <div className='card-body my-1'>
@@ -192,10 +193,14 @@ export default function ChartCard({
         {content && <p className='mb-4'>{content}</p>}
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>
-            <XAxis dataKey="name" />
+            <XAxis
+              dataKey="name"
+              interval={xInterval > 0 ? xInterval - 1 : 0}
+            />
             <YAxis
               tickFormatter={v => currencyEnabled ? `${getCurrencySymbol(currency)}${v}` : v}
               domain={['dataMin-2', 'dataMax+2']}
+              tickCount={6}
             />
             <Tooltip content={CustomTooltip} />
             <Line
@@ -270,6 +275,7 @@ export function DualChartCard({
     return () => observer.disconnect();
   }, []);
 
+  const xInterval = Math.floor(data.length / 4);
   return (
     <div className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow ${sizeClasses[size]}`}>
       <div className='card-body my-1'>
@@ -307,10 +313,14 @@ export function DualChartCard({
         {content && <p className='mb-4'>{content}</p>}
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>
-            <XAxis dataKey="name" />
+            <XAxis
+              dataKey="name"
+              interval={xInterval > 0 ? xInterval - 1 : 0}
+            />
             <YAxis
               tickFormatter={v => currencyEnabled ? `${getCurrencySymbol(currency)}${v}` : v}
               domain={['dataMin-2', 'dataMax+2']}
+              tickCount={6} 
             />
             <Tooltip content={CustomTooltip} />
             <Line
@@ -334,6 +344,81 @@ export function DualChartCard({
           </LineChart>
         </ResponsiveContainer>
       </div>
+    </div>
+  );
+}
+
+export function ChartNoBorderCard({
+  data,
+  size = 'large',
+  tooltip = null,
+  currencyEnabled = true,
+  expandButton = false,
+  minimiseButton = false,
+}) {
+  const sizeClasses = {
+    small: 'w-full md:w-1/3 h-96',
+    medium: 'w-full md:w-1/2 h-96',
+    large: 'w-full h-96',
+  };
+
+  const [currency, setCurrency] = useState("GBP");
+  useEffect(() => {
+    const saved = localStorage.getItem("currency") || "GBP";
+    setCurrency(saved);
+  }, []);
+
+  const theme = typeof window !== "undefined"
+    ? document.documentElement.getAttribute("data-theme")
+    : "light";
+  const CustomTooltip = (props) =>
+    theme === "draptdark" || theme === "dark" || theme == "cb-dark" || theme == "night-coding"
+      ? <DarkTooltip {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} />
+      : <LightTooltip {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} />;
+
+  const [lineColor, setLineColor] = useState("#6366f1");
+
+  useEffect(() => {
+    const updateThemeColors = () => {
+      const info = getComputedStyle(document.documentElement)
+        .getPropertyValue('--p-info')
+        .trim();
+      setLineColor(info || "#6366f1");
+    };
+
+    updateThemeColors();
+
+    const observer = new MutationObserver(updateThemeColors);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const xInterval = Math.floor(data.length / 4); 
+  return (
+    <div className={`transition-shadow mt-3 ${sizeClasses[size]}`}>
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={data}>
+          <XAxis
+            dataKey="name"
+            interval={xInterval > 0 ? xInterval - 1 : 0}
+          />
+          <YAxis
+            tickFormatter={v => currencyEnabled ? `${getCurrencySymbol(currency)}${v}` : v}
+            domain={['dataMin-2', 'dataMax+2']}
+            tickCount={6} 
+          />
+          <Tooltip content={CustomTooltip} />
+          <Line
+            type="monotone"
+            dataKey="value"
+            stroke={lineColor}
+            strokeWidth={2}
+            dot={false}
+            activeDot={false}
+          />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
 }
