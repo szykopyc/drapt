@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Index() {
+  const navigate = useNavigate();
+  
   const words = [
     "clarity.",
     "performance.",
     "<span class='text-accent'>Drapt.</span>"
   ];
   const [wordIndex, setWordIndex] = useState(0);
+
+  useEffect(() => {
+    if (localStorage.getItem('loggedIn') === 'true') {
+      navigate("/landing", { replace: true });
+    }
+  }, [navigate]);
 
   useEffect(() => {
     if (wordIndex < words.length -1 ){
