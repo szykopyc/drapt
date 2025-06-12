@@ -73,7 +73,7 @@ export function UserUpdateCard() {
     <>
       <CustomCollapseArrow id={"userCreationCard"} title={"Update a user"} defaultOpen={false}>
         <form
-          id="searchUser"
+          id="userToUpdate"
           className="flex flex-col md:flex-row gap-3 w-full"
           onSubmit={handleSubmitSearch(onSearch)}
           autoComplete="off"

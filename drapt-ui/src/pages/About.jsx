@@ -1,12 +1,17 @@
-import {FigureCap, SmallerFigureCap} from '../components/baseui/CustomFigures';
+import {FigureCap, SmallerFigureCap, FullscreenFigureCap} from '../components/baseui/CustomFigures';
 import LargeCodeBlock from '../components/baseui/LargeCodeBlock';
 import { CardOne, CardTwo } from '../components/baseui/CustomCard';
 import { BeginText } from '../components/baseui/BeginText';
 import { MainBlock } from '../components/baseui/MainBlock'
 import { CustomUL, CustomLI, CustomNestedUL } from '../components/baseui/CustomList';
+import { useState } from 'react';
+import { FullscreenItem } from '../components/helperui/FullscreenItemHelper';
 
 export default function About() {
+    const [fullScreenItem, setFullScreenItem ] = useState("");
+
     return (
+        <>
         <MainBlock>
             <BeginText title={"About"}>
                 <p>Dive into Drapt's history, from the beginning to where it currently stands.</p>
@@ -67,7 +72,7 @@ export default function About() {
              
             <CardOne id={"milestone1"} title={"Milestone #1"} badge={"End of November, 2024"}>
                 <p>The first version of DRAP-T was not the prettiest, or the most functional...</p>
-                <FigureCap srcfile="/about-images/iteration-1.jpg" alt={"First version of DRAP-T"}>
+                <FigureCap srcfile="/about-images/iteration-1.jpg" alt={"First version of DRAP-T"} cursorPointerEnabled={true} onClick={() => setFullScreenItem("iteration1")}>
                     Figure 1: First functional DRAP-T prototype (Nov 2024)
                 </FigureCap>
                 <p>The first prototype did not allow for portfolio creation, and it only had three features:</p>
@@ -96,19 +101,19 @@ export default function About() {
                 </CustomUL>
                 <p>And a few more features.</p>
                 <div className='flex flex-col md:flex-row justify-center items-center gap-4'>
-                    <SmallerFigureCap srcfile="/about-images/milestone-2-1.png" alt={"Rolling Volatility chart screenshot from Milestone 2"}>
+                    <SmallerFigureCap srcfile="/about-images/milestone-2-1.png" alt={"Rolling Volatility chart screenshot from Milestone 2"} cursorPointerEnabled={true} onClick={() => setFullScreenItem("iteration21")}>
                         Figure 2: Rolling Volatility
                     </SmallerFigureCap>
-                    <SmallerFigureCap srcfile="/about-images/milestone-2-2.png" alt={"Asset correlation matrix screenshot from Milestone 2"}>
+                    <SmallerFigureCap srcfile="/about-images/milestone-2-2.png" alt={"Asset correlation matrix screenshot from Milestone 2"} cursorPointerEnabled={true} onClick={() => setFullScreenItem("iteration22")}>
                         Figure 3: Our hedges worked somewhat...
                     </SmallerFigureCap>
                 </div>
                 <p>To expand on my previous sentence mentioning the WBSS Investment Challenge, my team <b>Notts for Profit</b> managed to finish top 5 out of 80+ teams across the United Kingdom. We met some heavy competition, from brilliant teams from Warwick, UCL and Imperial, however as a team full of first-year undergraduates we really put Nottingham on the map.</p>
-                <figure className='flex flex-col items-center my-2'>
+                <figure className='flex flex-col items-center my-2' onClick={() => setFullScreenItem("nfp")}>
                     <img
                         src="/about-images/notts-for-profit.jpeg"
                         alt="Team Notts for Profit representing NEFSIF at The Shard, February 2025"
-                        className="aspect-video w-full sm:w-2/3 md:w-1/2 object-cover rounded"
+                        className="aspect-video w-full sm:w-2/3 md:w-1/2 object-cover rounded cursor-pointer"
                     />
                     <figcaption className='text-xs italic text-gray-200 mt-1 text-center'>
                         Team Notts for Profit, representing NEFSIF on the 17th floor of The Shard (Feb, 2025)
@@ -180,5 +185,37 @@ export default function About() {
                 <p>And I suppose a final thank you to you, user. For being the most important part of this journey. I hope Drapt serves you well.</p>
             </CardTwo>
         </MainBlock>
+        {fullScreenItem && (
+            <FullscreenItem reference={setFullScreenItem} width={75}>
+                {fullScreenItem === "iteration1" && (
+                    <FullscreenFigureCap srcfile="/about-images/iteration-1.jpg" alt={"First version of DRAP-T"}>
+                        Figure 1: First functional DRAP-T prototype (Nov 2024)
+                    </FullscreenFigureCap>
+                )}
+                {fullScreenItem === "iteration21" && (
+                    <FullscreenFigureCap srcfile="/about-images/milestone-2-1.png" alt={"Rolling Volatility chart screenshot from Milestone 2"}>
+                        Figure 2: Rolling Volatility
+                    </FullscreenFigureCap>
+                )}
+                {fullScreenItem === "iteration22" && (
+                    <FullscreenFigureCap srcfile="/about-images/milestone-2-2.png" alt={"Asset correlation matrix screenshot from Milestone 2"}>
+                        Figure 3: Our hedges worked somewhat...
+                    </FullscreenFigureCap>
+                )}
+                {fullScreenItem === "nfp" && (
+                    <figure className='flex flex-col items-center my-2'>
+                        <img
+                            src="/about-images/notts-for-profit.jpeg"
+                            alt="Team Notts for Profit representing NEFSIF at The Shard, February 2025"
+                            className="aspect-video w-full object-cover rounded"
+                        />
+                        <figcaption className='text-xs italic text-base-content/60 mt-1 text-center'>
+                            Team Notts for Profit, representing NEFSIF on the 17th floor of The Shard (Feb, 2025)
+                        </figcaption>
+                    </figure>
+                )}
+            </FullscreenItem>
+        )}
+        </>
     );
 }

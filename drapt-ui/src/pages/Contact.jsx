@@ -2,8 +2,12 @@ import { FaLinkedin, FaEnvelope, FaWhatsapp, FaInstagram } from 'react-icons/fa'
 import { CardOne, SplitCardBody, ContactProfileCardElement } from '../components/baseui/CustomCard';
 import { MainBlock } from '../components/baseui/MainBlock';
 import { BeginText } from '../components/baseui/BeginText';
+import { useState } from 'react';
+import { FullscreenItem } from '../components/helperui/FullscreenItemHelper';
 
 export default function Contact() {
+    const [fullScreenItem, setFullScreenItem ] = useState("");
+
     return (
         <MainBlock>
             <BeginText title={"Contact"}>

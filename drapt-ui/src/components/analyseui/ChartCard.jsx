@@ -122,6 +122,7 @@ export default function ChartCard({
     small: 'w-full md:w-1/3 h-96',
     medium: 'w-full md:w-1/2 h-96',
     large: 'w-full h-96',
+    xlarge: 'w-full h-128'
   };
 
   const [currency, setCurrency] = useState("GBP");
@@ -380,6 +381,7 @@ export function ChartNoBorderCard({
     small: 'w-full md:w-1/3 h-96',
     medium: 'w-full md:w-1/2 h-96',
     large: 'w-full h-96',
+    xlarge: 'w-full h-128'
   };
 
   const [currency, setCurrency] = useState("GBP");

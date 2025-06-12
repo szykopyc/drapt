@@ -5,6 +5,8 @@ import { MetricHelper, CardHelper, ChartHelper } from "../helperui/DivHelper";
 import ChartCard from "../analyseui/ChartCard";
 import { FullscreenItem } from "../helperui/FullscreenItemHelper";
 import { dummyAsset1, dummyAsset2, dummyAsset3 } from "../../assets/dummy-data/chartData";
+import { CustomButton } from "../baseui/CustomButton";
+import { CardTwo } from "../baseui/CustomCard";
 
 export default function RiskPanel() {
   const [selectedPortfolio, setSelectedPortfolio] = useState("");
@@ -86,14 +88,9 @@ export default function RiskPanel() {
                   <option>US & Canada Portfolio</option>
                   <option>Metals, Mining and Commodities Portfolio</option>
                 </select>
-                <button
-                  type="button"
-                  className="btn btn-primary rounded-lg self-middle shadow-md hover:shadow-lg transition-shadow text-primary-content"
-                  onClick={mockLoadPortfolio}
-                  disabled={loading || loaded || !selectedPortfolio}
-                >
+                <CustomButton colour="primary" onClick={mockLoadPortfolio} disabled={loading || loaded || !selectedPortfolio}>
                   Analyse
-                </button>
+                </CustomButton>
               </div>
             </AnalyseCard>
           </div>
@@ -174,6 +171,9 @@ export default function RiskPanel() {
               />
             </div>
           </MetricHelper>
+          <CardTwo id={"bonusFeatures"} title={"Risk Contribution"} badge={"Bonus"}>
+            <p>See which holdings carry the most risk, and get actionable insights for better risk management.</p>
+          </CardTwo>
         </>
       )}
       {!loaded && loading && (
@@ -195,17 +195,25 @@ export default function RiskPanel() {
         </>
       )} 
       {fullScreenItem && (
-        <FullscreenItem reference={setFullScreenItem}>
+        <FullscreenItem
+          reference={setFullScreenItem}
+          width={
+            ["var95", "var99", "beta", "cvar95"].includes(fullScreenItem)
+              ? 30
+              : 75
+          }
+        >
           {fullScreenItem === "bearish" && (
-            <ChartCard title="Bearish Asset" data={dummyAsset2} size="large" tooltip=""/>
+            <ChartCard title="Bearish Asset" data={dummyAsset2} size="xlarge" tooltip="" />
           )}
           {fullScreenItem === "neutral" && (
-            <ChartCard title="Neutral Asset" data={dummyAsset3} size="large" tooltip="" />
+            <ChartCard title="Neutral Asset" data={dummyAsset3} size="xlarge" tooltip="" />
           )}
           {fullScreenItem === "bullish" && (
-            <ChartCard title="Bullish Asset" data={dummyAsset1} size="large" tooltip="" />
+            <ChartCard title="Bullish Asset" data={dummyAsset1} size="xlarge" tooltip="" />
           )}
-          {["var95", "var99", "beta", "cvar95"].includes(fullScreenItem) && renderMetricFullScreen(fullScreenItem)}
+          {["var95", "var99", "beta", "cvar95"].includes(fullScreenItem) &&
+            renderMetricFullScreen(fullScreenItem)}
         </FullscreenItem>
       )}
     </div>

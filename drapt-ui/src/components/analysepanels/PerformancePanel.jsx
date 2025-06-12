@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { CardTwo } from "../baseui/CustomCard";
 import { AnalyseCard } from "../baseui/CustomCard";
 import MetricCard from "../analyseui/MetricCard";
 import { MetricHelper, CardHelper } from "../helperui/DivHelper";
 import ChartCard, { DualChartCard } from "../analyseui/ChartCard";
 import { dummyPerformance, dummyDualChart } from "../../assets/dummy-data/chartData";
 import { FullscreenItem } from "../helperui/FullscreenItemHelper";
+import { CustomButton } from "../baseui/CustomButton";
 
 export default function PerformancePanel() {
   const [selectedPortfolio, setSelectedPortfolio] = useState("");
@@ -82,14 +84,9 @@ export default function PerformancePanel() {
                   <option>US & Canada Portfolio</option>
                   <option>Metals, Mining and Commodities Portfolio</option>
                 </select>
-                <button
-                  type="button"
-                  className="btn btn-primary rounded-lg self-middle shadow-md hover:shadow-lg transition-shadow text-primary-content"
-                  onClick={mockLoadPortfolio}
-                  disabled={loading || loaded || !selectedPortfolio}
-                >
+                <CustomButton colour="primary" onClick={mockLoadPortfolio} disabled={loading || loaded || !selectedPortfolio}>
                   Analyse
-                </button>
+                </CustomButton>
               </div>
             </AnalyseCard>
           </div>
@@ -151,6 +148,9 @@ export default function PerformancePanel() {
             expandButton={true}
             onExpand={() => setFullScreenItem("portfolioBenchmarkChart")}
           />
+          <CardTwo id={"bonusFeatures"} title={"Performance Attribution"} badge={"Bonus"}>
+            <p>See which holdings are contributing most to your PnL.</p>
+          </CardTwo>
         </>
       )}
       {!loaded && loading && (
@@ -166,12 +166,19 @@ export default function PerformancePanel() {
         </>
       )}
       {fullScreenItem && (
-        <FullscreenItem reference={setFullScreenItem}>
+        <FullscreenItem
+          reference={setFullScreenItem}
+          width={
+            ["sharpe", "sortino", "treynor"].includes(fullScreenItem)
+              ? 30
+              : 75
+          }
+        >
           {fullScreenItem === "performanceChart" && (
             <ChartCard
               title="Performance Chart"
               data={dummyPerformance}
-              size="large"
+              size="xlarge"
               tooltip="This chart visualises your portfolio's performance over time."
             />
           )}
@@ -183,11 +190,12 @@ export default function PerformancePanel() {
               dataKey2="value2"
               label1="Portfolio"
               label2="Benchmark"
-              size="large"
+              size="xlarge"
               tooltip="Compare your portfolio's returns to a benchmark index."
             />
           )}
-          {["sharpe", "sortino", "treynor"].includes(fullScreenItem) && renderMetricFullScreen(fullScreenItem)}
+          {["sharpe", "sortino", "treynor"].includes(fullScreenItem) &&
+            renderMetricFullScreen(fullScreenItem)}
         </FullscreenItem>
       )}
     </div>

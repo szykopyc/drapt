@@ -50,6 +50,7 @@ export function UserCreationCard() {
   const selectedTeam = watch("team");
 
   const allFieldsFilledMask = (typedFullName && typedUserName && typedEmail && typedPassword && selectedRole && selectedTeam);
+  const someFieldsFilledMask = (typedFullName || typedUserName || typedEmail || typedPassword || selectedRole || selectedTeam)
 
   return (
     <>
@@ -124,7 +125,7 @@ export function UserCreationCard() {
           <LargeSubmit form={"addUser"} size={4} disabled={!allFieldsFilledMask}>
             Add User
           </LargeSubmit>
-          <ResetFormButton resetFn={resetForm}/>
+          <ResetFormButton resetFn={resetForm} disabled={!someFieldsFilledMask}/>
         </div>
       </CustomCollapseArrow>
       <ModalHelper id={"add_user_modal"} reference={userAddModalRef} modalTitle={"User Added"}>

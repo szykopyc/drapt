@@ -158,12 +158,19 @@ export default function UserEngagementPanel() {
         </>
       )}
       {fullScreenItem && (
-        <FullscreenItem reference={setFullScreenItem}>
+        <FullscreenItem
+          reference={setFullScreenItem}
+          width={
+            ["dau", "retention", "duration", "bounce"].includes(fullScreenItem)
+              ? 30
+              : 75
+          }
+        >
           {fullScreenItem === "activeUsers" && (
             <ChartCard
               title="Active Users Over Time"
               data={dummyPerformance}
-              size="large"
+              size="xlarge"
               tooltip="Shows the number of active users on the platform over time."
               currencyEnabled={false}
               expandButton={false}
@@ -177,13 +184,14 @@ export default function UserEngagementPanel() {
               dataKey2="value2"
               label1="Sign-ups"
               label2="Logins"
-              size="large"
+              size="xlarge"
               tooltip="Compare the number of new sign-ups to returning logins over time."
               currencyEnabled={false}
               expandButton={false}
             />
           )}
-          {["dau", "retention", "duration", "bounce"].includes(fullScreenItem) && renderMetricFullScreen(fullScreenItem)}
+          {["dau", "retention", "duration", "bounce"].includes(fullScreenItem) &&
+            renderMetricFullScreen(fullScreenItem)}
         </FullscreenItem>
       )}
     </div>

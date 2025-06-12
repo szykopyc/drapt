@@ -20,6 +20,8 @@ export function UserDeleteCard() {
 
   const { register, handleSubmit, reset, formState: { errors }, watch } = useForm();
 
+  const watchedUsername = watch("username")?.trim() || "";
+
   const handleInputChange = (e) => {
     setShowDeleteData(false);
     setShowConfirm(false);
@@ -68,7 +70,7 @@ export function UserDeleteCard() {
     <>
       <CustomCollapseArrow id={"userDeleteCard"} title={"Delete a user"} defaultOpen={false}>
         <form
-          id="searchUser"
+          id="userToDelete"
           className="flex flex-col md:flex-row gap-3 w-full"
           onSubmit={handleSubmit(onSearch)}
           autoComplete="off"
@@ -88,7 +90,7 @@ export function UserDeleteCard() {
             </FormField>
           </div>
           <div className="mt-3">
-            <LargeSubmit size={1}>
+            <LargeSubmit size={1} disabled={!watchedUsername}>
               Search
             </LargeSubmit>
           </div>
