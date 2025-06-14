@@ -60,10 +60,10 @@ export default function ProfileCard({ username, fullname, email, role, team, onU
       <div className="flex gap-2 mt-3">
         {editMode ? (
           <>
-            <button className="btn btn-xs btn-primary mr-2" onClick={handleSave}>
+            <button className="btn btn-primary" onClick={handleSave}>
               Save
             </button>
-            <button className="btn btn-xs btn-ghost" onClick={() => {
+            <button className="btn btn-ghost self-end" onClick={() => {
               setEditMode(false);
               setNewUsername(username);
               setNewEmail(email);
@@ -73,7 +73,7 @@ export default function ProfileCard({ username, fullname, email, role, team, onU
             </button>
           </>
         ) : (
-          <button className="btn btn-xs btn-primary" onClick={() => setEditMode(true)}>
+          <button className="btn btn-primary self-end" onClick={() => setEditMode(true)}>
             Edit
           </button>
         )}

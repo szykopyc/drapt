@@ -1,7 +1,7 @@
 import { option } from "framer-motion/client";
 import { useState } from "react";
 
-export function CardOne({ id, title, badge = null, flexSize = 1, children }) {
+export function CardOne({ id="", title, badge = null, flexSize = 1, children }) {
   return (
     <div id={id} tabIndex={0} className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow flex-${flexSize || "1"}`}>
       <div className="card-body">

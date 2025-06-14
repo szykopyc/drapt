@@ -1,28 +1,33 @@
 import { MainBlock } from "../components/baseui/MainBlock";
 import { BeginText } from "../components/baseui/BeginText";
-import { CardOne, CardTwo } from '../components/baseui/CustomCard';
-import { CustomUL, CustomLI } from "../components/baseui/CustomList";
+import { useState } from "react";
+import { Outlet, useParams, Link } from "react-router-dom";
 
 export default function Portfolio() {
+    const [activeTab, setActiveTab] = useState("overview");
+    const {portfolioID} = useParams();
+    
     return (
         <MainBlock>
-            <BeginText title={"Portfolio"}>
-                <p>This is where you will be able to view, modify, and create new portfolio's for analysis.</p>
+            <BeginText title={`Portfolio ${portfolioID}`}>
             </BeginText>
-            <div className="divider my-0"></div>
-            <CardOne id={"portfolioScope"} title={"Portfolio Scope"} badge={"Core"}>
-                <p>View your portfolio's from a high-level.</p>
-            </CardOne>
-            <CardOne id={"tradeBooker"} title={"Trade Booker"} badge={"Core"}>
-                <p>Book, modify, and remove trades on portfolio's you have authorisation to modify.</p>
-            </CardOne>
-            <CardOne id={"portfolioAdmin"} title={"Portfolio Administration"} badge={"Core"}>
-                <p>Create, modify, and delete portfolio's if you have the correct authorisation.</p>
-                <p>Upload and export portfolio's in CSV file format.</p>
-            </CardOne>
-            <CardTwo id={"nlpNews"} title={"NLPNews Engine"} badge={"Bonus"}>
-                <p>Natural Language Proccessing Engine giving you key insights regarding how top news headlines will affect your portfolio's.</p>
-            </CardTwo>
+            <div className="flex items-center justify-between border-b border-gray-300">
+                <nav className="flex space-x-4">
+                    <Link className={`pb-2 ${activeTab === "overview" ? "border-b-2 border-base font-semibold" : "text-base-content/70"}`}
+                    onClick={() => setActiveTab("overview")}
+                    aria-selected={activeTab === "overview"} 
+                    to={`/portfolio/${portfolioID}/overview`}>Overview</Link>
+                    <Link className={`pb-2 ${activeTab === "tradeBooker" ? "border-b-2 border-base font-semibold" : "text-base-content/70"}`}
+                    onClick={() => setActiveTab("tradeBooker")}
+                    aria-selected={activeTab === "tradeBooker"} 
+                    to={`/portfolio/${portfolioID}/tradebooker`}>Trade Booker</Link>
+                    <Link className={`pb-2 ${activeTab === "portfolioAdmin" ? "border-b-2 border-base font-semibold" : "text-base-content/70"}`}
+                    onClick={() => setActiveTab("portfolioAdmin")}
+                    aria-selected={activeTab === "portfolioAdmin"} 
+                    to={`/portfolio/${portfolioID}/administration`}>Portfolio Admin</Link>
+                </nav>
+            </div>
+            <Outlet />
         </MainBlock>
     );
 }
