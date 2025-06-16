@@ -45,7 +45,7 @@ export default function Admin() {
           </button>
         </nav>
         <div className="text-sm text-base-content/70 italic hidden sm:block">
-          <kbd className="border rounded px-1">M</kbd> for User Management, Press <kbd className="border rounded px-1">E</kbd> for User Engagement
+          <kbd className="border rounded px-1">M</kbd> for User Management, <kbd className="border rounded px-1">E</kbd> for User Engagement
         </div>
       </div>
       <section>

@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
+import SectionMaintenanceWarning from "../baseui/SectionMaintenanceWarning";
 
 export function TradeBookerPanel(){
     const {portfolioID} = useParams();
 
     return (
-        <p>Trade booker panel for {portfolioID}</p>
+        <SectionMaintenanceWarning />
     );
 }
