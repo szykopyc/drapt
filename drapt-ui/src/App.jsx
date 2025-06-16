@@ -24,7 +24,7 @@ import PortfolioIndex from './pages/PortfolioIndex';
 import { OverviewPanel } from './components/portfoliopanels/OverviewPanel';
 import { TradeBookerPanel } from './components/portfoliopanels/TradeBookerPanel';
 import { PortfolioAdminPanel } from './components/portfoliopanels/PortfolioAdminPanel';
-import Admin from './pages/Admin';
+import AdminWrapper from './pages/AdminWrapper';
 import Profile from './pages/Profile'
 import ProtectedRoute from './components/authcomponents/ProtectedRoute';
 import ProtectedPortfolioRoute from './components/authcomponents/PortfolioProtectedRoute';
@@ -99,7 +99,7 @@ function App() {
             </Route>
             <Route path="admin" element={
               <ProtectedRoute>
-                <Admin />
+                <AdminWrapper />
               </ProtectedRoute>
             } />
             <Route path="profile" element={

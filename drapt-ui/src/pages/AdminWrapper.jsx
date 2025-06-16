@@ -4,7 +4,7 @@ import UserManagementPanel from "../components/adminpanel/UserManagementPanel";
 import { MainBlock } from "../components/baseui/MainBlock";
 import { BeginText } from "../components/baseui/BeginText";
 
-export default function Admin() {
+export default function AdminWrapper() {
   const [activeTab, setActiveTab] = useState("userManagement");
   
   useEffect(() => {
