@@ -1,11 +1,26 @@
 import { option } from "framer-motion/client";
 import { useState } from "react";
 
-export function CardOne({ id="", title, badge = null, flexSize = 1, children }) {
+const sizeClassMap = {
+  full: "w-full",
+  half: "w-1/2",
+  third: "w-1/3",
+  quarter: "w-1/4",
+  auto: "w-auto",
+  twothirds: "w-2/3"
+};
+
+export function CardOne({ id = "", title, badge = null, size = "full", children, ...props }) {
+  const widthClass = sizeClassMap[size] || "w-full";
   return (
-    <div id={id} tabIndex={0} className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow flex-${flexSize || "1"}`}>
+    <div
+      id={id}
+      tabIndex={0}
+      className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow ${widthClass}`}
+      {...props}
+    >
       <div className="card-body">
-        <div className='flex justify-between items-center'>
+        <div className="flex justify-between items-center">
           <h2 className="card-title text-2xl">{title}</h2>
           {badge && <span className="badge badge-s badge-theme">{badge}</span>}
         </div>

@@ -1,15 +1,15 @@
 import { MainBlock } from "../components/baseui/MainBlock";
 import { BeginText } from "../components/baseui/BeginText";
-import GlobalPortfolioCard from "../components/portfolioui/GlobalPortfolioCard";
+import GlobalAnalysisCard from "../components/analyseui/GlobalAnalysisCard";
 
-export default function PortfolioIndex(){
+export default function AnalyseIndex(){
     return (
         <MainBlock>
-            <BeginText title={"Global Portfolio Management"}>
-                <p>View all of the portfolios currently being tracked by <span className="text-accent font-semibold">Drapt</span>, then navigate between them.</p>
+            <BeginText title={"Global Portfolio Analysis"}>
+                <p>Please choose a portfolio to analyse.</p>
             </BeginText>
             <div className="divider my-0"></div>
-            <GlobalPortfolioCard
+            <GlobalAnalysisCard
                 portfolioID={"industrials"}
                 portfolioName={"Industrials"}
                 portfolioType={"Equity"}
@@ -21,7 +21,7 @@ export default function PortfolioIndex(){
                 portfolio1MVolatility={14.56}
                 portfolioHoldingsNumber={12}
             />
-            <GlobalPortfolioCard
+            <GlobalAnalysisCard
                 portfolioID={"technology"}
                 portfolioName={"Technology"}
                 portfolioType={"Equity"}
@@ -33,7 +33,7 @@ export default function PortfolioIndex(){
                 portfolio1MVolatility={16.23}
                 portfolioHoldingsNumber={15}
             />
-            <GlobalPortfolioCard
+            <GlobalAnalysisCard
                 portfolioID={"fixedincome"}
                 portfolioName={"Fixed Income"}
                 portfolioType={"Bond"}
@@ -45,7 +45,7 @@ export default function PortfolioIndex(){
                 portfolio1MVolatility={7.89}
                 portfolioHoldingsNumber={8}
             />
-            <GlobalPortfolioCard
+            <GlobalAnalysisCard
                 portfolioID={"emergingmarkets"}
                 portfolioName={"Emerging Markets"}
                 portfolioType={"Equity"}
@@ -57,7 +57,7 @@ export default function PortfolioIndex(){
                 portfolio1MVolatility={18.11}
                 portfolioHoldingsNumber={14}
             />
-            <GlobalPortfolioCard
+            <GlobalAnalysisCard
                 portfolioID={"realestate"}
                 portfolioName={"Real Estate"}
                 portfolioType={"REIT"}

@@ -1,7 +1,7 @@
 import { CardOne } from "../baseui/CustomCard";
-import { CustomButton } from "../baseui/CustomButton";
+import CustomButton from "../baseui/CustomButton";
 
-export default function PortfolioCard({
+export default function GlobalPortfolioCard({
     portfolioID,
     portfolioName,
     portfolioType,

@@ -5,7 +5,7 @@ import { BeginText } from '../components/baseui/BeginText';
 import { MainBlock } from '../components/baseui/MainBlock'
 import { CustomUL, CustomLI, CustomNestedUL } from '../components/baseui/CustomList';
 import { useState } from 'react';
-import { FullscreenItem } from '../components/helperui/FullscreenItemHelper';
+import FullscreenItem from '../components/helperui/FullscreenItemHelper';
 
 export default function About() {
     const [fullScreenItem, setFullScreenItem ] = useState("");

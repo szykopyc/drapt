@@ -3,9 +3,9 @@ import { AnalyseCard } from "../baseui/CustomCard";
 import MetricCard from "../analyseui/MetricCard";
 import { MetricHelper, CardHelper, ChartHelper } from "../helperui/DivHelper";
 import ChartCard from "../analyseui/ChartCard";
-import { FullscreenItem } from "../helperui/FullscreenItemHelper";
+import FullscreenItem from "../helperui/FullscreenItemHelper";
 import { dummyAsset1, dummyAsset2, dummyAsset3 } from "../../assets/dummy-data/chartData";
-import { CustomButton } from "../baseui/CustomButton";
+import CustomButton from "../baseui/CustomButton";
 import { CardTwo } from "../baseui/CustomCard";
 
 export default function RiskPanel() {

@@ -4,7 +4,7 @@ import MetricCard from "../analyseui/MetricCard";
 import { MetricHelper, CardHelper } from "../helperui/DivHelper";
 import ChartCard, { DualChartCard } from "../analyseui/ChartCard";
 import { dummyPerformance, dummyDualChart } from "../../assets/dummy-data/chartData";
-import { FullscreenItem } from "../helperui/FullscreenItemHelper";
+import FullscreenItem from "../helperui/FullscreenItemHelper";
 
 export default function UserEngagementPanel() {
   const [loading, setLoading] = useState(false);

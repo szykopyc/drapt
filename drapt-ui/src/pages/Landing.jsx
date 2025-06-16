@@ -3,8 +3,8 @@ import { BeginText } from '../components/baseui/BeginText';
 import { CardOne } from '../components/baseui/CustomCard';
 import { ChartNoBorderCard } from '../components/analyseui/ChartCard';
 import { dummyPerformance } from '../assets/dummy-data/chartData';
-import { CustomButton } from '../components/baseui/CustomButton';
-import { CustomTable } from '../components/baseui/CustomTable';
+import CustomButton from '../components/baseui/CustomButton';
+import CustomTable from '../components/baseui/CustomTable';
 import { dummyPortfolioMetrics } from '../assets/dummy-data/tableData';
 import { dummyNews } from '../assets/dummy-data/tableData';
 import { CardHelper } from '../components/helperui/DivHelper';
@@ -40,7 +40,7 @@ export default function Landing() {
       {loaded && (
         <>
           <div className='divider my-0'></div>
-          <CardOne id={"portfolioOverview"} title={"Portfolio Overview"} flexSize={"1"}>
+          <CardOne id={"portfolioOverview"} title={"Portfolio Overview"}>
             <ChartNoBorderCard data={dummyPerformance} />
             <div className='flex md:flex-row justify-between gap-1 md:gap-3'>
               <CustomButton to="/analyse">Analyse</CustomButton>
@@ -48,12 +48,12 @@ export default function Landing() {
             </div>
           </CardOne>
           <CardHelper>
-            <CardOne title={"Aggregate Portfolio Metrics"} flexSize={"1"}>
+            <CardOne title={"Aggregate Portfolio Metrics"}>
               <div ref={metricsRef}>
                 <CustomTable data={dummyPortfolioMetrics} />
               </div>
             </CardOne>
-            <CardOne title={"News Catchup"} flexSize={"1"}>
+            <CardOne title={"News Catchup"}>
               <CustomTable data={dummyNews} maxHeight={metricsHeight ? `${metricsHeight}px` : "389px"} /> {/* from undefined to a fixed height in px */}
             </CardOne>
           </CardHelper>

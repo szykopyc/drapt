@@ -7,6 +7,7 @@ import Landing from './pages/Landing';
 import About from './pages/About'
 import Contact from './pages/Contact'
 import MaintenanceError from './errorpages/MaintenanceError';
+import MaintenanceGuard from './errorpages/MaintenanceGuard';
 import Unauthorised from './errorpages/401Unauthorised';
 import Forbidden from './errorpages/403Forbidden';
 import NotFound from './errorpages/404NotFound';
@@ -14,8 +15,11 @@ import InternalServerError from './errorpages/500InternalServerError';
 import ErrorBoundary from './errorpages/ErrorBoundary';
 import Login from './pages/Login'
 import ForgotPassword from './pages/ForgotPassword';
-import Analyse from './pages/Analyse'
-import Portfolio from './pages/Portfolio'
+import Analyse from './pages/AnalyseWrapper'
+import AnalyseIndex from './pages/AnalyseIndex';
+import PerformancePanel from './components/analysepanels/PerformancePanel';
+import RiskPanel from './components/analysepanels/RiskPanel';
+import Portfolio from './pages/PortfolioWrapper'
 import PortfolioIndex from './pages/PortfolioIndex';
 import { OverviewPanel } from './components/portfoliopanels/OverviewPanel';
 import { TradeBookerPanel } from './components/portfoliopanels/TradeBookerPanel';
@@ -42,17 +46,36 @@ function App() {
             <Route path="contact" element={<Contact />} />
             <Route path="login" element={<Login />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
-            {/* Protected routes */}
+
             <Route path="/landing" element={
               <ProtectedRoute>
                 <Landing />
               </ProtectedRoute>
             } />
-            <Route path="analyse" element={
-              <ProtectedRoute>
-                <Analyse />
-              </ProtectedRoute>
+            <Route path='analyse' element={
+              ['vd','director','dev'].includes(currentUser.role) ? (
+                <ProtectedRoute>
+                  <MaintenanceGuard>
+                    <AnalyseIndex />
+                  </MaintenanceGuard>
+                </ProtectedRoute>
+              ) : (
+                <Navigate to={`/analyse/${currentUser.team}`} replace />
+              )
             } />
+            <Route path="analyse/:portfolioID" element={
+              <ProtectedRoute>
+                <ProtectedPortfolioRoute user={currentUser}>
+                  <MaintenanceGuard>
+                    <Analyse />
+                  </MaintenanceGuard>
+                </ProtectedPortfolioRoute>
+              </ProtectedRoute>
+            }>
+              <Route index element={<Navigate to={"performance"} replace/>}></Route>
+              <Route path="performance" element={<PerformancePanel />}></Route>
+              <Route path="risk" element={<RiskPanel />}></Route>
+            </Route>
             <Route path='portfolio' element={
               ['vd','director','dev'].includes(currentUser.role) ? (
                 <ProtectedRoute>

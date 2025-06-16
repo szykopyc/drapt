@@ -5,8 +5,8 @@ import MetricCard from "../analyseui/MetricCard";
 import { MetricHelper, CardHelper } from "../helperui/DivHelper";
 import ChartCard, { DualChartCard } from "../analyseui/ChartCard";
 import { dummyPerformance, dummyDualChart } from "../../assets/dummy-data/chartData";
-import { FullscreenItem } from "../helperui/FullscreenItemHelper";
-import { CustomButton } from "../baseui/CustomButton";
+import FullscreenItem from "../helperui/FullscreenItemHelper";
+import CustomButton from "../baseui/CustomButton";
 
 export default function PerformancePanel() {
   const [selectedPortfolio, setSelectedPortfolio] = useState("");

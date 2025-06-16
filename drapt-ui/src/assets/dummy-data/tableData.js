@@ -213,3 +213,288 @@ export const dummyNews = [
     Date: "2025-04-10"
   }
 ];
+
+// ...existing code...
+export const dummyPortfolioActions = [
+  {
+    ticker: "CAT",
+    action: "BUY",
+    quantity: 10,
+    price: 250.00,
+    date: "2024-06-01"
+  },
+  {
+    ticker: "HON",
+    action: "SELL",
+    quantity: 5,
+    price: 210.50,
+    date: "2024-06-03"
+  },
+  {
+    ticker: "GE",
+    action: "BUY",
+    quantity: 20,
+    price: 160.75,
+    date: "2024-06-05"
+  },
+  {
+    ticker: "MMM",
+    action: "BUY",
+    quantity: 15,
+    price: 105.30,
+    date: "2024-06-07"
+  },
+  {
+    ticker: "DE",
+    action: "SELL",
+    quantity: 8,
+    price: 390.00,
+    date: "2024-06-09"
+  },
+  {
+    ticker: "LMT",
+    action: "BUY",
+    quantity: 12,
+    price: 450.20,
+    date: "2024-06-11"
+  },
+  {
+    ticker: "BA",
+    action: "SELL",
+    quantity: 7,
+    price: 210.10,
+    date: "2024-06-13"
+  },
+  {
+    ticker: "RTX",
+    action: "BUY",
+    quantity: 18,
+    price: 98.40,
+    date: "2024-06-14"
+  },
+  {
+    ticker: "UNP",
+    action: "BUY",
+    quantity: 9,
+    price: 230.00,
+    date: "2024-06-15"
+  },
+  {
+    ticker: "UPS",
+    action: "SELL",
+    quantity: 6,
+    price: 170.25,
+    date: "2024-06-16"
+  },
+  {
+    ticker: "CSX",
+    action: "BUY",
+    quantity: 14,
+    price: 34.10,
+    date: "2024-06-17"
+  },
+  {
+    ticker: "FDX",
+    action: "BUY",
+    quantity: 11,
+    price: 265.00,
+    date: "2024-06-18"
+  },
+  {
+    ticker: "EMR",
+    action: "SELL",
+    quantity: 13,
+    price: 105.50,
+    date: "2024-06-19"
+  },
+  {
+    ticker: "GD",
+    action: "BUY",
+    quantity: 10,
+    price: 230.75,
+    date: "2024-06-20"
+  },
+  {
+    ticker: "NOC",
+    action: "SELL",
+    quantity: 8,
+    price: 470.00,
+    date: "2024-06-21"
+  },
+  {
+    ticker: "CAT",
+    action: "BUY",
+    quantity: 10,
+    price: 250.00,
+    date: "2024-06-01"
+  },
+  {
+    ticker: "HON",
+    action: "SELL",
+    quantity: 5,
+    price: 210.50,
+    date: "2024-06-03"
+  },
+  {
+    ticker: "GE",
+    action: "BUY",
+    quantity: 20,
+    price: 160.75,
+    date: "2024-06-05"
+  },
+  {
+    ticker: "MMM",
+    action: "BUY",
+    quantity: 15,
+    price: 105.30,
+    date: "2024-06-07"
+  },
+  {
+    ticker: "DE",
+    action: "SELL",
+    quantity: 8,
+    price: 390.00,
+    date: "2024-06-09"
+  },
+  {
+    ticker: "LMT",
+    action: "BUY",
+    quantity: 12,
+    price: 450.20,
+    date: "2024-06-11"
+  },
+  {
+    ticker: "BA",
+    action: "SELL",
+    quantity: 7,
+    price: 210.10,
+    date: "2024-06-13"
+  },
+  {
+    ticker: "RTX",
+    action: "BUY",
+    quantity: 18,
+    price: 98.40,
+    date: "2024-06-14"
+  },
+  {
+    ticker: "UNP",
+    action: "BUY",
+    quantity: 9,
+    price: 230.00,
+    date: "2024-06-15"
+  },
+  {
+    ticker: "UPS",
+    action: "SELL",
+    quantity: 6,
+    price: 170.25,
+    date: "2024-06-16"
+  },
+  {
+    ticker: "CSX",
+    action: "BUY",
+    quantity: 14,
+    price: 34.10,
+    date: "2024-06-17"
+  },
+  {
+    ticker: "FDX",
+    action: "BUY",
+    quantity: 11,
+    price: 265.00,
+    date: "2024-06-18"
+  },
+  {
+    ticker: "EMR",
+    action: "SELL",
+    quantity: 13,
+    price: 105.50,
+    date: "2024-06-19"
+  },
+  {
+    ticker: "GD",
+    action: "BUY",
+    quantity: 10,
+    price: 230.75,
+    date: "2024-06-20"
+  },
+  {
+    ticker: "NOC",
+    action: "SELL",
+    quantity: 8,
+    price: 470.00,
+    date: "2024-06-21"
+  },
+  // --- Additional 10 actions below ---
+  {
+    ticker: "PH",
+    action: "BUY",
+    quantity: 16,
+    price: 520.30,
+    date: "2024-06-22"
+  },
+  {
+    ticker: "ITW",
+    action: "SELL",
+    quantity: 9,
+    price: 245.60,
+    date: "2024-06-23"
+  },
+  {
+    ticker: "ETN",
+    action: "BUY",
+    quantity: 13,
+    price: 310.10,
+    date: "2024-06-24"
+  },
+  {
+    ticker: "ROK",
+    action: "SELL",
+    quantity: 7,
+    price: 285.40,
+    date: "2024-06-25"
+  },
+  {
+    ticker: "PCAR",
+    action: "BUY",
+    quantity: 12,
+    price: 105.90,
+    date: "2024-06-26"
+  },
+  {
+    ticker: "FAST",
+    action: "SELL",
+    quantity: 15,
+    price: 65.20,
+    date: "2024-06-27"
+  },
+  {
+    ticker: "GWW",
+    action: "BUY",
+    quantity: 6,
+    price: 950.00,
+    date: "2024-06-28"
+  },
+  {
+    ticker: "IR",
+    action: "SELL",
+    quantity: 10,
+    price: 88.30,
+    date: "2024-06-29"
+  },
+  {
+    ticker: "XYL",
+    action: "BUY",
+    quantity: 11,
+    price: 140.75,
+    date: "2024-06-30"
+  },
+  {
+    ticker: "DOV",
+    action: "SELL",
+    quantity: 8,
+    price: 170.60,
+    date: "2024-07-01"
+  }
+];

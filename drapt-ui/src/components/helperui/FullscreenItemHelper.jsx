@@ -1,4 +1,4 @@
-export function FullscreenItem({ reference, width = 50, children }) {
+export default function FullscreenItem({ reference, width = 50, children }) {
     return (
         <div className="modal modal-open">
             <div

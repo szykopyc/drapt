@@ -9,7 +9,7 @@ export default function Portfolio() {
     
     return (
         <MainBlock>
-            <BeginText title={`Portfolio ${portfolioID}`}>
+            <BeginText title={`Portfolio`}>
             </BeginText>
             <div className="flex items-center justify-between border-b border-gray-300">
                 <nav className="flex space-x-4">
