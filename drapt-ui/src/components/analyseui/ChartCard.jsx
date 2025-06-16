@@ -5,7 +5,21 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import { ArrowsPointingOutIcon, ArrowsPointingInIcon } from "@heroicons/react/24/outline";
 
-function LightTooltip({ active, payload, label, currency, currencyEnabled }) {
+// Global left margin for all charts
+// This is done since Recharts has a stupid bug which introduces excess left padding to all charts. Verrrrryyyy dumb...
+export let leftMargin = -30; 
+
+// global margin modifier
+export let margin ={ top: 5, right: 5, left: leftMargin, bottom: 5 }
+
+// Utility for rounding numbers to a given decimal place
+function roundValue(value, decimals = 0) {
+  if (typeof value !== "number") return value;
+  const factor = Math.pow(10, decimals);
+  return Math.round(value * factor) / factor;
+}
+
+function LightTooltip({ active, payload, label, currency, currencyEnabled, roundDecimals = 0 }) {
   if (!active || !payload || !payload.length) return null;
   return (
     <div style={{
@@ -18,13 +32,14 @@ function LightTooltip({ active, payload, label, currency, currencyEnabled }) {
     }}>
       <div className="font-semibold">{label}</div>
       <div>
-        {currencyEnabled ? currency : ''}{payload[0].value}
+        {currencyEnabled ? currency : ''}
+        {roundValue(payload[0].value, roundDecimals)}
       </div>
     </div>
   );
 }
 
-function DarkTooltip({ active, payload, label, currency, currencyEnabled }) {
+function DarkTooltip({ active, payload, label, currency, currencyEnabled, roundDecimals = 0 }) {
   if (!active || !payload || !payload.length) return null;
   return (
     <div style={{
@@ -37,13 +52,14 @@ function DarkTooltip({ active, payload, label, currency, currencyEnabled }) {
     }}>
       <div className="font-semibold">{label}</div>
       <div>
-        {currencyEnabled ? currency : ''}{payload[0].value}
+        {currencyEnabled ? currency : ''}
+        {roundValue(payload[0].value, roundDecimals)}
       </div>
     </div>
   );
 }
 
-function DualTooltip({ active, payload, label, currency, currencyEnabled }) {
+function DualTooltip({ active, payload, label, currency, currencyEnabled, roundDecimals = 0 }) {
   if (!active || !payload || payload.length < 2) return null;
   return (
     <div style={{
@@ -56,16 +72,16 @@ function DualTooltip({ active, payload, label, currency, currencyEnabled }) {
     }}>
       <div className="font-semibold">{label}</div>
       <div>
-        <span style={{ color: payload[0].color, fontWeight: 500 }}>{payload[0].name}:</span> {currencyEnabled ? currency : ''}{payload[0].value}
+        <span style={{ color: payload[0].color, fontWeight: 500 }}>{payload[0].name}:</span> {currencyEnabled ? currency : ''}{roundValue(payload[0].value, roundDecimals)}
       </div>
       <div>
-        <span style={{ color: payload[1].color, fontWeight: 500 }}>{payload[1].name}:</span> {currencyEnabled ? currency : ''}{payload[1].value}
+        <span style={{ color: payload[1].color, fontWeight: 500 }}>{payload[1].name}:</span> {currencyEnabled ? currency : ''}{roundValue(payload[1].value, roundDecimals)}
       </div>
     </div>
   );
 }
 
-function DualTooltipDark({ active, payload, label, currency, currencyEnabled }) {
+function DualTooltipDark({ active, payload, label, currency, currencyEnabled, roundDecimals = 0 }) {
   if (!active || !payload || payload.length < 2) return null;
   return (
     <div style={{
@@ -78,10 +94,10 @@ function DualTooltipDark({ active, payload, label, currency, currencyEnabled }) 
     }}>
       <div className="font-semibold">{label}</div>
       <div>
-        <span style={{ color: payload[0].color, fontWeight: 500 }}>{payload[0].name}:</span> {currencyEnabled ? currency : ''}{payload[0].value}
+        <span style={{ color: payload[0].color, fontWeight: 500 }}>{payload[0].name}:</span> {currencyEnabled ? currency : ''}{roundValue(payload[0].value, roundDecimals)}
       </div>
       <div>
-        <span style={{ color: payload[1].color, fontWeight: 500 }}>{payload[1].name}:</span> {currencyEnabled ? currency : ''}{payload[1].value}
+        <span style={{ color: payload[1].color, fontWeight: 500 }}>{payload[1].name}:</span> {currencyEnabled ? currency : ''}{roundValue(payload[1].value, roundDecimals)}
       </div>
     </div>
   );
@@ -116,6 +132,7 @@ export default function ChartCard({
   minimiseButton = false,
   onExpand,
   onMinimise,
+  roundDecimals = 0, // <--- new prop
   ...props
 }) {
   const sizeClasses = {
@@ -136,8 +153,8 @@ export default function ChartCard({
     : "light";
   const CustomTooltip = (props) =>
     theme === "draptdark" || theme === "dark" || theme == "cb-dark" || theme == "night-coding"
-      ? <DarkTooltip {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} />
-      : <LightTooltip {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} />;
+      ? <DarkTooltip {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} roundDecimals={roundDecimals} />
+      : <LightTooltip {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} roundDecimals={roundDecimals} />;
 
   const [lineColor, setLineColor] = useState("#6366f1");
 
@@ -202,13 +219,13 @@ export default function ChartCard({
         </div>
         {content && <p className='mb-4'>{content}</p>}
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data}>
+          <LineChart data={data} margin={margin}>
             <XAxis
               dataKey="name"
               interval={xInterval > 0 ? xInterval - 1 : 0}
             />
             <YAxis
-              tickFormatter={v => currencyEnabled ? `${getCurrencySymbol(currency)}${v}` : v}
+              tickFormatter={v => currencyEnabled ? `${getCurrencySymbol(currency)}${roundValue(v, roundDecimals)}` : roundValue(v, roundDecimals)}
               domain={['dataMin-2', 'dataMax+2']}
               tickCount={6}
             />
@@ -243,6 +260,7 @@ export function DualChartCard({
   minimiseButton = false,
   onExpand,
   onMinimise,
+  roundDecimals = 0, // <--- new prop
   ...props
 }) {
   const sizeClasses = {
@@ -262,8 +280,8 @@ export function DualChartCard({
     : "light";
   const CustomTooltip = (props) =>
     theme === "draptdark" || theme === "dark" || theme == "cb-dark"
-      ? <DualTooltipDark {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} />
-      : <DualTooltip {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} />;
+      ? <DualTooltipDark {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} roundDecimals={roundDecimals} />
+      : <DualTooltip {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} roundDecimals={roundDecimals} />;
 
   const [lineColor, setLineColor] = useState("#6366f1");
   const [lineColor2, setLineColor2] = useState("#f59e42");
@@ -333,13 +351,13 @@ export function DualChartCard({
         </div>
         {content && <p className='mb-4'>{content}</p>}
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data}>
+          <LineChart data={data} margin={margin}>
             <XAxis
               dataKey="name"
               interval={xInterval > 0 ? xInterval - 1 : 0}
             />
             <YAxis
-              tickFormatter={v => currencyEnabled ? `${getCurrencySymbol(currency)}${v}` : v}
+              tickFormatter={v => currencyEnabled ? `${getCurrencySymbol(currency)}${roundValue(v, roundDecimals)}` : roundValue(v, roundDecimals)}
               domain={['dataMin-2', 'dataMax+2']}
               tickCount={6} 
             />
@@ -376,6 +394,7 @@ export function ChartNoBorderCard({
   currencyEnabled = true,
   expandButton = false,
   minimiseButton = false,
+  roundDecimals = 0, // <--- new prop
 }) {
   const sizeClasses = {
     small: 'w-full md:w-1/3 h-96',
@@ -395,8 +414,8 @@ export function ChartNoBorderCard({
     : "light";
   const CustomTooltip = (props) =>
     theme === "draptdark" || theme === "dark" || theme == "cb-dark" || theme == "night-coding"
-      ? <DarkTooltip {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} />
-      : <LightTooltip {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} />;
+      ? <DarkTooltip {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} roundDecimals={roundDecimals} />
+      : <LightTooltip {...props} currency={getCurrencySymbol(currency)} currencyEnabled={currencyEnabled} roundDecimals={roundDecimals} />;
 
   const [lineColor, setLineColor] = useState("#6366f1");
 
@@ -420,13 +439,13 @@ export function ChartNoBorderCard({
   return (
     <div className={`transition-shadow mt-3 ${sizeClasses[size]}`}>
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data}>
+        <LineChart data={data} margin={margin}>
           <XAxis
             dataKey="name"
             interval={xInterval > 0 ? xInterval - 1 : 0}
           />
           <YAxis
-            tickFormatter={v => currencyEnabled ? `${getCurrencySymbol(currency)}${v}` : v}
+            tickFormatter={v => currencyEnabled ? `${getCurrencySymbol(currency)}${roundValue(v, roundDecimals)}` : roundValue(v, roundDecimals)}
             domain={['dataMin-2', 'dataMax+2']}
             tickCount={6} 
           />
