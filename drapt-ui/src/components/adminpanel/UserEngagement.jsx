@@ -147,7 +147,6 @@ export default function UserEngagementPanel() {
       )}
       {!loaded && loading && (
         <>
-          <div className="divider my-0"></div>
           <div className="skeleton w-full h-[461px]"></div>
           <MetricHelper>
             <div className="skeleton flex-1 h-[176px]"></div>
