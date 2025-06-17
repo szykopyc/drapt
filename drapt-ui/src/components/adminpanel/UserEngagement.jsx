@@ -72,6 +72,7 @@ export default function UserEngagementPanel() {
 
   return (
     <div className="flex flex-col gap-3">
+      {/*
       <CardHelper>
         <div className="flex-col w-full">
           <AnalyseCard id={"welcome"} title={"User Engagement"}>
@@ -83,9 +84,9 @@ export default function UserEngagementPanel() {
           </AnalyseCard>
         </div>
       </CardHelper>
+      */}
       {loaded && (
         <>
-          <div className="divider my-0"></div>
           <ChartCard
             title="Active Users Over Time"
             data={dummyPerformance}

@@ -8,6 +8,7 @@ import { UserDeleteCard } from "../adminui/UserDeleteCard";
 export default function UserManagementPanel() {
   return (
     <div className="flex flex-col gap-3">
+      {/*
       <CardHelper>
         <div className="flex-col w-full">
           <AnalyseCard id={"welcome"} title={"Welcome to User Management"}>
@@ -20,6 +21,7 @@ export default function UserManagementPanel() {
         </div>
       </CardHelper>
       <div className="divider my-0"></div>
+      */}
       <UserShowAllCard />
       <UserCreationCard />
       <UserUpdateCard />

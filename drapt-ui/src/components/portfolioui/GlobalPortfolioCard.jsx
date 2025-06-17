@@ -31,7 +31,7 @@ export default function GlobalPortfolioCard({
 
     return (
         <CardOne title={portfolioName}>
-            <div className="flex flex-col md:flex-row w-full">
+            <div className="flex flex-col md:flex-row gap-y-1 w-full">
                 <div className="w-full md:w-1/2 text-left">
                     <div className="grid grid-cols-2 gap-y-1">
                         <span>Type</span>

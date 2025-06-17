@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { CardOne } from "../baseui/CustomCard";
-
-function isValidEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
+import { isValidEmail } from "../validators/EmailValidator";
 
 export default function ProfileCard({ username, fullname, email, role, team, onUpdate }) {
   const [editMode, setEditMode] = useState(false);
@@ -29,12 +26,12 @@ export default function ProfileCard({ username, fullname, email, role, team, onU
         <div className="flex items-center gap-2">
           {editMode ? (
             <input
-              className="input input-xs input-bordered"
+              className="input input-bordered"
               value={newUsername}
               onChange={e => setNewUsername(e.target.value)}
             />
           ) : (
-            <span className="italic">{newUsername}</span>
+            <span>{newUsername}</span>
           )}
         </div>
       </div>
@@ -43,7 +40,7 @@ export default function ProfileCard({ username, fullname, email, role, team, onU
         <div className="flex items-center gap-2">
           {editMode ? (
             <input
-              className="input input-xs input-bordered"
+              className="input input-bordered"
               value={newEmail}
               onChange={e => setNewEmail(e.target.value)}
               type="email"
@@ -54,9 +51,10 @@ export default function ProfileCard({ username, fullname, email, role, team, onU
         </div>
       </div>
       {error && (
-        <div className="text-xs text-red-500 mt-1">{error}</div>
+        <div className="text-sm text-red-500">{error}</div>
       )}
-      <div className="text-sm text-base-content/70 italic mt-1">{role} @ {team}</div>
+      <label className="text-sm text-base-content/70">Role</label>
+      <div>{role} @ {team}</div>
       <div className="flex gap-2 mt-3">
         {editMode ? (
           <>

@@ -25,6 +25,8 @@ import { OverviewPanel } from './components/portfoliopanels/OverviewPanel';
 import { TradeBookerPanel } from './components/portfoliopanels/TradeBookerPanel';
 import { PortfolioAdminPanel } from './components/portfoliopanels/PortfolioAdminPanel';
 import AdminWrapper from './pages/AdminWrapper';
+import UserEngagementPanel from './components/adminpanel/UserEngagement';
+import UserManagementPanel from './components/adminpanel/UserManagementPanel';
 import Profile from './pages/Profile'
 import ProtectedRoute from './components/authcomponents/ProtectedRoute';
 import ProtectedPortfolioRoute from './components/authcomponents/PortfolioProtectedRoute';
@@ -101,7 +103,11 @@ function App() {
               <ProtectedRoute>
                 <AdminWrapper />
               </ProtectedRoute>
-            } />
+            } >
+              <Route index element={<Navigate to={"management"} replace/>}></Route>
+              <Route path="management" element={<UserManagementPanel />}></Route>
+              <Route path="engagement" element={<UserEngagementPanel />}></Route>
+            </Route>
             <Route path="profile" element={
               <ProtectedRoute>
                 <Profile />
