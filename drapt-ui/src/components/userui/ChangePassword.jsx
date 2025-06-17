@@ -1,36 +1,35 @@
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import { CardOne } from "../baseui/CustomCard";
 import { ModalHelper } from "../helperui/ModalHelper";
-
-function getPasswordStrength(password) {
-  if (!password) return "";
-  let score = 0;
-  if (password.length >= 8) score++;
-  if (/[A-Z]/.test(password)) score++;
-  if (/[a-z]/.test(password)) score++;
-  if (/[0-9]/.test(password)) score++;
-  if (/[^A-Za-z0-9]/.test(password)) score++;
-  if (/[!@$^&*()_+\-{}\[\],.<>?]/.test(password)) score++;
-
-  if (score <= 2) return "Weak";
-  if (score === 3) return "Medium";
-  if (score === 4 || score === 5) return "Strong";
-  if (score === 6) return "Very Strong";
-  return "";
-}
+import { FormField } from "../helperui/FormFieldHelper";
+import { getPasswordStrength } from "../validators/PasswordValidator";
 
 export default function ChangePassword({ onChange }) {
-  const [current, setCurrent] = useState("");
-  const [next, setNext] = useState("");
-  const [confirm, setConfirm] = useState("");
-  const [message, setMessage] = useState("");
   const modalRef = useRef(null);
+  const [message, setMessage] = useState("");
 
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors }
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      current: "",
+      next: "",
+      confirm: ""
+    }
+  });
+
+  const next = watch("next");
+  const confirm = watch("confirm");
   const strength = getPasswordStrength(next);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (next !== confirm) {
+  const onSubmit = (data) => {
+    if (data.next !== data.confirm) {
       setMessage("New passwords do not match.");
       return;
     }
@@ -40,73 +39,71 @@ export default function ChangePassword({ onChange }) {
     }
     // Call API here
     if (modalRef.current) modalRef.current.showModal();
-    if (onChange) onChange(current, next);
-    setCurrent("");
-    setNext("");
-    setConfirm("");
+    if (onChange) onChange(data.current, data.next);
+    setMessage("");
+    reset();
   };
 
   return (
     <>
       <CardOne id="change-password" title="Change Password" badge="Security">
-        <form className="flex flex-col gap-3 w-full" onSubmit={handleSubmit}>
-          <div>
-            <label className="label">
-              <span className="label-text">Current Password</span>
-            </label>
+        <form className="flex flex-col gap-3 w-full" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+          <FormField label="Current Password" error={errors.current && errors.current.message}>
             <input
               type="password"
               className="input input-bordered w-full"
-              value={current}
-              onChange={(e) => setCurrent(e.target.value)}
-              required
+              {...register("current", { required: "Current password is required" })}
+              autoComplete="current-password"
             />
-          </div>
-          <div>
-            <label className="label">
-              <span className="label-text">New Password</span>
-            </label>
+          </FormField>
+          <FormField label="New Password" error={errors.next && errors.next.message}>
             <input
               type="password"
               className="input input-bordered w-full"
-              value={next}
-              onChange={(e) => setNext(e.target.value)}
-              required
+              {...register("next", {
+                required: "New password is required",
+                validate: value => getPasswordStrength(value) === "Weak" ? "" : true
+              })}
+              autoComplete="new-password"
             />
-            {next && (
-              <div className={`mt-1 text-xs font-semibold ${
-                strength === "Strong"
-                  ? "text-green-500"
+            {watch("next") && (
+              <div className={`text-sm font-semibold ${
+                strength === "Strong" || strength === "Very Strong"
+                  ? "text-success"
                   : strength === "Medium"
-                  ? "text-yellow-500"
-                  : "text-red-500"
+                  ? "text-warning"
+                  : "text-error"
               }`}>
                 Strength: {strength}
               </div>
             )}
-          </div>
-          <div>
-            <label className="label">
-              <span className="label-text">Confirm New Password</span>
-            </label>
+          </FormField>
+          <FormField label="Confirm New Password" error={errors.confirm && errors.confirm.message}>
             <input
               type="password"
               className="input input-bordered w-full"
-              value={confirm}
-              onChange={(e) => setConfirm(e.target.value)}
-              required
+              {...register("confirm", {
+                required: "Please confirm your new password",
+                validate: value => value === next || "Passwords do not match"
+              })}
+              autoComplete="new-password"
             />
-          </div>
+          </FormField>
           {message && (
-            <div className="text-sm mt-1 text-primary">{message}</div>
+            <div className="text-primary">{message}</div>
           )}
-          <button type="submit" className="btn btn-primary mt-2 self-end rounded-lg shadow-md hover:shadow-lg transition-shadow text-primary-content">
-            Change Password
-          </button>
+          <div className="flex flex-row gap-2 mt-2 w-full">
+            <button
+              type="submit"
+              className="btn btn-primary self-end rounded-lg shadow-md hover:shadow-lg transition-shadow text-primary-content"
+            >
+              Change Password
+            </button>
+          </div>
         </form>
       </CardOne>
       <ModalHelper id={"change_password_success_modal"} reference={modalRef} modalTitle={"Password Changed"}>
-          <p className="py-2">Your password has been updated successfully.</p>
+        <p className="py-2">Your password has been updated successfully.</p>
       </ModalHelper>
     </>
   );
