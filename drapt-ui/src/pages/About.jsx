@@ -101,24 +101,17 @@ export default function About() {
                 </CustomUL>
                 <p>And a few more features.</p>
                 <div className='flex flex-col md:flex-row justify-center items-center gap-4'>
-                    <SmallerFigureCap srcfile="/about-images/milestone-2-1.png" alt={"Rolling Volatility chart screenshot from Milestone 2"} cursorPointerEnabled={true} onClick={() => setFullScreenItem("iteration21")}>
+                    <SmallerFigureCap srcfile="/about-images/milestone-2-1.png" alt={"Rolling Volatility chart screenshot from Milestone 2"} cursorPointerEnabled={true} onClick={() => setFullScreenItem("iteration21")} invert>
                         Figure 2: Rolling Volatility
                     </SmallerFigureCap>
-                    <SmallerFigureCap srcfile="/about-images/milestone-2-2.png" alt={"Asset correlation matrix screenshot from Milestone 2"} cursorPointerEnabled={true} onClick={() => setFullScreenItem("iteration22")}>
+                    <SmallerFigureCap srcfile="/about-images/milestone-2-2.png" alt={"Asset correlation matrix screenshot from Milestone 2"} cursorPointerEnabled={true} onClick={() => setFullScreenItem("iteration22")} invert>
                         Figure 3: Our hedges worked somewhat...
                     </SmallerFigureCap>
                 </div>
                 <p>To expand on my previous sentence mentioning the WBSS Investment Challenge, my team <b>Notts for Profit</b> managed to finish top 5 out of 80+ teams across the United Kingdom. We met some heavy competition, from brilliant teams from Warwick, UCL and Imperial, however as a team full of first-year undergraduates we really put Nottingham on the map.</p>
-                <figure className='flex flex-col items-center my-2' onClick={() => setFullScreenItem("nfp")}>
-                    <img
-                        src="/about-images/notts-for-profit.jpeg"
-                        alt="Team Notts for Profit representing NEFSIF at The Shard, February 2025"
-                        className="aspect-video w-full sm:w-2/3 md:w-1/2 object-cover rounded cursor-pointer"
-                    />
-                    <figcaption className='text-xs italic text-gray-200 mt-1 text-center'>
-                        Team Notts for Profit, representing NEFSIF on the 17th floor of The Shard (Feb, 2025)
-                    </figcaption>
-                </figure>
+                <FigureCap srcfile={"/about-images/notts-for-profit.jpeg"} alt={"Team Notts for Profit representing NEFSIF at The Shard, February 2025"} cursorPointerEnabled={true} onClick={() => setFullScreenItem("nfp")} invert>
+                    Team Notts for Profit, representing NEFSIF on the 17th floor of The Shard (Feb, 2025)
+                </FigureCap>
                 <LargeCodeBlock invert>
                     <p>def milestone_two():</p>
                     <p>&nbsp;&nbsp;return "Refactor, restyle, and rethink risk"</p>
@@ -203,16 +196,9 @@ export default function About() {
                     </FullscreenFigureCap>
                 )}
                 {fullScreenItem === "nfp" && (
-                    <figure className='flex flex-col items-center my-2'>
-                        <img
-                            src="/about-images/notts-for-profit.jpeg"
-                            alt="Team Notts for Profit representing NEFSIF at The Shard, February 2025"
-                            className="aspect-video w-full object-cover rounded"
-                        />
-                        <figcaption className='text-xs italic text-base-content/60 mt-1 text-center'>
-                            Team Notts for Profit, representing NEFSIF on the 17th floor of The Shard (Feb, 2025)
-                        </figcaption>
-                    </figure>
+                    <FullscreenFigureCap srcfile={"/about-images/notts-for-profit.jpeg"} alt={"Team Notts for Profit representing NEFSIF at The Shard, February 2025"} cursorPointerEnabled={true} onClick={() => setFullScreenItem("nfp")}>
+                        Team Notts for Profit, representing NEFSIF on the 17th floor of The Shard (Feb, 2025)
+                    </FullscreenFigureCap>
                 )}
             </FullscreenItem>
         )}

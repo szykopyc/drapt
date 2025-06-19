@@ -1,11 +1,11 @@
-export default function CustomTable({ maxHeight = null, data }) {
+export default function CustomTable({ maxHeight = null, data, maxWidth = "100%" }) {
   if (!data || data.length === 0) return null;
 
   const labels = Object.keys(data[0]);
 
   const capitalise = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-  const style = maxHeight ? { maxHeight, overflowY: "auto" } : {};
+  const style = { maxHeight, overflowY: maxHeight ? "auto" : undefined, maxWidth, overflowX: "auto" };
 
   return (
     <div className="overflow-x-auto w-full" style={style}>

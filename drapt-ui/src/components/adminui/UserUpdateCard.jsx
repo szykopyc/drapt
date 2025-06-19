@@ -88,8 +88,8 @@ export function UserUpdateCard() {
               />
             </FormField>
           </div>
-          <div className="mt-3">
-            <LargeSubmit size={1} disabled={!watchedUsername}>
+          <div className="mt-auto">
+            <LargeSubmit size={1} disabled={!watchedUsername} >
               Search
             </LargeSubmit>
           </div>
@@ -154,7 +154,7 @@ export function UserUpdateCard() {
                 </select>
               </FormField>
             </form>
-            <div className="flex flex-row gap-2 mt-2 w-full">
+            <div className="flex flex-row gap-2 mt-3 w-full">
               <LargeSubmit
                 form={"updateUser"}
                 size={4}

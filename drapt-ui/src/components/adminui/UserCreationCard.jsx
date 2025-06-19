@@ -121,7 +121,7 @@ export function UserCreationCard() {
             </select>
           </FormField>
         </form>
-        <div className="flex flex-row gap-2 mt-2 w-full">
+        <div className="flex flex-row gap-2 mt-3 w-full">
           <LargeSubmit form={"addUser"} size={4} disabled={!allFieldsFilledMask}>
             Add User
           </LargeSubmit>

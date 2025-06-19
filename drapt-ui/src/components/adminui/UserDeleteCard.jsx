@@ -89,7 +89,7 @@ export function UserDeleteCard() {
               />
             </FormField>
           </div>
-          <div className="mt-3">
+          <div className="mt-auto">
             <LargeSubmit size={1} disabled={!watchedUsername}>
               Search
             </LargeSubmit>
@@ -131,12 +131,12 @@ export function UserDeleteCard() {
                     <button
                       type="button"
                       onClick={handleDeleteClick}
-                      className="btn btn-error text-base-content mt-2 flex-1"
+                      className="btn btn-error text-base-content mt-3 flex-1"
                     >
                       Delete User
                     </button>
                   ) : (
-                    <div className="flex gap-2 mt-2">
+                    <div className="flex gap-2 mt-3">
                       <button
                         type="button"
                         className="btn btn-error"
