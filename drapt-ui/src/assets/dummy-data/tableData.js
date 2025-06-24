@@ -876,6 +876,39 @@ export const dummyPositionMonitoringTable = [
     positionPnLPercentage: -0.01,
     positionStatus: "Closed",
     positionEntryDate: "2025-06-16"
+  },
+    {
+    positionID: 0o7,
+    positionTicker: "AMZN",
+    positionQuantity: 5,
+    entryPrice: 3300.00,
+    currentPrice: 3200.00,
+    positionPnLNominal: -500.00,
+    positionPnLPercentage: -0.0303,
+    positionStatus: "Closed",
+    positionEntryDate: "2025-06-14"
+  },
+  {
+    positionID: 1,
+    positionTicker: "NVDA",
+    positionQuantity: 20,
+    entryPrice: 600.00,
+    currentPrice: 650.00,
+    positionPnLNominal: 1000.00,
+    positionPnLPercentage: 0.0833,
+    positionStatus: "Closed",
+    positionEntryDate: "2025-06-13"
+  },
+  {
+    positionID: 11,
+    positionTicker: "BABA",
+    positionQuantity: 15,
+    entryPrice: 200.00,
+    currentPrice: 180.00,
+    positionPnLNominal: -300.00,
+    positionPnLPercentage: -0.10,
+    positionStatus: "Closed",
+    positionEntryDate: "2025-06-12"
   }
 ]
 

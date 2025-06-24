@@ -1,6 +1,6 @@
 import { CardOne } from "../baseui/CustomCard";
 import { ClosePositionModal } from "../portfolioui/ClosePositionModal";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { FormField } from "../helperui/FormFieldHelper";
 import { FormErrorHelper } from "../helperui/FormErrorHelper";
@@ -11,6 +11,28 @@ import { dummyPositionMonitoringTable } from "../../assets/dummy-data/tableData"
 
 export default function PositionMonitoringPanel() {
     const positions = dummyPositionMonitoringTable;
+
+    // Sorting function used for both open and closed positions
+    const getSortedPositions = (positionsToSort) => {
+        const sorted = [...positionsToSort];
+        sorted.sort((a, b) => {
+            if (a.positionTicker === b.positionTicker) {
+                return new Date(b.positionEntryDate) - new Date(a.positionEntryDate);
+            }
+            return a.positionTicker.localeCompare(b.positionTicker);
+        });
+        return sorted;
+    };
+
+    const activePositions = useMemo(
+        () => getSortedPositions(positions.filter((position) => position.positionStatus === "Open")),
+        [positions]
+    );
+
+    const closedPositions = useMemo(
+        () => getSortedPositions(positions.filter((position) => position.positionStatus !== "Open")),
+        [positions]
+    );
 
     const positionCloseModalRef = useRef(null);
     const [modalData, setModalData] = useState(null);
@@ -50,18 +72,7 @@ export default function PositionMonitoringPanel() {
         return;
     }
 
-    const getSortedPositions = () => {
-        const sorted = [...positions];
-        sorted.sort((a, b) => {
-            if (a.positionTicker === b.positionTicker) {
-                return new Date(b.positionEntryDate) - new Date(a.positionEntryDate);
-            }
-            return a.positionTicker.localeCompare(b.positionTicker);
-        });
-        return sorted;
-    };
-
-    const columns = [
+    const columnsActivePosition = [
         { key: "positionTicker", label: "Ticker" },
         { key: "positionQuantity", label: "Quantity" },
         { key: "entryPrice", label: "Entry Price" },
@@ -73,23 +84,34 @@ export default function PositionMonitoringPanel() {
         { key: "action", label: "Action" }
     ];
 
+    const columnsClosedPosition = [
+        { key: "positionTicker", label: "Ticker" },
+        { key: "positionQuantity", label: "Quantity" },
+        { key: "entryPrice", label: "Entry Price" },
+        { key: "currentPrice", label: "Current Price" },
+        { key: "positionPnLNominal", label: "P&L (Nominal)" },
+        { key: "positionPnLPercentage", label: "P&L (%)" },
+        { key: "positionStatus", label: "Status" },
+        { key: "positionEntryDate", label: "Entry Date"}
+    ];
+
     return (
         <>
-        <CardOne title={"Position Monitoring"}>
-            {positions.length === 0 ? (
+        <CardOne title={"Active Positions"}>
+            {activePositions.length === 0 ? (
                 <InnerEmptyState title="No positions yet" message="Looks like your portfolio doesn't yet have any positions."/>
             ) : (
                 <div className="overflow-x-auto w-full">
                     <table className="w-full table-sm md:table table-zebra">
                         <thead>
                             <tr>
-                                {columns.map(col => (
+                                {columnsActivePosition.map(col => (
                                     <th key={col.key}>{col.label}</th>
                                 ))}
                             </tr>
                         </thead>
                         <tbody>
-                            {getSortedPositions().map((pos, idx) => (
+                            {activePositions.map((pos, idx) => (
                                 <tr key={idx}>
                                     <td>{pos.positionTicker}</td>
                                     <td>{pos.positionQuantity}</td>
@@ -125,6 +147,53 @@ export default function PositionMonitoringPanel() {
                                             </button>
                                         )}
                                     </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
+        </CardOne>
+        <CardOne title={"Closed Positions"}>
+            {closedPositions.length === 0 ? (
+                <InnerEmptyState title="No closed positions" message="No positions have been closed yet."/>
+            ) : (
+                <div className="overflow-x-auto w-full">
+                    <table className="w-full table-sm md:table table-zebra">
+                        <thead>
+                            <tr>
+                                {columnsClosedPosition.map(col => (
+                                    <th key={col.key}>{col.label}</th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {closedPositions.map((pos, idx) => (
+                                <tr key={idx}>
+                                    <td>{pos.positionTicker}</td>
+                                    <td>{pos.positionQuantity}</td>
+                                    <td>{pos.entryPrice}</td>
+                                    <td>{pos.currentPrice}</td>
+                                    <td>
+                                        {pos.positionPnLNominal >= 0 ? (
+                                            <span className="text-success">+{pos.positionPnLNominal.toFixed(2)}</span>
+                                        ) : (
+                                            <span className="text-error">{pos.positionPnLNominal.toFixed(2)}</span>
+                                        )}
+                                    </td>
+                                    <td>
+                                        {pos.positionPnLPercentage >= 0 ? (
+                                            <span className="text-success">
+                                                +{(pos.positionPnLPercentage * 100).toFixed(2)}%
+                                            </span>
+                                        ) : (
+                                            <span className="text-error">
+                                                {(pos.positionPnLPercentage * 100).toFixed(2)}%
+                                            </span>
+                                        )}
+                                    </td>
+                                    <td>{pos.positionStatus}</td>
+                                    <td>{pos.positionEntryDate}</td>
                                 </tr>
                             ))}
                         </tbody>

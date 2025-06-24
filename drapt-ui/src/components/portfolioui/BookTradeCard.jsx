@@ -6,7 +6,6 @@ import { FormErrorHelper } from "../helperui/FormErrorHelper";
 import { CustomButtonInputStyle } from "../baseui/CustomButton";
 import CustomTable from "../baseui/CustomTable";
 import { FormField } from "../helperui/FormFieldHelper";
-import { label } from "framer-motion/client";
 
 export default function BookTradeCard() {
     const tradeConfirmModalRef = useRef(null);
@@ -86,7 +85,7 @@ export default function BookTradeCard() {
     return (
         <>
             <CardOne title={"Book a Trade"}>
-                <p>Please enter prices in the asset's native currency.</p>
+                <p>Please enter prices in the asset's native currency</p>
                 <form
                     id="bookTrade"
                     onSubmit={handleSubmit(guardedSubmitHandler)}
