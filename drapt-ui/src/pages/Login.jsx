@@ -4,7 +4,7 @@ import { BeginText } from '../components/baseui/BeginText';
 import { CardOne } from '../components/baseui/CustomCard';
 import { useForm } from 'react-hook-form';
 import { FormField } from '../components/helperui/FormFieldHelper';
-import { LargeSubmit } from '../components/helperui/LargeSubmitHelper';
+import LargeSubmit from '../components/baseui/LargeSubmitHelper';
 import { useState } from 'react';
 import { FormErrorHelper } from '../components/helperui/FormErrorHelper';
 
@@ -82,12 +82,11 @@ export default function Login() {
           <FormErrorHelper textSize='md'>{incorrectPasswordError}</FormErrorHelper>
         )}
         <div className="flex flex-row gap-2 w-full">
-          <LargeSubmit form="loginForm" size={1} disabled={!fieldFilled}>
+          <LargeSubmit form="loginForm" disabled={!fieldFilled}>
             Log In
           </LargeSubmit>
         </div>
-        <p>For the purposes of testing, dummy login credentials are "abc" and "abc". This is only the case while I develop the frontend, and it is very insecure.</p>
-        <p>Please do not remind me of how insecure it is - I know.</p>
+        <p>For the purposes of testing, dummy login credentials are "abc" and "abc".</p>
       </CardOne>
     </MainBlock>
   );

@@ -103,7 +103,7 @@ export default function ChangePassword({ onChange }) {
         </form>
       </CardOne>
       <ModalHelper id={"change_password_success_modal"} reference={modalRef} modalTitle={"Password Changed"}>
-        <p className="py-2">Your password has been updated successfully.</p>
+        <p>Your password has been updated successfully.</p>
       </ModalHelper>
     </>
   );

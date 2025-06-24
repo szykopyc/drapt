@@ -1,16 +1,13 @@
 # Drapt
 
-**Drapt** is a modular portfolio analytics platform designed for modern analysts. Built with speed, clarity, and control in mind, Drapt helps users break down portfolio data across risk, performance, and profile dimensions with precision.
+**Drapt** is a modular portfolio analytics platform designed for modern analysts. Built with speed, clarity, and control in mind, 
 
 ---
 
 ## 🚀 Features
 
 - 📊 Clean, responsive frontend built with React, TailwindCSS, and daisyUI  
-- ⚙️ Modular architecture (e.g., Drapt Risk, Drapt Performance)  
 - 🧠 Intuitive interface for interpreting portfolios in chaotic market conditions  
-- 💬 Typewriter-powered landing page for modern, dynamic UX  
-- 🔐 Contact card layout with responsive icons and mobile-friendly design  
 
 ---
 
@@ -18,64 +15,115 @@
 
 - **Frontend**: React + Vite  
 - **Styling**: TailwindCSS + daisyUI  
-- **Icons**: React Icons  
-- **Animations**: Framer Motion, React Simple Typewriter  
-- **Deployment**: Coming soon...
+- **Backend**: FastAPI, Pandas, NumPy, statsmodels, requests - coming soon...
 
 ---
 
-## 📁 Project Structure (simplified)
+## 📁 Project Structure
 
 ```
-drapt-ui/
-├── index.html
-├── package.json
-├── README.md
-├── src/
-│   ├── App.jsx
-│   ├── index.css
-│   ├── main.jsx
-│   ├── assets/
-│   │   ├── about-images/
-│   │   │   ├── iteration-1.jpg
-│   │   │   ├── milestone-2-1.png
-│   │   │   ├── milestone-2-2.png
-│   │   │   ├── notts-for-profit.jpeg
-│   │   │   └── signature.png
-│   │   └── contact-images/
-│   │       └── szymon-pfp.jpeg
-│   │   └── dummy-data/
-│   ├── components/
-│   │   ├── baseui/
-│   │   │   ├── BeginText.jsx
-│   │   │   ├── CustomCard.jsx
-│   │   │   ├── CustomCollapseCard.jsx
-│   │   │   ├── CustomList.jsx
-│   │   │   ├── FigureCap.jsx
-│   │   │   ├── InlineCodeBlock.jsx
-│   │   │   ├── LargeCodeBlock.jsx
-│   │   │   ├── MainBlock.jsx
-│   │   │   └── SmallerFigureCap.jsx
-│   │   ├── dashboardui/
-│   │   ├── layout/
-│   │   └── userui/
-│   ├── pages/
-│   │   ├── About.jsx
-│   │   ├── Analyse.jsx
-│   │   ├── Contact.jsx
-│   │   ├── Landing.jsx
-│   │   ├── Login.jsx
-│   │   ├── NoPage.jsx
-│   │   ├── Portfolio.jsx
-│   │   └── Profile.jsx
+src/
+┣ assets/
+┃ ┗ dummy-data/
+┃   ┣ chartData.js
+┃   ┗ tableData.js
+┣ components/
+┃ ┣ adminpanel/
+┃ ┃ ┣ UserEngagement.jsx
+┃ ┃ ┗ UserManagementPanel.jsx
+┃ ┣ adminui/
+┃ ┃ ┣ BulkActionsCard.jsx
+┃ ┃ ┣ UserCreationCard.jsx
+┃ ┃ ┣ UserDeleteCard.jsx
+┃ ┃ ┣ UserShowAllCard.jsx
+┃ ┃ ┗ UserUpdateCard.jsx
+┃ ┣ analysepanels/
+┃ ┃ ┣ PerformancePanel.jsx
+┃ ┃ ┗ RiskPanel.jsx
+┃ ┣ analyseui/
+┃ ┃ ┣ ChartCard.jsx
+┃ ┃ ┣ ColouredText.jsx
+┃ ┃ ┣ GlobalAnalysisCard.jsx
+┃ ┃ ┣ MetricCard.jsx
+┃ ┃ ┗ NewsCard.jsx
+┃ ┣ authcomponents/
+┃ ┃ ┣ PortfolioProtectedRoute.jsx
+┃ ┃ ┗ ProtectedRoute.jsx
+┃ ┣ baseui/
+┃ ┃ ┣ BeginText.jsx
+┃ ┃ ┣ CustomButton.jsx
+┃ ┃ ┣ CustomCard.jsx
+┃ ┃ ┣ CustomFigures.jsx
+┃ ┃ ┣ CustomList.jsx
+┃ ┃ ┣ CustomTable.jsx
+┃ ┃ ┣ InlineCodeBlock.jsx
+┃ ┃ ┣ LargeCodeBlock.jsx
+┃ ┃ ┣ MainBlock.jsx
+┃ ┃ ┣ SectionMaintenanceWarning.jsx
+┃ ┃ ┗ TabNav.jsx
+┃ ┣ helperui/
+┃ ┃ ┣ DivHelper.jsx
+┃ ┃ ┣ FormErrorHelper.jsx
+┃ ┃ ┣ FormFieldHelper.jsx
+┃ ┃ ┣ FullscreenItemHelper.jsx
+┃ ┃ ┣ LargeSubmitHelper.jsx
+┃ ┃ ┣ LoadingSpinnerHelper.jsx
+┃ ┃ ┣ ModalHelper.jsx
+┃ ┃ ┗ ResetFormHelper.jsx
+┃ ┣ layout/
+┃ ┃ ┣ Footer.jsx
+┃ ┃ ┣ MasterLayout.jsx
+┃ ┃ ┗ Navbar.jsx
+┃ ┣ portfoliopanels/
+┃ ┃ ┣ OverviewPanel.jsx
+┃ ┃ ┣ PortfolioAdminPanel.jsx
+┃ ┃ ┗ TradeBookerPanel.jsx
+┃ ┣ portfolioui/
+┃ ┃ ┣ BookTradeCard.jsx
+┃ ┃ ┣ BuySellToggle.jsx
+┃ ┃ ┣ GlobalPortfolioCard.jsx
+┃ ┃ ┗ TradeHistoryCard.jsx
+┃ ┣ userui/
+┃ ┃ ┣ ChangePassword.jsx
+┃ ┃ ┣ CurrencySwitcher.jsx
+┃ ┃ ┣ LogoutCard.jsx
+┃ ┃ ┣ ProfileCard.jsx
+┃ ┃ ┗ ThemeSwitcher.jsx
+┃ ┗ validators/
+┃   ┣ EmailValidator.jsx
+┃   ┗ PasswordValidator.jsx
+┣ errorpages/
+┃ ┣ 401Unauthorised.jsx
+┃ ┣ 403Forbidden.jsx
+┃ ┣ 404NotFound.jsx
+┃ ┣ 500InternalServerError.jsx
+┃ ┣ ErrorBoundary.jsx
+┃ ┣ MaintenanceError.jsx
+┃ ┗ MaintenanceGuard.jsx
+┣ pages/
+┃ ┣ About.jsx
+┃ ┣ AdminWrapper.jsx
+┃ ┣ AnalyseIndex.jsx
+┃ ┣ AnalyseWrapper.jsx
+┃ ┣ Contact.jsx
+┃ ┣ ForgotPassword.jsx
+┃ ┣ Index.jsx
+┃ ┣ Landing.jsx
+┃ ┣ Login.jsx
+┃ ┣ PortfolioIndex.jsx
+┃ ┣ PortfolioWrapper.jsx
+┃ ┗ Profile.jsx
+┣ App.jsx
+┣ index.css
+┗ main.jsx
 ```
 
 ---
 
 ## 📌 Status
 
-Drapt is currently under active solo development by [Szymon Kopyciński](https://linkedin.com/in/szymonkopycinski).  
-The UI is nearing feature completion; analytics modules are next in focus.
+Drapt is currently under active solo development by [Szymon Kopyciński](https://linkedin.com/in/szymonkopycinski). He originally founded Drapt in November 2024, and has been working on it since, with 2 stings: November - February, May - Present.
+The UI is nearing feature completion; work on the backend will begin soon.
 
 ---
 

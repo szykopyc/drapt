@@ -24,20 +24,21 @@ import PortfolioIndex from './pages/PortfolioIndex';
 import { OverviewPanel } from './components/portfoliopanels/OverviewPanel';
 import { TradeBookerPanel } from './components/portfoliopanels/TradeBookerPanel';
 import { PortfolioAdminPanel } from './components/portfoliopanels/PortfolioAdminPanel';
+import PositionMonitoringPanel from './components/portfoliopanels/PositionMonitoringPanel';
 import AdminWrapper from './pages/AdminWrapper';
 import UserEngagementPanel from './components/adminpanel/UserEngagement';
 import UserManagementPanel from './components/adminpanel/UserManagementPanel';
 import Profile from './pages/Profile'
 import ProtectedRoute from './components/authcomponents/ProtectedRoute';
 import ProtectedPortfolioRoute from './components/authcomponents/PortfolioProtectedRoute';
+import ProfileCard from './components/userui/ProfileCard';
 
-function App() {
-
-  const currentUser = {
+export const currentUser = {
     role: 'dev',
-    team: 'executive'
+    team: 'industrial'
   };
 
+function App() {
   return (
     <ErrorBoundary>
       <>
@@ -81,7 +82,16 @@ function App() {
             <Route path='portfolio' element={
               ['vd','director','dev'].includes(currentUser.role) ? (
                 <ProtectedRoute>
-                  <PortfolioIndex />
+                  <PortfolioIndex currentUser={currentUser}/>
+                </ProtectedRoute>
+              ) : (
+                <Navigate to={`/portfolio/${currentUser.team}`} replace />
+              )
+            } />
+            <Route path='portfolio/create' element={
+              ['vd','director','dev'].includes(currentUser.role) ? (
+                <ProtectedRoute>
+                  <MaintenanceError/>
                 </ProtectedRoute>
               ) : (
                 <Navigate to={`/portfolio/${currentUser.team}`} replace />
@@ -96,13 +106,18 @@ function App() {
             }>
               <Route index element={<Navigate to={"overview"} replace/>}></Route>
               <Route path='overview' element={<OverviewPanel />}></Route>
+              <Route path='monitor' element={<PositionMonitoringPanel />}></Route>
               <Route path='tradebooker' element={<TradeBookerPanel />}></Route>
               <Route path='administration' element={<PortfolioAdminPanel />}></Route>
             </Route>
             <Route path="admin" element={
-              <ProtectedRoute>
-                <AdminWrapper />
-              </ProtectedRoute>
+              ['vd', 'director','dev'].includes(currentUser.role) ? (
+                <ProtectedRoute>
+                  <AdminWrapper />
+                </ProtectedRoute>
+              ):(
+                <Navigate to={"/forbidden"} replace/>
+              )
             } >
               <Route index element={<Navigate to={"management"} replace/>}></Route>
               <Route path="management" element={<UserManagementPanel />}></Route>

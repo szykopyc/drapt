@@ -18,13 +18,13 @@ export default function CustomButton({ to, colour = "primary", flexsize = 1, chi
 
   if (to) {
     return (
-      <Link to={to} className={className} {...props}>
+      <Link to={to} className={className} tabIndex={0} {...props}>
         {children}
       </Link>
     );
   }
   return (
-    <button className={className} {...props}>
+    <button className={className} tabIndex={0} {...props}>
       {children}
     </button>
   );
@@ -36,13 +36,13 @@ export function CustomButtonInputStyle({ to, colour = "primary", flexsize = 1, c
 
   if (to) {
     return (
-      <Link to={to} className={className} {...props}>
+      <Link to={to} className={className} tabIndex={0} {...props}>
         {children}
       </Link>
     );
   }
   return (
-    <button className={className} {...props}>
+    <button className={className} tabIndex={0} {...props}>
       {children}
     </button>
   );

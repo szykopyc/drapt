@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { CustomCollapseArrow } from "../baseui/CustomCard";
 import { ModalHelper } from "../helperui/ModalHelper";
 import { FormField } from "../helperui/FormFieldHelper";
-import { LargeSubmit } from "../helperui/LargeSubmitHelper";
+import LargeSubmit from "../baseui/LargeSubmitHelper";
 import { LoadingSpinner } from "../helperui/LoadingSpinnerHelper";
 import { dummyUserTableData } from "../../assets/dummy-data/tableData";
 
@@ -162,7 +162,7 @@ export function UserDeleteCard() {
         )}
       </CustomCollapseArrow>
       <ModalHelper id={"delete_user_modal"} reference={userDeleteModalRef} modalTitle={"User Deleted"}>
-        <div className="py-2">User <span className="text-warning">{deletedUsername}</span> has been deleted.</div>
+        User <span className="text-warning">{deletedUsername}</span> has been deleted.
       </ModalHelper>
     </>
   );

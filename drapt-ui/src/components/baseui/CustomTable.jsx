@@ -1,9 +1,17 @@
-export default function CustomTable({ maxHeight = null, data, maxWidth = "100%" }) {
+export default function CustomTable({ maxHeight = null, data, maxWidth = "100%", columns = null }) {
   if (!data || data.length === 0) return null;
 
-  const labels = Object.keys(data[0]);
+  // Support columns as array of strings or array of {key, label}
+  let labels, keys;
+  if (columns && columns.length > 0 && typeof columns[0] === "object") {
+    keys = columns.map(col => col.key);
+    labels = columns.map(col => col.label);
+  } else {
+    keys = Object.keys(data[0]);
+    labels = keys;
+  }
 
-  const capitalise = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+  const capitalise = (str) => typeof str === "string" ? str.charAt(0).toUpperCase() + str.slice(1) : str;
 
   const style = { maxHeight, overflowY: maxHeight ? "auto" : undefined, maxWidth, overflowX: "auto" };
 
@@ -12,16 +20,16 @@ export default function CustomTable({ maxHeight = null, data, maxWidth = "100%" 
       <table className="w-full table-sm md:table table-zebra">
         <thead>
           <tr>
-            {labels.map((label) => (
-              <th key={label} className="text-left">{capitalise(label)}</th>
+            {labels.map((label, idx) => (
+              <th key={keys[idx]} className="text-left">{capitalise(label)}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {data.map((row, idx) => (
             <tr key={idx}>
-              {labels.map((label) => (
-                <td key={label} className="text-left">{row[label] ?? ""}</td>
+              {keys.map((key) => (
+                <td key={key} className="text-left">{row[key] ?? ""}</td>
               ))}
             </tr>
           ))}

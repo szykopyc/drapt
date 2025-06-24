@@ -57,8 +57,8 @@ export default function GlobalPortfolioCard({
                     </div>
                 </div>
             </div>
-            <CustomButton to={`/portfolio/${portfolioID}`}>
-                Navigate to {portfolioName}
+            <CustomButton to={`/portfolio/${portfolioID}`} tabIndex={0}>
+                Navigate to {portfolioName} Portfolio
             </CustomButton>
         </CardOne>
     );

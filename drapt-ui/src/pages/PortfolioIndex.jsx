@@ -1,74 +1,48 @@
+import { useNavigate } from "react-router-dom";
 import { MainBlock } from "../components/baseui/MainBlock";
 import { BeginText } from "../components/baseui/BeginText";
 import GlobalPortfolioCard from "../components/portfolioui/GlobalPortfolioCard";
+import { CardNoTitle, CardOne } from "../components/baseui/CustomCard";
+import { FaPlus, FaBuffer } from "react-icons/fa";
+import { dummyGlobalPortfolios } from "../assets/dummy-data/tableData";
+import InnerEmptyState from '../components/errorui/InnerEmptyState';
 
-export default function PortfolioIndex(){
+
+export default function PortfolioIndex() {
+
+    // API call to fetch portfolios here
+    const dummyGlobalPortfoliosToRender = dummyGlobalPortfolios;
+
+    const navigate = useNavigate();
+
+    const handleNavigateToCreate = (e) => {
+        if (e.key === "Enter" || e.key == " "){
+            navigate("/portfolio/create");
+        }        
+    }
+
     return (
         <MainBlock>
             <BeginText title={"Global Portfolio Management"}>
                 <p>View all of the portfolios currently being tracked by <span className="text-accent font-semibold">Drapt</span>, then navigate between them.</p>
             </BeginText>
             <div className="divider my-0"></div>
-            <GlobalPortfolioCard
-                portfolioID={"industrials"}
-                portfolioName={"Industrials"}
-                portfolioType={"Equity"}
-                portfolioManager={"Szymon Kopyciński"}
-                portfolioCreationDate={"14/06/2025"}
-                portfolioLastModified={"14/06/2025"}
-                currentPortfolioValue={3300}
-                portfolio1MChange={3.1}
-                portfolio1MVolatility={14.56}
-                portfolioHoldingsNumber={12}
-            />
-            <GlobalPortfolioCard
-                portfolioID={"technology"}
-                portfolioName={"Technology"}
-                portfolioType={"Equity"}
-                portfolioManager={"Alex Nowak"}
-                portfolioCreationDate={"10/05/2025"}
-                portfolioLastModified={"13/06/2025"}
-                currentPortfolioValue={4200}
-                portfolio1MChange={4.8}
-                portfolio1MVolatility={16.23}
-                portfolioHoldingsNumber={15}
-            />
-            <GlobalPortfolioCard
-                portfolioID={"fixedincome"}
-                portfolioName={"Fixed Income"}
-                portfolioType={"Bond"}
-                portfolioManager={"Maria Kowalska"}
-                portfolioCreationDate={"01/04/2025"}
-                portfolioLastModified={"12/06/2025"}
-                currentPortfolioValue={2750}
-                portfolio1MChange={1.2}
-                portfolio1MVolatility={7.89}
-                portfolioHoldingsNumber={8}
-            />
-            <GlobalPortfolioCard
-                portfolioID={"emergingmarkets"}
-                portfolioName={"Emerging Markets"}
-                portfolioType={"Equity"}
-                portfolioManager={"John Smith"}
-                portfolioCreationDate={"22/03/2025"}
-                portfolioLastModified={"14/06/2025"}
-                currentPortfolioValue={3900}
-                portfolio1MChange={5.3}
-                portfolio1MVolatility={18.11}
-                portfolioHoldingsNumber={14}
-            />
-            <GlobalPortfolioCard
-                portfolioID={"realestate"}
-                portfolioName={"Real Estate"}
-                portfolioType={"REIT"}
-                portfolioManager={"Anna Zielińska"}
-                portfolioCreationDate={"15/02/2025"}
-                portfolioLastModified={"13/06/2025"}
-                currentPortfolioValue={5100}
-                portfolio1MChange={2.7}
-                portfolio1MVolatility={10.45}
-                portfolioHoldingsNumber={10}
-            />
-        </MainBlock>
+            <CardNoTitle additionalStyle="cursor-pointer hover:underline hover:bg-info/10 focus:underline focus:bg-info/10 decoration-info transition" onClick={() => navigate("/portfolio/create")} tabIndex={0} onKeyDown={handleNavigateToCreate}>
+                <div className="flex flex-row justify-center items-center gap-3">
+                    <FaPlus className="text-info text-lg" />
+                    <span className="text-lg text-info">Add New Portfolio</span>    
+                </div>
+            </CardNoTitle>
+            {dummyGlobalPortfoliosToRender.length >0 ? dummyGlobalPortfoliosToRender.map((portfolio) => (
+                <GlobalPortfolioCard
+                    key={portfolio.portfolioID}
+                    {...portfolio}
+                />
+            )) : (
+                <CardNoTitle>
+                    <InnerEmptyState icon = {<FaBuffer className="text-4xl text-base-content/40" />} title="No portfolios to display" message="No portfolios have been created yet."/>
+                </CardNoTitle>
+            )}
+            </MainBlock>
     );
 }

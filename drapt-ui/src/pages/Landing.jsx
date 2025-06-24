@@ -8,9 +8,12 @@ import CustomTable from '../components/baseui/CustomTable';
 import { dummyPortfolioMetrics } from '../assets/dummy-data/tableData';
 import { dummyNews } from '../assets/dummy-data/tableData';
 import { CardHelper } from '../components/helperui/DivHelper';
+import InnerEmptyState from '../components/errorui/InnerEmptyState';
 import React, { useState, useEffect, useRef } from 'react';
 
 export default function Landing() {
+
+  const dummyPerformanceToRender = dummyPerformance;
 
   const [loading, setLoading ] = useState(false);
   const [loaded, setLoaded ] = useState(false);
@@ -40,13 +43,19 @@ export default function Landing() {
       {loaded && (
         <>
           <div className='divider my-0'></div>
-          <CardOne id={"portfolioOverview"} title={"Portfolio Overview"}>
-            <ChartNoBorderCard data={dummyPerformance} />
+          {dummyPerformanceToRender.length == 0 ? (
+            <CardOne id={"portfolioOverview"} title={"Portfolio Overview"}>
+              <InnerEmptyState title='No portfolio created yet' message='Create a portfolio, or add holdings to see a performance overview'/>
+            </CardOne>
+          ) : (
+            <CardOne id={"portfolioOverview"} title={"Portfolio Overview"}>
+            <ChartNoBorderCard data={dummyPerformanceToRender} />
             <div className='flex md:flex-row justify-between gap-1 md:gap-3'>
               <CustomButton to="/analyse">Analyse</CustomButton>
               <CustomButton to="/portfolio">Portfolio</CustomButton>
             </div>
           </CardOne>
+          )}
           <CardHelper>
             <CardOne title={"Aggregate Portfolio Metrics"}>
               <div ref={metricsRef}>

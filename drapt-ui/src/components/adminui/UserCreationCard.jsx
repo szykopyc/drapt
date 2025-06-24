@@ -5,7 +5,7 @@ import { ModalHelper } from "../helperui/ModalHelper";
 import { FormErrorHelper } from "../helperui/FormErrorHelper";
 import { isValidEmail } from "../validators/EmailValidator";
 import { getPasswordStrength } from "../validators/PasswordValidator";
-import { LargeSubmit } from "../helperui/LargeSubmitHelper";
+import LargeSubmit from "../baseui/LargeSubmitHelper";
 import { ResetFormButton } from "../helperui/ResetFormHelper";
 import { FormField } from "../helperui/FormFieldHelper"; // <-- import FormField
 
@@ -122,15 +122,19 @@ export function UserCreationCard() {
           </FormField>
         </form>
         <div className="flex flex-row gap-2 mt-3 w-full">
-          <LargeSubmit form={"addUser"} size={4} disabled={!allFieldsFilledMask}>
-            Add User
-          </LargeSubmit>
-          <ResetFormButton resetFn={resetForm} disabled={!someFieldsFilledMask}/>
+          <div className="w-4/5">
+              <LargeSubmit form={"addUser"} disabled={!allFieldsFilledMask}>
+                Add User
+              </LargeSubmit>
+          </div>
+          <div className="w-1/5">
+              <ResetFormButton resetFn={resetForm} disabled={!someFieldsFilledMask}/>
+          </div>
         </div>
       </CustomCollapseArrow>
       <ModalHelper id={"add_user_modal"} reference={userAddModalRef} modalTitle={"User Added"}>
           {modalData && (
-            <div className="py-2 flex flex-col justify-between gap-2">
+            <div className="flex flex-col justify-between gap-2">
               <div className="flex justify-between">Full Name<span className="text-primary">{modalData.fullName}</span></div>
               <div className="flex justify-between">Username<span className="text-primary">{modalData.username}</span></div>
               <div className="flex justify-between">Email<span className="text-primary">{modalData.email}</span></div>

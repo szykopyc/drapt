@@ -10,19 +10,25 @@ const sizeClassMap = {
   twothirds: "w-2/3"
 };
 
-export function CardOne({ id = "", title, badge = null, size = "full", children, ...props }) {
+export function CardOne({ id = "", title, badge = null, size = "", children, keyboardShortcut=null, ...props }) {
   const widthClass = sizeClassMap[size] || "w-full";
   return (
     <div
       id={id}
-      tabIndex={0}
-      className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow ${widthClass}`}
+      className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow w-full md:${widthClass} min-w-0`}
       {...props}
     >
       <div className="card-body">
         <div className="flex justify-between items-center">
           <h2 className="card-title text-2xl">{title}</h2>
           {badge && <span className="badge badge-s badge-theme">{badge}</span>}
+          {/* 
+          {keyboardShortcut && (
+            <kbd className="ml-2 px-2 py-1 rounded bg-base-200 text-xs border border-base-300">
+              {keyboardShortcut}
+            </kbd>
+          )}
+          */}
         </div>
         {children}
       </div>
@@ -32,7 +38,7 @@ export function CardOne({ id = "", title, badge = null, size = "full", children,
 
 export function CardTwo({ id, title, badge = null, children }) {
   return (
-    <div id={id} tabIndex={0} className="card bg-primary text-white shadow-md hover:shadow-lg transition-shadow">
+    <div id={id} className="card bg-primary text-white shadow-md hover:shadow-lg transition-shadow">
       <div className="card-body">
         <div className='flex justify-between items-center'>
           <h2 className="card-title text-2xl">{title}</h2>
@@ -44,9 +50,9 @@ export function CardTwo({ id, title, badge = null, children }) {
   );
 }
 
-export function CardNoTitle({ id, children }) {
+export function CardNoTitle({ id, children, additionalStyle="", ...props }) {
   return (
-    <div id={id} tabIndex={0} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow">
+    <div id={id} className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow ${additionalStyle}`} {...props}>
       <div className="card-body">
         {children}
       </div>
@@ -64,7 +70,7 @@ export function SplitCardBody({children}){
 
 export function AnalyseCard({ id, title, children }) {
   return (
-    <div id={id} tabIndex={0} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow w-full h-full">
+    <div id={id} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow w-full h-full">
       <div className="card-body flex-col ">
         <h2 className="card-title text-2xl">{title}</h2>
         {children}
@@ -75,7 +81,7 @@ export function AnalyseCard({ id, title, children }) {
 
 export function LoginCard({ id, title, children }) {
   return (
-    <div id={id} tabIndex={0} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow w-full h-full">
+    <div id={id} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow w-full h-full">
       <div className="card-body">
         <h2 className="card-title text-2xl">{title}</h2>
         <div className='mt-10 sm:mx-auto sm:w-full sm-max-w-sm'>
@@ -89,10 +95,24 @@ export function LoginCard({ id, title, children }) {
 export function CustomCollapseArrow({ id, title, children, defaultOpen = false }) {
     const [open, setOpen] = useState(defaultOpen);
 
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+            setOpen((prev) => !prev);
+            e.preventDefault();
+        }
+    };
+
     return (
-        <div id={id} tabIndex={0} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow">
+        <div id={id} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow">
             <div className="card-body">
-                <div className="flex items-center justify-between cursor-pointer select-none w-full" onClick={() => setOpen((prev) => !prev)}>
+                <div
+                    className="flex items-center justify-between cursor-pointer select-none w-full"
+                    onClick={() => setOpen((prev) => !prev)}
+                    tabIndex={0}
+                    onKeyDown={handleKeyDown}
+                    role="button"
+                    aria-expanded={open}
+                >
                     <h2 className="card-title text-2xl">{title}</h2>
                     <span className="text-base-content">&#x25BC;</span>
                 </div>
@@ -107,11 +127,24 @@ export function CustomCollapseArrow({ id, title, children, defaultOpen = false }
 export function CustomCollapse({ id, title, children, defaultOpen = false }) {
     const [open, setOpen] = useState(defaultOpen);
 
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+            setOpen((prev) => !prev);
+            e.preventDefault();
+        }
+    };
+
     return (
-        <>
-        <div id={id} tabIndex={0} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow">
+        <div id={id} className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow">
             <div className="card-body">
-                <div className="flex items-center cursor-pointer select-none w-full" onClick={() => setOpen((prev) => !prev)}>
+                <div
+                    className="flex items-center cursor-pointer select-none w-full"
+                    onClick={() => setOpen((prev) => !prev)}
+                    tabIndex={0}
+                    onKeyDown={handleKeyDown}
+                    role="button"
+                    aria-expanded={open}
+                >
                     <h2 className="card-title text-2xl">{title}</h2>
                 </div>
                 <div style={{ display: open ? "block" : "none" }}>
@@ -119,7 +152,6 @@ export function CustomCollapse({ id, title, children, defaultOpen = false }) {
                 </div>
             </div>
         </div>
-    </>
     );
 }
 

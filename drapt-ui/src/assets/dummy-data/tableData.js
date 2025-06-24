@@ -214,7 +214,6 @@ export const dummyNews = [
   }
 ];
 
-// ...existing code...
 export const dummyPortfolioActions = [
   {
     ticker: "CAT",
@@ -498,3 +497,447 @@ export const dummyPortfolioActions = [
     date: "2024-07-01"
   }
 ];
+
+export const dummyRecentOrders = [
+  {
+    ticker: "CAT",
+    action: "BUY",
+    orderStatus: "PENDING",
+    quantity: 10,
+    price: 250.00,
+    date: "2024-06-01"
+  },
+  {
+    ticker: "HON",
+    action: "SELL",
+    orderStatus: "PENDING",
+    quantity: 5,
+    price: 210.50,
+    date: "2024-06-03"
+  },
+  {
+    ticker: "GE",
+    action: "BUY",
+    orderStatus: "PENDING",
+    quantity: 20,
+    price: 160.75,
+    date: "2024-06-05"
+  },
+  {
+    ticker: "MMM",
+    action: "BUY",
+    orderStatus: "EXECUTED",
+    quantity: 15,
+    price: 105.30,
+    date: "2024-06-07"
+  },
+  {
+    ticker: "DE",
+    action: "SELL",
+    orderStatus: "EXECUTED",
+    quantity: 8,
+    price: 390.00,
+    date: "2024-06-09"
+  },
+  {
+    ticker: "LMT",
+    action: "BUY",
+    orderStatus: "EXECUTED",
+    quantity: 12,
+    price: 450.20,
+    date: "2024-06-11"
+  },
+  {
+    ticker: "BA",
+    action: "SELL",
+    orderStatus: "EXECUTED",
+    quantity: 7,
+    price: 210.10,
+    date: "2024-06-13"
+  },
+  {
+    ticker: "RTX",
+    action: "BUY",
+    orderStatus: "EXECUTED",
+    quantity: 18,
+    price: 98.40,
+    date: "2024-06-14"
+  },
+  {
+    ticker: "UNP",
+    action: "BUY",
+    orderStatus: "EXECUTED",
+    quantity: 9,
+    price: 230.00,
+    date: "2024-06-15"
+  },
+  {
+    ticker: "UPS",
+    action: "SELL",
+    orderStatus: "EXECUTED",
+    quantity: 6,
+    price: 170.25,
+    date: "2024-06-16"
+  },
+  {
+    ticker: "CSX",
+    action: "BUY",
+    orderStatus: "EXECUTED",
+    quantity: 14,
+    price: 34.10,
+    date: "2024-06-17"
+  },
+  {
+    ticker: "FDX",
+    action: "BUY",
+    orderStatus: "EXECUTED",
+    quantity: 11,
+    price: 265.00,
+    date: "2024-06-18"
+  },
+  {
+    ticker: "EMR",
+    action: "SELL",
+    orderStatus: "EXECUTED",
+    quantity: 13,
+    price: 105.50,
+    date: "2024-06-19"
+  },
+  {
+    ticker: "GD",
+    action: "BUY",
+    orderStatus: "EXECUTED",
+    quantity: 10,
+    price: 230.75,
+    date: "2024-06-20"
+  },
+  {
+    ticker: "NOC",
+    action: "SELL",
+    orderStatus: "EXECUTED",
+    quantity: 8,
+    price: 470.00,
+    date: "2024-06-21"
+  },
+  {
+    ticker: "CAT",
+    action: "BUY",
+    orderStatus: "PENDING",
+    quantity: 10,
+    price: 250.00,
+    date: "2024-06-01"
+  },
+  {
+    ticker: "HON",
+    action: "SELL",
+    orderStatus: "PENDING",
+    quantity: 5,
+    price: 210.50,
+    date: "2024-06-03"
+  },
+  {
+    ticker: "GE",
+    action: "BUY",
+    orderStatus: "PENDING",
+    quantity: 20,
+    price: 160.75,
+    date: "2024-06-05"
+  },
+  {
+    ticker: "MMM",
+    action: "BUY",
+    orderStatus: "EXECUTED",
+    quantity: 15,
+    price: 105.30,
+    date: "2024-06-07"
+  },
+  {
+    ticker: "DE",
+    action: "SELL",
+    orderStatus: "EXECUTED",
+    quantity: 8,
+    price: 390.00,
+    date: "2024-06-09"
+  },
+  {
+    ticker: "LMT",
+    action: "BUY",
+    orderStatus: "EXECUTED",
+    quantity: 12,
+    price: 450.20,
+    date: "2024-06-11"
+  },
+  {
+    ticker: "BA",
+    action: "SELL",
+    orderStatus: "EXECUTED",
+    quantity: 7,
+    price: 210.10,
+    date: "2024-06-13"
+  },
+  {
+    ticker: "RTX",
+    action: "BUY",
+    orderStatus: "EXECUTED",
+    quantity: 18,
+    price: 98.40,
+    date: "2024-06-14"
+  },
+  {
+    ticker: "UNP",
+    action: "BUY",
+    orderStatus: "EXECUTED",
+    quantity: 9,
+    price: 230.00,
+    date: "2024-06-15"
+  },
+  {
+    ticker: "UPS",
+    action: "SELL",
+    orderStatus: "EXECUTED",
+    quantity: 6,
+    price: 170.25,
+    date: "2024-06-16"
+  },
+  {
+    ticker: "CSX",
+    action: "BUY",
+    orderStatus: "EXECUTED",
+    quantity: 14,
+    price: 34.10,
+    date: "2024-06-17"
+  },
+  {
+    ticker: "FDX",
+    action: "BUY",
+    orderStatus: "EXECUTED",
+    quantity: 11,
+    price: 265.00,
+    date: "2024-06-18"
+  },
+  {
+    ticker: "EMR",
+    action: "SELL",
+    orderStatus: "EXECUTED",
+    quantity: 13,
+    price: 105.50,
+    date: "2024-06-19"
+  },
+  {
+    ticker: "GD",
+    action: "BUY",
+    orderStatus: "EXECUTED",
+    quantity: 10,
+    price: 230.75,
+    date: "2024-06-20"
+  },
+  {
+    ticker: "NOC",
+    action: "SELL",
+    orderStatus: "EXECUTED",
+    quantity: 8,
+    price: 470.00,
+    date: "2024-06-21"
+  },
+  {
+    ticker: "PH",
+    action: "BUY",
+    orderStatus: "EXECUTED",
+    quantity: 16,
+    price: 520.30,
+    date: "2024-06-22"
+  },
+  {
+    ticker: "ITW",
+    action: "SELL",
+    orderStatus: "EXECUTED",
+    quantity: 9,
+    price: 245.60,
+    date: "2024-06-23"
+  },
+  {
+    ticker: "ETN",
+    action: "BUY",
+    orderStatus: "EXECUTED",
+    quantity: 13,
+    price: 310.10,
+    date: "2024-06-24"
+  },
+  {
+    ticker: "ROK",
+    action: "SELL",
+    orderStatus: "EXECUTED",
+    quantity: 7,
+    price: 285.40,
+    date: "2024-06-25"
+  },
+  {
+    ticker: "PCAR",
+    action: "BUY",
+    orderStatus: "EXECUTED",
+    quantity: 12,
+    price: 105.90,
+    date: "2024-06-26"
+  },
+  {
+    ticker: "FAST",
+    action: "SELL",
+    orderStatus: "EXECUTED",
+    quantity: 15,
+    price: 65.20,
+    date: "2024-06-27"
+  },
+  {
+    ticker: "GWW",
+    action: "BUY",
+    orderStatus: "EXECUTED",
+    quantity: 6,
+    price: 950.00,
+    date: "2024-06-28"
+  },
+  {
+    ticker: "IR",
+    action: "SELL",
+    orderStatus: "EXECUTED",
+    quantity: 10,
+    price: 88.30,
+    date: "2024-06-29"
+  },
+  {
+    ticker: "XYL",
+    action: "BUY",
+    orderStatus: "EXECUTED",
+    quantity: 11,
+    price: 140.75,
+    date: "2024-06-30"
+  },
+  {
+    ticker: "DOV",
+    action: "SELL",
+    orderStatus: "EXECUTED",
+    quantity: 8,
+    price: 170.60,
+    date: "2024-07-01"
+  }
+];
+
+export const dummyPositionMonitoringTable = [
+  {
+    positionID: 0o1,
+    positionTicker: "AVAV",
+    positionQuantity: 13,
+    entryPrice: 57.89,
+    currentPrice: 67.64,
+    positionPnLNominal: 9.74,
+    positionPnLPercentage: 0.1682,
+    positionStatus: "Open",
+    positionEntryDate: "2025-06-20"
+  },
+  {
+    positionID: 0o2,
+    positionTicker: "AAPL",
+    positionQuantity: 25,
+    entryPrice: 145.20,
+    currentPrice: 158.30,
+    positionPnLNominal: 326.25,
+    positionPnLPercentage: 0.0901,
+    positionStatus: "Open",
+    positionEntryDate: "2025-06-19"
+  },
+  {
+    positionID: 0o3,
+    positionTicker: "TSLA",
+    positionQuantity: 10,
+    entryPrice: 700.00,
+    currentPrice: 650.00,
+    positionPnLNominal: -500.00,
+    positionPnLPercentage: -0.0714,
+    positionStatus: "Open",
+    positionEntryDate: "2025-06-18"
+  },
+  {
+    positionID: 0o4,
+    positionTicker: "MSFT",
+    positionQuantity: 18,
+    entryPrice: 250.00,
+    currentPrice: 265.50,
+    positionPnLNominal: 279.00,
+    positionPnLPercentage: 0.062,
+    positionStatus: "Open",
+    positionEntryDate: "2025-06-17"
+  },
+  {
+    positionID: 0o5,
+    positionTicker: "NFLX",
+    positionQuantity: 7,
+    entryPrice: 500.00,
+    currentPrice: 495.00,
+    positionPnLNominal: -35.00,
+    positionPnLPercentage: -0.01,
+    positionStatus: "Closed",
+    positionEntryDate: "2025-06-16"
+  }
+]
+
+export const dummyGlobalPortfolios = [
+  {
+    portfolioID: "industrial",
+    portfolioName: "Industrial",
+    portfolioType: "Equity",
+    portfolioManager: "Szymon Kopyciński",
+    portfolioCreationDate: "14/06/2025",
+    portfolioLastModified: "14/06/2025",
+    currentPortfolioValue: 3300,
+    portfolio1MChange: 3.1,
+    portfolio1MVolatility: 14.56,
+    portfolioHoldingsNumber: 12
+  },
+  {
+    portfolioID: "technology",
+    portfolioName: "Technology",
+    portfolioType: "Equity",
+    portfolioManager: "Alex Nowak",
+    portfolioCreationDate: "10/05/2025",
+    portfolioLastModified: "13/06/2025",
+    currentPortfolioValue: 4200,
+    portfolio1MChange: 4.8,
+    portfolio1MVolatility: 16.23,
+    portfolioHoldingsNumber: 15
+  },
+  {
+    portfolioID: "fixedincome",
+    portfolioName: "Fixed Income",
+    portfolioType: "Bond",
+    portfolioManager: "Maria Kowalska",
+    portfolioCreationDate: "01/04/2025",
+    portfolioLastModified: "12/06/2025",
+    currentPortfolioValue: 2750,
+    portfolio1MChange: 1.2,
+    portfolio1MVolatility: 7.89,
+    portfolioHoldingsNumber: 8
+  },
+  {
+    portfolioID: "emergingmarkets",
+    portfolioName: "Emerging Markets",
+    portfolioType: "Equity",
+    portfolioManager: "John Smith",
+    portfolioCreationDate: "22/03/2025",
+    portfolioLastModified: "14/06/2025",
+    currentPortfolioValue: 3900,
+    portfolio1MChange: 5.3,
+    portfolio1MVolatility: 18.11,
+    portfolioHoldingsNumber: 14
+  },
+  {
+    portfolioID: "realestate",
+    portfolioName: "Real Estate",
+    portfolioType: "REIT",
+    portfolioManager: "Anna Zielińska",
+    portfolioCreationDate: "15/02/2025",
+    portfolioLastModified: "13/06/2025",
+    currentPortfolioValue: 5100,
+    portfolio1MChange: 2.7,
+    portfolio1MVolatility: 10.45,
+    portfolioHoldingsNumber: 10
+  }
+]

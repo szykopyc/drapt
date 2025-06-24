@@ -2,15 +2,16 @@ import { useParams } from "react-router-dom";
 import { CardOne } from "../baseui/CustomCard";
 import CustomTable from "../baseui/CustomTable";
 import CustomButton from "../baseui/CustomButton";
-import { dummyPortfolioActions } from "../../assets/dummy-data/tableData";
+import { dummyRecentOrders } from "../../assets/dummy-data/tableData";
 import React, { useState, useEffect, useRef } from 'react';
 import { CSVLink } from "react-csv";
 import FullscreenItem from "../helperui/FullscreenItemHelper";
 
 export function OverviewPanel(){
-
     const overviewRef = useRef(null);
     const [overviewHeight, setOverviewHeight] = useState(0);
+
+    const recentPortfolioActions = dummyRecentOrders.slice(0, 5);
 
     const [ fullscreenItem, setFullScreenItem ] = useState("");
 
@@ -35,7 +36,7 @@ export function OverviewPanel(){
 
     function ExportCSVButton(){
         return (
-            <CSVLink data={dummyPortfolioActions} filename="portfolio_actions.csv" className="self-end">
+            <CSVLink data={dummyRecentOrders} filename="portfolio_actions.csv" className="self-end">
                 <CustomButton colour="primary">
                     Export to CSV
                 </CustomButton>
@@ -43,17 +44,26 @@ export function OverviewPanel(){
         );
     }
 
+    const columnNames = [
+        {key: "ticker", label: "Ticker"},
+        {key: "action", label: "Action"},
+        {key: "orderStatus", label: "Order Status"},
+        {key: "quantity", label: "Quantity"},
+        {key: "price", label: "Price"},
+        {key: "date", label: "Date"}
+    ]
+
     return (
         <>
         <div className="flex flex-col md:flex-row justify-between gap-3">
-            <CardOne title={portfolioName}>
+            <CardOne title={portfolioName} size="half">
                 <div ref={overviewRef}>
                 <table className="w-full text-left">
                     <colgroup>
                       <col className="w-1/2 md:w-[30%]" />
                       <col className="w-1/2 md:w-[70%]" />
                     </colgroup>
-                    <tbody>
+                    <tbody className="align-top">
                         <tr>
                             <td className="pr-2 font-medium">Type</td>
                             <td>{portfolioType}</td>
@@ -82,7 +92,7 @@ export function OverviewPanel(){
                       <col className="w-1/2 md:w-[30%]" />
                       <col className="w-1/2 md:w-[70%]" />
                     </colgroup>
-                    <tbody>
+                    <tbody className="align-top">
                         <tr>
                             <td className="pr-2 font-medium">Current Value</td>
                             <td>{currentValue}</td>
@@ -107,19 +117,19 @@ export function OverviewPanel(){
                 </table>
                 </div>
             </CardOne>
-            <CardOne title={"Recent Activity"} onClick={() => setFullScreenItem("recentActivity")}>
-                <CustomTable data={dummyPortfolioActions} maxHeight={overviewHeight ? `${overviewHeight}px` : "314px"}/>
+            <CardOne title={"Recent Activity"} onClick={() => setFullScreenItem("recentActivity")} size="half">
+                <CustomTable data={recentPortfolioActions} maxHeight={overviewHeight ? `${overviewHeight}px` : "314px"}  columns={columnNames}/>
             </CardOne>
             {fullscreenItem && (
                 <FullscreenItem reference={setFullScreenItem} width={75}>
                     {fullscreenItem === "recentActivity" && (
                         <>
                             <div className="flex justify-between">
-                                <h1 className="card-title text-2xl">Recent Actions</h1>
+                                <h1 className="card-title text-2xl">Recent Activity</h1>
                                 <ExportCSVButton />
                             </div>
                             <div className="divider my-3"></div>
-                            <CustomTable data={dummyPortfolioActions} maxHeight={"75vh"}/>
+                            <CustomTable data={recentPortfolioActions} maxHeight={"75vh"} columns={columnNames}/>
                         </>
                     )}
                 </FullscreenItem>

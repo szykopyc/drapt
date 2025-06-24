@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { ModalHelper } from '../components/helperui/ModalHelper';
 import { isValidEmail } from '../components/validators/EmailValidator';
 import { getPasswordStrength } from '../components/validators/PasswordValidator';
-import { LargeSubmit } from '../components/helperui/LargeSubmitHelper';
+import LargeSubmit from '../components/baseui/LargeSubmitHelper';
 import { FormField } from '../components/helperui/FormFieldHelper';
 
 export default function ForgotPassword(){
@@ -60,8 +60,8 @@ export default function ForgotPassword(){
             </CardOne>
             <ModalHelper id={"reset_password_modal"} reference={userResetPasswordModalRef} modalTitle={"Check your email"}>
                 {modalData && (
-                    <p className='py-2'>
-                    If an account exists for <span className='text-info'>{modalData.email}</span>, you’ll receive an email with instructions to reset your password.
+                    <p>
+                    If an account exists for <span className='text-info'>{modalData.email}</span>, you'll receive an email with instructions to reset your password.
                     <br />
                     Please check your inbox and spam folder, and wait 5 minutes before attempting to reset your password again.
                     </p>

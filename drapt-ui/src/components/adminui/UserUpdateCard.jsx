@@ -5,7 +5,7 @@ import { ModalHelper } from "../helperui/ModalHelper";
 import { LoadingSpinner } from "../helperui/LoadingSpinnerHelper";
 import { isValidEmail } from "../validators/EmailValidator";
 import { getPasswordStrength } from "../validators/PasswordValidator";
-import { LargeSubmit } from "../helperui/LargeSubmitHelper";
+import LargeSubmit from "../baseui/LargeSubmitHelper";
 import { ResetFormButton } from "../helperui/ResetFormHelper";
 import { FormField } from "../helperui/FormFieldHelper";
 
@@ -89,7 +89,7 @@ export function UserUpdateCard() {
             </FormField>
           </div>
           <div className="mt-auto">
-            <LargeSubmit size={1} disabled={!watchedUsername} >
+            <LargeSubmit disabled={!watchedUsername} >
               Search
             </LargeSubmit>
           </div>
@@ -155,21 +155,24 @@ export function UserUpdateCard() {
               </FormField>
             </form>
             <div className="flex flex-row gap-2 mt-3 w-full">
+            <div className="w-4/5">
               <LargeSubmit
                 form={"updateUser"}
-                size={4}
                 disabled={!isAnyFieldFilled}
               >
                 Update User
               </LargeSubmit>
-              <ResetFormButton resetFn={resetUpdate} />
+            </div>
+            <div className="w-1/5">
+              <ResetFormButton resetFn={resetUpdate} disabled={!isAnyFieldFilled} />
+            </div>
             </div>
           </>
         )}
       </CustomCollapseArrow>
       <ModalHelper id={"add_user_modal"} reference={userUpdateModalRef} modalTitle={"User Updated"}>
         {modalData && targetUsername && (
-          <div className="mt-2">
+          <div>
             <p>Updated <span className="text-primary font-semibold">{targetUsername}'s</span> account</p>
             <div className="py-2 flex flex-col justify-between gap-2">
               {modalData.fullName && <div className="flex justify-between">Updated Full Name<span className="text-primary">{modalData.fullName}</span></div>}
