@@ -19,6 +19,7 @@ export default function BookTradeCard() {
             ticker: "",
             direction: "BUY", // always BUY
             quantity: 0,
+            analystWhoPitched: "",
             priceSource: "lastClose",
             manualPrice: "",
             tradeDate: (new Date().toISOString().split("T")[0])
@@ -65,18 +66,20 @@ export default function BookTradeCard() {
         {key: "ticker", label: "Ticker"},
         {key: "direction", label:"Direction"},
         {key: "quantity", label:"Quantity"},
+        {key: "analystWhoPitched", label: "Analyst"},
         {key: "tradeDate", label:"Trade Date"},
         {key: "openPrice", label: "Open Price"}
     ]
 
     const typedTicker = watch("ticker");
     const typedQuantity = watch("quantity");
-    const typedOpenPrice = watch("openPrice");
+    const typedAnalyst = watch("analystWhoPitched");
     const typedManualPrice = watch("manualPrice");
 
     const allFieldsFilledMask =
       typedTicker &&
       typedQuantity &&
+      typedAnalyst &&
       (
         priceSource === "lastClose" ||
         (priceSource === "manual" && typedManualPrice)
@@ -85,7 +88,7 @@ export default function BookTradeCard() {
     return (
         <>
             <CardOne title={"Book a Trade"}>
-                <p>Please enter prices in the asset's native currency</p>
+                <p>Please enter prices in the asset's native currency.</p>
                 <form
                     id="bookTrade"
                     onSubmit={handleSubmit(guardedSubmitHandler)}
@@ -119,6 +122,15 @@ export default function BookTradeCard() {
                                     })}
                                     autoComplete="off"
                                     min={0}
+                                    disabled={tradeConfirmed}
+                                />
+                            </FormField>
+                            <FormField label={"Analyst"}>
+                                <input
+                                    type="text" 
+                                    className="input input-bordered w-full"
+                                    {...register("analystWhoPitched", {required: "Analyst's name is required"})}
+                                    autoComplete="off"
                                     disabled={tradeConfirmed}
                                 />
                             </FormField>
@@ -156,7 +168,16 @@ export default function BookTradeCard() {
                                 <input
                                     type="date"
                                     className="input input-bordered w-full"
-                                    {...register("tradeDate", { required: "Trade date is required" })}
+                                    {...register("tradeDate", {
+                                        required: "Trade date is required",
+                                        validate: (value) => {
+                                            const day = new Date(value).getDay();
+                                            if (day === 0 || day === 6) {
+                                                return "Trades cannot be placed on weekends.";
+                                            }
+                                            return true;
+                                        }
+                                    })}
                                     value={watch("tradeDate")}
                                     max={new Date().toISOString().split("T")[0]}
                                     disabled={tradeConfirmed}

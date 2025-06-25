@@ -1,7 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @plugin "daisyui" {
   themes: all;
+}
+
+@layer utilities {
+  @keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(24px);}
+    to { opacity: 1; transform: translateY(0);}
+  }
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
 }
 
 [data-theme="draptlight"] {
@@ -251,7 +262,7 @@
 html{
   scroll-behavior: smooth;
   scrollbar-gutter: stable;
-  font-family: sans-serif,'Manrope';
+  font-family: 'Inter', sans-serif !important;
 }
 html,
 body {

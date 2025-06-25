@@ -24,7 +24,7 @@ export default function PositionMonitoringPanel() {
         return sorted;
     };
 
-    const activePositions = useMemo(
+    const openPositions = useMemo(
         () => getSortedPositions(positions.filter((position) => position.positionStatus === "Open")),
         [positions]
     );
@@ -72,7 +72,7 @@ export default function PositionMonitoringPanel() {
         return;
     }
 
-    const columnsActivePosition = [
+    const columnsOpenPosition = [
         { key: "positionTicker", label: "Ticker" },
         { key: "positionQuantity", label: "Quantity" },
         { key: "entryPrice", label: "Entry Price" },
@@ -97,21 +97,21 @@ export default function PositionMonitoringPanel() {
 
     return (
         <>
-        <CardOne title={"Active Positions"}>
-            {activePositions.length === 0 ? (
+        <CardOne title={"Open Positions"}>
+            {openPositions.length === 0 ? (
                 <InnerEmptyState title="No positions yet" message="Looks like your portfolio doesn't yet have any positions."/>
             ) : (
                 <div className="overflow-x-auto w-full">
                     <table className="w-full table-sm md:table table-zebra">
                         <thead>
                             <tr>
-                                {columnsActivePosition.map(col => (
+                                {columnsOpenPosition.map(col => (
                                     <th key={col.key}>{col.label}</th>
                                 ))}
                             </tr>
                         </thead>
                         <tbody>
-                            {activePositions.map((pos, idx) => (
+                            {openPositions.map((pos, idx) => (
                                 <tr key={idx}>
                                     <td>{pos.positionTicker}</td>
                                     <td>{pos.positionQuantity}</td>

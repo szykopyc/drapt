@@ -182,22 +182,18 @@ export default function About() {
             <FullscreenItem reference={setFullScreenItem} width={75}>
                 {fullScreenItem === "iteration1" && (
                     <FullscreenFigureCap srcfile="/about-images/iteration-1.jpg" alt={"First version of DRAP-T"}>
-                        Figure 1: First functional DRAP-T prototype (Nov 2024)
                     </FullscreenFigureCap>
                 )}
                 {fullScreenItem === "iteration21" && (
                     <FullscreenFigureCap srcfile="/about-images/milestone-2-1.png" alt={"Rolling Volatility chart screenshot from Milestone 2"}>
-                        Figure 2: Rolling Volatility
                     </FullscreenFigureCap>
                 )}
                 {fullScreenItem === "iteration22" && (
                     <FullscreenFigureCap srcfile="/about-images/milestone-2-2.png" alt={"Asset correlation matrix screenshot from Milestone 2"}>
-                        Figure 3: Our hedges worked somewhat...
                     </FullscreenFigureCap>
                 )}
                 {fullScreenItem === "nfp" && (
                     <FullscreenFigureCap srcfile={"/about-images/notts-for-profit.jpeg"} alt={"Team Notts for Profit representing NEFSIF at The Shard, February 2025"} cursorPointerEnabled={true} onClick={() => setFullScreenItem("nfp")}>
-                        Team Notts for Profit, representing NEFSIF on the 17th floor of The Shard (Feb, 2025)
                     </FullscreenFigureCap>
                 )}
             </FullscreenItem>
