@@ -5,34 +5,11 @@ import BookTradeCard from "../portfolioui/BookTradeCard";
 import TradeHistoryCard from "../portfolioui/TradeHistoryCard";
 
 export function TradeBookerPanel() {
-  const { portfolioID } = useParams();
-  const bookTradeRef = useRef(null);
-
-  /*
-  useEffect(() => {
-    function handleKeyDown(e) {
-      const tag = document.activeElement.tagName.toLowerCase();
-      if (
-        tag === "input" ||
-        tag === "textarea" ||
-        tag === "select" ||
-        document.activeElement.isContentEditable
-      ) {
-        return;
-      }
-      if (e.key === "1") {
-        bookTradeRef.current?.focus();
-      }
-    }
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-  */
-
-  return (
-    <>
-      <BookTradeCard focusRef={bookTradeRef} />
-      <TradeHistoryCard />
-    </>
-  );
+    const bookTradeRef = useRef(null);
+    return (
+        <>
+            <BookTradeCard focusRef={bookTradeRef} />
+            <TradeHistoryCard />
+        </>
+    );
 }

@@ -1,5 +1,5 @@
 import { CardOne } from "../baseui/CustomCard";
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { ModalHelper } from "../helperui/ModalHelper";
 import { FormErrorHelper } from "../helperui/FormErrorHelper";
@@ -13,7 +13,15 @@ export default function BookTradeCard() {
     const [tradeConfirmed, setTradeConfirmed] = useState(false);
 
     // react-hook-form setup, using onSubmit so errors only show after submit attempt
-    const { register, handleSubmit, reset: resetForm, setValue, watch, formState: { errors }, trigger } = useForm({
+    const {
+        register,
+        handleSubmit,
+        reset: resetForm,
+        setValue,
+        watch,
+        formState: { errors },
+        trigger,
+    } = useForm({
         mode: "onSubmit",
         defaultValues: {
             ticker: "",
@@ -22,8 +30,8 @@ export default function BookTradeCard() {
             analystWhoPitched: "",
             priceSource: "lastClose",
             manualPrice: "",
-            tradeDate: (new Date().toISOString().split("T")[0])
-        }
+            tradeDate: new Date().toISOString().split("T")[0],
+        },
     });
 
     const priceSource = watch("priceSource");
@@ -40,7 +48,8 @@ export default function BookTradeCard() {
         if (!tradeConfirmed) return;
 
         // only want to pass openPrice, not priceSource/manualPrice
-        const openPrice = data.priceSource === "lastClose" ? "LASTCLOSE" : data.manualPrice;
+        const openPrice =
+            data.priceSource === "lastClose" ? "LASTCLOSE" : data.manualPrice;
 
         // uppercase everything else for consistency
         const { priceSource, manualPrice, ...rest } = data;
@@ -57,19 +66,20 @@ export default function BookTradeCard() {
 
         console.log(finalData);
         setModalData(finalData);
-        if (tradeConfirmModalRef.current) tradeConfirmModalRef.current.showModal();
+        if (tradeConfirmModalRef.current)
+            tradeConfirmModalRef.current.showModal();
         resetForm();
         setTradeConfirmed(false);
     };
 
     const modalTableColumns = [
-        {key: "ticker", label: "Ticker"},
-        {key: "direction", label:"Direction"},
-        {key: "quantity", label:"Quantity"},
-        {key: "analystWhoPitched", label: "Analyst"},
-        {key: "tradeDate", label:"Trade Date"},
-        {key: "openPrice", label: "Open Price"}
-    ]
+        { key: "ticker", label: "Ticker" },
+        { key: "direction", label: "Direction" },
+        { key: "quantity", label: "Quantity" },
+        { key: "analystWhoPitched", label: "Analyst" },
+        { key: "tradeDate", label: "Trade Date" },
+        { key: "openPrice", label: "Open Price" },
+    ];
 
     const typedTicker = watch("ticker");
     const typedQuantity = watch("quantity");
@@ -77,13 +87,11 @@ export default function BookTradeCard() {
     const typedManualPrice = watch("manualPrice");
 
     const allFieldsFilledMask =
-      typedTicker &&
-      typedQuantity &&
-      typedAnalyst &&
-      (
-        priceSource === "lastClose" ||
-        (priceSource === "manual" && typedManualPrice)
-      );
+        typedTicker &&
+        typedQuantity &&
+        typedAnalyst &&
+        (priceSource === "lastClose" ||
+            (priceSource === "manual" && typedManualPrice));
 
     return (
         <>
@@ -100,13 +108,19 @@ export default function BookTradeCard() {
                                 <input
                                     type="text"
                                     className="input input-bordered w-full"
-                                    {...register("ticker", { required: "Ticker is required" })}
+                                    {...register("ticker", {
+                                        required: "Ticker is required",
+                                    })}
                                     autoComplete="off"
                                     disabled={tradeConfirmed}
                                 />
                             </FormField>
                             {/* Direction field removed, but still submit BUY as hidden input */}
-                            <input type="hidden" {...register("direction")} value="BUY" />
+                            <input
+                                type="hidden"
+                                {...register("direction")}
+                                value="BUY"
+                            />
                             <FormField label="Quantity">
                                 <input
                                     type="number"
@@ -115,10 +129,12 @@ export default function BookTradeCard() {
                                     {...register("quantity", {
                                         required: "Quantity is required",
                                         validate: (value) => {
-                                            if (!value) return "Quantity is required";
-                                            if (value <= 0) return "Quantity must be greater than 0";
+                                            if (!value)
+                                                return "Quantity is required";
+                                            if (value <= 0)
+                                                return "Quantity must be greater than 0";
                                             return true;
-                                        }
+                                        },
                                     })}
                                     autoComplete="off"
                                     min={0}
@@ -127,9 +143,11 @@ export default function BookTradeCard() {
                             </FormField>
                             <FormField label={"Analyst"}>
                                 <input
-                                    type="text" 
+                                    type="text"
                                     className="input input-bordered w-full"
-                                    {...register("analystWhoPitched", {required: "Analyst's name is required"})}
+                                    {...register("analystWhoPitched", {
+                                        required: "Analyst's name is required",
+                                    })}
                                     autoComplete="off"
                                     disabled={tradeConfirmed}
                                 />
@@ -140,11 +158,16 @@ export default function BookTradeCard() {
                                 <div className="flex gap-1">
                                     <select
                                         className="select select-bordered w-1/2"
-                                        {...register("priceSource", { required: "Price source is required" })}
+                                        {...register("priceSource", {
+                                            required:
+                                                "Price source is required",
+                                        })}
                                         defaultValue="lastClose"
                                         disabled={tradeConfirmed}
                                     >
-                                        <option value="lastClose">Last Close</option>
+                                        <option value="lastClose">
+                                            Last Close
+                                        </option>
                                         <option value="manual">Manual</option>
                                     </select>
                                     <input
@@ -154,13 +177,20 @@ export default function BookTradeCard() {
                                         className="input input-bordered w-1/2"
                                         {...register("manualPrice", {
                                             validate: (value) => {
-                                                if (watch("priceSource") === "manual" && !value) {
+                                                if (
+                                                    watch("priceSource") ===
+                                                        "manual" &&
+                                                    !value
+                                                ) {
                                                     return "Manual price required";
                                                 }
                                                 return true;
-                                            }
+                                            },
                                         })}
-                                        disabled={priceSource !== "manual" || tradeConfirmed}
+                                        disabled={
+                                            priceSource !== "manual" ||
+                                            tradeConfirmed
+                                        }
                                     />
                                 </div>
                             </FormField>
@@ -171,12 +201,14 @@ export default function BookTradeCard() {
                                     {...register("tradeDate", {
                                         required: "Trade date is required",
                                         validate: (value) => {
-                                            const day = new Date(value).getDay();
+                                            const day = new Date(
+                                                value
+                                            ).getDay();
                                             if (day === 0 || day === 6) {
                                                 return "Trades cannot be placed on weekends.";
                                             }
                                             return true;
-                                        }
+                                        },
                                     })}
                                     value={watch("tradeDate")}
                                     max={new Date().toISOString().split("T")[0]}
@@ -196,20 +228,22 @@ export default function BookTradeCard() {
                                     </CustomButtonInputStyle>
                                 ) : (
                                     <>
-                                    <CustomButtonInputStyle
-                                        form="bookTrade"
-                                        colour="success"
-                                        type="submit"
-                                    >
-                                        Confirm
-                                    </CustomButtonInputStyle>
-                                    <CustomButtonInputStyle
-                                        form="bookTrade"
-                                        colour="error"
-                                        onClick={() => setTradeConfirmed(false)}
-                                    >
-                                        Cancel
-                                    </CustomButtonInputStyle>
+                                        <CustomButtonInputStyle
+                                            form="bookTrade"
+                                            colour="success"
+                                            type="submit"
+                                        >
+                                            Confirm
+                                        </CustomButtonInputStyle>
+                                        <CustomButtonInputStyle
+                                            form="bookTrade"
+                                            colour="error"
+                                            onClick={() =>
+                                                setTradeConfirmed(false)
+                                            }
+                                        >
+                                            Cancel
+                                        </CustomButtonInputStyle>
                                     </>
                                 )}
                             </div>
@@ -218,7 +252,9 @@ export default function BookTradeCard() {
                     <div className="flex flex-col gap-1 w-full">
                         {Object.entries(errors).map(([field, errorObj]) =>
                             errorObj?.message ? (
-                                <FormErrorHelper key={field} textSize="md">{errorObj.message}</FormErrorHelper>
+                                <FormErrorHelper key={field} textSize="md">
+                                    {errorObj.message}
+                                </FormErrorHelper>
                             ) : null
                         )}
                     </div>
@@ -228,12 +264,22 @@ export default function BookTradeCard() {
                 id={"trade_confirm"}
                 reference={tradeConfirmModalRef}
                 modalTitle={"Order Placed"}
-                style={{ maxWidth: "90vw", width: "auto", minWidth: "min(600px, 90vw)" }}
+                style={{
+                    maxWidth: "90vw",
+                    width: "auto",
+                    minWidth: "min(600px, 90vw)",
+                }}
             >
                 {modalData && (
                     <div className="flex flex-col gap-3">
-                        <CustomTable data={[modalData]} columns={modalTableColumns} />
-                        <p>Trades are normally executed at 6 hour intervals on business days.</p>
+                        <CustomTable
+                            data={[modalData]}
+                            columns={modalTableColumns}
+                        />
+                        <p>
+                            Trades are normally executed at 6 hour intervals on
+                            business days.
+                        </p>
                     </div>
                 )}
             </ModalHelper>

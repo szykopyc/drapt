@@ -58,9 +58,7 @@ function App() {
             <Route path='analyse' element={
               ['vd','director','dev'].includes(currentUser.role) ? (
                 <ProtectedRoute>
-                  <MaintenanceGuard>
                     <AnalyseIndex />
-                  </MaintenanceGuard>
                 </ProtectedRoute>
               ) : (
                 <Navigate to={`/analyse/${currentUser.team}`} replace />
@@ -69,9 +67,7 @@ function App() {
             <Route path="analyse/:portfolioID" element={
               <ProtectedRoute>
                 <ProtectedPortfolioRoute user={currentUser}>
-                  <MaintenanceGuard>
                     <Analyse />
-                  </MaintenanceGuard>
                 </ProtectedPortfolioRoute>
               </ProtectedRoute>
             }>

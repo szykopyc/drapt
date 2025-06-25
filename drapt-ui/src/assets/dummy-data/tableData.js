@@ -953,7 +953,7 @@ export const dummyGlobalPortfolios = [
     portfolioID: "emergingmarkets",
     portfolioName: "Emerging Markets",
     portfolioType: "Equity",
-    portfolioManager: "John Smith",
+    portfolioManager: "John Maynard Keynes",
     portfolioCreationDate: "22/03/2025",
     portfolioLastModified: "14/06/2025",
     currentPortfolioValue: 3900,
@@ -972,5 +972,42 @@ export const dummyGlobalPortfolios = [
     portfolio1MChange: 2.7,
     portfolio1MVolatility: 10.45,
     portfolioHoldingsNumber: 10
+  },
+  // --- New dummy portfolios below ---
+  {
+    portfolioID: "healthcare",
+    portfolioName: "Healthcare",
+    portfolioType: "Equity",
+    portfolioManager: "Lucas Müller",
+    portfolioCreationDate: "05/03/2025",
+    portfolioLastModified: "13/06/2025",
+    currentPortfolioValue: 3700,
+    portfolio1MChange: 2.9,
+    portfolio1MVolatility: 12.34,
+    portfolioHoldingsNumber: 11
+  },
+  {
+    portfolioID: "energy",
+    portfolioName: "Energy",
+    portfolioType: "Equity",
+    portfolioManager: "Jim Simons",
+    portfolioCreationDate: "28/01/2025",
+    portfolioLastModified: "12/06/2025",
+    currentPortfolioValue: 4600,
+    portfolio1MChange: 3.7,
+    portfolio1MVolatility: 15.22,
+    portfolioHoldingsNumber: 13
+  },
+  {
+    portfolioID: "consumerstaples",
+    portfolioName: "Consumer Staples",
+    portfolioType: "Equity",
+    portfolioManager: "Thomas Dubois",
+    portfolioCreationDate: "18/02/2025",
+    portfolioLastModified: "13/06/2025",
+    currentPortfolioValue: 3400,
+    portfolio1MChange: 1.8,
+    portfolio1MVolatility: 9.87,
+    portfolioHoldingsNumber: 9
   }
 ]

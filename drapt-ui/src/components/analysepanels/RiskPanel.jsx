@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnalyseCard } from "../baseui/CustomCard";
 import MetricCard from "../analyseui/MetricCard";
 import { MetricHelper, CardHelper, ChartHelper } from "../helperui/DivHelper";
@@ -9,25 +9,21 @@ import CustomButton from "../baseui/CustomButton";
 import { CardTwo } from "../baseui/CustomCard";
 
 export default function RiskPanel() {
-  const [selectedPortfolio, setSelectedPortfolio] = useState("");
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
   const [fullScreenItem, setFullScreenItem] = useState(null);
 
-  function mockLoadPortfolio() {
+  useEffect(() => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       setLoaded(true);
+      if (metricsRef.current) {
+        setMetricsHeight(metricsRef.current.clientHeight);
+      }
     }, 1000);
-  }
-
-  function handlePortfolioChange(e) {
-    setSelectedPortfolio(e.target.value);
-    setLoading(false);
-    setLoaded(false);
-  }
+  }, []);
 
   // Helper for rendering metric content in fullscreen
   function renderMetricFullScreen(item) {
@@ -75,37 +71,8 @@ export default function RiskPanel() {
 
   return (
     <div className="flex flex-col gap-3">
-      <CardHelper>
-        <div className="flex flex-col md:flex-row gap-3 w-full">
-          <div className="md:w-1/2 w-full">
-            <AnalyseCard id={"select"} title={"Select Portfolio"}>
-              <div className="flex flex-col md:flex-row justify-between md:items-center gap-3 h-full"> 
-                <select value={selectedPortfolio} onChange={handlePortfolioChange} className="select w-full">
-                  <option value="" disabled={true}>Select portfolio</option>
-                  <option>Industrial Portfolio</option>
-                  <option>TMT Portfolio</option>
-                  <option>Europe Portfolio</option>
-                  <option>US & Canada Portfolio</option>
-                  <option>Metals, Mining and Commodities Portfolio</option>
-                </select>
-                <CustomButton colour="primary" onClick={mockLoadPortfolio} disabled={loading || loaded || !selectedPortfolio}>
-                  Analyse
-                </CustomButton>
-              </div>
-            </AnalyseCard>
-          </div>
-          <div className="md:w-1/2 w-full">
-            <AnalyseCard id={"welcome"} title={"Welcome to Risk"}>
-              <div className="h-full flex flex-col justify-center">
-                <p>This section is where you will be able to analyse the risk of your portfolio, across key metrics and graphs.</p> 
-              </div>
-            </AnalyseCard>
-          </div>
-        </div>
-      </CardHelper>
       {loaded && (
         <>
-          <div className="divider my-0"></div>
           <MetricHelper>
             <div className="flex-1 cursor-pointer" onClick={() => setFullScreenItem("var95")}>
               <MetricCard
@@ -178,19 +145,18 @@ export default function RiskPanel() {
       )}
       {!loaded && loading && (
         <>
-          <div className="divider my-0"></div>
           <MetricHelper>
-            <div className="skeleton flex-1 h-[150px]"></div>
-            <div className="skeleton flex-1 h-[150px]"></div>
+            <div className="skeleton flex-1 h-[126px]"></div>
+            <div className="skeleton flex-1 h-[126px]"></div>
           </MetricHelper>
-          <div className="skeleton w-full h-[461px]"></div>
+          <div className="skeleton w-full h-[384px]"></div>
           <ChartHelper>
-            <div className="skeleton flex-1 h-[461px]"></div>
-            <div className="skeleton flex-1 h-[461px]"></div>
+            <div className="skeleton w-full h-[384px]"></div>
+            <div className="skeleton w-full h-[384px]"></div>
           </ChartHelper>
           <MetricHelper>
-            <div className="skeleton flex-1 h-[150px]"></div>
-            <div className="skeleton flex-1 h-[150px]"></div>
+            <div className="skeleton flex-1 h-[126px]"></div>
+            <div className="skeleton flex-1 h-[126px]"></div>
           </MetricHelper>
         </>
       )} 

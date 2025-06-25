@@ -21,9 +21,6 @@ export default function Landing() {
   const metricsRef = useRef(null);
   const [metricsHeight, setMetricsHeight] = useState(0);
 
-  // will need to fix the height of the news when im back online
-  // for now, yes while its not dynamic, ill just set news height to a fixed height
-
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
