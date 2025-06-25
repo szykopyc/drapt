@@ -25,93 +25,57 @@
 src/
 ┣ assets/
 ┃ ┗ dummy-data/
-┃   ┣ chartData.js
 ┃   ┗ tableData.js
 ┣ components/
 ┃ ┣ adminpanel/
-┃ ┃ ┣ UserEngagement.jsx
 ┃ ┃ ┗ UserManagementPanel.jsx
 ┃ ┣ adminui/
-┃ ┃ ┣ BulkActionsCard.jsx
-┃ ┃ ┣ UserCreationCard.jsx
-┃ ┃ ┣ UserDeleteCard.jsx
-┃ ┃ ┣ UserShowAllCard.jsx
-┃ ┃ ┗ UserUpdateCard.jsx
+┃ ┃ ┗ UserShowAllCard.jsx
 ┃ ┣ analysepanels/
 ┃ ┃ ┣ PerformancePanel.jsx
 ┃ ┃ ┗ RiskPanel.jsx
 ┃ ┣ analyseui/
 ┃ ┃ ┣ ChartCard.jsx
-┃ ┃ ┣ ColouredText.jsx
-┃ ┃ ┣ GlobalAnalysisCard.jsx
-┃ ┃ ┣ MetricCard.jsx
-┃ ┃ ┗ NewsCard.jsx
-┃ ┣ authcomponents/
-┃ ┃ ┣ PortfolioProtectedRoute.jsx
-┃ ┃ ┗ ProtectedRoute.jsx
+┃ ┃ ┗ GlobalAnalysisCard.jsx
 ┃ ┣ baseui/
 ┃ ┃ ┣ BeginText.jsx
 ┃ ┃ ┣ CustomButton.jsx
 ┃ ┃ ┣ CustomCard.jsx
-┃ ┃ ┣ CustomFigures.jsx
-┃ ┃ ┣ CustomList.jsx
 ┃ ┃ ┣ CustomTable.jsx
-┃ ┃ ┣ InlineCodeBlock.jsx
-┃ ┃ ┣ LargeCodeBlock.jsx
+┃ ┃ ┣ LargeSubmitHelper.jsx
 ┃ ┃ ┣ MainBlock.jsx
-┃ ┃ ┣ SectionMaintenanceWarning.jsx
 ┃ ┃ ┗ TabNav.jsx
+┃ ┣ errorui/
+┃ ┃ ┗ InnerEmptyState.jsx
 ┃ ┣ helperui/
-┃ ┃ ┣ DivHelper.jsx
 ┃ ┃ ┣ FormErrorHelper.jsx
 ┃ ┃ ┣ FormFieldHelper.jsx
-┃ ┃ ┣ FullscreenItemHelper.jsx
-┃ ┃ ┣ LargeSubmitHelper.jsx
-┃ ┃ ┣ LoadingSpinnerHelper.jsx
-┃ ┃ ┣ ModalHelper.jsx
-┃ ┃ ┗ ResetFormHelper.jsx
+┃ ┃ ┗ ModalHelper.jsx
 ┃ ┣ layout/
 ┃ ┃ ┣ Footer.jsx
-┃ ┃ ┣ MasterLayout.jsx
 ┃ ┃ ┗ Navbar.jsx
 ┃ ┣ portfoliopanels/
 ┃ ┃ ┣ OverviewPanel.jsx
-┃ ┃ ┣ PortfolioAdminPanel.jsx
+┃ ┃ ┣ PositionMonitoringPanel.jsx
 ┃ ┃ ┗ TradeBookerPanel.jsx
 ┃ ┣ portfolioui/
 ┃ ┃ ┣ BookTradeCard.jsx
-┃ ┃ ┣ BuySellToggle.jsx
-┃ ┃ ┣ GlobalPortfolioCard.jsx
-┃ ┃ ┗ TradeHistoryCard.jsx
+┃ ┃ ┣ ClosePositionModal.jsx
+┃ ┃ ┗ GlobalPortfolioCard.jsx
 ┃ ┣ userui/
-┃ ┃ ┣ ChangePassword.jsx
-┃ ┃ ┣ CurrencySwitcher.jsx
-┃ ┃ ┣ LogoutCard.jsx
 ┃ ┃ ┣ ProfileCard.jsx
 ┃ ┃ ┗ ThemeSwitcher.jsx
-┃ ┗ validators/
-┃   ┣ EmailValidator.jsx
-┃   ┗ PasswordValidator.jsx
 ┣ errorpages/
-┃ ┣ 401Unauthorised.jsx
-┃ ┣ 403Forbidden.jsx
 ┃ ┣ 404NotFound.jsx
-┃ ┣ 500InternalServerError.jsx
-┃ ┣ ErrorBoundary.jsx
-┃ ┣ MaintenanceError.jsx
-┃ ┗ MaintenanceGuard.jsx
+┃ ┗ ErrorBoundary.jsx
 ┣ pages/
 ┃ ┣ About.jsx
-┃ ┣ AdminWrapper.jsx
 ┃ ┣ AnalyseIndex.jsx
-┃ ┣ AnalyseWrapper.jsx
 ┃ ┣ Contact.jsx
-┃ ┣ ForgotPassword.jsx
 ┃ ┣ Index.jsx
 ┃ ┣ Landing.jsx
 ┃ ┣ Login.jsx
 ┃ ┣ PortfolioIndex.jsx
-┃ ┣ PortfolioWrapper.jsx
 ┃ ┗ Profile.jsx
 ┣ App.jsx
 ┣ index.css
