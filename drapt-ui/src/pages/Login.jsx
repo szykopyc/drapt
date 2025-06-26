@@ -7,6 +7,7 @@ import { FormField } from "../components/helperui/FormFieldHelper";
 import LargeSubmit from "../components/baseui/LargeSubmitHelper";
 import { useState } from "react";
 import { FormErrorHelper } from "../components/helperui/FormErrorHelper";
+import useUserStore from "../stores/userStore";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -29,17 +30,18 @@ export default function Login() {
         setIncorrectPasswordError("");
     };
 
+    const setUser = useUserStore((state) => state.setUser);
+
     const onSubmit = (data) => {
         // Handle login logic here
         // For now a simple redirect will suffice...
-        if (data.username != "abc" || data.password != "abc") {
+        if (data.username !== "abc" || data.password !== "abc") {
             setIncorrectPasswordError(
                 "Login failed. Please make sure that your username and password are both correct."
             );
             return;
         }
-        localStorage.setItem("loggedIn", true);
-        window.dispatchEvent(new Event("loggedInChange"));
+        setUser({ username: data.username, role: "dev", team: "executive" });
         setIncorrectPasswordError("");
         navigate("/landing");
     };

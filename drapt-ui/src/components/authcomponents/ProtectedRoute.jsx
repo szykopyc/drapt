@@ -1,7 +1,8 @@
 import { Navigate } from "react-router-dom";
+import useUserStore from "../../stores/userStore";
 
 export default function ProtectedRoute({ children }) {
-    // API integration later. This is all dummy.
-    const loggedIn = localStorage.getItem("loggedIn") === "true";
-    return loggedIn ? children : <Navigate to="/unauthorised" replace />;
+    const user = useUserStore((state) => state.user);
+    console.log(user);
+    return user ? children : <Navigate to="/unauthorised" replace />;
 }

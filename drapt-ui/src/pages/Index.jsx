@@ -3,8 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { Typewriter } from "react-simple-typewriter";
 
 export default function Index() {
-    const navigate = useNavigate();
-
     const words = [
         "Choose clarity",
         "Choose performance",
@@ -15,12 +13,7 @@ export default function Index() {
     const [showTypewriter, setShowTypewriter] = useState(false);
 
     useEffect(() => {
-        if (localStorage.getItem("loggedIn") === "true") {
-            navigate("/landing", { replace: true });
-        }
-    }, [navigate]);
-
-    useEffect(() => {
+        console.log("On index page");
         if (wordIndex < words.length - 1) {
             const interval = setInterval(() => {
                 setWordIndex((prevIndex) => (prevIndex + 1) % words.length);

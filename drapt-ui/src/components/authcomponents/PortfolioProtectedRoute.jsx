@@ -1,15 +1,25 @@
 import { Navigate, useParams } from "react-router-dom";
+import useUserStore from "../../stores/userStore";
 
-export default function ProtectedPortfolioRoute({user, children}){
-    const {portfolioID} = useParams();
+export default function ProtectedPortfolioRoute({ children }) {
+    const user = useUserStore((state) => state.user);
+    const { portfolioID } = useParams();
 
-    if (user.role == "vd" || user.role == "director" || user.role =="dev"){
-        return children;
-    } else {
-        if (user.team.includes(portfolioID)){
-            return children;
-        } else {
-            return <Navigate to="/forbidden"/>;
-        }
+    if (!user) {
+        return <Navigate to="/unauthorised" replace />;
     }
+
+    if (["vd", "director", "dev"].includes(user.role)) {
+        return children;
+    }
+
+    if (
+        Array.isArray(user.team)
+            ? user.team.includes(portfolioID)
+            : user.team === portfolioID
+    ) {
+        return children;
+    }
+
+    return <Navigate to="/forbidden" replace />;
 }
