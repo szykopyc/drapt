@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Typewriter } from "react-simple-typewriter";
+import CustomButton from "../components/baseui/CustomButton";
 
 export default function Index() {
     const words = [
@@ -13,7 +14,6 @@ export default function Index() {
     const [showTypewriter, setShowTypewriter] = useState(false);
 
     useEffect(() => {
-        console.log("On index page");
         if (wordIndex < words.length - 1) {
             const interval = setInterval(() => {
                 setWordIndex((prevIndex) => (prevIndex + 1) % words.length);
@@ -73,9 +73,13 @@ export default function Index() {
                                 <br></br>
                             </p>
                         )}
-                        <button className="btn btn-primary px-10 text-md md:text-lg text-primary-content font-semibold rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                        <Link
+                            to={"/login"}
+                            className="btn btn-primary px-10 text-md md:text-lg text-primary-content font-semibold rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                            tabIndex={0}
+                        >
                             <Link to="/login">Log In</Link>
-                        </button>
+                        </Link>
                     </div>
                 )}
             </div>

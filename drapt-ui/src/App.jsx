@@ -1,5 +1,4 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useEffect } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Analytics } from "@vercel/analytics/react";
 import MasterLayout from "./components/layout/MasterLayout";
@@ -33,6 +32,7 @@ import UserManagementPanel from "./components/adminpanel/UserManagementPanel";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/authcomponents/ProtectedRoute";
 import ProtectedPortfolioRoute from "./components/authcomponents/PortfolioProtectedRoute";
+import UserRoleProtectedRoute from "./components/authcomponents/UserRoleProtectedRoute";
 
 import useUserStore from "./stores/userStore";
 
@@ -44,7 +44,18 @@ function App() {
             <>
                 <Routes>
                     <Route element={<MasterLayout />}>
-                        <Route path="/" element={<Index />} />
+                        {user ? (
+                            <Route
+                                path="/"
+                                element={
+                                    <ProtectedRoute>
+                                        <Landing />
+                                    </ProtectedRoute>
+                                }
+                            />
+                        ) : (
+                            <Route path="/" element={<Index />} />
+                        )}
                         <Route path="about" element={<About />} />
                         <Route path="contact" element={<Contact />} />
                         <Route path="login" element={<Login />} />
@@ -52,34 +63,16 @@ function App() {
                             path="forgot-password"
                             element={<ForgotPassword />}
                         />
-
-                        <Route
-                            path="/landing"
-                            element={
-                                <ProtectedRoute>
-                                    <Landing />
-                                </ProtectedRoute>
-                            }
-                        />
                         <Route
                             path="analyse"
                             element={
-                                user ? (
-                                    ["vd", "director", "dev"].includes(
-                                        user?.role
-                                    ) ? (
-                                        <ProtectedRoute>
-                                            <AnalyseIndex />
-                                        </ProtectedRoute>
-                                    ) : (
-                                        <Navigate
-                                            to={`/analyse/${user?.team}`}
-                                            replace
-                                        />
-                                    )
-                                ) : (
-                                    <Navigate to="/unauthorised" replace />
-                                )
+                                <UserRoleProtectedRoute
+                                    otherwiseNavigateTo={"/analyse"}
+                                >
+                                    <ProtectedRoute>
+                                        <AnalyseIndex />
+                                    </ProtectedRoute>
+                                </UserRoleProtectedRoute>
                             }
                         />
                         <Route
@@ -107,39 +100,25 @@ function App() {
                         <Route
                             path="portfolio"
                             element={
-                                user ? (
-                                    ["vd", "director", "dev"].includes(
-                                        user.role
-                                    ) ? (
-                                        <ProtectedRoute>
-                                            <PortfolioIndex />
-                                        </ProtectedRoute>
-                                    ) : (
-                                        <Navigate
-                                            to={`/portfolio/${user.team}`}
-                                            replace
-                                        />
-                                    )
-                                ) : (
-                                    <Navigate to="/unauthorised" replace />
-                                )
+                                <UserRoleProtectedRoute
+                                    otherwiseNavigateTo={"/portfolio"}
+                                >
+                                    <ProtectedRoute>
+                                        <PortfolioIndex />
+                                    </ProtectedRoute>
+                                </UserRoleProtectedRoute>
                             }
                         />
                         <Route
                             path="portfolio/create"
                             element={
-                                ["vd", "director", "dev"].includes(
-                                    user?.role
-                                ) ? (
+                                <UserRoleProtectedRoute
+                                    otherwiseNavigateTo={"/portfolio"}
+                                >
                                     <ProtectedRoute>
                                         <MaintenanceError />
                                     </ProtectedRoute>
-                                ) : (
-                                    <Navigate
-                                        to={`/portfolio/${user?.team}`}
-                                        replace
-                                    />
-                                )
+                                </UserRoleProtectedRoute>
                             }
                         />
 
@@ -177,15 +156,11 @@ function App() {
                         <Route
                             path="admin"
                             element={
-                                ["vd", "director", "dev"].includes(
-                                    user?.role
-                                ) ? (
+                                <UserRoleProtectedRoute>
                                     <ProtectedRoute>
                                         <AdminWrapper />
                                     </ProtectedRoute>
-                                ) : (
-                                    <Navigate to={"/forbidden"} replace />
-                                )
+                                </UserRoleProtectedRoute>
                             }
                         >
                             <Route

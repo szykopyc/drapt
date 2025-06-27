@@ -4,12 +4,28 @@ import TabNav from "../components/baseui/TabNav";
 import { Outlet, useParams, useLocation } from "react-router-dom";
 import useUserStore from "../stores/userStore";
 
+import { dummyGlobalPortfolios } from "../assets/dummy-data/tableData";
+
 export default function Portfolio() {
     const user = useUserStore((state) => state.user);
     if (!user) return null;
 
     const { portfolioID } = useParams();
     const location = useLocation();
+
+    const selectedPortfolioData = dummyGlobalPortfolios.filter((portfolio) =>
+        portfolio.portfolioID.includes(portfolioID)
+    )[0];
+
+    const setCurrentPortfolioBeingAnalysed = useUserStore(
+        (state) => state.setCurrentPortfolioBeingAnalysed
+    );
+
+    if (selectedPortfolioData) {
+        console.log("Managing portfolio: ");
+        console.log(selectedPortfolioData);
+        setCurrentPortfolioBeingAnalysed(selectedPortfolioData);
+    }
 
     const pathToTab = {
         overview: "overview",
@@ -23,7 +39,13 @@ export default function Portfolio() {
 
     return (
         <MainBlock>
-            <BeginText title={user ? `${user?.team} Portfolio` : `Portfolio`} />
+            <BeginText
+                title={
+                    selectedPortfolioData
+                        ? `${selectedPortfolioData?.portfolioName} Portfolio`
+                        : `Portfolio`
+                }
+            />
             <TabNav
                 tabs={[
                     {
@@ -36,7 +58,7 @@ export default function Portfolio() {
                         label: "Positions",
                         value: "monitor",
                         to: `/portfolio/${portfolioID}/monitor`,
-                        keyShortcut: "m",
+                        keyShortcut: "p",
                     },
                     {
                         label: "Trade Booker",

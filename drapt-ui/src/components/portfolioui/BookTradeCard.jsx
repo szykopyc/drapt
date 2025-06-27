@@ -64,7 +64,6 @@ export default function BookTradeCard() {
         // final data for the modal
         const finalData = { ...capitalisedData, openPrice };
 
-        console.log(finalData);
         setModalData(finalData);
         if (tradeConfirmModalRef.current)
             tradeConfirmModalRef.current.showModal();

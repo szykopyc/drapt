@@ -3,6 +3,5 @@ import useUserStore from "../../stores/userStore";
 
 export default function ProtectedRoute({ children }) {
     const user = useUserStore((state) => state.user);
-    console.log(user);
     return user ? children : <Navigate to="/unauthorised" replace />;
 }

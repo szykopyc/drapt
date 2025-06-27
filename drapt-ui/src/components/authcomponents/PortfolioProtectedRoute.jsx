@@ -9,7 +9,7 @@ export default function ProtectedPortfolioRoute({ children }) {
         return <Navigate to="/unauthorised" replace />;
     }
 
-    if (["vd", "director", "dev"].includes(user.role)) {
+    if (["vd", "director", "developer"].includes(user.role)) {
         return children;
     }
 

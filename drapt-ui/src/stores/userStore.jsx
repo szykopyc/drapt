@@ -6,7 +6,11 @@ const useUserStore = create(
         (set) => ({
             user: null,
             setUser: (user) => set({ user }),
-            logout: () => set({ user: null }),
+            currentPortfolioBeingAnalysed: null,
+            setCurrentPortfolioBeingAnalysed: (currentPortfolioBeingAnalysed) =>
+                set({ currentPortfolioBeingAnalysed }),
+            logout: () =>
+                set({ user: null, currentPortfolioBeingAnalysed: null }),
         }),
         {
             name: "user-storage", // name in localStorage

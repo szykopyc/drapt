@@ -4,14 +4,27 @@ import { BeginText } from "../components/baseui/BeginText";
 import TabNav from "../components/baseui/TabNav";
 import useUserStore from "../stores/userStore";
 
+import { dummyGlobalPortfolios } from "../assets/dummy-data/tableData";
+
 export default function Analyse() {
     const user = useUserStore((state) => state.user);
     if (!user) return null;
 
     const { portfolioID } = useParams();
-    const capitalisedPortfolioID = portfolioID
-        ? portfolioID.charAt(0).toUpperCase() + portfolioID.slice(1)
-        : "";
+
+    const selectedPortfolioData = dummyGlobalPortfolios.filter((portfolio) =>
+        portfolio.portfolioID.includes(portfolioID)
+    )[0];
+
+    const setCurrentPortfolioBeingAnalysed = useUserStore(
+        (state) => state.setCurrentPortfolioBeingAnalysed
+    );
+
+    if (selectedPortfolioData) {
+        console.log("Analysing portfolio: ");
+        console.log(selectedPortfolioData);
+        setCurrentPortfolioBeingAnalysed(selectedPortfolioData);
+    }
 
     const location = useLocation();
 
@@ -27,8 +40,8 @@ export default function Analyse() {
         <MainBlock>
             <BeginText
                 title={
-                    capitalisedPortfolioID
-                        ? `Analyse ${capitalisedPortfolioID} Portfolio`
+                    selectedPortfolioData
+                        ? `Analyse ${selectedPortfolioData?.portfolioName} Portfolio`
                         : "Analyse"
                 }
             />

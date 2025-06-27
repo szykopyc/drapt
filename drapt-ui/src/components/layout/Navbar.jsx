@@ -9,7 +9,8 @@ export default function Navbar() {
     const loggedIn = !!user;
 
     const navRefs = useRef([]);
-    const showAdmin = user && ["dev", "vd", "director"].includes(user?.role);
+    const showAdmin =
+        user && ["developer", "vd", "director"].includes(user?.role);
 
     {
         /* 
@@ -67,7 +68,7 @@ export default function Navbar() {
                         tabIndex={0}
                         className="text-accent"
                         onClick={() => setMenuOpen(false)}
-                        to="/landing"
+                        to="/"
                     >
                         Drapt
                     </Link>

@@ -17,7 +17,10 @@ export default function PositionMonitoringPanel() {
         const sorted = [...positionsToSort];
         sorted.sort((a, b) => {
             if (a.positionTicker === b.positionTicker) {
-                return new Date(b.positionEntryDate) - new Date(a.positionEntryDate);
+                return (
+                    new Date(b.positionEntryDate) -
+                    new Date(a.positionEntryDate)
+                );
             }
             return a.positionTicker.localeCompare(b.positionTicker);
         });
@@ -25,12 +28,22 @@ export default function PositionMonitoringPanel() {
     };
 
     const openPositions = useMemo(
-        () => getSortedPositions(positions.filter((position) => position.positionStatus === "Open")),
+        () =>
+            getSortedPositions(
+                positions.filter(
+                    (position) => position.positionStatus === "Open"
+                )
+            ),
         [positions]
     );
 
     const closedPositions = useMemo(
-        () => getSortedPositions(positions.filter((position) => position.positionStatus !== "Open")),
+        () =>
+            getSortedPositions(
+                positions.filter(
+                    (position) => position.positionStatus !== "Open"
+                )
+            ),
         [positions]
     );
 
@@ -39,18 +52,25 @@ export default function PositionMonitoringPanel() {
     const [sortOption, setSortOption] = useState("ticker");
 
     const closeModal = () => {
-        if (positionCloseModalRef.current) positionCloseModalRef.current.close();
+        if (positionCloseModalRef.current)
+            positionCloseModalRef.current.close();
         setModalData(null);
         reset();
-    }
+    };
 
-    const {register, handleSubmit, reset, watch, formState: {errors}} = useForm({
-        mode:"onSubmit",
+    const {
+        register,
+        handleSubmit,
+        reset,
+        watch,
+        formState: { errors },
+    } = useForm({
+        mode: "onSubmit",
         reValidateMode: "onChange",
         defaultValues: {
             manualQuantity: 0,
-            quantityToClose: "manualQuantitySelect"
-        }
+            quantityToClose: "manualQuantitySelect",
+        },
     });
 
     useEffect(() => {
@@ -60,17 +80,15 @@ export default function PositionMonitoringPanel() {
     }, [modalData]);
 
     const showPositionCloseModal = (positionID) => {
-        const position = positions.find(pos => pos.positionID === positionID);
+        const position = positions.find((pos) => pos.positionID === positionID);
         if (position) setModalData(position);
     };
 
     const handlePositionClose = (position) => {
         // BACKEND CLOSE POSITION
-        console.log(position.positionTicker)
-        console.log(position)
         closeModal();
         return;
-    }
+    };
 
     const columnsOpenPosition = [
         { key: "positionTicker", label: "Ticker" },
@@ -80,8 +98,8 @@ export default function PositionMonitoringPanel() {
         { key: "positionPnLNominal", label: "P&L (Nominal)" },
         { key: "positionPnLPercentage", label: "P&L (%)" },
         { key: "positionStatus", label: "Status" },
-        { key: "positionEntryDate", label: "Entry Date"},
-        { key: "action", label: "Action" }
+        { key: "positionEntryDate", label: "Entry Date" },
+        { key: "action", label: "Action" },
     ];
 
     const columnsClosedPosition = [
@@ -92,123 +110,169 @@ export default function PositionMonitoringPanel() {
         { key: "positionPnLNominal", label: "P&L (Nominal)" },
         { key: "positionPnLPercentage", label: "P&L (%)" },
         { key: "positionStatus", label: "Status" },
-        { key: "positionEntryDate", label: "Entry Date"}
+        { key: "positionEntryDate", label: "Entry Date" },
     ];
 
     return (
         <>
-        <CardOne title={"Open Positions"}>
-            {openPositions.length === 0 ? (
-                <InnerEmptyState title="No positions yet" message="Looks like your portfolio doesn't yet have any positions."/>
-            ) : (
-                <div className="overflow-x-auto w-full">
-                    <table className="w-full table-sm md:table table-zebra">
-                        <thead>
-                            <tr>
-                                {columnsOpenPosition.map(col => (
-                                    <th key={col.key}>{col.label}</th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {openPositions.map((pos, idx) => (
-                                <tr key={idx}>
-                                    <td>{pos.positionTicker}</td>
-                                    <td>{pos.positionQuantity}</td>
-                                    <td>{pos.entryPrice}</td>
-                                    <td>{pos.currentPrice}</td>
-                                    <td>
-                                        {pos.positionPnLNominal >= 0 ? (
-                                            <span className="text-success">+{pos.positionPnLNominal.toFixed(2)}</span>
-                                        ) : (
-                                            <span className="text-error">{pos.positionPnLNominal.toFixed(2)}</span>
-                                        )}
-                                    </td>
-                                    <td>
-                                        {pos.positionPnLPercentage >= 0 ? (
-                                            <span className="text-success">
-                                                +{(pos.positionPnLPercentage * 100).toFixed(2)}%
-                                            </span>
-                                        ) : (
-                                            <span className="text-error">
-                                                {(pos.positionPnLPercentage * 100).toFixed(2)}%
-                                            </span>
-                                        )}
-                                    </td>
-                                    <td>{pos.positionStatus}</td>
-                                    <td>{pos.positionEntryDate}</td>
-                                    <td>
-                                        {pos.positionStatus === "Open" && (
-                                            <button
-                                                className="btn btn-sm btn-error"
-                                                onClick={() => showPositionCloseModal(pos.positionID)}
-                                            >
-                                                Close
-                                            </button>
-                                        )}
-                                    </td>
+            <CardOne title={"Open Positions"}>
+                {openPositions.length === 0 ? (
+                    <InnerEmptyState
+                        title="No positions yet"
+                        message="Looks like your portfolio doesn't yet have any positions."
+                    />
+                ) : (
+                    <div className="overflow-x-auto w-full">
+                        <table className="w-full table-sm md:table table-zebra">
+                            <thead>
+                                <tr>
+                                    {columnsOpenPosition.map((col) => (
+                                        <th key={col.key}>{col.label}</th>
+                                    ))}
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            )}
-        </CardOne>
-        <CardOne title={"Closed Positions"}>
-            {closedPositions.length === 0 ? (
-                <InnerEmptyState title="No closed positions" message="No positions have been closed yet."/>
-            ) : (
-                <div className="overflow-x-auto w-full">
-                    <table className="w-full table-sm md:table table-zebra">
-                        <thead>
-                            <tr>
-                                {columnsClosedPosition.map(col => (
-                                    <th key={col.key}>{col.label}</th>
+                            </thead>
+                            <tbody>
+                                {openPositions.map((pos, idx) => (
+                                    <tr key={idx}>
+                                        <td>{pos.positionTicker}</td>
+                                        <td>{pos.positionQuantity}</td>
+                                        <td>{pos.entryPrice}</td>
+                                        <td>{pos.currentPrice}</td>
+                                        <td>
+                                            {pos.positionPnLNominal >= 0 ? (
+                                                <span className="text-success">
+                                                    +
+                                                    {pos.positionPnLNominal.toFixed(
+                                                        2
+                                                    )}
+                                                </span>
+                                            ) : (
+                                                <span className="text-error">
+                                                    {pos.positionPnLNominal.toFixed(
+                                                        2
+                                                    )}
+                                                </span>
+                                            )}
+                                        </td>
+                                        <td>
+                                            {pos.positionPnLPercentage >= 0 ? (
+                                                <span className="text-success">
+                                                    +
+                                                    {(
+                                                        pos.positionPnLPercentage *
+                                                        100
+                                                    ).toFixed(2)}
+                                                    %
+                                                </span>
+                                            ) : (
+                                                <span className="text-error">
+                                                    {(
+                                                        pos.positionPnLPercentage *
+                                                        100
+                                                    ).toFixed(2)}
+                                                    %
+                                                </span>
+                                            )}
+                                        </td>
+                                        <td>{pos.positionStatus}</td>
+                                        <td>{pos.positionEntryDate}</td>
+                                        <td>
+                                            {pos.positionStatus === "Open" && (
+                                                <button
+                                                    className="btn btn-sm btn-error"
+                                                    onClick={() =>
+                                                        showPositionCloseModal(
+                                                            pos.positionID
+                                                        )
+                                                    }
+                                                >
+                                                    Close
+                                                </button>
+                                            )}
+                                        </td>
+                                    </tr>
                                 ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {closedPositions.map((pos, idx) => (
-                                <tr key={idx}>
-                                    <td>{pos.positionTicker}</td>
-                                    <td>{pos.positionQuantity}</td>
-                                    <td>{pos.entryPrice}</td>
-                                    <td>{pos.currentPrice}</td>
-                                    <td>
-                                        {pos.positionPnLNominal >= 0 ? (
-                                            <span className="text-success">+{pos.positionPnLNominal.toFixed(2)}</span>
-                                        ) : (
-                                            <span className="text-error">{pos.positionPnLNominal.toFixed(2)}</span>
-                                        )}
-                                    </td>
-                                    <td>
-                                        {pos.positionPnLPercentage >= 0 ? (
-                                            <span className="text-success">
-                                                +{(pos.positionPnLPercentage * 100).toFixed(2)}%
-                                            </span>
-                                        ) : (
-                                            <span className="text-error">
-                                                {(pos.positionPnLPercentage * 100).toFixed(2)}%
-                                            </span>
-                                        )}
-                                    </td>
-                                    <td>{pos.positionStatus}</td>
-                                    <td>{pos.positionEntryDate}</td>
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </CardOne>
+            <CardOne title={"Closed Positions"}>
+                {closedPositions.length === 0 ? (
+                    <InnerEmptyState
+                        title="No closed positions"
+                        message="No positions have been closed yet."
+                    />
+                ) : (
+                    <div className="overflow-x-auto w-full">
+                        <table className="w-full table-sm md:table table-zebra">
+                            <thead>
+                                <tr>
+                                    {columnsClosedPosition.map((col) => (
+                                        <th key={col.key}>{col.label}</th>
+                                    ))}
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                {closedPositions.map((pos, idx) => (
+                                    <tr key={idx}>
+                                        <td>{pos.positionTicker}</td>
+                                        <td>{pos.positionQuantity}</td>
+                                        <td>{pos.entryPrice}</td>
+                                        <td>{pos.currentPrice}</td>
+                                        <td>
+                                            {pos.positionPnLNominal >= 0 ? (
+                                                <span className="text-success">
+                                                    +
+                                                    {pos.positionPnLNominal.toFixed(
+                                                        2
+                                                    )}
+                                                </span>
+                                            ) : (
+                                                <span className="text-error">
+                                                    {pos.positionPnLNominal.toFixed(
+                                                        2
+                                                    )}
+                                                </span>
+                                            )}
+                                        </td>
+                                        <td>
+                                            {pos.positionPnLPercentage >= 0 ? (
+                                                <span className="text-success">
+                                                    +
+                                                    {(
+                                                        pos.positionPnLPercentage *
+                                                        100
+                                                    ).toFixed(2)}
+                                                    %
+                                                </span>
+                                            ) : (
+                                                <span className="text-error">
+                                                    {(
+                                                        pos.positionPnLPercentage *
+                                                        100
+                                                    ).toFixed(2)}
+                                                    %
+                                                </span>
+                                            )}
+                                        </td>
+                                        <td>{pos.positionStatus}</td>
+                                        <td>{pos.positionEntryDate}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </CardOne>
+            {modalData && (
+                <ClosePositionModal
+                    reference={positionCloseModalRef}
+                    positionData={modalData}
+                    onSubmit={handlePositionClose}
+                    closeModalActions={closeModal}
+                />
             )}
-        </CardOne>
-        {modalData && (
-          <ClosePositionModal
-            reference={positionCloseModalRef}
-            positionData={modalData}
-            onSubmit={handlePositionClose}
-            closeModalActions={closeModal}
-          />
-        )}
         </>
     );
 }

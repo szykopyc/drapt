@@ -41,9 +41,15 @@ export default function Login() {
             );
             return;
         }
-        setUser({ username: data.username, role: "dev", team: "executive" });
+        setUser({
+            fullname: "Szymon Kopyciński",
+            username: "szymonkp",
+            email: "szymon.kopycinski@outlook.com",
+            role: "developer",
+            team: "executive",
+        });
         setIncorrectPasswordError("");
-        navigate("/landing");
+        navigate("/");
     };
 
     return (
