@@ -31,8 +31,10 @@ export default function Navbar() {
 
     // Arrow key navigation for desktop nav links
     const navLinks = [
-        { to: "/analyse", label: "Analyse" },
-        { to: "/portfolio", label: "Portfolio" },
+        ...(!showAdmin ? [{ to: "/analyse", label: "Analyse" }] : []),
+        ...(!showAdmin
+            ? [{ to: "/portfolio", label: "Portfolio" }]
+            : [{ to: "/portfolio", label: "Fund Scope" }]),
         ...(showAdmin ? [{ to: "/admin", label: "Admin" }] : []),
         { to: "/profile", label: "Profile" },
     ];

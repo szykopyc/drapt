@@ -54,7 +54,11 @@ export default function RiskPanel() {
                         portfolio.
                     </p>
                 ) : (
-                    ""
+                    <p>
+                        Please contact your Portfolio Manager if you have any
+                        questions. They will direct you to the right person if
+                        they don't know themselves.
+                    </p>
                 )}
             </CardEmptyState>
         );

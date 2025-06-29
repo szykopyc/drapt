@@ -69,9 +69,7 @@ function App() {
                                 <UserRoleProtectedRoute
                                     otherwiseNavigateTo={"/analyse"}
                                 >
-                                    <ProtectedRoute>
-                                        <AnalyseIndex />
-                                    </ProtectedRoute>
+                                    <Navigate to="/portfolio" replace />
                                 </UserRoleProtectedRoute>
                             }
                         />
