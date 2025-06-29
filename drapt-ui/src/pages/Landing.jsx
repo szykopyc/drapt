@@ -13,6 +13,13 @@ import React, { useState, useEffect, useRef } from "react";
 import useUserStore from "../stores/userStore";
 
 export default function Landing() {
+    try {
+        var theme = localStorage.getItem("theme");
+        if (theme) {
+            document.documentElement.setAttribute("data-theme", theme);
+        }
+    } catch (e) {}
+
     const user = useUserStore((state) => state.user);
     if (!user) return null;
 

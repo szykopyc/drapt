@@ -13,7 +13,7 @@ const useUserStore = create(
                 set({ user: null, currentPortfolioBeingAnalysed: null }),
         }),
         {
-            name: "user-storage", // name in localStorage
+            name: "user-storage",
         }
     )
 );

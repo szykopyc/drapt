@@ -72,12 +72,12 @@ export default function GlobalPortfolioCard({
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col md:flex-row gap-3 justify-between">
+            <div className="flex flex-row gap-1 md:gap-3 justify-between">
                 <CustomButton to={`/analyse/${portfolioID}`} tabIndex={0}>
-                    Analyse Portfolio
+                    Analyse
                 </CustomButton>
                 <CustomButton to={`/portfolio/${portfolioID}`} tabIndex={0}>
-                    Manage Portfolio
+                    Manage
                 </CustomButton>
             </div>
         </CardOne>
