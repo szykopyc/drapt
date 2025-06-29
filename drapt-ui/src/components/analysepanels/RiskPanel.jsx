@@ -1,22 +1,27 @@
 import { useState, useEffect } from "react";
-import { AnalyseCard } from "../baseui/CustomCard";
-import MetricCard from "../analyseui/MetricCard";
-import { MetricHelper, CardHelper, ChartHelper } from "../helperui/DivHelper";
-import ChartCard from "../analyseui/ChartCard";
+import { MetricHelper, ChartHelper } from "../helperui/DivHelper";
+import MetricRenderer from "../analyseui/MetricRenderer";
+import ChartRenderer from "../analyseui/ChartRenderer";
 import FullscreenItem from "../helperui/FullscreenItemHelper";
-import {
-    dummyAsset1,
-    dummyAsset2,
-    dummyAsset3,
-} from "../../assets/dummy-data/chartData";
+import portfolioAnalyseData from "../../assets/dummy-data/portfolioAnalyseData";
+import CardEmptyState from "../errorui/CardEmptyState";
 import CustomButton from "../baseui/CustomButton";
-import { CardTwo } from "../baseui/CustomCard";
+import { useParams } from "react-router-dom";
+import useUserStore from "../../stores/userStore";
 
 export default function RiskPanel() {
+    const { portfolioID } = useParams();
+
+    const user = useUserStore((state) => state.user);
+    if (!user) return null;
+
     const [loading, setLoading] = useState(false);
     const [loaded, setLoaded] = useState(false);
-
     const [fullScreenItem, setFullScreenItem] = useState(null);
+
+    const portfolioData = portfolioAnalyseData.find(
+        (data) => data.portfolioID === portfolioID
+    );
 
     useEffect(() => {
         setLoading(true);
@@ -26,150 +31,120 @@ export default function RiskPanel() {
         }, 1000);
     }, []);
 
-    // Helper for rendering metric content in fullscreen
-    function renderMetricFullScreen(item) {
-        switch (item) {
-            case "var95":
-                return (
-                    <MetricCard
-                        metric="VaR 95"
-                        value="-1.26%"
-                        tooltip="Potential loss in worst 5% of cases over a given period."
-                        className="text-2xl"
-                    />
-                );
-            case "var99":
-                return (
-                    <MetricCard
-                        metric="VaR 99"
-                        value="-2.1%"
-                        tooltip="Potential loss in worst 1% of cases over a given period."
-                        className="text-2xl"
-                    />
-                );
-            case "beta":
-                return (
-                    <MetricCard
-                        metric="Beta"
-                        value="1.34"
-                        tooltip="Measures sensitivity to market movements. 1 means moves with the market."
-                        className="text-2xl"
-                    />
-                );
-            case "cvar95":
-                return (
-                    <MetricCard
-                        metric="CVaR 95"
-                        value="-2.7%"
-                        tooltip="Expected loss in the worst 5% of cases. More conservative than VaR."
-                        className="text-2xl"
-                    />
-                );
-            default:
-                return null;
-        }
+    if (!portfolioData) {
+        return (
+            <CardEmptyState
+                title="No portfolio to analyse..."
+                message={"We aren't sure if the portfolio you selected exists."}
+            >
+                {["vd", "director", "developer"].includes(user?.role) ? (
+                    <>
+                        <p className="mb-1">Please configure this portfolio.</p>
+                        <div className="w-1/2">
+                            <CustomButton
+                                to={`/portfolio/${portfolioID}/administration`}
+                            >
+                                Configure Portfolio
+                            </CustomButton>
+                        </div>
+                    </>
+                ) : ["pm"].includes(user?.role) ? (
+                    <p>
+                        Please contact the Executive team to configure your
+                        portfolio.
+                    </p>
+                ) : (
+                    ""
+                )}
+            </CardEmptyState>
+        );
     }
+
+    const metrics = [
+        {
+            key: "var95",
+            metric: "VaR 95",
+            value: portfolioData.portfolioVaR95,
+            tooltip: "Potential loss in worst 5% of cases over a given period.",
+        },
+        {
+            key: "var99",
+            metric: "VaR 99",
+            value: portfolioData.portfolioVaR99,
+            tooltip: "Potential loss in worst 1% of cases over a given period.",
+        },
+        {
+            key: "beta",
+            metric: "Beta",
+            value: portfolioData.portfolioBeta,
+            tooltip:
+                "Measures sensitivity to market movements. 1 means moves with the market.",
+        },
+        {
+            key: "cvar95",
+            metric: "CVaR 95",
+            value: portfolioData.portfolioCVaR95,
+            tooltip:
+                "Expected loss in the worst 5% of cases. More conservative than VaR.",
+        },
+    ];
+
+    const metricsToRenderFirst = metrics.slice(0, 2);
+    const metricsToRenderSecond = metrics.slice(2, 4);
+
+    const charts = [
+        {
+            key: "bullishChart",
+            title: "Bullish Asset",
+            data: portfolioData.portfolioPerformanceChart,
+            tooltip:
+                "This chart shows the performance of a bullish asset over time.",
+        },
+        {
+            key: "bearishChart",
+            title: "Bearish Asset",
+            data: portfolioData.portfolioPerformanceChart,
+            tooltip: "This chart displays a bearish asset's recent trend.",
+        },
+    ];
 
     return (
         <div className="flex flex-col gap-3">
             {loaded && (
                 <>
                     <MetricHelper>
-                        <div
-                            className="flex-1 cursor-pointer"
-                            onClick={() => setFullScreenItem("var95")}
-                        >
-                            <MetricCard
-                                metric="VaR 95"
-                                value="-1.26%"
-                                tooltip="Potential loss in worst 5% of cases over a given period."
-                                expandButton={true}
+                        {metricsToRenderFirst.map((metric) => (
+                            <MetricRenderer
+                                key={metric.key}
+                                metric={metric.metric}
+                                value={metric.value}
+                                tooltip={metric.tooltip}
+                                onExpand={() => setFullScreenItem(metric.key)}
                             />
-                        </div>
-                        <div
-                            className="flex-1 cursor-pointer"
-                            onClick={() => setFullScreenItem("var99")}
-                        >
-                            <MetricCard
-                                metric="VaR 99"
-                                value="-2.1%"
-                                tooltip="Potential loss in worst 1% of cases over a given period."
-                                expandButton={true}
-                            />
-                        </div>
+                        ))}
                     </MetricHelper>
-                    <div
-                        onClick={() => setFullScreenItem("bullish")}
-                        className="cursor-pointer w-full"
-                    >
-                        <ChartCard
-                            title="Bullish Asset"
-                            data={dummyAsset1}
-                            size="large"
-                            tooltip="This chart shows the performance of a bullish asset over time."
-                            expandButton={true}
-                        />
-                    </div>
                     <ChartHelper>
-                        <div
-                            onClick={() => setFullScreenItem("bearish")}
-                            className="cursor-pointer w-full"
-                        >
-                            <ChartCard
-                                title="Bearish Asset"
-                                data={dummyAsset2}
-                                size="large"
-                                tooltip="This chart displays a bearish asset's recent trend."
-                                expandButton={true}
+                        {charts.map((chart) => (
+                            <ChartRenderer
+                                key={chart.key}
+                                title={chart.title}
+                                data={chart.data}
+                                tooltip={chart.tooltip}
+                                onExpand={() => setFullScreenItem(chart.key)}
                             />
-                        </div>
-                        <div
-                            onClick={() => setFullScreenItem("neutral")}
-                            className="cursor-pointer w-full"
-                        >
-                            <ChartCard
-                                title="Neutral Asset"
-                                data={dummyAsset3}
-                                size="large"
-                                tooltip="This chart represents a neutral asset's stability."
-                                expandButton={true}
-                            />
-                        </div>
+                        ))}
                     </ChartHelper>
                     <MetricHelper>
-                        <div
-                            className="flex-1 cursor-pointer"
-                            onClick={() => setFullScreenItem("beta")}
-                        >
-                            <MetricCard
-                                metric="Beta"
-                                value="1.34"
-                                tooltip="Measures sensitivity to market movements. 1 means moves with the market."
-                                expandButton={true}
+                        {metricsToRenderSecond.map((metric) => (
+                            <MetricRenderer
+                                key={metric.key}
+                                metric={metric.metric}
+                                value={metric.value}
+                                tooltip={metric.tooltip}
+                                onExpand={() => setFullScreenItem(metric.key)}
                             />
-                        </div>
-                        <div
-                            className="flex-1 cursor-pointer"
-                            onClick={() => setFullScreenItem("cvar95")}
-                        >
-                            <MetricCard
-                                metric="CVaR 95"
-                                value="-2.7%"
-                                tooltip="Expected loss in the worst 5% of cases. More conservative than VaR."
-                                expandButton={true}
-                            />
-                        </div>
+                        ))}
                     </MetricHelper>
-                    <CardTwo
-                        id={"bonusFeatures"}
-                        title={"Risk Contribution"}
-                        badge={"Bonus"}
-                    >
-                        <p>
-                            See which holdings carry the most risk, and get
-                            actionable insights for better risk management.
-                        </p>
-                    </CardTwo>
                 </>
             )}
             {!loaded && loading && (
@@ -183,10 +158,6 @@ export default function RiskPanel() {
                         <div className="skeleton w-full h-[384px]"></div>
                         <div className="skeleton w-full h-[384px]"></div>
                     </ChartHelper>
-                    <MetricHelper>
-                        <div className="skeleton flex-1 h-[126px]"></div>
-                        <div className="skeleton flex-1 h-[126px]"></div>
-                    </MetricHelper>
                 </>
             )}
             {fullScreenItem && (
@@ -200,33 +171,26 @@ export default function RiskPanel() {
                             : 75
                     }
                 >
-                    {fullScreenItem === "bearish" && (
-                        <ChartCard
-                            title="Bearish Asset"
-                            data={dummyAsset2}
-                            size="xlarge"
-                            tooltip=""
-                        />
-                    )}
-                    {fullScreenItem === "neutral" && (
-                        <ChartCard
-                            title="Neutral Asset"
-                            data={dummyAsset3}
-                            size="xlarge"
-                            tooltip=""
-                        />
-                    )}
-                    {fullScreenItem === "bullish" && (
-                        <ChartCard
-                            title="Bullish Asset"
-                            data={dummyAsset1}
-                            size="xlarge"
-                            tooltip=""
-                        />
-                    )}
-                    {["var95", "var99", "beta", "cvar95"].includes(
-                        fullScreenItem
-                    ) && renderMetricFullScreen(fullScreenItem)}
+                    {metrics
+                        .filter((metric) => metric.key === fullScreenItem)
+                        .map((metric) => (
+                            <MetricRenderer
+                                key={metric.key}
+                                metric={metric.metric}
+                                value={metric.value}
+                                tooltip={metric.tooltip}
+                            />
+                        ))}
+                    {charts
+                        .filter((chart) => chart.key === fullScreenItem)
+                        .map((chart) => (
+                            <ChartRenderer
+                                key={chart.key}
+                                title={chart.title}
+                                data={chart.data}
+                                tooltip={chart.tooltip}
+                            />
+                        ))}
                 </FullscreenItem>
             )}
         </div>

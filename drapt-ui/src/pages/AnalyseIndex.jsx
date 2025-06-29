@@ -37,12 +37,11 @@ export default function AnalyseIndex() {
                         }
                         title="No portfolios to analyse"
                         message="No portfolios have been created yet."
-                        action={
-                            <CustomButton to={"/portfolio/create"} tabIndex={0}>
-                                Create new portfolio
-                            </CustomButton>
-                        }
-                    />
+                    >
+                        <CustomButton to={"/portfolio/create"} tabIndex={0}>
+                            Create new portfolio
+                        </CustomButton>
+                    </InnerEmptyState>
                 </CardNoTitle>
             )}
         </MainBlock>
