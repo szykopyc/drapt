@@ -75,7 +75,7 @@ export default function Index() {
                         )}
                         <Link
                             to={"/login"}
-                            className="btn btn-primary px-10 text-md md:text-lg text-primary-content font-semibold rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                            className="btn btn-primary px-10 text-md md:text-lg text-primary-content font-semibold rounded-none shadow-md hover:shadow-lg transition-shadow"
                             tabIndex={0}
                         >
                             <Link to="/login">Log In</Link>

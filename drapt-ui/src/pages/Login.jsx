@@ -35,19 +35,37 @@ export default function Login() {
     const onSubmit = (data) => {
         // Handle login logic here
         // For now a simple redirect will suffice...
-        if (data.username !== "abc" || data.password !== "abc") {
+        if (data.username === "dev" && data.password === "dev") {
+            setUser({
+                fullname: "Szymon Kopyciński",
+                username: "szymonkp",
+                email: "szymon.kopycinski@outlook.com",
+                role: "developer",
+                team: "executive",
+            });
+        } else if (data.username === "abc" && data.password === "abc") {
+            setUser({
+                fullname: "Random Analyst",
+                username: "randomanalyst",
+                email: "random.analyst@outlook.com",
+                role: "analyst",
+                team: "industrial",
+            });
+        } else if (data.username === "pm" && data.password === "pm") {
+            setUser({
+                fullname: "Portfolio Manager",
+                username: "portfoliomanager",
+                email: "portfolio.manager@outlook.com",
+                role: "pm",
+                team: "industrial",
+            });
+        } else {
             setIncorrectPasswordError(
                 "Login failed. Please make sure that your username and password are both correct."
             );
             return;
         }
-        setUser({
-            fullname: "Szymon Kopyciński",
-            username: "szymonkp",
-            email: "szymon.kopycinski@outlook.com",
-            role: "developer",
-            team: "executive",
-        });
+
         setIncorrectPasswordError("");
         navigate("/");
     };
@@ -126,8 +144,8 @@ export default function Login() {
                         </LargeSubmit>
                     </div>
                     <p>
-                        For the purposes of testing, dummy login credentials are
-                        "abc" and "abc".
+                        Dummy login credentials: Developer - "dev" & "dev";
+                        Analyst - "abc" & "abc"; PM - "pm" & "pm".
                     </p>
                 </CardOne>
             </div>

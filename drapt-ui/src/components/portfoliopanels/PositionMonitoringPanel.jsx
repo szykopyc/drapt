@@ -6,10 +6,14 @@ import { FormField } from "../helperui/FormFieldHelper";
 import { FormErrorHelper } from "../helperui/FormErrorHelper";
 import LargeSubmit from "../baseui/LargeSubmitHelper";
 import InnerEmptyState from "../errorui/InnerEmptyState";
+import useUserStore from "../../stores/userStore";
 
 import { dummyPositionMonitoringTable } from "../../assets/dummy-data/tableData";
 
 export default function PositionMonitoringPanel() {
+    const user = useUserStore((state) => state.user);
+    if (!user) return null;
+
     const positions = dummyPositionMonitoringTable;
 
     // Sorting function used for both open and closed positions
@@ -80,6 +84,13 @@ export default function PositionMonitoringPanel() {
     }, [modalData]);
 
     const showPositionCloseModal = (positionID) => {
+        if (!["pm", "director", "vd", "developer"].includes(user?.role)) {
+            console.warn(
+                "Unauthorized access attempt to close position modal."
+            );
+            return;
+        }
+
         const position = positions.find((pos) => pos.positionID === positionID);
         if (position) setModalData(position);
     };
@@ -99,7 +110,9 @@ export default function PositionMonitoringPanel() {
         { key: "positionPnLPercentage", label: "P&L (%)" },
         { key: "positionStatus", label: "Status" },
         { key: "positionEntryDate", label: "Entry Date" },
-        { key: "action", label: "Action" },
+        ...(["pm", "vd", "developer", "director"].includes(user?.role)
+            ? [{ key: "action", label: "Action" }]
+            : []),
     ];
 
     const columnsClosedPosition = [
@@ -177,18 +190,29 @@ export default function PositionMonitoringPanel() {
                                         <td>{pos.positionStatus}</td>
                                         <td>{pos.positionEntryDate}</td>
                                         <td>
-                                            {pos.positionStatus === "Open" && (
-                                                <button
-                                                    className="btn btn-sm btn-error"
-                                                    onClick={() =>
-                                                        showPositionCloseModal(
-                                                            pos.positionID
-                                                        )
-                                                    }
-                                                >
-                                                    Close
-                                                </button>
-                                            )}
+                                            {[
+                                                "pm",
+                                                "director",
+                                                "vd",
+                                                "developer",
+                                            ].includes(user?.role) &&
+                                                pos.positionStatus ===
+                                                    "Open" && (
+                                                    <button
+                                                        className="btn btn-sm btn-error"
+                                                        style={{
+                                                            borderRadius:
+                                                                "var(--border-radius)",
+                                                        }}
+                                                        onClick={() =>
+                                                            showPositionCloseModal(
+                                                                pos.positionID
+                                                            )
+                                                        }
+                                                    >
+                                                        Close
+                                                    </button>
+                                                )}
                                         </td>
                                     </tr>
                                 ))}
@@ -265,14 +289,15 @@ export default function PositionMonitoringPanel() {
                     </div>
                 )}
             </CardOne>
-            {modalData && (
-                <ClosePositionModal
-                    reference={positionCloseModalRef}
-                    positionData={modalData}
-                    onSubmit={handlePositionClose}
-                    closeModalActions={closeModal}
-                />
-            )}
+            {modalData &&
+                ["pm", "director", "vd", "developer"].includes(user?.role) && (
+                    <ClosePositionModal
+                        reference={positionCloseModalRef}
+                        positionData={modalData}
+                        onSubmit={handlePositionClose}
+                        closeModalActions={closeModal}
+                    />
+                )}
         </>
     );
 }

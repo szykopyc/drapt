@@ -26,13 +26,24 @@ export default function CustomButton({
 
     if (to) {
         return (
-            <Link to={to} className={className} tabIndex={0} {...props}>
+            <Link
+                to={to}
+                className={className}
+                tabIndex={0}
+                {...props}
+                style={{ borderRadius: "var(--border-radius)" }}
+            >
                 {children}
             </Link>
         );
     }
     return (
-        <button className={className} tabIndex={0} {...props}>
+        <button
+            className={className}
+            tabIndex={0}
+            {...props}
+            style={{ borderRadius: "var(--border-radius)" }}
+        >
             {children}
         </button>
     );
@@ -52,13 +63,24 @@ export function CustomButtonInputStyle({
 
     if (to) {
         return (
-            <Link to={to} className={className} tabIndex={0} {...props}>
+            <Link
+                to={to}
+                className={className}
+                tabIndex={0}
+                {...props}
+                style={{ borderRadius: "var(--border-radius)" }}
+            >
                 {children}
             </Link>
         );
     }
     return (
-        <button className={className} tabIndex={0} {...props}>
+        <button
+            className={className}
+            tabIndex={0}
+            {...props}
+            style={{ borderRadius: "var(--border-radius)" }}
+        >
             {children}
         </button>
     );

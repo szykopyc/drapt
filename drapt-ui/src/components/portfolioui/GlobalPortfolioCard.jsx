@@ -74,10 +74,10 @@ export default function GlobalPortfolioCard({
             </div>
             <div className="flex flex-col md:flex-row gap-3 justify-between">
                 <CustomButton to={`/analyse/${portfolioID}`} tabIndex={0}>
-                    Analyse {portfolioName} Portfolio
+                    Analyse Portfolio
                 </CustomButton>
                 <CustomButton to={`/portfolio/${portfolioID}`} tabIndex={0}>
-                    Manage {portfolioName} Portfolio
+                    Manage Portfolio
                 </CustomButton>
             </div>
         </CardOne>

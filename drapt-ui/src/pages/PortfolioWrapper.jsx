@@ -10,6 +10,12 @@ export default function Portfolio() {
     const user = useUserStore((state) => state.user);
     if (!user) return null;
 
+    const showPortfolioAdmin =
+        user && ["developer", "vd", "director"].includes(user?.role);
+
+    const showTradeBooker =
+        user && ["developer", "vd", "director", "pm"].includes(user?.role);
+
     const { portfolioID } = useParams();
     const location = useLocation();
 
@@ -60,18 +66,26 @@ export default function Portfolio() {
                         to: `/portfolio/${portfolioID}/monitor`,
                         keyShortcut: "p",
                     },
-                    {
-                        label: "Trade Booker",
-                        value: "tradeBooker",
-                        to: `/portfolio/${portfolioID}/tradebooker`,
-                        keyShortcut: "t",
-                    },
-                    {
-                        label: "Portfolio Admin",
-                        value: "portfolioAdmin",
-                        to: `/portfolio/${portfolioID}/administration`,
-                        keyShortcut: "a",
-                    },
+                    ...(showTradeBooker
+                        ? [
+                              {
+                                  label: "Trade Booker",
+                                  value: "tradeBooker",
+                                  to: `/portfolio/${portfolioID}/tradebooker`,
+                                  keyShortcut: "t",
+                              },
+                          ]
+                        : []),
+                    ...(showPortfolioAdmin
+                        ? [
+                              {
+                                  label: "Portfolio Admin",
+                                  value: "portfolioAdmin",
+                                  to: `/portfolio/${portfolioID}/administration`,
+                                  keyShortcut: "a",
+                              },
+                          ]
+                        : []),
                 ]}
                 initialTab={initialTab}
                 showKeyboardShortcuts={true}

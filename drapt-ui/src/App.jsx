@@ -144,11 +144,28 @@ function App() {
                             ></Route>
                             <Route
                                 path="tradebooker"
-                                element={<TradeBookerPanel />}
+                                element={
+                                    <UserRoleProtectedRoute
+                                        roles={[
+                                            "vd",
+                                            "director",
+                                            "developer",
+                                            "pm",
+                                        ]}
+                                    >
+                                        <TradeBookerPanel />
+                                    </UserRoleProtectedRoute>
+                                }
                             ></Route>
                             <Route
                                 path="administration"
-                                element={<PortfolioAdminPanel />}
+                                element={
+                                    <UserRoleProtectedRoute
+                                        roles={["vd", "director", "developer"]}
+                                    >
+                                        <PortfolioAdminPanel />
+                                    </UserRoleProtectedRoute>
+                                }
                             ></Route>
                         </Route>
                         <Route

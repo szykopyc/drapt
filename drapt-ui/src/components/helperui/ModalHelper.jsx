@@ -1,17 +1,36 @@
-export function ModalHelper({id, reference, modalTitle, children, closeModalActions=null, ...props}){
+export function ModalHelper({
+    id,
+    reference,
+    modalTitle,
+    children,
+    closeModalActions = null,
+    ...props
+}) {
     return (
-        <dialog id={id} ref={reference} className="modal">
-        <div className="modal-box" {...props}>
-          <h3 className="font-bold text-2xl">{modalTitle}</h3>
-            <div className="py-2">
-              {children}
+        <dialog
+            id={id}
+            ref={reference}
+            className="modal"
+            style={{ borderRadius: "var(--border-radius)" }}
+        >
+            <div
+                className="modal-box"
+                style={{ borderRadius: "var(--border-radius)" }}
+                {...props}
+            >
+                <h3 className="font-bold text-2xl">{modalTitle}</h3>
+                <div className="py-2">{children}</div>
+                <div className="modal-action mt-0">
+                    <form method="dialog" onSubmit={closeModalActions}>
+                        <button
+                            className="btn"
+                            style={{ borderRadius: "0" }} // Explicitly set border-radius to 0
+                        >
+                            Close
+                        </button>
+                    </form>
+                </div>
             </div>
-          <div className="modal-action mt-0">
-            <form method="dialog" onSubmit={closeModalActions}>
-              <button className="btn">Close</button>
-            </form>
-          </div>
-        </div>
-      </dialog>
+        </dialog>
     );
 }

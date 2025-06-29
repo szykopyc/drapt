@@ -82,7 +82,7 @@ export default function Navbar() {
                                 to={nav.to}
                                 tabIndex={0}
                                 ref={(el) => (navRefs.current[idx] = el)}
-                                className="hover:underline"
+                                className="hover:underline font-medium"
                                 onClick={() => setMenuOpen(false)}
                                 onKeyDown={(e) => handleNavKeyDown(e, idx)}
                             >
@@ -105,7 +105,7 @@ export default function Navbar() {
                                 <Link
                                     key={nav.to}
                                     to={nav.to}
-                                    className="underline"
+                                    className="underline font-medium"
                                     onClick={() => setMenuOpen(false)}
                                 >
                                     {nav.label}

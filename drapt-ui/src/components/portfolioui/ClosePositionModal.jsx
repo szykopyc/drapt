@@ -243,6 +243,10 @@ export function ClosePositionModal({
                                 {tradeConfirmed ? (
                                     <button
                                         className="btn btn-success w-full"
+                                        style={{
+                                            borderRadius:
+                                                "var(--border-radius)",
+                                        }}
                                         type="submit"
                                         form="closePositionForm"
                                     >
@@ -251,6 +255,10 @@ export function ClosePositionModal({
                                 ) : (
                                     <button
                                         className="btn btn-primary w-full"
+                                        style={{
+                                            borderRadius:
+                                                "var(--border-radius)",
+                                        }}
                                         type="button"
                                         onClick={handleClosePositionClick}
                                     >
@@ -261,6 +269,9 @@ export function ClosePositionModal({
                             <div className="flex-1">
                                 <button
                                     className="btn btn-error w-full"
+                                    style={{
+                                        borderRadius: "var(--border-radius)",
+                                    }}
                                     type="button"
                                     onClick={handleCancel}
                                 >

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 @import "tailwindcss";
 
 @plugin "daisyui" {
@@ -269,7 +269,7 @@
 html{
   scroll-behavior: smooth;
   scrollbar-gutter: stable;
-  font-family: 'Inter', sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
 }
 html,
 body {
@@ -279,4 +279,36 @@ body {
     border-color 0.4s ease,
     box-shadow 0.4s ease,
     fill 0.4s ease;
+}
+
+input {
+  border-radius: 0;
+}
+
+select {
+  border-radius: 0;
+}
+
+.modal-box {
+  border-radius: 0 !important; 
+}
+
+.modal {
+  border-radius: 0 !important; 
+}
+
+.modal-action {
+  border-radius: 0 !important; 
+}
+
+.modal .btn {
+    border-radius: 0 !important;
+}
+
+.skeleton {
+  border-radius: 0;
+}
+
+:root {
+    --border-radius: 0px; 
 }

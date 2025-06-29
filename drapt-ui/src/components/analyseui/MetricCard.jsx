@@ -29,6 +29,7 @@ export default function MetricCard({
             className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow h-full ${
                 flexClasses[flexsize] || "flex-[1]"
             }`}
+            style={{ borderRadius: "var(--border-radius)" }}
             {...props}
         >
             <div className="card-body my-1">

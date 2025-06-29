@@ -23,13 +23,17 @@ export function CardOne({
         <div
             id={id}
             className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow w-full md:${widthClass} min-w-0`}
+            style={{ borderRadius: "var(--border-radius)" }}
             {...props}
         >
             <div className="card-body">
                 <div className="flex justify-between items-center">
                     <h2 className="card-title text-2xl">{title}</h2>
                     {badge && (
-                        <span className="badge badge-s badge-theme">
+                        <span
+                            className="badge badge-s badge-theme"
+                            style={{ borderRadius: "var(--border-radius)" }}
+                        >
                             {badge}
                         </span>
                     )}
@@ -52,12 +56,16 @@ export function CardTwo({ id, title, badge = null, children }) {
         <div
             id={id}
             className="card bg-primary text-white shadow-md hover:shadow-lg transition-shadow"
+            style={{ borderRadius: "var(--border-radius)" }}
         >
             <div className="card-body">
                 <div className="flex justify-between items-center">
                     <h2 className="card-title text-2xl">{title}</h2>
                     {badge && (
-                        <span className="badge badge-s badge-theme">
+                        <span
+                            className="badge badge-s badge-theme"
+                            style={{ borderRadius: "var(--border-radius)" }}
+                        >
                             {badge}
                         </span>
                     )}
@@ -73,6 +81,7 @@ export function CardNoTitle({ id, children, additionalStyle = "", ...props }) {
         <div
             id={id}
             className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow ${additionalStyle}`}
+            style={{ borderRadius: "var(--border-radius)" }}
             {...props}
         >
             <div className="card-body">{children}</div>
@@ -82,7 +91,10 @@ export function CardNoTitle({ id, children, additionalStyle = "", ...props }) {
 
 export function SplitCardBody({ children }) {
     return (
-        <div className="flex flex-col md:flex-row gap-4 items-start">
+        <div
+            className="flex flex-col md:flex-row gap-4 items-start"
+            style={{ borderRadius: "var(--border-radius)" }}
+        >
             {children}
         </div>
     );
@@ -93,6 +105,7 @@ export function AnalyseCard({ id, title, children }) {
         <div
             id={id}
             className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow w-full h-full"
+            style={{ borderRadius: "var(--border-radius)" }}
         >
             <div className="card-body flex-col ">
                 <h2 className="card-title text-2xl">{title}</h2>
@@ -107,6 +120,7 @@ export function LoginCard({ id, title, children }) {
         <div
             id={id}
             className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow w-full h-full"
+            style={{ borderRadius: "var(--border-radius)" }}
         >
             <div className="card-body">
                 <h2 className="card-title text-2xl">{title}</h2>
@@ -137,6 +151,7 @@ export function CustomCollapseArrow({
         <div
             id={id}
             className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow"
+            style={{ borderRadius: "var(--border-radius)" }}
         >
             <div className="card-body">
                 <div
@@ -172,6 +187,7 @@ export function CustomCollapse({ id, title, children, defaultOpen = false }) {
         <div
             id={id}
             className="card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow"
+            style={{ borderRadius: "var(--border-radius)" }}
         >
             <div className="card-body">
                 <div
