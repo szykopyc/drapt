@@ -101,36 +101,16 @@ export default function Navbar() {
                     {/* Mobile menu */}
                     {menuOpen && (
                         <div className="flex flex-col items-end text-right gap-2 absolute top-full left-0 w-full bg-base-200 px-4 pb-4 pt-0 z-20 md:hidden text-base font-normal border-b border-base-300">
-                            <Link
-                                to="/analyse"
-                                className="underline"
-                                onClick={() => setMenuOpen(false)}
-                            >
-                                Analyse
-                            </Link>
-                            <Link
-                                to="/portfolio"
-                                className="underline"
-                                onClick={() => setMenuOpen(false)}
-                            >
-                                Portfolio
-                            </Link>
-                            {showAdmin && (
+                            {navLinks.map((nav, idx) => (
                                 <Link
-                                    to="/admin"
+                                    key={nav.to}
+                                    to={nav.to}
                                     className="underline"
                                     onClick={() => setMenuOpen(false)}
                                 >
-                                    Admin
+                                    {nav.label}
                                 </Link>
-                            )}
-                            <Link
-                                to="/profile"
-                                className="underline"
-                                onClick={() => setMenuOpen(false)}
-                            >
-                                Profile
-                            </Link>
+                            ))}
                         </div>
                     )}
                 </>
