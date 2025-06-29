@@ -189,9 +189,8 @@ export default function ChartCard({
     tooltip = null,
     currencyEnabled = true,
     expandButton = false,
-    minimiseButton = false,
     onExpand,
-    onMinimise,
+    isExpanded = false,
     roundDecimals = 0, // <--- new prop
     ...props
 }) {
@@ -199,7 +198,7 @@ export default function ChartCard({
         small: "w-full md:w-1/3 h-96",
         medium: "w-full md:w-1/2 h-96",
         large: "w-full h-96",
-        xlarge: "w-full h-128",
+        xlarge: "w-full h-96 md:h-128",
     };
 
     const [currency, setCurrency] = useState("GBP");
@@ -256,11 +255,21 @@ export default function ChartCard({
     const xInterval = Math.floor(data.length / 4);
     return (
         <div
-            className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow ${sizeClasses[size]}`}
-            style={{ borderRadius: "var(--border-radius)" }}
+            className={`card ${
+                isExpanded ? "" : "card-border border-primary"
+            } bg-base-100 ${
+                isExpanded ? "" : "shadow-md hover:shadow-lg transition-shadow"
+            } ${sizeClasses[size]}`}
+            style={{
+                borderRadius: "var(--border-radius)",
+                border: isExpanded ? "none" : undefined,
+            }}
             {...props}
         >
-            <div className="card-body my-1">
+            <div
+                className="card-body my-1"
+                style={{ padding: isExpanded ? "0" : "24px" }}
+            >
                 <div className="flex items-center justify-between">
                     <h2
                         className={`card-title text-2xl ${
@@ -269,7 +278,7 @@ export default function ChartCard({
                     >
                         {title}
                     </h2>
-                    {(tooltip || expandButton || minimiseButton) && (
+                    {(tooltip || expandButton) && (
                         <div className="flex flex-row gap-1">
                             {tooltip && (
                                 <Tippy
@@ -285,7 +294,7 @@ export default function ChartCard({
                                     </span>
                                 </Tippy>
                             )}
-                            {expandButton && !minimiseButton && (
+                            {expandButton && (
                                 <button
                                     type="button"
                                     className="w-5 h-5 flex items-center justify-center"
@@ -294,11 +303,6 @@ export default function ChartCard({
                                 >
                                     <ArrowsPointingOutIcon className="h-5 w-5" />
                                 </button>
-                            )}
-                            {!expandButton && minimiseButton && (
-                                <span className="w-5 h-5 flex items-center justify-center">
-                                    <ArrowsPointingInIcon className="h-5 w-5" />
-                                </span>
                             )}
                         </div>
                     )}
@@ -349,9 +353,8 @@ export function DualChartCard({
     tooltip = null,
     currencyEnabled = true,
     expandButton = false,
-    minimiseButton = false,
     onExpand,
-    onMinimise,
+    isExpanded = false,
     roundDecimals = 0, // <--- new prop
     ...props
 }) {
@@ -359,6 +362,7 @@ export function DualChartCard({
         small: "w-full md:w-1/3 h-96",
         medium: "w-full md:w-1/2 h-96",
         large: "w-full h-96",
+        xlarge: "w-full h-96 md:h-128",
     };
 
     const [currency, setCurrency] = useState("GBP");
@@ -417,11 +421,21 @@ export function DualChartCard({
     const xInterval = Math.floor(data.length / 4);
     return (
         <div
-            className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow ${sizeClasses[size]}`}
-            style={{ borderRadius: "var(--border-radius)" }}
+            className={`card ${
+                isExpanded ? "" : "card-border border-primary"
+            } bg-base-100 ${
+                isExpanded ? "" : "shadow-md hover:shadow-lg transition-shadow"
+            } ${sizeClasses[size]}`}
+            style={{
+                borderRadius: "var(--border-radius)",
+                border: isExpanded ? "none" : undefined,
+            }}
             {...props}
         >
-            <div className="card-body my-1">
+            <div
+                className="card-body my-1"
+                style={{ padding: isExpanded ? "0" : "24px" }}
+            >
                 <div className="flex items-center justify-between">
                     <h2
                         className={`card-title text-2xl ${
@@ -430,7 +444,7 @@ export function DualChartCard({
                     >
                         {title}
                     </h2>
-                    {(tooltip || expandButton || minimiseButton) && (
+                    {(tooltip || expandButton) && (
                         <div className="flex flex-row gap-1">
                             {tooltip && (
                                 <Tippy
@@ -446,7 +460,7 @@ export function DualChartCard({
                                     </span>
                                 </Tippy>
                             )}
-                            {expandButton && !minimiseButton && (
+                            {expandButton && (
                                 <button
                                     type="button"
                                     className="w-5 h-5 flex items-center justify-center"
@@ -455,11 +469,6 @@ export function DualChartCard({
                                 >
                                     <ArrowsPointingOutIcon className="h-5 w-5" />
                                 </button>
-                            )}
-                            {!expandButton && minimiseButton && (
-                                <span className="w-5 h-5 flex items-center justify-center">
-                                    <ArrowsPointingInIcon className="h-5 w-5" />
-                                </span>
                             )}
                         </div>
                     )}
@@ -514,7 +523,6 @@ export function ChartNoBorderCard({
     tooltip = null,
     currencyEnabled = true,
     expandButton = false,
-    minimiseButton = false,
     roundDecimals = 0, // <--- new prop
 }) {
     const sizeClasses = {

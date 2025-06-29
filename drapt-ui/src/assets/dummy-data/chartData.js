@@ -1,21 +1,21 @@
 export const dummyPerformance = [
-  // 50% bullish, 25% bearish, 25% neutral, Jan-Dec
-  { name: 'Jan', value: 110.00 },   // bullish
-  { name: 'Feb', value: 113.12 },   // bullish
-  { name: 'Mar', value: 111.85 },   // bearish
-  { name: 'Apr', value: 115.40 },   // bullish
-  { name: 'May', value: 117.22 },   // bullish
-  { name: 'Jun', value: 116.01 },   // neutral
-  { name: 'Jul', value: 118.45 },   // bullish
-  { name: 'Aug', value: 117.02 },   // bearish
-  { name: 'Sep', value: 119.88 },   // bullish
-  { name: 'Oct', value: 120.12 },   // neutral
-  { name: 'Nov', value: 122.67 },   // bullish
-  { name: 'Dec', value: 124.53 },   // bullish
+  
+  { name: 'Jan', value: 110.00 },   
+  { name: 'Feb', value: 113.12 },   
+  { name: 'Mar', value: 111.85 },   
+  { name: 'Apr', value: 115.40 },   
+  { name: 'May', value: 117.22 },   
+  { name: 'Jun', value: 116.01 },   
+  { name: 'Jul', value: 118.45 },   
+  { name: 'Aug', value: 117.02 },   
+  { name: 'Sep', value: 119.88 },   
+  { name: 'Oct', value: 120.12 },   
+  { name: 'Nov', value: 122.67 },   
+  { name: 'Dec', value: 124.53 },   
 ];
 
 export const dummyAsset1 = [
-  // Bullish asset: Upward trend with realistic fluctuations
+  
   { name: 'Jan', value: 100.00 },
   { name: 'Feb', value: 104.23 },
   { name: 'Mar', value: 102.87 },
@@ -31,7 +31,7 @@ export const dummyAsset1 = [
 ];
 
 export const dummyAsset2 = [
-  // Bearish asset: Downward trend with realistic fluctuations
+  
   { name: 'Jan', value: 189.30 },
   { name: 'Feb', value: 197.56 },
   { name: 'Mar', value: 193.42 },
@@ -47,7 +47,7 @@ export const dummyAsset2 = [
 ];
 
 export const dummyAsset3 = [
-  // Neutral asset: Fluctuating but ends near where it started
+  
   { name: 'Jan', value: 150.00 },
   { name: 'Feb', value: 151.42 },
   { name: 'Mar', value: 149.38 },

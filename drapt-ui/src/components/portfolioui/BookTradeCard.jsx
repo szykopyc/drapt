@@ -12,7 +12,6 @@ export default function BookTradeCard() {
     const [modalData, setModalData] = useState(null);
     const [tradeConfirmed, setTradeConfirmed] = useState(false);
 
-    // react-hook-form setup, using onSubmit so errors only show after submit attempt
     const {
         register,
         handleSubmit,
@@ -25,7 +24,7 @@ export default function BookTradeCard() {
         mode: "onSubmit",
         defaultValues: {
             ticker: "",
-            direction: "BUY", // always BUY
+            direction: "LONG",
             quantity: 0,
             analystWhoPitched: "",
             priceSource: "lastClose",
@@ -36,23 +35,19 @@ export default function BookTradeCard() {
 
     const priceSource = watch("priceSource");
 
-    // first step: validate, then show confirm button if all good
     const handlePlaceOrderClick = async (e) => {
         e.preventDefault();
         const valid = await trigger();
         if (valid) setTradeConfirmed(true);
     };
 
-    // only actually submit if we've confirmed
     const guardedSubmitHandler = (data) => {
         if (!tradeConfirmed) return;
 
-        // only want to pass openPrice, not priceSource/manualPrice
         const openPrice =
             data.priceSource === "lastClose" ? "LASTCLOSE" : data.manualPrice;
 
-        // uppercase everything else for consistency
-        const { priceSource, manualPrice, ...rest } = data;
+        const { priceSource, manualPrice, analystWhoPitched, ...rest } = data;
         const capitalisedData = Object.fromEntries(
             Object.entries(rest).map(([key, value]) =>
                 typeof value === "string"
@@ -61,8 +56,7 @@ export default function BookTradeCard() {
             )
         );
 
-        // final data for the modal
-        const finalData = { ...capitalisedData, openPrice };
+        const finalData = { ...capitalisedData, openPrice, analystWhoPitched };
 
         setModalData(finalData);
         if (tradeConfirmModalRef.current)
@@ -73,11 +67,11 @@ export default function BookTradeCard() {
 
     const modalTableColumns = [
         { key: "ticker", label: "Ticker" },
-        { key: "direction", label: "Direction" },
         { key: "quantity", label: "Quantity" },
+        { key: "openPrice", label: "Open Price" },
+        { key: "direction", label: "Direction" },
         { key: "analystWhoPitched", label: "Analyst" },
         { key: "tradeDate", label: "Trade Date" },
-        { key: "openPrice", label: "Open Price" },
     ];
 
     const typedTicker = watch("ticker");
@@ -114,11 +108,11 @@ export default function BookTradeCard() {
                                     disabled={tradeConfirmed}
                                 />
                             </FormField>
-                            {/* Direction field removed, but still submit BUY as hidden input */}
+                            {/* Direction field removed, but still submit LONG as hidden input */}
                             <input
                                 type="hidden"
                                 {...register("direction")}
-                                value="BUY"
+                                value="LONG"
                             />
                             <FormField label="Quantity">
                                 <input
@@ -200,11 +194,22 @@ export default function BookTradeCard() {
                                     {...register("tradeDate", {
                                         required: "Trade date is required",
                                         validate: (value) => {
-                                            const day = new Date(
+                                            const selectedDate = new Date(
                                                 value
-                                            ).getDay();
-                                            if (day === 0 || day === 6) {
+                                            );
+                                            const currentDate = new Date();
+                                            const differenceInDays =
+                                                (currentDate - selectedDate) /
+                                                (1000 * 60 * 60 * 24);
+
+                                            if (
+                                                selectedDate.getDay() === 0 ||
+                                                selectedDate.getDay() === 6
+                                            ) {
                                                 return "Trades cannot be placed on weekends.";
+                                            }
+                                            if (differenceInDays > 7) {
+                                                return "Trades must have happened in the last week.";
                                             }
                                             return true;
                                         },

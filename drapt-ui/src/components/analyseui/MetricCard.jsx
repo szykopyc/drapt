@@ -14,9 +14,8 @@ export default function MetricCard({
     valuestatus = "positive",
     tooltip = null,
     expandButton = false,
-    minimiseButton = false,
+    isExpanded = false,
     onExpand,
-    onMinimise,
     ...props
 }) {
     const flexClasses = {
@@ -26,17 +25,25 @@ export default function MetricCard({
     };
     return (
         <div
-            className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow h-full ${
-                flexClasses[flexsize] || "flex-[1]"
-            }`}
-            style={{ borderRadius: "var(--border-radius)" }}
+            className={`card h-full ${
+                isExpanded ? "" : "card-border border-primary"
+            } bg-base-100 ${
+                isExpanded ? "" : "shadow-md hover:shadow-lg transition-shadow"
+            } ${flexClasses[flexsize] || "flex-[1]"}`}
+            style={{
+                borderRadius: "var(--border-radius)",
+                border: isExpanded ? "none" : undefined,
+            }}
             {...props}
         >
-            <div className="card-body my-1">
+            <div
+                className="card-body my-1"
+                style={{ padding: isExpanded ? "0" : "24px" }}
+            >
                 {metric && (
                     <div className="flex justify-between items-center">
                         <h2 className="card-title text-2xl">{metric}</h2>
-                        {(tooltip || expandButton || minimiseButton) && (
+                        {(tooltip || expandButton) && (
                             <div className="flex flex-row gap-1">
                                 {tooltip && (
                                     <Tippy
@@ -52,7 +59,7 @@ export default function MetricCard({
                                         </button>
                                     </Tippy>
                                 )}
-                                {expandButton && !minimiseButton && (
+                                {expandButton && (
                                     <button
                                         type="button"
                                         className="w-5 h-5 flex items-center justify-center"
@@ -61,11 +68,6 @@ export default function MetricCard({
                                     >
                                         <ArrowsPointingOutIcon className="h-5 w-5" />
                                     </button>
-                                )}
-                                {!expandButton && minimiseButton && (
-                                    <span className="w-5 h-5 flex items-center justify-center">
-                                        <ArrowsPointingInIcon className="h-5 w-5" />
-                                    </span>
                                 )}
                             </div>
                         )}

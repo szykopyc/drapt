@@ -6,6 +6,7 @@ export default function MetricRenderer({
     valuestatus,
     tooltip,
     onExpand,
+    isExpanded = false,
 }) {
     return (
         <MetricCard
@@ -15,6 +16,7 @@ export default function MetricRenderer({
             expandButton={!!onExpand}
             valuestatus={valuestatus}
             onExpand={onExpand}
+            isExpanded={isExpanded}
         />
     );
 }

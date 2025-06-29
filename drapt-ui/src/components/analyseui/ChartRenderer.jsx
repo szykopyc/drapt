@@ -1,6 +1,12 @@
 import ChartCard from "./ChartCard";
 
-export default function ChartRenderer({ title, data, tooltip, onExpand }) {
+export default function ChartRenderer({
+    title,
+    data,
+    tooltip,
+    onExpand,
+    isExpanded = false,
+}) {
     return (
         <ChartCard
             title={title}
@@ -9,6 +15,7 @@ export default function ChartRenderer({ title, data, tooltip, onExpand }) {
             tooltip={tooltip}
             expandButton={!!onExpand}
             onExpand={onExpand}
+            isExpanded={isExpanded}
         />
     );
 }

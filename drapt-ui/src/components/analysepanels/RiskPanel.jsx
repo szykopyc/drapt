@@ -193,6 +193,7 @@ export default function RiskPanel() {
                                 title={chart.title}
                                 data={chart.data}
                                 tooltip={chart.tooltip}
+                                isExpanded={true}
                             />
                         ))}
                 </FullscreenItem>

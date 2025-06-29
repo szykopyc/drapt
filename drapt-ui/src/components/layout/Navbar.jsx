@@ -23,6 +23,19 @@ export default function Navbar() {
         ];
     }, [showAdmin]);
 
+    const handleNavKeyDown = (e, idx) => {
+        if (window.innerWidth < 768) return;
+        if (e.key === "ArrowRight") {
+            const nextIdx = (idx + 1) % navLinks.length;
+            navRefs.current[nextIdx]?.focus();
+            e.preventDefault();
+        } else if (e.key === "ArrowLeft") {
+            const prevIdx = (idx - 1 + navLinks.length) % navLinks.length;
+            navRefs.current[prevIdx]?.focus();
+            e.preventDefault();
+        }
+    };
+
     const handleMenuToggle = () => {
         setMenuOpen((prev) => !prev);
     };
@@ -59,6 +72,7 @@ export default function Navbar() {
                                 ref={(el) => (navRefs.current[idx] = el)}
                                 className="hover:underline font-medium"
                                 onClick={() => setMenuOpen(false)}
+                                onKeyDown={(e) => handleNavKeyDown(e, idx)}
                             >
                                 {nav.label}
                             </Link>

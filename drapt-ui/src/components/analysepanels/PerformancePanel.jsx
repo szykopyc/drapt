@@ -146,7 +146,9 @@ export default function PerformancePanel() {
                             tooltip="Compare your portfolio's returns to a benchmark index."
                             expandButton={true}
                             onExpand={() =>
-                                setFullScreenItem("portfolioBenchmarkChart")
+                                setFullScreenItem(
+                                    "portfolioBenchmarkComparison"
+                                )
                             }
                         />
                     </>
@@ -178,10 +180,11 @@ export default function PerformancePanel() {
                             title="Performance Chart"
                             data={portfolioData.portfolioPerformanceChart}
                             size="xlarge"
+                            isExpanded={true}
                             tooltip="This chart visualises your portfolio's performance over time."
                         />
                     )}
-                    {fullScreenItem === "portfolioBenchmarkChart" && (
+                    {fullScreenItem === "portfolioBenchmarkComparison" && (
                         <DualChartCard
                             title="Portfolio vs Benchmark"
                             data={portfolioData.portfolioBenchmarkComparison}
@@ -190,6 +193,7 @@ export default function PerformancePanel() {
                             label1="Portfolio"
                             label2="Benchmark"
                             size="xlarge"
+                            isExpanded={true}
                             tooltip="Compare your portfolio's returns to a benchmark index."
                         />
                     )}
@@ -202,6 +206,7 @@ export default function PerformancePanel() {
                                 value={metric.value}
                                 tooltip={metric.tooltip}
                                 valuestatus={metric.valuestatus}
+                                isExpanded={true}
                             />
                         ))}
                 </FullscreenItem>
