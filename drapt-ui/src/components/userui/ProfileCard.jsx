@@ -17,8 +17,11 @@ export default function ProfileCard({ onUpdate }) {
     else if (userRole === "Vd") userRole = "Vice Director";
 
     return (
-        <CardOne id="profile-view" title="View Profile" badge="Profile">
-            <div className="text-xl font-medium">{userFullName}</div>
+        <CardOne
+            id="profile-view"
+            title={userFullName ? userFullName : "View Profile"}
+            badge="Profile"
+        >
             <div className="flex flex-col gap-1 w-full">
                 <label className="text-sm text-base-content/70">Username</label>
                 {userUsername}
