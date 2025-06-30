@@ -17,7 +17,6 @@ import Login from "./pages/Login";
 import LogoutHandler from "./pages/Logout";
 import ForgotPassword from "./pages/ForgotPassword";
 import Analyse from "./pages/AnalyseWrapper";
-import AnalyseIndex from "./pages/AnalyseIndex";
 import PerformancePanel from "./components/analysepanels/PerformancePanel";
 import RiskPanel from "./components/analysepanels/RiskPanel";
 import Portfolio from "./pages/PortfolioWrapper";

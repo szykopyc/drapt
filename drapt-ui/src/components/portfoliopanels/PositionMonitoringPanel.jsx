@@ -2,9 +2,6 @@ import { CardOne } from "../baseui/CustomCard";
 import { ClosePositionModal } from "../portfolioui/ClosePositionModal";
 import { useRef, useState, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { FormField } from "../helperui/FormFieldHelper";
-import { FormErrorHelper } from "../helperui/FormErrorHelper";
-import LargeSubmit from "../baseui/LargeSubmitHelper";
 import InnerEmptyState from "../errorui/InnerEmptyState";
 import useUserStore from "../../stores/userStore";
 
@@ -189,15 +186,15 @@ export default function PositionMonitoringPanel() {
                                         </td>
                                         <td>{pos.positionStatus}</td>
                                         <td>{pos.positionEntryDate}</td>
-                                        <td>
-                                            {[
-                                                "pm",
-                                                "director",
-                                                "vd",
-                                                "developer",
-                                            ].includes(user?.role) &&
-                                                pos.positionStatus ===
-                                                    "Open" && (
+
+                                        {[
+                                            "pm",
+                                            "director",
+                                            "vd",
+                                            "developer",
+                                        ].includes(user?.role) &&
+                                            pos.positionStatus === "Open" && (
+                                                <td>
                                                     <button
                                                         className="btn btn-sm btn-error"
                                                         style={{
@@ -212,8 +209,8 @@ export default function PositionMonitoringPanel() {
                                                     >
                                                         Close
                                                     </button>
-                                                )}
-                                        </td>
+                                                </td>
+                                            )}
                                     </tr>
                                 ))}
                             </tbody>

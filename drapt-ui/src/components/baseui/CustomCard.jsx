@@ -89,6 +89,26 @@ export function CardNoTitle({ id, children, additionalStyle = "", ...props }) {
     );
 }
 
+export function CardNoTitleChildrenCentred({
+    id,
+    children,
+    additionalStyle = "",
+    ...props
+}) {
+    return (
+        <div
+            id={id}
+            className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow w-full ${additionalStyle}`}
+            style={{ borderRadius: "var(--border-radius)" }}
+            {...props}
+        >
+            <div className="card-body flex items-center justify-center">
+                {children}
+            </div>
+        </div>
+    );
+}
+
 export function SplitCardBody({ children }) {
     return (
         <div

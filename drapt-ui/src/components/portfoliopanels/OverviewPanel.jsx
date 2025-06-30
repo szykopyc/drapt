@@ -12,7 +12,7 @@ export function OverviewPanel() {
     const overviewRef = useRef(null);
     const [overviewHeight, setOverviewHeight] = useState(0);
 
-    const recentPortfolioActions = dummyRecentOrders.slice(0, 4);
+    const recentPortfolioActions = dummyRecentOrders.slice(0, 5);
 
     const [fullscreenItem, setFullScreenItem] = useState("");
 

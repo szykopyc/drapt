@@ -70,19 +70,38 @@ export default function Landing() {
                     ) : (
                         <CardOne
                             id={"portfolioOverview"}
-                            title={"Portfolio Overview"}
+                            title={
+                                ["vd", "director", "developer"].includes(
+                                    user?.role
+                                )
+                                    ? "NEFSIF Index Performance"
+                                    : `${
+                                          user?.team.charAt(0).toUpperCase() +
+                                          user?.team.slice(1)
+                                      } Portfolio Performance`
+                            }
                         >
                             <ChartNoBorderCard
                                 data={dummyPerformanceToRender}
                             />
-                            <div className="flex md:flex-row justify-between gap-1 md:gap-3">
-                                <CustomButton to="/analyse">
-                                    Analyse
-                                </CustomButton>
-                                <CustomButton to="/portfolio">
-                                    Portfolio
-                                </CustomButton>
-                            </div>
+                            {["vd", "director", "developer"].includes(
+                                user?.role
+                            ) ? (
+                                <div className="flex md:flex-row justify-between gap-1 md:gap-3">
+                                    <CustomButton to="/portfolio">
+                                        Navigate to Fund Scope
+                                    </CustomButton>
+                                </div>
+                            ) : (
+                                <div className="flex md:flex-row justify-between gap-1 md:gap-3">
+                                    <CustomButton to="/analyse">
+                                        Analyse
+                                    </CustomButton>
+                                    <CustomButton to="/portfolio">
+                                        Portfolio
+                                    </CustomButton>
+                                </div>
+                            )}
                         </CardOne>
                     )}
                     <CardHelper>
