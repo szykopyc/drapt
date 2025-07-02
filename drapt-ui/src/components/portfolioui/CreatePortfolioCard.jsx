@@ -120,7 +120,7 @@ export function CreatePortfolioCard() {
                         </FormField>
                         <FormField
                             label={
-                                "Unique Portfolio ID - no symbols (e.g., no &), no spaces, no numbers"
+                                "Unique Portfolio ID - no symbols, no spaces, no numbers"
                             }
                         >
                             <input

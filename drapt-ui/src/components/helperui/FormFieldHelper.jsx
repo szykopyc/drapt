@@ -1,6 +1,6 @@
-import { FormErrorHelper } from "./FormErrorHelper"
+import { FormErrorHelper } from "./FormErrorHelper";
 
-export function FormField({ label, children, error }){
+export function FormField({ label, children, error }) {
     return (
         <div>
             <label className="label">

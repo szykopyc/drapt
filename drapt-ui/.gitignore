@@ -38,7 +38,7 @@ build/
 *.sw?
 
 # VSCode Counter
-.VSCodeCounter/
+.VSCodeCounter/*
 
 # System files
 Thumbs.db
