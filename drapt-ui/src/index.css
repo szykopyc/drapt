@@ -28,6 +28,10 @@
   }
 }
 
+.divider {
+  max-height: 3px;
+}
+
 [data-theme="draptlight"] {
   --color-base-100: oklch(98% 0.015 250);
   --color-base-200: oklch(94% 0.02 250);
@@ -312,6 +316,10 @@ select {
 }
 
 .skeleton {
+  border-radius: 0;
+}
+
+.textarea {
   border-radius: 0;
 }
 

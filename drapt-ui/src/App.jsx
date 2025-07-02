@@ -24,6 +24,7 @@ import PortfolioIndex from "./pages/PortfolioIndex";
 import { OverviewPanel } from "./components/portfoliopanels/OverviewPanel";
 import { TradeBookerPanel } from "./components/portfoliopanels/TradeBookerPanel";
 import { PortfolioAdminPanel } from "./components/portfoliopanels/PortfolioAdminPanel";
+import CreatePortfolioPanel from "./components/portfoliopanels/CreatePortfolioPanel";
 import PositionMonitoringPanel from "./components/portfoliopanels/PositionMonitoringPanel";
 import AdminWrapper from "./pages/AdminWrapper";
 import UserEngagementPanel from "./components/adminpanel/UserEngagement";
@@ -113,7 +114,7 @@ function App() {
                                     otherwiseNavigateTo={"/portfolio"}
                                 >
                                     <ProtectedRoute>
-                                        <MaintenanceError />
+                                        <CreatePortfolioPanel />
                                     </ProtectedRoute>
                                 </UserRoleProtectedRoute>
                             }

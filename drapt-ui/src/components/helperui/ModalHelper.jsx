@@ -3,6 +3,7 @@ export function ModalHelper({
     reference,
     modalTitle,
     children,
+    width = 50,
     closeModalActions = null,
     ...props
 }) {
@@ -15,7 +16,16 @@ export function ModalHelper({
         >
             <div
                 className="modal-box"
-                style={{ borderRadius: "var(--border-radius)" }}
+                style={{
+                    width: "100%", // mobile default
+                    // On md and up, override with the custom width
+                    ...(typeof window !== "undefined" &&
+                    window.innerWidth >= 768
+                        ? { width: `${width}%` }
+                        : {}),
+
+                    borderRadius: "var(--border-radius)",
+                }}
                 {...props}
             >
                 <h3 className="font-bold text-2xl">{modalTitle}</h3>
