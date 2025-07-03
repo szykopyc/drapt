@@ -1,5 +1,6 @@
 {
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
-  ]
+  ],
+    "ignoreCommand": "if [ \"$VERCEL_GIT_BRANCH\" != \"main\" ]; then echo 'Skipping non-main branch'; exit 1; fi"
 }
