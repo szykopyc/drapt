@@ -5,14 +5,8 @@ import { ModalHelper } from "../helperui/ModalHelper";
 import { FormErrorHelper } from "../helperui/FormErrorHelper";
 import { CustomButtonInputStyle } from "../baseui/CustomButton";
 import { FormField } from "../helperui/FormFieldHelper";
-import { Link } from "react-router-dom";
-
-import useUserStore from "../../stores/userStore";
 
 export function CreatePortfolioCard() {
-    const user = useUserStore((state) => state.user);
-    if (!user) return null;
-
     const portfolioConfirmedModalRef = useRef(null);
     const [modalData, setModalData] = useState(null);
     const [portfolioCreationConfirmed, setPortfolioCreationConfirmed] =
