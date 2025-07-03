@@ -33,11 +33,22 @@ import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/authcomponents/ProtectedRoute";
 import ProtectedPortfolioRoute from "./components/authcomponents/PortfolioProtectedRoute";
 import UserRoleProtectedRoute from "./components/authcomponents/UserRoleProtectedRoute";
+import { useEffect } from "react";
 
 import useUserStore from "./stores/userStore";
+import { checkAuth } from "./services/AuthService";
 
 function App() {
     const user = useUserStore((state) => state.user);
+    const setUser = useUserStore((state) => state.setUser);
+
+    useEffect(() => {
+        if (!user) {
+            checkAuth().then((userData) => {
+                if (userData) setUser(userData);
+            });
+        }
+    }, [user, setUser]);
 
     return (
         <ErrorBoundary>

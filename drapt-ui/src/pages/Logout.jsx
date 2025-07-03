@@ -1,15 +1,19 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useUserStore from "../stores/userStore";
+import { logout as logoutApi } from "../services/AuthService";
 
 export default function LogoutHandler() {
-    const logout = useUserStore((state) => state.logout);
+    const logoutStore = useUserStore((state) => state.logout);
     const navigate = useNavigate();
 
     useEffect(() => {
-        logout();
-        navigate("/", { replace: true });
-    }, [logout, navigate]);
+        // Call backend logout, then clear store and navigate
+        logoutApi().finally(() => {
+            logoutStore();
+            navigate("/", { replace: true });
+        });
+    }, [logoutStore, navigate]);
 
     return null;
 }

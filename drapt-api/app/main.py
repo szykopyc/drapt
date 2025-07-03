@@ -7,6 +7,7 @@ from fastapi_users import FastAPIUsers
 from app.models.user import User
 from app.schemas.user import UserRead, UserCreate, UserUpdate
 from app.db import engine, Base
+from fastapi.middleware.cors import CORSMiddleware
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -15,6 +16,15 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(title="Drapt Backend", lifespan=lifespan)
+
+# Add CORS middleware here
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://192.168.0.21:5173"],  # frontend origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 fastapi_users = FastAPIUsers[User, int](get_user_manager, [auth_backend])
 

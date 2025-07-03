@@ -21,8 +21,6 @@ export default function Analyse() {
     );
 
     if (selectedPortfolioData) {
-        console.log("Analysing portfolio: ");
-        console.log(selectedPortfolioData);
         setCurrentPortfolioBeingAnalysed(selectedPortfolioData);
     }
 
