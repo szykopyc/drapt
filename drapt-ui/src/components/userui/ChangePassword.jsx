@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { CardOne } from "../baseui/CustomCard";
+import { CustomCollapseArrow } from "../baseui/CustomCard";
 import { ModalHelper } from "../helperui/ModalHelper";
 import { FormField } from "../helperui/FormFieldHelper";
 import { getPasswordStrength } from "../validators/PasswordValidator";
@@ -46,10 +46,10 @@ export default function ChangePassword({ onChange }) {
 
     return (
         <>
-            <CardOne
+            <CustomCollapseArrow
                 id="change-password"
                 title="Change Password"
-                badge="Security"
+                onClose={() => reset()}
             >
                 <form
                     className="flex flex-col gap-3 w-full"
@@ -126,7 +126,7 @@ export default function ChangePassword({ onChange }) {
                         </button>
                     </div>
                 </form>
-            </CardOne>
+            </CustomCollapseArrow>
             <ModalHelper
                 id={"change_password_success_modal"}
                 reference={modalRef}

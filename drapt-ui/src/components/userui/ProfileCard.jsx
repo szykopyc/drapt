@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { CardOne } from "../baseui/CustomCard";
-import { isValidEmail } from "../validators/EmailValidator";
 import useUserStore from "../../stores/userStore";
+import { teamMapperDict } from "../../helperfunctions/TeamMapper";
+import { roleMapperDict } from "../../helperfunctions/RoleMapper";
 
 export default function ProfileCard({ onUpdate }) {
     const user = useUserStore((state) => state.user);
@@ -10,11 +10,6 @@ export default function ProfileCard({ onUpdate }) {
     const userUsername = user?.username;
     const userFullName = user?.fullname;
     const userEmail = user?.email;
-    let userRole = user?.role.charAt(0).toUpperCase() + user?.role.slice(1);
-    const userTeam = user?.team.charAt(0).toUpperCase() + user?.team.slice(1);
-
-    if (userRole === "Pm") userRole = "Portfolio Manager";
-    else if (userRole === "Vd") userRole = "Vice Director";
 
     return (
         <CardOne
@@ -32,7 +27,7 @@ export default function ProfileCard({ onUpdate }) {
             </div>
             <div className="flex flex-col gap-1 w-full">
                 <label className="text-sm text-base-content/70">Role</label>
-                {userRole} @ {userTeam} Team
+                {roleMapperDict[user?.role]} @ {teamMapperDict[user?.team]} Team
             </div>
         </CardOne>
     );

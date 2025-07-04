@@ -1,30 +1,49 @@
 import { useState, useEffect } from "react";
 import { CustomCollapseArrow } from "../baseui/CustomCard";
-import { LoadingSpinner } from "../helperui/LoadingSpinnerHelper";
-import { selectAllUsers } from "../../services/AdminServices";
+import { selectAllUsers } from "../../lib/AdminServices";
+import { useForm } from "react-hook-form";
+import { FormField } from "../helperui/FormFieldHelper";
+import LargeSubmit from "../baseui/LargeSubmitHelper";
+import { teamMapperDict } from "../../helperfunctions/TeamMapper";
+import { roleMapperDict } from "../../helperfunctions/RoleMapper";
+import { FaHdd } from "react-icons/fa";
+import InnerEmptyState from "../errorui/InnerEmptyState";
 
 export function UserShowAllCard() {
+    // initialising user data which will be loaded, the loading state
     const [allUserData, setAllUserData] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [loaded, setLoaded] = useState(false);
-    const [inputValue, setInputValue] = useState("");
     const [filter, setFilter] = useState("");
 
-    // Fetch all users on mount
+    // initialising form
+
+    const {
+        register,
+        handleSubmit,
+        reset,
+        watch,
+        formState: { errors },
+    } = useForm({ mode: "onSubmit" });
+
+    // loads on mount
+
     useEffect(() => {
-        setLoading(true);
-        selectAllUsers()
-            .then((data) => {
-                setAllUserData(Array.isArray(data) ? data : []);
-                setLoaded(true);
-            })
-            .finally(() => setLoading(false));
+        const fetchData = async () => {
+            try {
+                const fetchedUserData = await selectAllUsers();
+                if (Array.isArray(fetchedUserData)) {
+                    setAllUserData(fetchedUserData);
+                }
+            } catch (error) {}
+        };
+
+        fetchData();
     }, []);
 
-    const handleFilterChange = (e) => {
-        setInputValue(e.target.value);
-        setFilter(e.target.value);
+    const handleSearch = (formdata) => {
+        setFilter(formdata.searchCriteria.trim());
     };
+
+    // filters users by fullname, username, team and role
 
     const filteredUsers =
         filter.trim().toLowerCase() === "all"
@@ -37,10 +56,27 @@ export function UserShowAllCard() {
                       user.username
                           .toLowerCase()
                           .includes(filter.toLowerCase()) ||
-                      user.team.toLowerCase().includes(filter.toLowerCase())
+                      teamMapperDict[user.team]
+                          .toLowerCase()
+                          .includes(filter.toLowerCase()) ||
+                      roleMapperDict[user.role]
+                          .toLowerCase()
+                          .includes(filter.toLowerCase())
               );
 
-    const shouldShowTable = filter.trim().length > 0;
+    // in case there are no users
+    let emptyUserDataError = false;
+
+    let shouldShowTable = filter.trim().length > 0;
+
+    if (filteredUsers.length === 0) {
+        emptyUserDataError = true;
+        shouldShowTable = false;
+    }
+
+    // watch field to only enable input on entry
+
+    const searchField = watch("searchCriteria");
 
     return (
         <>
@@ -48,16 +84,35 @@ export function UserShowAllCard() {
                 id={"userShowAllCard"}
                 title={"Show all users"}
                 defaultOpen={false}
+                onClose={() => reset()}
             >
-                <input
-                    type="text"
-                    placeholder='Filter by name, username, or team (type "all" to show all)'
-                    className="input input-bordered mb-2 w-full"
-                    value={inputValue}
-                    onChange={handleFilterChange}
-                />
-                {!loaded && loading && <LoadingSpinner />}
-                {shouldShowTable && loaded && (
+                <form
+                    className="flex flex-col md:flex-row gap-3 w-full"
+                    onSubmit={handleSubmit(handleSearch)}
+                    autoComplete="off"
+                    id="searchForm"
+                >
+                    <div className="w-full md:w-4/5">
+                        <FormField label={"Search"}>
+                            <input
+                                type="text"
+                                placeholder='Filter by name, username, team, role or (type "all" to show all)'
+                                className="input input-bordered w-full"
+                                {...register("searchCriteria", {
+                                    required: "Search criteria is required",
+                                })}
+                                autoComplete="off"
+                                autoCapitalize="false"
+                            />
+                        </FormField>
+                    </div>
+                    <div className="mt-auto w-full md:w-1/5" form="searchForm">
+                        <LargeSubmit disabled={!searchField}>
+                            Search
+                        </LargeSubmit>
+                    </div>
+                </form>
+                {shouldShowTable && (
                     <div className="overflow-x-auto">
                         <table className="table-sm md:table table-zebra">
                             <thead>
@@ -77,18 +132,24 @@ export function UserShowAllCard() {
                                         <td>{user.fullname}</td>
                                         <td>{user.username}</td>
                                         <td>{user.email}</td>
-                                        <td>
-                                            {user.role.charAt(0).toUpperCase() +
-                                                user.role.slice(1)}
-                                        </td>
-                                        <td>
-                                            {user.team.charAt(0).toUpperCase() +
-                                                user.team.slice(1)}
-                                        </td>
+                                        <td>{roleMapperDict[user.role]}</td>
+                                        <td>{teamMapperDict[user.team]}</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
+                    </div>
+                )}
+                {emptyUserDataError && (
+                    <div className="mt-[24px]">
+                        <InnerEmptyState
+                            title="We couldn't find users who matched your description"
+                            message="Try a different search filter"
+                            icon={
+                                <FaHdd className="text-4xl text-base-content/40" />
+                            }
+                            enablePadding={false}
+                        />
                     </div>
                 )}
             </CustomCollapseArrow>

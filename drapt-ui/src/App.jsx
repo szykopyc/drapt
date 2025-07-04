@@ -1,4 +1,10 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import {
+    Routes,
+    Route,
+    Navigate,
+    useNavigate,
+    useLocation,
+} from "react-router-dom";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Analytics } from "@vercel/analytics/react";
 import MasterLayout from "./components/layout/MasterLayout";
@@ -13,6 +19,7 @@ import Forbidden from "./errorpages/403Forbidden";
 import NotFound from "./errorpages/404NotFound";
 import InternalServerError from "./errorpages/500InternalServerError";
 import ErrorBoundary from "./errorpages/ErrorBoundary";
+import SessionExpired from "./errorpages/SessionExpired";
 import Login from "./pages/Login";
 import LogoutHandler from "./pages/Logout";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -36,19 +43,36 @@ import UserRoleProtectedRoute from "./components/authcomponents/UserRoleProtecte
 import { useEffect } from "react";
 
 import useUserStore from "./stores/userStore";
-import { checkAuth } from "./services/AuthService";
+import { checkAuth } from "./lib/AuthService";
 
 function App() {
+    const navigate = useNavigate();
+    const location = useLocation();
     const user = useUserStore((state) => state.user);
     const setUser = useUserStore((state) => state.setUser);
+    const potentiallyShowSessionExpired = useUserStore(
+        (state) => state.potentiallyShowSessionExpired
+    );
+    const setPotentiallyShowSessionExpired = useUserStore(
+        (state) => state.setPotentiallyShowSessionExpired
+    );
 
     useEffect(() => {
-        if (!user) {
+        const interval = setInterval(() => {
             checkAuth().then((userData) => {
-                if (userData) setUser(userData);
+                if (userData) {
+                    setUser(userData);
+                    setPotentiallyShowSessionExpired(false);
+                } else if (user) {
+                    setUser(null);
+                    setPotentiallyShowSessionExpired(true);
+                    navigate("/session-expired");
+                }
             });
-        }
-    }, [user, setUser]);
+        }, 300000);
+        return () => clearInterval(interval);
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <ErrorBoundary>
@@ -218,6 +242,12 @@ function App() {
                             path="maintenance"
                             element={<MaintenanceError />}
                         />
+                        {potentiallyShowSessionExpired && (
+                            <Route
+                                path="session-expired"
+                                element={<SessionExpired />}
+                            />
+                        )}
                         <Route path="*" element={<NotFound />} />
                     </Route>
                 </Routes>

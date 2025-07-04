@@ -9,11 +9,15 @@ import LargeSubmit from "../baseui/LargeSubmitHelper";
 import { ResetFormButton } from "../helperui/ResetFormHelper";
 import { FormField } from "../helperui/FormFieldHelper"; // <-- import FormField
 
-import { register as registerUser } from "../../services/RegisterUserService";
+import { teamMapperDict } from "../../helperfunctions/TeamMapper";
+import { roleMapperDict } from "../../helperfunctions/RoleMapper";
+
+import { register as registerUser } from "../../lib/RegisterUserService";
 
 export function UserCreationCard() {
     const userAddModalRef = useRef(null);
     const [modalData, setModalData] = useState(null);
+    const [userCreationError, setUserCreationError] = useState("");
 
     const {
         register,
@@ -31,24 +35,15 @@ export function UserCreationCard() {
 
     const selectedRole = watch("role");
 
+    const allTeams = Object.keys(teamMapperDict);
+
     const teamOptionsByRole = {
-        analyst: [
-            "Industrial",
-            "TMT",
-            "Europe",
-            "US & Canada",
-            "Metals, Mining and Commodities",
-        ],
-        pm: [
-            "Industrial",
-            "TMT",
-            "Europe",
-            "US & Canada",
-            "Metals, Mining and Commodities",
-        ],
-        vd: ["Executive"],
-        director: ["Executive"],
-        developer: ["Executive"],
+        analyst: allTeams.filter((team) => team !== "executive"),
+        senioranalyst: allTeams.filter((team) => team !== "executive"),
+        pm: allTeams.filter((team) => team !== "executive"),
+        vd: ["executive"],
+        director: ["executive"],
+        developer: ["executive"],
     };
 
     const allowedTeams = teamOptionsByRole[selectedRole] || [];
@@ -70,7 +65,10 @@ export function UserCreationCard() {
             setModalData(tryRegisterUser);
             if (userAddModalRef.current) userAddModalRef.current.showModal();
             resetForm();
-        } catch (err) {}
+        } catch (err) {
+            console.log("AN ERROR HAPPENED :(((");
+            console.log(error);
+        }
     };
 
     const typedFullName = watch("fullName");
@@ -100,6 +98,7 @@ export function UserCreationCard() {
                 id={"userCreationCard"}
                 title={"Add a new user"}
                 defaultOpen={false}
+                onClose={() => resetForm()}
             >
                 <form
                     id="addUser"
@@ -107,10 +106,7 @@ export function UserCreationCard() {
                     onSubmit={handleSubmit(onSubmit)}
                     autoComplete="off"
                 >
-                    <FormField
-                        label="Full Name"
-                        error={errors.fullName && errors.fullName.message}
-                    >
+                    <FormField label="Full Name">
                         <input
                             type="text"
                             className="input input-bordered w-full"
@@ -120,10 +116,7 @@ export function UserCreationCard() {
                             autoComplete="off"
                         />
                     </FormField>
-                    <FormField
-                        label="Username"
-                        error={errors.username && errors.username.message}
-                    >
+                    <FormField label="Username">
                         <input
                             type="text"
                             className="input input-bordered w-full"
@@ -133,10 +126,7 @@ export function UserCreationCard() {
                             autoComplete="off"
                         />
                     </FormField>
-                    <FormField
-                        label="Email"
-                        error={errors.email && errors.email.message}
-                    >
+                    <FormField label="Email">
                         <input
                             type="text"
                             className="input input-bordered w-full"
@@ -149,10 +139,7 @@ export function UserCreationCard() {
                             autoComplete="off"
                         />
                     </FormField>
-                    <FormField
-                        label="Default Password"
-                        error={errors.password && errors.password.message}
-                    >
+                    <FormField label="Default Password">
                         <input
                             type="password"
                             className="input input-bordered w-full"
@@ -166,10 +153,7 @@ export function UserCreationCard() {
                             autoComplete="new-password"
                         />
                     </FormField>
-                    <FormField
-                        label="Select Role"
-                        error={errors.role && errors.role.message}
-                    >
+                    <FormField label="Select Role">
                         <select
                             className="select w-full"
                             {...register("role", {
@@ -180,17 +164,14 @@ export function UserCreationCard() {
                             <option value="" disabled>
                                 Select Role
                             </option>
-                            <option value={"analyst"}>Analyst</option>
-                            <option value={"pm"}>Manager</option>
-                            <option value={"vd"}>Vice Director</option>
-                            <option value={"director"}>Director</option>
-                            <option value={"developer"}>Developer</option>
+                            {Object.keys(roleMapperDict).map((role) => (
+                                <option key={role} value={role}>
+                                    {roleMapperDict[role]}
+                                </option>
+                            ))}
                         </select>
                     </FormField>
-                    <FormField
-                        label="Select Team"
-                        error={errors.team && errors.team.message}
-                    >
+                    <FormField label="Select Team">
                         <select
                             className="select w-full"
                             {...register("team", {
@@ -202,7 +183,7 @@ export function UserCreationCard() {
                             </option>
                             {allowedTeams.map((team) => (
                                 <option key={team} value={team}>
-                                    {team}
+                                    {teamMapperDict[team]}
                                 </option>
                             ))}
                         </select>
@@ -223,6 +204,15 @@ export function UserCreationCard() {
                             disabled={!someFieldsFilledMask}
                         />
                     </div>
+                </div>
+                <div className="flex flex-col gap-1 w-full">
+                    {Object.entries(errors).map(([field, errorObj]) =>
+                        errorObj?.message ? (
+                            <FormErrorHelper key={field} textSize="md">
+                                {errorObj.message}
+                            </FormErrorHelper>
+                        ) : null
+                    )}
                 </div>
             </CustomCollapseArrow>
             <ModalHelper
@@ -253,13 +243,13 @@ export function UserCreationCard() {
                         <div className="flex justify-between">
                             Role
                             <span className="text-primary">
-                                {modalData.role}
+                                {roleMapperDict[modalData.role]}
                             </span>
                         </div>
                         <div className="flex justify-between">
                             Team
                             <span className="text-primary">
-                                {modalData.team}
+                                {teamMapperDict[modalData.team]}
                             </span>
                         </div>
                     </div>

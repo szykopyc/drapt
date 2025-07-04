@@ -9,6 +9,9 @@ const useUserStore = create(
             currentPortfolioBeingAnalysed: null,
             setCurrentPortfolioBeingAnalysed: (currentPortfolioBeingAnalysed) =>
                 set({ currentPortfolioBeingAnalysed }),
+            potentiallyShowSessionExpired: false,
+            setPotentiallyShowSessionExpired: (potentiallyShowSessionExpired) =>
+                set({ potentiallyShowSessionExpired }),
             logout: () =>
                 set({ user: null, currentPortfolioBeingAnalysed: null }),
         }),

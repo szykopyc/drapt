@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { FaChevronDown } from "react-icons/fa";
 
 const sizeClassMap = {
     full: "w-full",
@@ -157,6 +158,7 @@ export function CustomCollapseArrow({
     title,
     children,
     defaultOpen = false,
+    onClose = null,
 }) {
     const [open, setOpen] = useState(defaultOpen);
 
@@ -166,6 +168,12 @@ export function CustomCollapseArrow({
             e.preventDefault();
         }
     };
+
+    useEffect(() => {
+        if (onClose) {
+            onClose();
+        }
+    }, [open, setOpen]);
 
     return (
         <div
@@ -183,7 +191,7 @@ export function CustomCollapseArrow({
                     aria-expanded={open}
                 >
                     <h2 className="card-title text-2xl">{title}</h2>
-                    <span className="text-base-content">&#x25BC;</span>
+                    <FaChevronDown className="text-base-content" />
                 </div>
                 <div style={{ display: open ? "block" : "none" }}>
                     {children}

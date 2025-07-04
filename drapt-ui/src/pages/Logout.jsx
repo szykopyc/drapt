@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useUserStore from "../stores/userStore";
-import { logout as logoutApi } from "../services/AuthService";
+import { logout as logoutApi } from "../lib/AuthService";
 
 export default function LogoutHandler() {
     const logoutStore = useUserStore((state) => state.logout);

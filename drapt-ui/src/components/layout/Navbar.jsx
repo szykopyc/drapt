@@ -18,7 +18,7 @@ export default function Navbar() {
             ...(!showAdmin
                 ? [{ to: "/portfolio", label: "Portfolio" }]
                 : [{ to: "/portfolio", label: "Fund Scope" }]),
-            ...(showAdmin ? [{ to: "/admin", label: "Admin" }] : []),
+            ...(showAdmin ? [{ to: "/admin", label: "Administration" }] : []),
             { to: "/profile", label: "Profile" },
         ];
     }, [showAdmin]);

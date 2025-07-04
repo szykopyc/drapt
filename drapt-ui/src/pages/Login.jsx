@@ -7,7 +7,7 @@ import LargeSubmit from "../components/baseui/LargeSubmitHelper";
 import { useState } from "react";
 import { FormErrorHelper } from "../components/helperui/FormErrorHelper";
 import useUserStore from "../stores/userStore";
-import { login, checkAuth } from "../services/AuthService";
+import { login, checkAuth } from "../lib/AuthService";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -17,7 +17,7 @@ export default function Login() {
         handleSubmit,
         watch,
         formState: { errors },
-    } = useForm({ mode: "onChange" });
+    } = useForm({ mode: "onSubmit" });
 
     const typedUsername = watch("username");
     const typedPassword = watch("password");

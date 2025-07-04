@@ -9,6 +9,9 @@ from app.schemas.user import UserRead, UserCreate, UserUpdate
 from app.db import engine, Base
 from fastapi.middleware.cors import CORSMiddleware
 
+# inspirational quote lib lol
+import inspirational_quotes
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
@@ -35,3 +38,9 @@ app.include_router(router)
 @app.get("/")
 async def root():
     return {"message": "Drapt backend running"}
+
+# inspirational quote
+@app.get("/inspiration")
+async def inspirational_quote():
+    quote = inspirational_quotes.quote()
+    return quote
