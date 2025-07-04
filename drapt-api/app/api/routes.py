@@ -1,5 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi_users import FastAPIUsers
+from sqlalchemy.future import select
+from app.db import get_async_session
 from app.models.user import User
 from app.users.manager import get_user_manager
 from app.users.auth import auth_backend
@@ -15,7 +17,7 @@ async def read_current_user(user: User = Depends(fastapi_users.current_user())):
         "id": user.id,
         "email": user.email,
         "username": user.username,
-        "full_name": user.full_name,
+        "fullname": user.fullname,
         "role": user.role,
         "team": user.team
     }
@@ -33,3 +35,18 @@ async def custom_register(
         )
     user = await user_manager.create(user_create, safe=True, request=None)
     return user
+
+@router.get("/user/all", response_model=list[UserRead], tags=["user"])
+async def list_all_users(
+    session=Depends(get_async_session),
+    current_user: User = Depends(fastapi_users.current_user()),
+):
+    if current_user.team != "executive":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only users with team 'executive' can see all users.",
+        )
+    
+    result = await session.execute(select(User))
+    users = result.scalars().all()
+    return users
