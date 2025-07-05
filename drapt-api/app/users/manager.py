@@ -4,8 +4,11 @@ from fastapi import Depends
 from app.models.user import User
 from app.db import async_session_maker
 from typing import Union
+import os
+from dotenv import load_dotenv
 
-SECRET = "SUPER_SECRET"  # Replace with env var for production!
+load_dotenv()
+SECRET = os.getenv("FASTAPIUSERS_SECRET_KEY")
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
     reset_password_token_secret = SECRET

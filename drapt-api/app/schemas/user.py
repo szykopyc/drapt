@@ -1,6 +1,8 @@
 from fastapi_users import schemas
 from typing import Optional
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
+
+# FASTAPI Users required schemas, don't delete
 
 class UserRead(schemas.BaseUser[int]):
     fullname: str
@@ -24,3 +26,24 @@ class UserUpdate(schemas.BaseUserUpdate):
     username: Optional[str] = None
     role: Optional[str] = None
     team: Optional[str] = None
+
+# Custom Pydantic schemas for response_model's 
+
+class UserReadResponseModel(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    
+    id: int
+    email: EmailStr
+    fullname: str
+    username: str
+    role: str
+    team: str
+
+class UserUpdateResponseModel(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    email: EmailStr
+    fullname: str
+    username: str
+    role: str
+    team: str

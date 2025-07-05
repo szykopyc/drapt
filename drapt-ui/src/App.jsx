@@ -41,38 +41,56 @@ import ProtectedRoute from "./components/authcomponents/ProtectedRoute";
 import ProtectedPortfolioRoute from "./components/authcomponents/PortfolioProtectedRoute";
 import UserRoleProtectedRoute from "./components/authcomponents/UserRoleProtectedRoute";
 import { useEffect } from "react";
-
 import useUserStore from "./stores/userStore";
 import { checkAuth } from "./lib/AuthService";
+
+// List of protected route prefixes
+const protectedRoutes = [
+    "/analyse",
+    "/portfolio",
+    "/admin",
+    "/profile",
+    "/landing",
+];
 
 function App() {
     const navigate = useNavigate();
     const location = useLocation();
     const user = useUserStore((state) => state.user);
     const setUser = useUserStore((state) => state.setUser);
-    const potentiallyShowSessionExpired = useUserStore(
-        (state) => state.potentiallyShowSessionExpired
-    );
-    const setPotentiallyShowSessionExpired = useUserStore(
-        (state) => state.setPotentiallyShowSessionExpired
-    );
+    const sessionExpired = useUserStore((state) => state.sessionExpired);
+    const setSessionExpired = useUserStore((state) => state.setSessionExpired);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            checkAuth().then((userData) => {
-                if (userData) {
-                    setUser(userData);
-                    setPotentiallyShowSessionExpired(false);
-                } else if (user) {
+        // Only check auth if the current path is protected
+        const isProtected = protectedRoutes.some((route) =>
+            location.pathname.startsWith(route)
+        );
+        if (!isProtected) return;
+
+        const check = async () => {
+            try {
+                const response = await checkAuth();
+                if (response) {
+                    setUser(response);
+                    setSessionExpired(false);
+                } else {
                     setUser(null);
-                    setPotentiallyShowSessionExpired(true);
-                    navigate("/session-expired");
+                    navigate("/unauthorised", { replace: true });
                 }
-            });
-        }, 300000);
-        return () => clearInterval(interval);
+            } catch {
+                if (user) {
+                    setSessionExpired(true);
+                    navigate("/session-expired", { replace: true });
+                } else {
+                    setUser(null);
+                    navigate("/unauthorised", { replace: true });
+                }
+            }
+        };
+        check();
         // eslint-disable-next-line
-    }, []);
+    }, [location.pathname]);
 
     return (
         <ErrorBoundary>
@@ -81,7 +99,7 @@ function App() {
                     <Route element={<MasterLayout />}>
                         {user ? (
                             <Route
-                                path="/"
+                                path="/landing"
                                 element={
                                     <ProtectedRoute>
                                         <Landing />
@@ -181,7 +199,7 @@ function App() {
                                 path="tradebooker"
                                 element={
                                     <UserRoleProtectedRoute
-                                        roles={[
+                                        allowedRoles={[
                                             "vd",
                                             "director",
                                             "developer",
@@ -196,7 +214,11 @@ function App() {
                                 path="administration"
                                 element={
                                     <UserRoleProtectedRoute
-                                        roles={["vd", "director", "developer"]}
+                                        allowedRoles={[
+                                            "vd",
+                                            "director",
+                                            "developer",
+                                        ]}
                                     >
                                         <PortfolioAdminPanel />
                                     </UserRoleProtectedRoute>
@@ -242,12 +264,10 @@ function App() {
                             path="maintenance"
                             element={<MaintenanceError />}
                         />
-                        {potentiallyShowSessionExpired && (
-                            <Route
-                                path="session-expired"
-                                element={<SessionExpired />}
-                            />
-                        )}
+                        <Route
+                            path="session-expired"
+                            element={<SessionExpired />}
+                        />
                         <Route path="*" element={<NotFound />} />
                     </Route>
                 </Routes>

@@ -1,6 +1,9 @@
 from fastapi_users.authentication import CookieTransport, JWTStrategy, AuthenticationBackend
+import os
+from dotenv import load_dotenv
 
-SECRET = "SUPER_SECRET"  # use env vars in prod
+load_dotenv()
+SECRET = os.getenv("FASTAPIUSERS_SECRET_KEY")
 
 cookie_transport = CookieTransport(cookie_name="auth", cookie_max_age=3600, cookie_secure=False, cookie_httponly=True, cookie_samesite="lax")
 

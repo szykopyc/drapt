@@ -1,6 +1,16 @@
 import { Link } from "react-router-dom";
+import useUserStore from "../stores/userStore";
+import { useEffect } from "react";
 
 export default function SessionExpired() {
+    const setUser = useUserStore((state) => state.setUser);
+    const setSessionExpired = useUserStore((state) => state.setSessionExpired);
+
+    useEffect(() => {
+        setUser(null);
+        setSessionExpired(false);
+    }, []);
+
     return (
         <div className="flex flex-col gap-3 justify-center items-center min-h-[59vh] md:min-h-[calc(100vh-145px)] flex-grow px-4">
             <h1 className="text-7xl md:text-9xl font-extrabold text-error">

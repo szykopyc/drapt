@@ -34,7 +34,6 @@ app.add_middleware(
 fastapi_users = FastAPIUsers[User, int](get_user_manager, [auth_backend])
 
 app.include_router(fastapi_users.get_auth_router(auth_backend), prefix="/auth/jwt", tags=["auth"])
-app.include_router(fastapi_users.get_users_router(UserRead, UserUpdate), prefix="/users", tags=["users"])
 app.include_router(auth_router)
 app.include_router(admin_router)
 app.include_router(user_router)

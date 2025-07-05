@@ -41,7 +41,7 @@ export default function Login() {
                 return;
             }
             setUser(userData);
-            navigate("/");
+            navigate("/landing");
         } catch (err) {
             setIncorrectPasswordError(
                 err?.toString() || "Incorrect username or password."

@@ -5,13 +5,13 @@ from app.db import get_async_session
 from app.models.user import User
 from app.users.manager import get_user_manager
 from app.users.auth import auth_backend
-from app.schemas.user import UserCreate, UserRead, UserUpdate
+from app.schemas.user import UserUpdate, UserUpdateResponseModel, UserReadResponseModel
 
 router = APIRouter()
 
 fastapi_users = FastAPIUsers[User, int](get_user_manager, [auth_backend])
 
-@router.patch("/user/update/{user_id}", response_model=UserRead, tags=["user"])
+@router.patch("/user/update/{user_id}", response_model=UserUpdateResponseModel, tags=["user"])
 async def custom_update_user(
     user_id: int,
     user_update: UserUpdate,
@@ -37,9 +37,9 @@ async def custom_update_user(
 
     await session.commit()
     await session.refresh(user)
-    return user
+    return UserUpdateResponseModel.model_validate(user)
 
-@router.get("/user/search/{username}", response_model=UserRead, tags=["user"])
+@router.get("/user/search/{username}", response_model=UserReadResponseModel, tags=["user"])
 async def get_user_by_username(
     username: str,
     session=Depends(get_async_session),
@@ -54,10 +54,10 @@ async def get_user_by_username(
     user = result.scalar_one_or_none()
     if not user:
         raise HTTPException(status_code=404, detail="404: We couldn't find the user you requested.")
-    
-    return user
 
-@router.delete("/user/delete/{user_id}", response_model=UserRead, tags=["user"])
+    return UserReadResponseModel.model_validate(user)
+
+@router.delete("/user/delete/{user_id}", response_model=UserReadResponseModel, tags=["user"])
 async def delete_user_by_id(
     user_id: int,
     session=Depends(get_async_session),
@@ -74,10 +74,10 @@ async def delete_user_by_id(
         raise HTTPException(status_code=404, detail="The user that you wanted to delete was not found.")
     await session.delete(user)
     await session.commit()
-    return user
+    return UserReadResponseModel.model_validate(user)
 
 
-@router.get("/user/all", response_model=list[UserRead], tags=["user"])
+@router.get("/user/all", response_model=list[UserReadResponseModel], tags=["user"])
 async def list_all_users(
     session=Depends(get_async_session),
     current_user: User = Depends(fastapi_users.current_user()),
@@ -94,4 +94,4 @@ async def list_all_users(
     if not users: 
         raise HTTPException(status_code=404, detail="404: Failed to load users.")
 
-    return users
+    return [UserReadResponseModel.model_validate(user) for user in users]

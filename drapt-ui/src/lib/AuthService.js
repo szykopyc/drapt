@@ -31,7 +31,7 @@ export async function checkAuth() {
         const response = await ApiClient.get("/me", { withCredentials: true });
         return response.data; // user info if authenticated
     } catch {
-        return null; // not authenticated
+        throw "User not authenticated"; // not authenticated
     }
 }
 
