@@ -6,7 +6,7 @@ import { FormField } from "../helperui/FormFieldHelper";
 import LargeSubmit from "../baseui/LargeSubmitHelper";
 import { teamMapperDict } from "../../helperfunctions/TeamMapper";
 import { roleMapperDict } from "../../helperfunctions/RoleMapper";
-import { FaHdd } from "react-icons/fa";
+import { FaHdd, FaServer } from "react-icons/fa";
 import InnerEmptyState from "../errorui/InnerEmptyState";
 
 export function UserShowAllCard() {
@@ -45,7 +45,7 @@ export function UserShowAllCard() {
 
     // filters users by fullname, username, team and role
 
-    const filteredUsers =
+    let filteredUsers =
         filter.trim().toLowerCase() === "all"
             ? allUserData
             : allUserData.filter(
@@ -67,11 +67,20 @@ export function UserShowAllCard() {
     // in case there are no users
     let emptyUserDataError = false;
 
+    // in case of server error not passing in any users
+    let dataStreamError = false;
+
     let shouldShowTable = filter.trim().length > 0;
 
     if (filteredUsers.length === 0) {
         emptyUserDataError = true;
         shouldShowTable = false;
+    }
+
+    if (allUserData.length === 0) {
+        emptyUserDataError = false;
+        shouldShowTable = false;
+        dataStreamError = true;
     }
 
     // watch field to only enable input on entry
@@ -84,7 +93,9 @@ export function UserShowAllCard() {
                 id={"userShowAllCard"}
                 title={"Show all users"}
                 defaultOpen={false}
-                onClose={() => reset()}
+                onClose={() => {
+                    reset();
+                }}
             >
                 <form
                     className="flex flex-col md:flex-row gap-3 w-full"
@@ -103,6 +114,7 @@ export function UserShowAllCard() {
                                 })}
                                 autoComplete="off"
                                 autoCapitalize="false"
+                                disabled={dataStreamError}
                             />
                         </FormField>
                     </div>
@@ -149,7 +161,19 @@ export function UserShowAllCard() {
                                 <FaHdd className="text-4xl text-base-content/40" />
                             }
                             enablePadding={false}
-                        />
+                        ></InnerEmptyState>
+                    </div>
+                )}
+                {dataStreamError && (
+                    <div className="mt-[24px]">
+                        <InnerEmptyState
+                            title="Data stream error"
+                            message="It looks like we have an issue on the backend, please contact the developer"
+                            icon={
+                                <FaServer className="text-4xl text-base-content/40" />
+                            }
+                            enablePadding={false}
+                        ></InnerEmptyState>
                     </div>
                 )}
             </CustomCollapseArrow>

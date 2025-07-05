@@ -189,8 +189,8 @@ export function UserCreationCard() {
                         </select>
                     </FormField>
                 </form>
-                <div className="flex flex-row gap-2 mt-3 w-full">
-                    <div className="w-4/5">
+                <div className="flex flex-col md:flex-row gap-3 mt-3 w-full">
+                    <div className="w-full md:w-4/5">
                         <LargeSubmit
                             form={"addUser"}
                             disabled={!allFieldsFilledMask}
@@ -198,7 +198,7 @@ export function UserCreationCard() {
                             Add User
                         </LargeSubmit>
                     </div>
-                    <div className="w-1/5">
+                    <div className="w-full md:w-1/5">
                         <ResetFormButton
                             resetFn={resetForm}
                             disabled={!someFieldsFilledMask}

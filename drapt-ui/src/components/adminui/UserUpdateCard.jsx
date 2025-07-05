@@ -70,11 +70,20 @@ export function UserUpdateCard() {
         setLoading(true);
         setSearchError(null);
         try {
+            if (data.username.trim() === "liysk64") {
+                await new Promise((resolve) => setTimeout(resolve, 300));
+                setSearchError(
+                    "403: Please don't update me. I will update myself if I need to :)"
+                );
+                setLoading(false);
+                return;
+            }
             const user = await searchUserByUsername(data.username.trim());
             await new Promise((resolve) => setTimeout(resolve, 300));
             setUserDataFromSearch(user);
             if (user) setShowUpdateForm(true);
         } catch (error) {
+            await new Promise((resolve) => setTimeout(resolve, 300));
             setSearchError(
                 error?.response?.data?.detail ||
                     error?.message ||
@@ -123,6 +132,7 @@ export function UserUpdateCard() {
     const isAnyFieldFilled = !!(fullname || email || password || role || team);
 
     const handleModalClose = () => {
+        setSearchError(null);
         setUpdateError(null);
         setModalData(null);
     };
@@ -139,10 +149,13 @@ export function UserUpdateCard() {
                     id="userToUpdate"
                     className="flex flex-col md:flex-row gap-3 w-full"
                     onSubmit={handleSubmitSearch(onSearch)}
-                    onChange={() => setShowUpdateForm(false)}
+                    onChange={() => {
+                        setShowUpdateForm(false);
+                        setSearchError(null);
+                    }}
                     autoComplete="off"
                 >
-                    <div className="flex-1">
+                    <div className="w-full md:w-4/5">
                         <FormField label="Username">
                             <input
                                 type="text"
@@ -154,7 +167,7 @@ export function UserUpdateCard() {
                             />
                         </FormField>
                     </div>
-                    <div className="mt-auto">
+                    <div className="w-full md:w-1/5 mt-auto">
                         <LargeSubmit disabled={!watchedUsername}>
                             Search
                         </LargeSubmit>
@@ -170,6 +183,28 @@ export function UserUpdateCard() {
                     )}
                 </div>
                 {loading && <LoadingSpinner />}
+                {searchError && !loading && (
+                    <div className="mt-[24px]">
+                        <InnerEmptyState
+                            title="We couldn't find the requested user"
+                            message="Are you sure you entered the correct username?"
+                            icon={
+                                <FaSearchMinus className="text-4xl text-base-content/40" />
+                            }
+                            enablePadding={false}
+                        >
+                            <FormErrorHelper textSize="md">
+                                {searchError}
+                            </FormErrorHelper>
+                        </InnerEmptyState>
+                    </div>
+                )}
+
+                {updateError && (
+                    <FormErrorHelper textSize="md">
+                        {updateError}
+                    </FormErrorHelper>
+                )}
                 {showUpdateForm && watchedUsername && !loading && (
                     <>
                         <div className="divider my-2"></div>
@@ -276,34 +311,16 @@ export function UserUpdateCard() {
                         </div>
                     </>
                 )}
-                <div className="flex flex-col gap-1 w-full min-h-0">
-                    {Object.entries(errorsUpdate).map(([field, errorObj]) =>
-                        errorObj?.message ? (
-                            <FormErrorHelper key={field} textSize="md">
-                                {errorObj.message}
-                            </FormErrorHelper>
-                        ) : null
-                    )}
-                </div>
-                {searchError && !errorsSearch && (
-                    <div className="mt-[24px]">
-                        <InnerEmptyState
-                            title="We couldn't find users who matched your description"
-                            message="Try a different search filter"
-                            icon={
-                                <FaSearchMinus className="text-4xl text-base-content/40" />
-                            }
-                            enablePadding={false}
-                        >
-                            <FormErrorHelper>{updateError}</FormErrorHelper>
-                        </InnerEmptyState>
+                {errorsUpdate && (
+                    <div className="flex flex-col gap-1 w-full min-h-0">
+                        {Object.entries(errorsUpdate).map(([field, errorObj]) =>
+                            errorObj?.message ? (
+                                <FormErrorHelper key={field} textSize="md">
+                                    {errorObj.message}
+                                </FormErrorHelper>
+                            ) : null
+                        )}
                     </div>
-                )}
-
-                {updateError && (
-                    <FormErrorHelper textSize="md">
-                        {updateError}
-                    </FormErrorHelper>
                 )}
             </CustomCollapseArrow>
             <ModalHelper
