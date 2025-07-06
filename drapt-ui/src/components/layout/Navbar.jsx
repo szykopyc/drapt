@@ -58,7 +58,7 @@ export default function Navbar() {
                         tabIndex={0}
                         className="text-accent"
                         onClick={() => setMenuOpen(false)}
-                        to="/landing"
+                        to="/"
                     >
                         Drapt
                     </Link>

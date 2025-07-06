@@ -45,13 +45,7 @@ import useUserStore from "./stores/userStore";
 import { checkAuth } from "./lib/AuthService";
 
 // List of protected route prefixes
-const protectedRoutes = [
-    "/analyse",
-    "/portfolio",
-    "/admin",
-    "/profile",
-    "/landing",
-];
+const protectedRoutes = ["/analyse", "/portfolio", "/admin", "/profile"];
 
 function App() {
     const navigate = useNavigate();
@@ -99,7 +93,7 @@ function App() {
                     <Route element={<MasterLayout />}>
                         {user ? (
                             <Route
-                                path="/landing"
+                                path="/"
                                 element={
                                     <ProtectedRoute>
                                         <Landing />
