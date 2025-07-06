@@ -1,12 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi_users import FastAPIUsers
 from sqlalchemy.future import select
 from app.db import get_async_session
 from app.models.user import User
-from app.users.manager import get_user_manager
-from app.users.auth import auth_backend
 from app.schemas.user import UserUpdate, UserUpdateResponseModel, UserReadResponseModel
 from app.users.deps import fastapi_users
+from app.config.permissions import permissions as role_permissions
 
 router = APIRouter()
 
@@ -18,7 +16,8 @@ async def custom_update_user(
     current_user: User = Depends(fastapi_users.current_user()),
 ):
     # Only allow execs to patch users
-    if current_user.team != "executive":
+    role_perms = role_permissions.get(current_user.role)
+    if not role_perms or not role_perms.get("can_manage_user"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="403: Only executives can update users.",
@@ -31,7 +30,7 @@ async def custom_update_user(
         raise HTTPException(status_code=404, detail="404: We couldn't find the user you requested.")
 
     # Update fields (only those present in the patch)
-    for field, value in user_update.dict(exclude_unset=True).items():
+    for field, value in user_update.model_dump(exclude_unset=True).items():
         setattr(user, field, value)
 
     await session.commit()
@@ -44,10 +43,11 @@ async def get_user_by_username(
     session=Depends(get_async_session),
     current_user: User = Depends(fastapi_users.current_user())
 ):
-    if current_user.team != "executive":
+    role_perms = role_permissions.get(current_user.role)
+    if not role_perms or not role_perms.get("can_search_user"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="403: Only users with team 'executive' can search for a user.",
+            detail="403: Only PMs and above can search for a user.",
         )
     result = await session.execute(select(User).where(User.username == username))
     user = result.scalar_one_or_none()
@@ -62,7 +62,8 @@ async def delete_user_by_id(
     session=Depends(get_async_session),
     current_user: User = Depends(fastapi_users.current_user())
 ):
-    if current_user.role != "developer":
+    role_perms = role_permissions.get(current_user.role)
+    if not role_perms or not role_perms.get("can_delete_user"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="403: Only developer can delete users."
@@ -81,7 +82,8 @@ async def list_all_users(
     session=Depends(get_async_session),
     current_user: User = Depends(fastapi_users.current_user()),
 ):
-    if current_user.team != "executive":
+    role_perms = role_permissions.get(current_user.role)
+    if not role_perms or not role_perms.get("can_manage_user"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="403: Only executives can see all users.",
@@ -101,7 +103,8 @@ async def search_by_role(
     session=Depends(get_async_session),
     current_user: User = Depends(fastapi_users.current_user())
 ):
-    if current_user.team != "executive":
+    role_perms = role_permissions.get(current_user.role)
+    if not role_perms or not role_perms.get("can_manage_user"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="403: Only executive users can search users by role."

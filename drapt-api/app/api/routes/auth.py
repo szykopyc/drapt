@@ -5,6 +5,7 @@ from app.users.manager import get_user_manager
 from app.users.auth import auth_backend
 from app.schemas.user import UserCreate, UserRead
 from app.users.deps import fastapi_users
+from app.config.permissions import permissions as role_permissions
 
 router = APIRouter()
 
@@ -14,7 +15,8 @@ async def custom_register(
     user_manager=Depends(get_user_manager),
     current_user: User = Depends(fastapi_users.current_user()),
 ):
-    if current_user.team != "executive":
+    role_perms = role_permissions.get(current_user.role)
+    if not role_perms or not role_perms.get("can_manage_user"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="403: Only executives can register new users.",

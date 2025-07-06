@@ -9,6 +9,7 @@ from app.schemas.portfolio import PortfolioCreate, PortfolioRead, PortfolioUpdat
 # auth imports
 from app.models.user import User
 from app.users.deps import fastapi_users
+from app.config.permissions import permissions as role_permissions
 
 
 router = APIRouter()
@@ -19,7 +20,8 @@ async def create_portfolio(
     current_user: User = Depends(fastapi_users.current_user()),
     session=Depends(get_async_session)
 ):
-    if current_user.team != "executive":
+    role_perms = role_permissions.get(current_user.role)
+    if not role_perms or not role_perms.get("can_init_portfolio"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="403: Only executives can initialise portfolios."
@@ -44,10 +46,11 @@ async def create_portfolio(
 async def get_all_portfolios(
     session=Depends(get_async_session), current_user: User = Depends(fastapi_users.current_user())
 ):
-    if current_user.team != "executive":
+    role_perms = role_permissions.get(current_user.role)
+    if not role_perms or not role_perms.get("can_init_portfolio"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="403: Only executives can initialise portfolios."
+            detail="403: Only executives can search all portfolios."
         )
     allPortfoliosResult = await session.execute(select(Portfolio))
     portfolios = allPortfoliosResult.scalars().all()

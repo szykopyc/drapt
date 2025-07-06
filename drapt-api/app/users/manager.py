@@ -1,5 +1,5 @@
 from fastapi_users import BaseUserManager, IntegerIDMixin, InvalidPasswordException
-from fastapi_users.db import SQLAlchemyUserDatabase
+from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 from fastapi import Depends
 from app.models.user import User
 from app.db import async_session_maker
