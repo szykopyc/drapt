@@ -6,10 +6,9 @@ from app.models.user import User
 from app.users.manager import get_user_manager
 from app.users.auth import auth_backend
 from app.schemas.user import UserUpdate, UserUpdateResponseModel, UserReadResponseModel
+from app.users.deps import fastapi_users
 
 router = APIRouter()
-
-fastapi_users = FastAPIUsers[User, int](get_user_manager, [auth_backend])
 
 @router.patch("/user/update/{user_id}", response_model=UserUpdateResponseModel, tags=["user"])
 async def custom_update_user(
@@ -92,6 +91,24 @@ async def list_all_users(
     users = result.scalars().all()
 
     if not users: 
-        raise HTTPException(status_code=404, detail="404: Failed to load users.")
+        raise HTTPException(status_code=404, detail="404: Failed to find users.")
 
+    return [UserReadResponseModel.model_validate(user) for user in users]
+
+@router.get("/user/searchbyrole/{role}", response_model=list[UserReadResponseModel], tags=["user"])
+async def search_by_role(
+    role: str,
+    session=Depends(get_async_session),
+    current_user: User = Depends(fastapi_users.current_user())
+):
+    if current_user.team != "executive":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="403: Only executive users can search users by role."
+        )
+    result = await session.execute(select(User).where(User.role==role))
+    users = result.scalars().all()
+
+    if not users:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="4O4: Failed to find users with the role you requested.")
     return [UserReadResponseModel.model_validate(user) for user in users]

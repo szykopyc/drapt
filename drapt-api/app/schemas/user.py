@@ -15,7 +15,7 @@ class UserCreate(schemas.BaseUserCreate):
     username: str
     role: str
     team: str
-    portfolio_id: Optional[int]
+    portfolio_id: Optional[int] = None
 
 class UserUpdate(schemas.BaseUserUpdate):
     password: Optional[str] = None

@@ -16,6 +16,21 @@ export async function selectAllUsers(){
     }
 }
 
+export async function searchUserByRole(role){
+    try {
+        const response = await ApiClient.get(
+            `/user/searchbyrole/${role}`, {
+                headers: { "Content-Type": "application/json" },
+                withCredentials: true,
+            }
+        )
+        return response.data;
+    }
+    catch (error){
+        throw error;
+    }
+}
+
 export async function updateUser(user_id, fieldsToPatch){
     try {
         const response = await ApiClient.patch(

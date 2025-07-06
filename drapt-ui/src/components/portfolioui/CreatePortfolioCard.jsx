@@ -1,38 +1,29 @@
 import { CardOne } from "../baseui/CustomCard";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ModalHelper } from "../helperui/ModalHelper";
 import { FormErrorHelper } from "../helperui/FormErrorHelper";
 import { CustomButtonInputStyle } from "../baseui/CustomButton";
 import { FormField } from "../helperui/FormFieldHelper";
+import { searchUserByRole } from "../../lib/AdminServices";
+import { initialisePortfolio } from "../../lib/PortfolioServices";
 
 export function CreatePortfolioCard() {
-    const portfolioConfirmedModalRef = useRef(null);
+    // initialise states for managers who are available to be assigned
+    const [pmsAvailable, setPmsAvailable] = useState([]);
+    let pmError = false;
+
+    // initialise states for errors
+    const [portfolioCreateError, setPortfolioCreateError] = useState(null);
+
+    // modal stuff
     const [modalData, setModalData] = useState(null);
+    const [modalPMData, setModalPMData] = useState(null);
+    const portfolioConfirmedModalRef = useRef(null);
+
+    // confirmation button things
     const [portfolioCreationConfirmed, setPortfolioCreationConfirmed] =
         useState(false);
-
-    const {
-        register,
-        handleSubmit,
-        reset: resetForm,
-        setValue,
-        watch,
-        formState: { errors },
-        trigger,
-    } = useForm({
-        mode: "onSubmit",
-        defaultValues: {
-            portfolioName: "",
-            portfolioID: "",
-            portfolioManager: "",
-            portfolioTeamMembers: "",
-            portfolioInitialValue: 0,
-            portfolioCurrency: "GBP",
-            portfolioCreationDate: new Date().toISOString().split("T")[0],
-            portfolioAssetType: "Equity",
-        },
-    });
 
     const handleCreatePortfolioClick = async (e) => {
         e.preventDefault();
@@ -40,60 +31,85 @@ export function CreatePortfolioCard() {
         if (valid) setPortfolioCreationConfirmed(true);
     };
 
-    const guardedSubmitHandler = (data) => {
-        if (!portfolioCreationConfirmed) return;
-
-        const {
-            portfolioName,
-            portfolioCurrency,
-            portfolioAssetType,
-            ...rest
-        } = data;
-        const capitalisedData = Object.fromEntries(
-            Object.entries(rest).map(([key, value]) =>
-                typeof value === "string"
-                    ? [key, value.toLowerCase()]
-                    : [key, value]
-            )
-        );
-
-        const finalData = {
-            ...capitalisedData,
-            portfolioName,
-            portfolioCurrency,
-            portfolioAssetType,
+    // fetches all PMs
+    useEffect(() => {
+        const fetchManagers = async () => {
+            try {
+                const fetchedManagerData = await searchUserByRole("pm");
+                if (Array.isArray(fetchedManagerData)) {
+                    setPmsAvailable(fetchedManagerData);
+                }
+            } catch (error) {}
         };
+        fetchManagers();
+    }, []);
 
-        setModalData(finalData);
-        if (portfolioConfirmedModalRef.current)
-            portfolioConfirmedModalRef.current.showModal();
-        resetForm();
-        setPortfolioCreationConfirmed(false);
-    };
+    // handles the form
+    const {
+        register,
+        handleSubmit,
+        reset: resetForm,
+        watch,
+        formState: { errors },
+        trigger,
+    } = useForm({
+        mode: "onSubmit",
+        defaultValues: {
+            name: "",
+            portfolio_string_id: "",
+            pm_id: "",
+            description: null,
+        },
+    });
 
-    const currencyMap = {
-        GBP: "£",
-        USD: "$",
-        JPY: "¥",
-        EUR: "€",
-    };
-
-    const typedPortfolioName = watch("portfolioName");
-    const typedUniquePortfolioID = watch("portfolioID");
-    const typedPM = watch("portfolioManager");
-    const typedTeamMembers = watch("portfolioTeamMembers");
-    const typedPortfolioInitialValue = watch("portfolioInitialValue");
+    // prevents submission without filling in required details
+    const typedname = watch("name");
+    const typedUniqueportfolio_string_id = watch("portfolio_string_id");
+    const typedPM = watch("pm_id");
 
     const allFieldsFilledMask =
-        typedPortfolioName &&
-        typedUniquePortfolioID &&
-        typedPM &&
-        typedTeamMembers &&
-        typedPortfolioInitialValue > 0;
+        typedname && typedUniqueportfolio_string_id && typedPM;
+
+    // this makes the call to the API to add a portfolio
+    const guardedSubmitHandler = async (data) => {
+        if (!portfolioCreationConfirmed) return;
+
+        const attributes = {
+            portfolio_string_id: data.portfolio_string_id,
+            name: data.name,
+            description: data.description,
+            pm_id: parseInt(data.pm_id),
+        };
+
+        try {
+            const result = await initialisePortfolio(attributes);
+            setModalData(data);
+
+            // Lookup the PM object by ID and set it
+            const pmObj = pmsAvailable.find(
+                (pm) => pm.id === parseInt(data.pm_id)
+            );
+            setModalPMData(pmObj);
+
+            if (portfolioConfirmedModalRef.current)
+                portfolioConfirmedModalRef.current.showModal();
+            resetForm();
+            setPortfolioCreateError("");
+            setPortfolioCreationConfirmed(false);
+        } catch (error) {
+            console.log(error);
+            if (error.response?.status === 400) {
+                setPortfolioCreationConfirmed(false);
+                setPortfolioCreateError(
+                    "Sorry, that portfolio ID is already taken."
+                );
+            }
+        }
+    };
 
     return (
         <>
-            <CardOne title={"Create Portfolio Form"}>
+            <CardOne title={"Initialise Portfolio Form"}>
                 <form
                     id="createPortfolio"
                     onSubmit={handleSubmit(guardedSubmitHandler)}
@@ -104,7 +120,7 @@ export function CreatePortfolioCard() {
                             <input
                                 type="text"
                                 className="input input-bordered w-full"
-                                {...register("portfolioName", {
+                                {...register("name", {
                                     required: "Portfolio name is required",
                                 })}
                                 placeholder={"e.g., Industrial, US and Canada"}
@@ -114,13 +130,13 @@ export function CreatePortfolioCard() {
                         </FormField>
                         <FormField
                             label={
-                                "Unique Portfolio ID - no symbols, no spaces, no numbers"
+                                "Unique Portfolio ID - no symbols, spaces, capitals, numbers"
                             }
                         >
                             <input
                                 type="text"
                                 className="input input-bordered w-full"
-                                {...register("portfolioID", {
+                                {...register("portfolio_string_id", {
                                     required: "Portfolio ID is required",
                                     validate: (value) => {
                                         if (/\s/.test(value) == true) {
@@ -136,6 +152,9 @@ export function CreatePortfolioCard() {
                                         if (/[0-9]/.test(value) == true) {
                                             return "Portfolio ID must not contain numbers";
                                         }
+                                        if (/[A-Z]/.test(value) == true) {
+                                            return "Portfolio ID must not contain capitals";
+                                        }
                                     },
                                 })}
                                 placeholder={"e.g., industrial, tech"}
@@ -143,32 +162,33 @@ export function CreatePortfolioCard() {
                                 disabled={portfolioCreationConfirmed}
                             />
                         </FormField>
-                        <FormField label={"Manager Username - Required"}>
-                            <input
-                                type="text"
-                                className="input input-bordered w-full"
-                                {...register("portfolioManager", {
+                        <FormField label={"Manager"}>
+                            <select
+                                className="select w-full"
+                                {...register("pm_id", {
                                     required: "Portfolio manager is required",
                                 })}
-                                placeholder="e.g., liysk64"
-                                autoComplete="off"
-                                disabled={portfolioCreationConfirmed}
-                            />
+                                defaultValue={""}
+                            >
+                                <option value="" disabled>
+                                    Choose Manager
+                                </option>
+                                {pmsAvailable.map((pm) => (
+                                    <option key={pm.id} value={pm.id}>
+                                        {pm.username} - {pm.fullname}
+                                    </option>
+                                ))}
+                            </select>
                         </FormField>
                         <FormField label={"Description - Optional"}>
                             <textarea
                                 className="textarea textarea-bordered w-full"
-                                {...register("portfolioTeamMembers")}
+                                {...register("description")}
                                 autoComplete="off"
                                 placeholder="E.g., The Industrial and Resources portfolio is ..."
                                 disabled={portfolioCreationConfirmed}
                             ></textarea>
                         </FormField>
-                        <input
-                            type="hidden"
-                            {...register("portfolioCreationDate")}
-                            value={new Date().toISOString().split("T")[0]}
-                        />
                         <div className="h-[40px] flex gap-3 w-full">
                             {!portfolioCreationConfirmed ? (
                                 <CustomButtonInputStyle
@@ -212,6 +232,13 @@ export function CreatePortfolioCard() {
                         ) : null
                     )}
                 </div>
+                {portfolioCreateError && (
+                    <div className="flex flex-col gap-1 w-full min-h-0">
+                        <FormErrorHelper textSize="md">
+                            {portfolioCreateError}
+                        </FormErrorHelper>
+                    </div>
+                )}
             </CardOne>
             <ModalHelper
                 id={"portfolio_confirm"}
@@ -219,7 +246,7 @@ export function CreatePortfolioCard() {
                 modalTitle={"Portfolio Created"}
                 width={70}
             >
-                {modalData && (
+                {modalData && modalPMData && (
                     <>
                         <table className="w-full text-left text-base">
                             <colgroup>
@@ -230,74 +257,37 @@ export function CreatePortfolioCard() {
                                 <tr>
                                     <td>Portfolio Name</td>
                                     <td className="font-semibold">
-                                        {modalData.portfolioName}
+                                        {modalData.name}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Portfolio ID</td>
+                                    <td>Portfolio String ID</td>
                                     <td className="font-semibold">
-                                        {modalData.portfolioID}
+                                        {modalData.portfolio_string_id}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Manager</td>
                                     <td className="font-semibold">
-                                        {modalData.portfolioManager}
+                                        {modalPMData.fullname}
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>Team Members</td>
-                                    <td className="font-semibold">
-                                        {modalData.portfolioTeamMembers}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Initial Value</td>
-                                    <td className="font-semibold">
-                                        {
-                                            currencyMap[
-                                                modalData.portfolioCurrency
-                                            ]
-                                        }
-                                        {Number(
-                                            modalData.portfolioInitialValue
-                                        ).toLocaleString(undefined, {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                        })}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Currency</td>
-                                    <td className="font-semibold">
-                                        {modalData.portfolioCurrency}
-                                    </td>
-                                </tr>
+                                {modalData.description && (
+                                    <tr>
+                                        <td>Description</td>
+                                        <td className="font-semibold">
+                                            {modalData.description}
+                                        </td>
+                                    </tr>
+                                )}
                                 <tr>
                                     <td>Creation Date</td>
                                     <td className="font-semibold">
-                                        {modalData.portfolioCreationDate}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Asset Type</td>
-                                    <td className="font-semibold">
-                                        {modalData.portfolioAssetType}
+                                        {new Date().toISOString().split("T")[0]}
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <p className="mt-3">
-                            You will soon be able to view this portfolio at{" "}
-                            <a
-                                className="text-accent"
-                                tabIndex={0}
-                                href={`http://localhost:5173/portfolio/${modalData.portfolioID}`}
-                            >
-                                http://localhost:5173/portfolio/
-                                {modalData.portfolioID}
-                            </a>
-                        </p>
                     </>
                 )}
             </ModalHelper>

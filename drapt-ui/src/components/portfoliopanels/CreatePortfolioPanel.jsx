@@ -5,7 +5,7 @@ import { CreatePortfolioCard } from "../portfolioui/CreatePortfolioCard";
 export default function CreatePortfolioPanel() {
     return (
         <MainBlock>
-            <BeginText title={"Create Portfolio"}>
+            <BeginText title={"Initialise Portfolio"}>
                 <p>
                     Initialise a portfolio to be tracked by{" "}
                     <span className="text-accent font-semibold">Drapt</span>.

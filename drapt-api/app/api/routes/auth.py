@@ -4,9 +4,9 @@ from app.models.user import User
 from app.users.manager import get_user_manager
 from app.users.auth import auth_backend
 from app.schemas.user import UserCreate, UserRead
+from app.users.deps import fastapi_users
 
 router = APIRouter()
-fastapi_users = FastAPIUsers[User, int](get_user_manager, [auth_backend])
 
 @router.post("/auth/register", response_model=UserRead, tags=["auth"])
 async def custom_register(

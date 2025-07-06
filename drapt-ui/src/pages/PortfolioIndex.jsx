@@ -74,7 +74,7 @@ export default function PortfolioIndex() {
                     <div className="flex flex-row justify-center items-center gap-3">
                         <FaPlus className="text-info text-lg" />
                         <span className="text-lg text-info">
-                            Add New Portfolio
+                            Initialise New Portfolio
                         </span>
                     </div>
                 </CardNoTitleChildrenCentred>

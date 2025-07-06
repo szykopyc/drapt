@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from app.api.routes.admin import router as admin_router
 from app.api.routes.auth import router as auth_router
 from app.api.routes.users import router as user_router
+from app.api.routes.portfolio import router as portfolio_router
 from app.users.auth import auth_backend
 from app.users.manager import get_user_manager
 from fastapi_users import FastAPIUsers
@@ -11,6 +12,7 @@ from app.models.portfolio import Portfolio
 from app.schemas.user import UserRead, UserCreate, UserUpdate
 from app.db import engine, Base
 from fastapi.middleware.cors import CORSMiddleware
+from app.users.deps import fastapi_users
 
 # inspirational quote lib lol
 import inspirational_quotes
@@ -33,13 +35,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-fastapi_users = FastAPIUsers[User, int](get_user_manager, [auth_backend])
-
 # setting up routes from other files
 app.include_router(fastapi_users.get_auth_router(auth_backend), prefix="/auth/jwt", tags=["auth"])
 app.include_router(auth_router)
 app.include_router(admin_router)
 app.include_router(user_router)
+app.include_router(portfolio_router)
 
 @app.get("/")
 async def root():
