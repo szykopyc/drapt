@@ -9,7 +9,6 @@ const useUserStore = create(
             currentPortfolioBeingAnalysed: null,
             setCurrentPortfolioBeingAnalysed: (currentPortfolioBeingAnalysed) =>
                 set({ currentPortfolioBeingAnalysed }),
-            colourTheme: "draptlight",
             setColourTheme: (colourTheme) => set({ colourTheme }),
             sessionExpired: false,
             setSessionExpired: (sessionExpired) => set({ sessionExpired }),

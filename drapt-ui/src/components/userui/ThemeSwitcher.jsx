@@ -1,23 +1,26 @@
-import { useEffect } from "react";
-import useUserStore from "../../stores/userStore";
+import { useEffect, useState } from "react";
 
 export default function ThemeSwitcher() {
-    const colourTheme = useUserStore((state) => state.colourTheme);
-    const setColourTheme = useUserStore((state) => state.setColourTheme);
+    const [theme, setTheme] = useState("draptlight");
 
     useEffect(() => {
-        document.documentElement.setAttribute("data-theme", colourTheme);
-    }, [colourTheme]);
+        const savedTheme = localStorage.getItem("theme") || "draptlight";
+        setTheme(savedTheme);
+        document.documentElement.setAttribute("data-theme", savedTheme);
+    }, []);
 
     const handleChange = (e) => {
-        setColourTheme(e.target.value);
+        const newTheme = e.target.value;
+        setTheme(newTheme);
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
     };
 
     return (
         <select
             className="select select-bordered"
+            value={theme}
             onChange={handleChange}
-            value={colourTheme}
         >
             <option value="draptlight">NEFSIF Light</option>
             <option value="draptdark">NEFSIF Dark</option>

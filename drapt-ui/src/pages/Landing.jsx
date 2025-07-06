@@ -18,7 +18,6 @@ export default function Landing() {
     const user = useUserStore((state) => state.user);
     const setUser = useUserStore((state) => state.setUser);
     const setSessionExpired = useUserStore((state) => state.setSessionExpired);
-    const colourTheme = useUserStore((state) => state.colourTheme);
     const navigate = useNavigate();
     if (!user) return null;
 
@@ -50,9 +49,12 @@ export default function Landing() {
         authCheck();
     }, []);
 
-    useEffect(() => {
-        document.documentElement.setAttribute("data-theme", colourTheme);
-    }, [colourTheme]);
+    try {
+        var theme = localStorage.getItem("theme");
+        if (theme) {
+            document.documentElement.setAttribute("data-theme", theme);
+        }
+    } catch (e) {}
 
     useEffect(() => {
         setLoading(true);
