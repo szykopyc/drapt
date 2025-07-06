@@ -143,7 +143,7 @@ export function CreatePortfolioCard() {
                                 disabled={portfolioCreationConfirmed}
                             />
                         </FormField>
-                        <FormField label={"Manager"}>
+                        <FormField label={"Manager Username - Required"}>
                             <input
                                 type="text"
                                 className="input input-bordered w-full"
@@ -155,71 +155,19 @@ export function CreatePortfolioCard() {
                                 disabled={portfolioCreationConfirmed}
                             />
                         </FormField>
-                        <FormField
-                            label={"Team Members - use commas to separate"}
-                        >
+                        <FormField label={"Description - Optional"}>
                             <textarea
                                 className="textarea textarea-bordered w-full"
-                                {...register("portfolioTeamMembers", {
-                                    required: "Team members are required",
-                                })}
+                                {...register("portfolioTeamMembers")}
                                 autoComplete="off"
-                                placeholder="e.g., abcde01, abcde02"
+                                placeholder="E.g., The Industrial and Resources portfolio is ..."
                                 disabled={portfolioCreationConfirmed}
                             ></textarea>
                         </FormField>
-                        <div className="flex flex-col md:flex-row gap-3 justify-between w-full">
-                            <div className="w-full md:w-1/5">
-                                <FormField label={"Currency"}>
-                                    <select
-                                        className="select select-bordered w-full"
-                                        {...register("portfolioCurrency", {
-                                            required:
-                                                "Portfolio currency is required",
-                                        })}
-                                        defaultValue="GBP"
-                                        disabled={portfolioCreationConfirmed}
-                                    >
-                                        <option value="GBP">£ GBP</option>
-                                        <option value="USD">$ USD</option>
-                                        <option value="JPY">¥ JPY</option>
-                                        <option value="EUR">€ EUR</option>
-                                    </select>
-                                </FormField>
-                            </div>
-                            <div className="w-full md:w-4/5">
-                                <FormField label={"Initial Value"}>
-                                    <input
-                                        type="number"
-                                        step="0.01"
-                                        className="input input-bordered w-full "
-                                        {...register("portfolioInitialValue", {
-                                            required:
-                                                "Portfolio name is required",
-                                            validate: (value) => {
-                                                if (!value)
-                                                    return "Initial value is required";
-                                                if (value <= 0)
-                                                    return "Initial value must be greater than 0";
-                                            },
-                                        })}
-                                        autoComplete="off"
-                                        defaultValue={0}
-                                        min={0}
-                                        disabled={portfolioCreationConfirmed}
-                                    />
-                                </FormField>
-                            </div>
-                        </div>
                         <input
                             type="hidden"
                             {...register("portfolioCreationDate")}
                             value={new Date().toISOString().split("T")[0]}
-                        />
-                        <input
-                            type="hidden"
-                            {...register("portfolioAssetType")}
-                            value={"Equity"}
                         />
                         <div className="h-[40px] flex gap-3 w-full">
                             {!portfolioCreationConfirmed ? (

@@ -7,6 +7,7 @@ from app.users.auth import auth_backend
 from app.users.manager import get_user_manager
 from fastapi_users import FastAPIUsers
 from app.models.user import User
+from app.models.portfolio import Portfolio
 from app.schemas.user import UserRead, UserCreate, UserUpdate
 from app.db import engine, Base
 from fastapi.middleware.cors import CORSMiddleware
@@ -14,6 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # inspirational quote lib lol
 import inspirational_quotes
 
+# creates db if it doesn't exist
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
@@ -22,7 +24,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Drapt Backend", lifespan=lifespan)
 
-# Add CORS middleware here
+# Add CORS middleware (where the backend should allow requests from)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173", "http://192.168.0.21:5173"],  # frontend origins
@@ -33,6 +35,7 @@ app.add_middleware(
 
 fastapi_users = FastAPIUsers[User, int](get_user_manager, [auth_backend])
 
+# setting up routes from other files
 app.include_router(fastapi_users.get_auth_router(auth_backend), prefix="/auth/jwt", tags=["auth"])
 app.include_router(auth_router)
 app.include_router(admin_router)

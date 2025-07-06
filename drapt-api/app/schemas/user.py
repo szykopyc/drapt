@@ -15,6 +15,7 @@ class UserCreate(schemas.BaseUserCreate):
     username: str
     role: str
     team: str
+    portfolio_id: Optional[int]
 
 class UserUpdate(schemas.BaseUserUpdate):
     password: Optional[str] = None
@@ -38,6 +39,7 @@ class UserReadResponseModel(BaseModel):
     username: str
     role: str
     team: str
+    portfolio_id: Optional[int] = None
 
 class UserUpdateResponseModel(BaseModel):
     model_config = ConfigDict(from_attributes=True)
