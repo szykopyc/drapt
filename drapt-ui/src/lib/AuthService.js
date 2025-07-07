@@ -28,7 +28,7 @@ export async function login(username, password) {
 export async function checkAuth() {
     try {
         // This endpoint should require authentication and return user info if logged in
-        const response = await ApiClient.get("/me", { withCredentials: true });
+        const response = await ApiClient.get("/auth/me", { withCredentials: true });
         return response.data; // user info if authenticated
     } catch {
         throw "User not authenticated"; // not authenticated

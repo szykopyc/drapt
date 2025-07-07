@@ -1,29 +1,31 @@
+# core imports
 from fastapi import FastAPI
+
+# databse import
+from app.db import engine, Base
 from contextlib import asynccontextmanager
+
+# route import
 from app.api.routes.admin import router as admin_router
 from app.api.routes.auth import router as auth_router
-from app.api.routes.users import router as user_router
 from app.api.routes.portfolio import router as portfolio_router
+
+# fastapi_users required imports
 from app.users.auth import auth_backend
-from app.users.manager import get_user_manager
-from fastapi_users import FastAPIUsers
-from app.models.user import User
-from app.models.portfolio import Portfolio
-from app.schemas.user import UserRead, UserCreate, UserUpdate
-from app.db import engine, Base
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware # CORS middleware
 from app.users.deps import fastapi_users
 
 # inspirational quote lib lol
 import inspirational_quotes
 
-# creates db if it doesn't exist
+# initialises asynccontext with a lifespan as long as the app is running
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     yield
 
+# sets up the FastAPI app
 app = FastAPI(title="Drapt Backend", lifespan=lifespan)
 
 # Add CORS middleware (where the backend should allow requests from)
@@ -39,9 +41,9 @@ app.add_middleware(
 app.include_router(fastapi_users.get_auth_router(auth_backend), prefix="/auth/jwt", tags=["auth"])
 app.include_router(auth_router)
 app.include_router(admin_router)
-app.include_router(user_router)
 app.include_router(portfolio_router)
 
+# root, good query to test if the backend is running.
 @app.get("/")
 async def root():
     return {"message": "Drapt backend running"}

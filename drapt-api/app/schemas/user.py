@@ -27,7 +27,8 @@ class UserUpdate(schemas.BaseUserUpdate):
     username: Optional[str] = None
     role: Optional[str] = None
     team: Optional[str] = None
-
+    portfolio_id: Optional[int] = None
+    
 # Custom Pydantic schemas for response_model's 
 
 class UserReadResponseModel(BaseModel):
@@ -49,3 +50,4 @@ class UserUpdateResponseModel(BaseModel):
     username: str
     role: str
     team: str
+    portfolio_id: Optional[int] = None

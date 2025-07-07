@@ -1,6 +1,6 @@
-from typing import Optional, List
-from datetime import datetime
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from typing import Optional
+from datetime import datetime # this is for setting the column to be a DT object
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import String, Integer, ForeignKey, DateTime, func
 from app.db import Base
 

@@ -1,12 +1,16 @@
 # portfolio imports
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.future import select
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError # this is for when a unique key is violated
+
+# db imports
 from app.db import get_async_session
+
+# models and schemas
 from app.models.portfolio import Portfolio
 from app.schemas.portfolio import PortfolioCreate, PortfolioRead, PortfolioUpdate
 
-# auth imports
+# auth and permission imports
 from app.models.user import User
 from app.users.deps import fastapi_users
 from app.config.permissions import permissions as role_permissions
@@ -58,3 +62,5 @@ async def get_all_portfolios(
     if not portfolios:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="404: Could not find any portfolios")
     return [PortfolioRead.model_validate(portfolio) for portfolio in portfolios]
+
+# add search for a portfolio given a team or portfolio string ID

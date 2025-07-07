@@ -11,8 +11,8 @@ load_dotenv()
 SECRET = os.getenv("FASTAPIUSERS_SECRET_KEY")
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
-    reset_password_token_secret = SECRET
-    verification_token_secret = SECRET
+    reset_password_token_secret = SECRET # type: ignore[override]
+    verification_token_secret = SECRET # type: ignore[override]
 
 async def validate_password(self, password: str) -> None:
     if len(password) < 8:

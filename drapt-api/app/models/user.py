@@ -1,5 +1,5 @@
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import Integer, String, ForeignKey
 from app.db import Base
 from typing import Optional
@@ -15,4 +15,4 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     username: Mapped[str] = mapped_column(String(length=50), nullable=False, unique=True)
     role: Mapped[str] = mapped_column(String(length=20), nullable=False)
     team: Mapped[str] = mapped_column(String(length=50), nullable=False)
-    portfolio_id: Mapped[Optional[int]] = mapped_column(ForeignKey("portfolios.id"), nullable=True) # optional portfolio ID
+    portfolio_id: Mapped[Optional[int]] = mapped_column(ForeignKey("portfolios.id"), nullable=True) # optional portfolio ID, maps the user to a portfolio. handle this on creation/update

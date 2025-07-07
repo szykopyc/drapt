@@ -2,6 +2,7 @@ from typing import Optional
 from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 
+# pydantic schemas for fetching/updating/creating portfolios
 class PortfolioRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -22,7 +23,8 @@ class PortfolioCreate(BaseModel):
 
 class PortfolioUpdate(BaseModel):
     model_config = ConfigDict(from_attributes=True)
-
+    
+    portfolio_string_id: str
     name: str
     description: Optional[str] = None
     pm_id: int
