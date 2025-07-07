@@ -11,4 +11,5 @@ util_github_changelog_json.py
 .VSCodeCounter/2025-07-02_14-16-09/results.md
 .VSCodeCounter/2025-07-02_14-16-09/results.txt
 .DS__Store
-.DS_Store
+
+drapt-api/drapt.db
