@@ -7,6 +7,7 @@ import { CustomButtonInputStyle } from "../baseui/CustomButton";
 import { FormField } from "../helperui/FormFieldHelper";
 import { searchUserByRole } from "../../lib/AdminServices";
 import { initialisePortfolio } from "../../lib/PortfolioServices";
+import { teamMapperDict } from "../../helperfunctions/TeamMapper";
 
 export function CreatePortfolioCard() {
     // initialise states for managers who are available to be assigned
@@ -56,40 +57,37 @@ export function CreatePortfolioCard() {
         mode: "onSubmit",
         defaultValues: {
             name: "",
-            portfolio_string_id: "",
-            pm_id: "",
+            portfolio_string_id: "", //this is just the PMs team name, e.g., industrial, apem, ...
             description: null,
         },
     });
 
     // prevents submission without filling in required details
     const typedname = watch("name");
-    const typedUniqueportfolio_string_id = watch("portfolio_string_id");
-    const typedPM = watch("pm_id");
+    const typedPortfolioStringID = watch("portfolio_string_id");
 
-    const allFieldsFilledMask =
-        typedname && typedUniqueportfolio_string_id && typedPM;
+    const allFieldsFilledMask = typedname && typedPortfolioStringID;
 
     // this makes the call to the API to add a portfolio
     const guardedSubmitHandler = async (data) => {
         if (!portfolioCreationConfirmed) return;
 
+        const pmObject = pmsAvailable.find(
+            (pm) => pm.team === data.portfolio_string_id
+        );
+
         const attributes = {
             portfolio_string_id: data.portfolio_string_id,
             name: data.name,
             description: data.description,
-            pm_id: parseInt(data.pm_id),
+            pm_id: pmObject.id,
         };
 
         try {
             const result = await initialisePortfolio(attributes);
             setModalData(data);
 
-            // Lookup the PM object by ID and set it
-            const pmObj = pmsAvailable.find(
-                (pm) => pm.id === parseInt(data.pm_id)
-            );
-            setModalPMData(pmObj);
+            setModalPMData(pmObject);
 
             if (portfolioConfirmedModalRef.current)
                 portfolioConfirmedModalRef.current.showModal();
@@ -97,11 +95,10 @@ export function CreatePortfolioCard() {
             setPortfolioCreateError("");
             setPortfolioCreationConfirmed(false);
         } catch (error) {
-            console.log(error);
             if (error.response?.status === 400) {
                 setPortfolioCreationConfirmed(false);
                 setPortfolioCreateError(
-                    "Sorry, that portfolio ID is already taken."
+                    "Sorry, the PM you selected already manages another portfolio."
                 );
             }
         }
@@ -128,44 +125,10 @@ export function CreatePortfolioCard() {
                                 disabled={portfolioCreationConfirmed}
                             />
                         </FormField>
-                        <FormField
-                            label={
-                                "Unique Portfolio ID - no symbols, spaces, capitals, numbers"
-                            }
-                        >
-                            <input
-                                type="text"
-                                className="input input-bordered w-full"
-                                {...register("portfolio_string_id", {
-                                    required: "Portfolio ID is required",
-                                    validate: (value) => {
-                                        if (/\s/.test(value) == true) {
-                                            return "Portfolio ID must not contain spaces";
-                                        }
-                                        if (
-                                            /[!@$^&*()_+\-{}\[\],.<>?]/.test(
-                                                value
-                                            ) == true
-                                        ) {
-                                            return "Portfolio ID must not contain special characters";
-                                        }
-                                        if (/[0-9]/.test(value) == true) {
-                                            return "Portfolio ID must not contain numbers";
-                                        }
-                                        if (/[A-Z]/.test(value) == true) {
-                                            return "Portfolio ID must not contain capitals";
-                                        }
-                                    },
-                                })}
-                                placeholder={"e.g., industrial, tech"}
-                                autoComplete="off"
-                                disabled={portfolioCreationConfirmed}
-                            />
-                        </FormField>
                         <FormField label={"Manager"}>
                             <select
                                 className="select w-full"
-                                {...register("pm_id", {
+                                {...register("portfolio_string_id", {
                                     required: "Portfolio manager is required",
                                 })}
                                 defaultValue={""}
@@ -174,8 +137,9 @@ export function CreatePortfolioCard() {
                                     Choose Manager
                                 </option>
                                 {pmsAvailable.map((pm) => (
-                                    <option key={pm.id} value={pm.id}>
-                                        {pm.username} - {pm.fullname}
+                                    <option key={pm.team} value={pm.team}>
+                                        {pm.fullname} -{" "}
+                                        {teamMapperDict[pm.team]}
                                     </option>
                                 ))}
                             </select>
@@ -183,7 +147,12 @@ export function CreatePortfolioCard() {
                         <FormField label={"Description - Optional"}>
                             <textarea
                                 className="textarea textarea-bordered w-full"
-                                {...register("description")}
+                                {...register("description", {
+                                    validate: (description) => {
+                                        if (description.length > 255)
+                                            return "The portfolio description cannot be over 255 characters in length.";
+                                    },
+                                })}
                                 autoComplete="off"
                                 placeholder="E.g., The Industrial and Resources portfolio is ..."
                                 disabled={portfolioCreationConfirmed}

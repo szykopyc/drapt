@@ -2,6 +2,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from app.users.manager import get_user_manager
 from fastapi_users.exceptions import UserAlreadyExists
+from sqlalchemy.exc import IntegrityError
 
 # models and schemas
 from app.models.user import User
@@ -32,8 +33,11 @@ async def custom_register(
     user_create.is_superuser = user_create.role == "developer" # only developer can be a superuser. don't see why anyone else would need to be a superuser
     try: 
         user = await user_manager.create(user_create, safe=False, request=None)
+
     except UserAlreadyExists: # if unique value is violated as a result of trying to create a new user
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="400: User already exists in the users table")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="400: Email already exists in the users table.")
+    except IntegrityError:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="400: Username already exists in the users table.")
 
     return user
 

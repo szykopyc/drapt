@@ -7,6 +7,7 @@ export default function Index() {
     const words = [
         "Choose clarity",
         "Choose performance",
+        "Choose precision",
         "Choose <span class='text-accent'>Drapt</span>",
     ];
     const [wordIndex, setWordIndex] = useState(0);
@@ -17,7 +18,7 @@ export default function Index() {
         if (wordIndex < words.length - 1) {
             const interval = setInterval(() => {
                 setWordIndex((prevIndex) => (prevIndex + 1) % words.length);
-            }, 800);
+            }, 600);
 
             return () => {
                 clearInterval(interval);

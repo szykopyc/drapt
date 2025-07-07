@@ -5,7 +5,7 @@ export const teamMapperDict = {
     financial: "Financials",
     health: "Healthcare",
     europe: "Europe",
-    apec: "Asia-Pacific & EM",
+    apem: "Asia-Pacific & EM",
     na: "North America",
     globalgrowth: "Global Growth",
     globalvalue: "Global Value",

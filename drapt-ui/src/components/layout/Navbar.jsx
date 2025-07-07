@@ -49,7 +49,7 @@ export default function Navbar() {
                     onClick={() => setMenuOpen(false)}
                     to="/"
                 >
-                    Drapt
+                    drapt
                 </Link>
             )}
             {loggedIn && (
@@ -60,7 +60,7 @@ export default function Navbar() {
                         onClick={() => setMenuOpen(false)}
                         to="/"
                     >
-                        Drapt
+                        drapt
                     </Link>
                     {/* Desktop nav */}
                     <div className="hidden md:flex flex-row justify-between items-center gap-3 text-base font-normal">

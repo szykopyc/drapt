@@ -10,7 +10,6 @@ class PortfolioRead(BaseModel):
     portfolio_string_id: str
     name: str
     description: Optional[str] = None
-    pm_id: int
     created_at: datetime
 
 class PortfolioCreate(BaseModel):
@@ -27,4 +26,3 @@ class PortfolioUpdate(BaseModel):
     portfolio_string_id: str
     name: str
     description: Optional[str] = None
-    pm_id: int

@@ -8,6 +8,8 @@ import { getPasswordStrength } from "../validators/PasswordValidator";
 import LargeSubmit from "../baseui/LargeSubmitHelper";
 import { ResetFormButton } from "../helperui/ResetFormHelper";
 import { FormField } from "../helperui/FormFieldHelper"; // <-- import FormField
+import InnerEmptyState from "../errorui/InnerEmptyState";
+import { LoadingSpinner } from "../helperui/LoadingSpinnerHelper";
 
 import { teamMapperDict } from "../../helperfunctions/TeamMapper";
 import { roleMapperDict } from "../../helperfunctions/RoleMapper";
@@ -18,6 +20,8 @@ export function UserCreationCard() {
     const userAddModalRef = useRef(null);
     const [modalData, setModalData] = useState(null);
     const [userCreationError, setUserCreationError] = useState("");
+
+    const [loading, setLoading] = useState(false);
 
     const {
         register,
@@ -32,6 +36,12 @@ export function UserCreationCard() {
             team: "",
         },
     });
+
+    const reset = () => {
+        resetForm();
+        setUserCreationError("");
+        setLoading(false);
+    };
 
     const selectedRole = watch("role");
 
@@ -53,6 +63,9 @@ export function UserCreationCard() {
             return;
         }
 
+        setUserCreationError("");
+        setLoading(true);
+
         try {
             const tryRegisterUser = await registerUser(
                 data.email.toLowerCase(),
@@ -62,12 +75,19 @@ export function UserCreationCard() {
                 data.role.toLowerCase(),
                 data.team.toLowerCase()
             );
+            await new Promise((resolve) => setTimeout(resolve, 300));
             setModalData(tryRegisterUser);
             if (userAddModalRef.current) userAddModalRef.current.showModal();
             resetForm();
-        } catch (err) {
-            console.log("AN ERROR HAPPENED :(((");
-            console.log(error);
+        } catch (error) {
+            await new Promise((resolve) => setTimeout(resolve, 300));
+            setUserCreationError(
+                error?.response?.data?.detail ||
+                    error?.message ||
+                    "Failed to create user"
+            );
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -200,11 +220,12 @@ export function UserCreationCard() {
                     </div>
                     <div className="w-full md:w-1/5">
                         <ResetFormButton
-                            resetFn={resetForm}
+                            resetFn={reset}
                             disabled={!someFieldsFilledMask}
                         />
                     </div>
                 </div>
+                {loading && <LoadingSpinner />}
                 <div className="flex flex-col gap-1 w-full">
                     {Object.entries(errors).map(([field, errorObj]) =>
                         errorObj?.message ? (
@@ -214,6 +235,19 @@ export function UserCreationCard() {
                         ) : null
                     )}
                 </div>
+                {userCreationError && (
+                    <div className="mt-6">
+                        <InnerEmptyState
+                            title="Failed to create user"
+                            message="We failed to create the user you requested. Maybe try a different username or email."
+                            enablePadding={false}
+                        >
+                            <FormErrorHelper textSize="md">
+                                {userCreationError}
+                            </FormErrorHelper>
+                        </InnerEmptyState>
+                    </div>
+                )}
             </CustomCollapseArrow>
             <ModalHelper
                 id={"add_user_modal"}

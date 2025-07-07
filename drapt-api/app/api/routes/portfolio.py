@@ -9,18 +9,21 @@ from app.db import get_async_session
 # models and schemas
 from app.models.portfolio import Portfolio
 from app.schemas.portfolio import PortfolioCreate, PortfolioRead, PortfolioUpdate
+from app.schemas.user import UserUpdate
 
 # auth and permission imports
 from app.models.user import User
 from app.users.deps import fastapi_users
 from app.config.permissions import permissions as role_permissions
 
+# adding a portfolio ID to the PM after initialisation of portfolio logic
+from app.utils.assign_user_to_portfolio import assign_user_to_portfolio
 
 router = APIRouter()
 
 @router.post("/portfolio/create", response_model=PortfolioRead, tags=["portfolio"])
 async def create_portfolio(
-    portfolio_create: PortfolioCreate,
+    data: PortfolioCreate,
     current_user: User = Depends(fastapi_users.current_user()),
     session=Depends(get_async_session)
 ):
@@ -32,11 +35,13 @@ async def create_portfolio(
         )
 
     # Convert Pydantic schema to SQLAlchemy mode
-    portfolio = Portfolio(**portfolio_create.model_dump())
+    portfolio = Portfolio(portfolio_string_id=data.portfolio_string_id, name=data.name, description=data.description)
     try:
         session.add(portfolio)
         await session.commit()
         await session.refresh(portfolio)
+        await assign_user_to_portfolio(data.pm_id, portfolio.id, session)
+        
     except IntegrityError:
         await session.rollback()
         raise HTTPException(

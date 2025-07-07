@@ -82,9 +82,6 @@ export default function PositionMonitoringPanel() {
 
     const showPositionCloseModal = (positionID) => {
         if (!["pm", "director", "vd", "developer"].includes(user?.role)) {
-            console.warn(
-                "Unauthorized access attempt to close position modal."
-            );
             return;
         }
 
