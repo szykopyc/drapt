@@ -21,8 +21,5 @@ class PortfolioCreate(BaseModel):
     pm_id: int
 
 class PortfolioUpdate(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-    
-    portfolio_string_id: str
-    name: str
+    name: Optional[str] = None
     description: Optional[str] = None

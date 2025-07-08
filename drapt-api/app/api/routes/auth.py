@@ -3,10 +3,20 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from app.users.manager import get_user_manager
 from fastapi_users.exceptions import UserAlreadyExists
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.future import select
+
+# db import 
+from app.db import get_async_session
+
+# utils
+from app.utils.portfolio_assignment import assign_user_to_portfolio
+from app.utils.log import logger
 
 # models and schemas
 from app.models.user import User
 from app.schemas.user import UserCreate, UserRead
+from app.models.portfolio import Portfolio
+from app.schemas.portfolio import PortfolioRead
 
 # custom permssions and imports fastapi_users to make all routes not be circular if that makes sense
 from app.users.deps import fastapi_users
@@ -17,17 +27,33 @@ router = APIRouter()
 # register a user (obvious i know). only allows you to register users if you are an exec.
 # if no users have been created yet, use the create_first_user.py script
 @router.post("/auth/register", response_model=UserRead, tags=["auth"])
-async def custom_register(
+async def register_user(
     user_create: UserCreate,
     user_manager=Depends(get_user_manager),
     current_user: User = Depends(fastapi_users.current_user()),
+    session = Depends(get_async_session)
 ):
     role_perms = role_permissions.get(current_user.role)
     if not role_perms or not role_perms.get("can_manage_user"):
+        logger.warning(f"({current_user.username}) tried to register a new user (disallowed)")
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="403: Only executives can register new users.",
+            detail="Only executives can register new users.",
         )
+    
+    # try to assign user.portfolio_id if portfolio_id exists with the same team
+    log_if_assigned = ""
+
+    try:
+        fetch_avail_portfolio_result = await session.execute(select(Portfolio).where(Portfolio.portfolio_string_id == user_create.team))
+        avail_portfolio = fetch_avail_portfolio_result.scalar_one_or_none()
+        if (avail_portfolio):
+            user_create.portfolio_id = avail_portfolio.id
+            log_if_assigned = f"& ASSIGNED PORTFOLIO STRING ID: {avail_portfolio.portfolio_string_id}"
+
+    except Exception as e:
+        print(e)
+
     # Explicitly set sensitive fields
     user_create.is_verified = True # this is always true. verification will never be used tbh.
     user_create.is_superuser = user_create.role == "developer" # only developer can be a superuser. don't see why anyone else would need to be a superuser
@@ -35,10 +61,11 @@ async def custom_register(
         user = await user_manager.create(user_create, safe=False, request=None)
 
     except UserAlreadyExists: # if unique value is violated as a result of trying to create a new user
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="400: Email already exists in the users table.")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already exists in the users table.")
     except IntegrityError:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="400: Username already exists in the users table.")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Username already exists in the users table.")
 
+    logger.info(f"({current_user.username}) registered user USERNAME: {user_create.username} / FULLNAME: {user_create.fullname} / ROLE: {user_create.role} / TEAM: {user_create.team} {log_if_assigned}")
     return user
 
 # this is for checking auth pretty much. gets the logged in user.
