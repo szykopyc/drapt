@@ -1,7 +1,16 @@
+import { motion } from "framer-motion";
+
 export function MainBlock({ children }) {
     return (
-        <div className="p-2 flex flex-col gap-3 mx-auto max-w-6xl mb-[12px]">
-            {children}
-        </div>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+        >
+            <div className="p-2 flex flex-col gap-3 mx-auto max-w-6xl mb-[12px]">
+                {children}
+            </div>
+        </motion.div>
     );
 }

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { CustomCollapseArrow } from "../baseui/CustomCard";
-import { selectAllUsers } from "../../lib/AdminServices";
 import { useForm } from "react-hook-form";
 import { FormField } from "../helperui/FormFieldHelper";
 import LargeSubmit from "../baseui/LargeSubmitHelper";
@@ -9,9 +8,10 @@ import { roleMapperDict } from "../../helperfunctions/RoleMapper";
 import { FaHdd, FaServer } from "react-icons/fa";
 import InnerEmptyState from "../errorui/InnerEmptyState";
 
+import { hookSelectAllUsers } from "../../reactqueryhooks/useAdminHook";
+
 export function UserShowAllCard() {
     // initialising user data which will be loaded, the loading state
-    const [allUserData, setAllUserData] = useState([]);
     const [filter, setFilter] = useState("");
 
     // initialising form
@@ -26,18 +26,7 @@ export function UserShowAllCard() {
 
     // loads on mount
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const fetchedUserData = await selectAllUsers();
-                if (Array.isArray(fetchedUserData)) {
-                    setAllUserData(fetchedUserData);
-                }
-            } catch (error) {}
-        };
-
-        fetchData();
-    }, []);
+    const { data: allUserData = [] } = hookSelectAllUsers();
 
     const handleSearch = (formdata) => {
         setFilter(formdata.searchCriteria.trim());

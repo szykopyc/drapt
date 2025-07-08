@@ -5,41 +5,46 @@ permissions = {
         "can_search_user":True,
         "can_init_portfolio":True,
         "can_manage_portfolio":True,
-        "all_permissions":True
+        "can_search_portfolio":True
     },
     "director":{
         "can_manage_user":True,
         "can_delete_user":False,
         "can_search_user":True,
         "can_init_portfolio":True,
-        "can_manage_portfolio":True
+        "can_manage_portfolio":True,
+        "can_search_portfolio":True
     },
     "vd":{
         "can_manage_user":True,
         "can_delete_user":False,
         "can_search_user":True,
         "can_init_portfolio":True,
-        "can_manage_portfolio":True
+        "can_manage_portfolio":True,
+        "can_search_portfolio":True
     },
     "pm":{
         "can_manage_user":False,
         "can_delete_user":False,
         "can_search_user":True,
         "can_init_portfolio":False,
-        "can_manage_portfolio":True
+        "can_manage_portfolio":True,
+        "can_search_portfolio":True
     },
     "senioranalyst":{
         "can_manage_user":False,
         "can_delete_user":False,
         "can_search_user":False,
         "can_init_portfolio":False,
-        "can_manage_portfolio":False
+        "can_manage_portfolio":False,
+        "can_search_portfolio":True
     },
     "analyst":{
         "can_manage_user":False,
         "can_delete_user":False,
         "can_search_user":False,
         "can_init_portfolio":False,
-        "can_manage_portfolio":False
+        "can_manage_portfolio":False,
+        "can_search_portfolio":True
     }
 }

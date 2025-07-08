@@ -44,6 +44,8 @@ import { useEffect } from "react";
 import useUserStore from "./stores/userStore";
 import { checkAuth } from "./lib/AuthService";
 
+import { AnimatePresence } from "framer-motion";
+
 // List of protected route prefixes
 const protectedRoutes = ["/analyse", "/portfolio", "/admin", "/profile"];
 
@@ -89,184 +91,199 @@ function App() {
     return (
         <ErrorBoundary>
             <>
-                <Routes>
-                    <Route element={<MasterLayout />}>
-                        {user ? (
+                <AnimatePresence mode="wait">
+                    <Routes>
+                        <Route element={<MasterLayout />}>
+                            {user ? (
+                                <Route
+                                    path="/"
+                                    element={
+                                        <ProtectedRoute>
+                                            <Landing />
+                                        </ProtectedRoute>
+                                    }
+                                />
+                            ) : (
+                                <Route path="/" element={<Index />} />
+                            )}
+                            <Route path="about" element={<About />} />
+                            <Route path="contact" element={<Contact />} />
+                            <Route path="login" element={<Login />} />
                             <Route
-                                path="/"
+                                path="forgot-password"
+                                element={<ForgotPassword />}
+                            />
+                            <Route
+                                path="analyse"
+                                element={
+                                    <UserRoleProtectedRoute
+                                        otherwiseNavigateTo={"/analyse"}
+                                    >
+                                        <Navigate to="/portfolio" replace />
+                                    </UserRoleProtectedRoute>
+                                }
+                            />
+                            <Route
+                                path="analyse/:portfolioID"
                                 element={
                                     <ProtectedRoute>
-                                        <Landing />
+                                        <ProtectedPortfolioRoute>
+                                            <Analyse />
+                                        </ProtectedPortfolioRoute>
+                                    </ProtectedRoute>
+                                }
+                            >
+                                <Route
+                                    index
+                                    element={
+                                        <Navigate to={"performance"} replace />
+                                    }
+                                ></Route>
+                                <Route
+                                    path="performance"
+                                    element={<PerformancePanel />}
+                                ></Route>
+                                <Route
+                                    path="risk"
+                                    element={<RiskPanel />}
+                                ></Route>
+                            </Route>
+                            <Route
+                                path="portfolio"
+                                element={
+                                    <UserRoleProtectedRoute
+                                        otherwiseNavigateTo={"/portfolio"}
+                                    >
+                                        <ProtectedRoute>
+                                            <PortfolioIndex />
+                                        </ProtectedRoute>
+                                    </UserRoleProtectedRoute>
+                                }
+                            />
+                            <Route
+                                path="portfolio/create"
+                                element={
+                                    <UserRoleProtectedRoute
+                                        otherwiseNavigateTo={"/portfolio"}
+                                    >
+                                        <ProtectedRoute>
+                                            <CreatePortfolioPanel />
+                                        </ProtectedRoute>
+                                    </UserRoleProtectedRoute>
+                                }
+                            />
+
+                            <Route
+                                path="portfolio/:portfolioID"
+                                element={
+                                    <ProtectedRoute>
+                                        <ProtectedPortfolioRoute user={user}>
+                                            <Portfolio />
+                                        </ProtectedPortfolioRoute>
+                                    </ProtectedRoute>
+                                }
+                            >
+                                <Route
+                                    index
+                                    element={
+                                        <Navigate to={"overview"} replace />
+                                    }
+                                ></Route>
+                                <Route
+                                    path="overview"
+                                    element={<OverviewPanel />}
+                                ></Route>
+                                <Route
+                                    path="monitor"
+                                    element={<PositionMonitoringPanel />}
+                                ></Route>
+                                <Route
+                                    path="tradebooker"
+                                    element={
+                                        <UserRoleProtectedRoute
+                                            allowedRoles={[
+                                                "vd",
+                                                "director",
+                                                "developer",
+                                                "pm",
+                                            ]}
+                                        >
+                                            <TradeBookerPanel />
+                                        </UserRoleProtectedRoute>
+                                    }
+                                ></Route>
+                                <Route
+                                    path="administration"
+                                    element={
+                                        <UserRoleProtectedRoute
+                                            allowedRoles={[
+                                                "vd",
+                                                "director",
+                                                "developer",
+                                            ]}
+                                        >
+                                            <PortfolioAdminPanel />
+                                        </UserRoleProtectedRoute>
+                                    }
+                                ></Route>
+                            </Route>
+                            <Route
+                                path="admin"
+                                element={
+                                    <UserRoleProtectedRoute>
+                                        <ProtectedRoute>
+                                            <AdminWrapper />
+                                        </ProtectedRoute>
+                                    </UserRoleProtectedRoute>
+                                }
+                            >
+                                <Route
+                                    index
+                                    element={
+                                        <Navigate to={"management"} replace />
+                                    }
+                                ></Route>
+                                <Route
+                                    path="management"
+                                    element={<UserManagementPanel />}
+                                ></Route>
+                                <Route
+                                    path="engagement"
+                                    element={<UserEngagementPanel />}
+                                ></Route>
+                            </Route>
+                            <Route
+                                path="profile"
+                                element={
+                                    <ProtectedRoute>
+                                        <Profile />
                                     </ProtectedRoute>
                                 }
                             />
-                        ) : (
-                            <Route path="/" element={<Index />} />
-                        )}
-                        <Route path="about" element={<About />} />
-                        <Route path="contact" element={<Contact />} />
-                        <Route path="login" element={<Login />} />
-                        <Route
-                            path="forgot-password"
-                            element={<ForgotPassword />}
-                        />
-                        <Route
-                            path="analyse"
-                            element={
-                                <UserRoleProtectedRoute
-                                    otherwiseNavigateTo={"/analyse"}
-                                >
-                                    <Navigate to="/portfolio" replace />
-                                </UserRoleProtectedRoute>
-                            }
-                        />
-                        <Route
-                            path="analyse/:portfolioID"
-                            element={
-                                <ProtectedRoute>
-                                    <ProtectedPortfolioRoute>
-                                        <Analyse />
-                                    </ProtectedPortfolioRoute>
-                                </ProtectedRoute>
-                            }
-                        >
+                            <Route path="logout" element={<LogoutHandler />} />
                             <Route
-                                index
-                                element={
-                                    <Navigate to={"performance"} replace />
-                                }
-                            ></Route>
+                                path="ise"
+                                element={<InternalServerError />}
+                            />
                             <Route
-                                path="performance"
-                                element={<PerformancePanel />}
-                            ></Route>
-                            <Route path="risk" element={<RiskPanel />}></Route>
+                                path="unauthorised"
+                                element={<Unauthorised />}
+                            />
+                            <Route path="forbidden" element={<Forbidden />} />
+                            <Route
+                                path="maintenance"
+                                element={<MaintenanceError />}
+                            />
+                            <Route
+                                path="session-expired"
+                                element={<SessionExpired />}
+                            />
+                            <Route path="*" element={<NotFound />} />
                         </Route>
-                        <Route
-                            path="portfolio"
-                            element={
-                                <UserRoleProtectedRoute
-                                    otherwiseNavigateTo={"/portfolio"}
-                                >
-                                    <ProtectedRoute>
-                                        <PortfolioIndex />
-                                    </ProtectedRoute>
-                                </UserRoleProtectedRoute>
-                            }
-                        />
-                        <Route
-                            path="portfolio/create"
-                            element={
-                                <UserRoleProtectedRoute
-                                    otherwiseNavigateTo={"/portfolio"}
-                                >
-                                    <ProtectedRoute>
-                                        <CreatePortfolioPanel />
-                                    </ProtectedRoute>
-                                </UserRoleProtectedRoute>
-                            }
-                        />
-
-                        <Route
-                            path="portfolio/:portfolioID"
-                            element={
-                                <ProtectedRoute>
-                                    <ProtectedPortfolioRoute user={user}>
-                                        <Portfolio />
-                                    </ProtectedPortfolioRoute>
-                                </ProtectedRoute>
-                            }
-                        >
-                            <Route
-                                index
-                                element={<Navigate to={"overview"} replace />}
-                            ></Route>
-                            <Route
-                                path="overview"
-                                element={<OverviewPanel />}
-                            ></Route>
-                            <Route
-                                path="monitor"
-                                element={<PositionMonitoringPanel />}
-                            ></Route>
-                            <Route
-                                path="tradebooker"
-                                element={
-                                    <UserRoleProtectedRoute
-                                        allowedRoles={[
-                                            "vd",
-                                            "director",
-                                            "developer",
-                                            "pm",
-                                        ]}
-                                    >
-                                        <TradeBookerPanel />
-                                    </UserRoleProtectedRoute>
-                                }
-                            ></Route>
-                            <Route
-                                path="administration"
-                                element={
-                                    <UserRoleProtectedRoute
-                                        allowedRoles={[
-                                            "vd",
-                                            "director",
-                                            "developer",
-                                        ]}
-                                    >
-                                        <PortfolioAdminPanel />
-                                    </UserRoleProtectedRoute>
-                                }
-                            ></Route>
-                        </Route>
-                        <Route
-                            path="admin"
-                            element={
-                                <UserRoleProtectedRoute>
-                                    <ProtectedRoute>
-                                        <AdminWrapper />
-                                    </ProtectedRoute>
-                                </UserRoleProtectedRoute>
-                            }
-                        >
-                            <Route
-                                index
-                                element={<Navigate to={"management"} replace />}
-                            ></Route>
-                            <Route
-                                path="management"
-                                element={<UserManagementPanel />}
-                            ></Route>
-                            <Route
-                                path="engagement"
-                                element={<UserEngagementPanel />}
-                            ></Route>
-                        </Route>
-                        <Route
-                            path="profile"
-                            element={
-                                <ProtectedRoute>
-                                    <Profile />
-                                </ProtectedRoute>
-                            }
-                        />
-                        <Route path="logout" element={<LogoutHandler />} />
-                        <Route path="ise" element={<InternalServerError />} />
-                        <Route path="unauthorised" element={<Unauthorised />} />
-                        <Route path="forbidden" element={<Forbidden />} />
-                        <Route
-                            path="maintenance"
-                            element={<MaintenanceError />}
-                        />
-                        <Route
-                            path="session-expired"
-                            element={<SessionExpired />}
-                        />
-                        <Route path="*" element={<NotFound />} />
-                    </Route>
-                </Routes>
-                <SpeedInsights />
-                <Analytics />
+                    </Routes>
+                    <SpeedInsights />
+                    <Analytics />
+                </AnimatePresence>
             </>
         </ErrorBoundary>
     );

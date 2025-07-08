@@ -61,7 +61,7 @@ async def get_user_by_username(
     result = await session.execute(select(User).where(User.username == username))
     user = result.scalar_one_or_none()
     if not user:
-        raise HTTPException(status_code=404, detail="We couldn't find the user you requested.")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="We couldn't find the user you requested.")
 
     return UserReadResponseModel.model_validate(user)
 

@@ -4,3 +4,15 @@
 07/08/2025 05:36:08 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name, description
 07/08/2025 05:38:41 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
 07/08/2025 05:38:58 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/08/2025 06:53:33 PM - INFO - auth.py - (liysk64) registered user USERNAME: analyst / FULLNAME: Analyst / ROLE: analyst / TEAM: industrial & ASSIGNED PORTFOLIO STRING ID: industrial
+07/08/2025 07:18:23 PM - INFO - auth.py - (liysk64) registered user USERNAME: tmtmanager / FULLNAME: TMT Manager / ROLE: pm / TEAM: tmt 
+07/08/2025 07:18:38 PM - INFO - portfolio.py - (liysk64) initialised portfolio ID: 2 / STRING ID: tmt / PM: tmtmanager
+07/08/2025 07:18:54 PM - INFO - portfolio.py - (liysk64) deleted portfolio ID: 2 / STRING ID: tmt
+07/08/2025 07:18:54 PM - INFO - portfolio.py - (Server) unassigned all users from portfolio ID: 2 / STRING ID: tmt
+07/08/2025 07:19:08 PM - INFO - admin.py - (liysk64) deleted user USERNAME: tmtmanager / FULLNAME: TMT Manager
+07/08/2025 07:19:16 PM - INFO - admin.py - (liysk64) deleted user USERNAME: analyst / FULLNAME: Analyst
+07/08/2025 07:20:10 PM - INFO - auth.py - (liysk64) registered user USERNAME: jmk / FULLNAME: John Maynard Keynes / ROLE: pm / TEAM: na 
+07/08/2025 07:20:24 PM - INFO - portfolio.py - (liysk64) initialised portfolio ID: 2 / STRING ID: na / PM: jmk
+07/08/2025 07:50:44 PM - INFO - portfolio.py - (liysk64) deleted portfolio ID: 2 / STRING ID: na
+07/08/2025 07:50:44 PM - INFO - portfolio.py - (Server) unassigned all users from portfolio ID: 2 / STRING ID: na
+07/08/2025 08:08:45 PM - INFO - admin.py - (liysk64) deleted user USERNAME: jmk / FULLNAME: John Maynard Keynes

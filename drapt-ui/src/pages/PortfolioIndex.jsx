@@ -11,12 +11,17 @@ import { dummyGlobalPortfolios } from "../assets/dummy-data/tableData";
 import InnerEmptyState from "../components/errorui/InnerEmptyState";
 import { useState, useEffect } from "react";
 
+import { LoadingSpinner } from "../components/helperui/LoadingSpinnerHelper";
+
+import { hookIndexOfAllPortfolios } from "../reactqueryhooks/usePortfolioHook";
+
 export default function PortfolioIndex() {
     const dummyGlobalPortfoliosToRender = dummyGlobalPortfolios;
 
     const [sortingOption, setSortingOption] = useState("alphabetical");
     const [sortedPortfolios, setSortedPortfolios] = useState([]);
-
+    {
+        /**
     const getSortedPortfolios = (portfoliosToSort, sortOption) => {
         if (!portfoliosToSort || portfoliosToSort.length === 0) return [];
 
@@ -37,7 +42,17 @@ export default function PortfolioIndex() {
                 return portfoliosToSort;
         }
     };
+     */
+    }
 
+    const {
+        data: allPortfoliosToRender = [],
+        isLoading,
+        error,
+    } = hookIndexOfAllPortfolios();
+
+    {
+        /*
     useEffect(() => {
         const sorted = getSortedPortfolios(
             dummyGlobalPortfoliosToRender,
@@ -45,6 +60,8 @@ export default function PortfolioIndex() {
         );
         setSortedPortfolios(sorted);
     }, [sortingOption, dummyGlobalPortfoliosToRender]);
+     */
+    }
 
     const navigate = useNavigate();
 
@@ -107,24 +124,25 @@ export default function PortfolioIndex() {
                     </div>
                 </CardNoTitleChildrenCentred>
             </div>
-            {sortedPortfolios.length > 0 ? (
-                sortedPortfolios.map((portfolio) => (
-                    <GlobalPortfolioCard
-                        key={portfolio.portfolioID}
-                        {...portfolio}
-                    />
-                ))
-            ) : (
-                <CardNoTitle>
-                    <InnerEmptyState
-                        icon={
-                            <FaBuffer className="text-4xl text-base-content/40" />
-                        }
-                        title="No portfolios to display"
-                        message="No portfolios have been created yet."
-                    />
-                </CardNoTitle>
-            )}
+            {isLoading && <LoadingSpinner />}
+            {!isLoading && allPortfoliosToRender.length > 0
+                ? allPortfoliosToRender.map((portfolio) => (
+                      <GlobalPortfolioCard
+                          key={portfolio.portfolioID}
+                          {...portfolio}
+                      />
+                  ))
+                : !isLoading && (
+                      <CardNoTitle>
+                          <InnerEmptyState
+                              icon={
+                                  <FaBuffer className="text-4xl text-base-content/40" />
+                              }
+                              title="No portfolios to display"
+                              message="No portfolios have been created yet."
+                          />
+                      </CardNoTitle>
+                  )}
         </MainBlock>
     );
 }

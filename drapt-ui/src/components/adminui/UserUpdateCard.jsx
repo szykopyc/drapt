@@ -13,6 +13,7 @@ import { searchUserByUsername, updateUser } from "../../lib/AdminServices";
 import InnerEmptyState from "../errorui/InnerEmptyState";
 import { FaSearchMinus } from "react-icons/fa";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { teamMapperDict } from "../../helperfunctions/TeamMapper";
 import { roleMapperDict } from "../../helperfunctions/RoleMapper";
 
@@ -24,6 +25,8 @@ export function UserUpdateCard() {
     const [modalData, setModalData] = useState(null);
 
     const [userDataFromSearch, setUserDataFromSearch] = useState({});
+
+    const queryClient = useQueryClient();
 
     const [updateError, setUpdateError] = useState(null);
     const [searchError, setSearchError] = useState(null);
@@ -104,6 +107,7 @@ export function UserUpdateCard() {
                 userDataFromSearch.id,
                 filteredData
             );
+            queryClient.invalidateQueries({ queryKey: ["user", user.role] });
             setModalData({
                 ...filteredData,
                 username: updatedUser.username,

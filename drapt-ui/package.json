@@ -13,6 +13,7 @@
     "@dicebear/core": "^9.2.2",
     "@dicebear/initials": "^9.2.2",
     "@heroicons/react": "^2.2.0",
+    "@tanstack/react-query": "^5.81.5",
     "@tippyjs/react": "^4.2.6",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",

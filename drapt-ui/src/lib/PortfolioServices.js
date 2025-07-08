@@ -13,3 +13,16 @@ export async function initialisePortfolio(attributes){
         throw error;
     }
 }
+
+export async function indexOfAllPortfolios(){
+    try {
+        const response = await ApiClient.get(
+            '/portfolio/all', {
+                withCredentials:true,
+            }
+        )
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}

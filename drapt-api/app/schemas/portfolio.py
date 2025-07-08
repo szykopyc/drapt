@@ -1,6 +1,12 @@
-from typing import Optional
+from typing import Optional, List
 from pydantic import BaseModel, ConfigDict
 from datetime import datetime
+
+class UserSummary(BaseModel):
+    id: int
+    fullname: str
+    username: str
+    role: str
 
 # pydantic schemas for fetching/updating/creating portfolios
 class PortfolioRead(BaseModel):
@@ -11,6 +17,7 @@ class PortfolioRead(BaseModel):
     name: str
     description: Optional[str] = None
     created_at: datetime
+    members: Optional[List[UserSummary]] = None
 
 class PortfolioCreate(BaseModel):
     model_config = ConfigDict(from_attributes=True)

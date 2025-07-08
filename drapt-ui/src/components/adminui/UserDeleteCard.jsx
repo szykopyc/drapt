@@ -11,6 +11,7 @@ import { roleMapperDict } from "../../helperfunctions/RoleMapper";
 import { searchUserByUsername, deleteUserByID } from "../../lib/AdminServices";
 import { FaHdd } from "react-icons/fa";
 import InnerEmptyState from "../errorui/InnerEmptyState";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function UserDeleteCard() {
     const [loading, setLoading] = useState(false);
@@ -20,6 +21,8 @@ export function UserDeleteCard() {
     const [targetUser, setTargetUser] = useState(null);
     const [searchError, setSearchError] = useState(null);
     const [deleteError, setDeleteError] = useState(null);
+
+    const queryClient = useQueryClient();
 
     // reference for modal which confirms deletion
 
@@ -91,6 +94,7 @@ export function UserDeleteCard() {
         setLoading(true);
         try {
             await deleteUserByID(targetUser.id);
+            queryClient.invalidateQueries({ queryKey: ["user", user.role] });
             setDeletedUsername(targetUser?.username || "");
             setTargetUser(null);
             setShowDeleteData(false);

@@ -5,14 +5,15 @@ import { ModalHelper } from "../helperui/ModalHelper";
 import { FormErrorHelper } from "../helperui/FormErrorHelper";
 import { CustomButtonInputStyle } from "../baseui/CustomButton";
 import { FormField } from "../helperui/FormFieldHelper";
-import { searchUserByRole } from "../../lib/AdminServices";
+import { useQueryClient } from "@tanstack/react-query";
+import { hookSearchUserByRole } from "../../reactqueryhooks/useAdminHook";
 import { initialisePortfolio } from "../../lib/PortfolioServices";
 import { teamMapperDict } from "../../helperfunctions/TeamMapper";
 
 export function CreatePortfolioCard() {
-    // initialise states for managers who are available to be assigned
-    const [pmsAvailable, setPmsAvailable] = useState([]);
-    let pmError = false;
+    // data fetch via RQ hook for managers who are available to be assigned
+    const { data: pmsAvailable = [], pmError } = hookSearchUserByRole("pm");
+    const queryClient = useQueryClient();
 
     // initialise states for errors
     const [portfolioCreateError, setPortfolioCreateError] = useState(null);
@@ -31,19 +32,6 @@ export function CreatePortfolioCard() {
         const valid = await trigger();
         if (valid) setPortfolioCreationConfirmed(true);
     };
-
-    // fetches all PMs
-    useEffect(() => {
-        const fetchManagers = async () => {
-            try {
-                const fetchedManagerData = await searchUserByRole("pm");
-                if (Array.isArray(fetchedManagerData)) {
-                    setPmsAvailable(fetchedManagerData);
-                }
-            } catch (error) {}
-        };
-        fetchManagers();
-    }, []);
 
     // handles the form
     const {
@@ -85,8 +73,11 @@ export function CreatePortfolioCard() {
 
         try {
             const result = await initialisePortfolio(attributes);
-            setModalData(data);
 
+            // invalidate the portfolios query to refetch new
+            queryClient.invalidateQueries({ queryKey: ["allportfolios"] });
+
+            setModalData(data);
             setModalPMData(pmObject);
 
             if (portfolioConfirmedModalRef.current)
