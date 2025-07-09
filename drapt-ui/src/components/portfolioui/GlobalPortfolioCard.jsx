@@ -2,43 +2,11 @@ import { CardOne } from "../baseui/CustomCard";
 import CustomButton from "../baseui/CustomButton";
 // this
 export default function GlobalPortfolioCard({
-  id,
   portfolio_string_id,
   name,
   created_at,
   members,
-  portfolioType, // not needed for now 
-  portfolioLastModified, // not needed for now
-  portfolioCurrentValue, // not needed for now
-  portfolio1MonthChange, // not needed for now
-  portfolio1MonthVolatility, // not needed for now
-  portfolioHoldingsNumber, // not needed for now
 }) {
-  // Format currency
-  {
-    /**
-const formattedValue =
-    typeof portfolioCurrentValue === "number"
-        ? `£${portfolioCurrentValue.toLocaleString()}`
-        : portfolioCurrentValue;
- */
-  }
-  // Format return with sign and color
-  let returnClass = "text-info";
-  //if (portfolio1MonthChange > 0) returnClass = "text-success";
-  //else if (portfolio1MonthChange < 0) returnClass = "text-error";
-
-  {
-    /**
-const formattedReturn =
-    (portfolio1MonthChange > 0 ? "+" : "") +
-    portfolio1MonthChange.toFixed(2) +
-    "%";
- */
-  }
-
-  // Format volatility
-  //const formattedVolatility = portfolio1MonthVolatility.toFixed(2) + "%";
 
   return (
     <CardOne title={name}>
@@ -49,7 +17,7 @@ const formattedReturn =
             <span className="font-semibold">Equity</span>
             <span>Manager</span>
             <span className="font-semibold">
-              {members[0]["fullname"]}
+              {members.length !== 0 ? members[0]["fullname"] : "N/A"}
             </span>
             <span>Created On</span>
             <span className="font-semibold">
@@ -57,7 +25,7 @@ const formattedReturn =
             </span>
             <span>Last Modified</span>
             <span className="font-semibold">
-              Yet To Create
+              YTC
               {/*{portfolioLastModified}*/}
             </span>
           </div>
@@ -66,19 +34,19 @@ const formattedReturn =
           <div className="grid grid-cols-2 gap-y-1">
             <span>Current value</span>
             <span className="font-semibold">
-              {/*{formattedValue}*/}Yet To Create
+              {/*{formattedValue}*/}YTC
             </span>
             <span>1 Month Return</span>
-            <span className={`font-semibold ${returnClass}`}>
-              {/*{formattedReturn}*/}Yet To Create
+            <span className={`font-semibold`}>
+              {/*{formattedReturn}*/}YTC
             </span>
             <span>1 Month Volatility</span>
             <span className="font-semibold">
-              {/*{formattedVolatility}*/}Yet To Create
+              {/*{formattedVolatility}*/}YTC
             </span>
             <span>Holdings</span>
             <span className="font-semibold">
-              {/*{portfolioHoldingsNumber}*/}Yet To Create
+              {/*{portfolioHoldingsNumber}*/}YTC
             </span>
           </div>
         </div>

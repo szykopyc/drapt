@@ -20,3 +20,9 @@
 07/09/2025 02:51:47 PM - INFO - admin.py - (liysk64) updated user USERNAME: analyst / FULLNAME: Maksimilian Nowak / ATTRIBUTES: fullname
 07/09/2025 04:07:04 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: description
 07/09/2025 04:25:28 PM - INFO - auth.py - (liysk64) registered user USERNAME: leo / FULLNAME: Leonard Nouira / ROLE: senioranalyst / TEAM: industrial & ASSIGNED PORTFOLIO STRING ID: industrial
+07/09/2025 08:38:35 PM - INFO - admin.py - (liysk64) updated user USERNAME: analyst / FULLNAME: Maksimilian Nowak / ATTRIBUTES: portfolio_id
+07/09/2025 09:18:06 PM - INFO - admin.py - (liysk64) updated user USERNAME: analyst / FULLNAME: Maksimilian Nowak / ATTRIBUTES: portfolio_id
+07/09/2025 09:57:57 PM - INFO - admin.py - (liysk64) updated user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski / ATTRIBUTES: role
+07/09/2025 10:10:19 PM - INFO - auth.py - (liysk64) registered user USERNAME: callumcooper / FULLNAME: Callum Cooper / ROLE: pm / TEAM: industrial & ASSIGNED PORTFOLIO STRING ID: industrial
+07/09/2025 10:24:19 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role
+07/09/2025 10:24:36 PM - INFO - admin.py - (liysk64) updated user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski / ATTRIBUTES: role

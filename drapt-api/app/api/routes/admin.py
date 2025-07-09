@@ -65,6 +65,8 @@ async def get_user_by_username(
 
     return UserReadResponseModel.model_validate(user)
 
+# POTENTIAL ADDITION: unassigns a user from any portfolio. useful for "kicking people out of portfolios"
+
 # deletes a user (obviously), only the developer can do it. then again it wouldn't hurt for any exec to do it, since a user has no FK unless they're a PM
 @router.delete("/user/delete/{user_id}", response_model=UserReadResponseModel, tags=["user"])
 async def delete_user_by_id(

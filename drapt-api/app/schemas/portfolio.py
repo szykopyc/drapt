@@ -17,7 +17,6 @@ class PortfolioRead(BaseModel):
     name: str
     description: Optional[str] = None
     created_at: datetime
-    members: Optional[List[UserSummary]] = None
 
 class PortfolioCreate(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -30,3 +29,14 @@ class PortfolioCreate(BaseModel):
 class PortfolioUpdate(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
+
+# pydantic schema for more in depth fetches like for overview
+class PortfolioReadOverview(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    portfolio_string_id: str
+    name: str
+    description: Optional[str] = None
+    created_at: datetime
+    members: Optional[List[UserSummary]] = None

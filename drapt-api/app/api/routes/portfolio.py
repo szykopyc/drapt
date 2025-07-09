@@ -1,15 +1,15 @@
 # portfolio imports
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.future import select
-from sqlalchemy.exc import IntegrityError # this is for when a unique key is violated
-from sqlalchemy import update, and_
+from sqlalchemy.future import select # type: ignore
+from sqlalchemy.exc import IntegrityError # type: ignore # this is for when a unique key is violated
+from sqlalchemy import update, and_ # type: ignore
 
 # db imports
 from app.db import get_async_session
 
 # models and schemas
 from app.models.portfolio import Portfolio
-from app.schemas.portfolio import PortfolioCreate, PortfolioRead, PortfolioUpdate
+from app.schemas.portfolio import PortfolioCreate, PortfolioRead, PortfolioUpdate, PortfolioReadOverview
 
 # auth and permission imports
 from app.models.user import User
@@ -74,7 +74,8 @@ async def get_portfolio_by_string_id(
     searched_portfolio_result = await session.execute(select(Portfolio).where(Portfolio.portfolio_string_id == portfolio_string_id))
     searched_portfolio = searched_portfolio_result.scalar_one_or_none()
 
-    if not (role_perms.get("can_init_portfolio") or current_user.team == searched_portfolio.portfolio_string_id):
+    # if user doesn't have can_init_portfolio or isnt assigned to the portfolio (via portfolio_id) raise exception
+    if not (role_perms.get("can_init_portfolio") or current_user.portfolio_id == searched_portfolio.id):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You aren't authorised to view this portfolio.")
     
     if not searched_portfolio:
@@ -83,7 +84,7 @@ async def get_portfolio_by_string_id(
     return PortfolioRead.model_validate(searched_portfolio)
 
 # OVERVIEW subroute will give a bigger picture of what it is, an overview
-@router.get("/portfolio/search/{portfolio_string_id}/overview", response_model=PortfolioRead, tags=["portfolio"])
+@router.get("/portfolio/search/{portfolio_string_id}/overview", response_model=PortfolioReadOverview, tags=["portfolio"])
 async def get_portfolio_by_string_id_overview(
     portfolio_string_id: str,
     session=Depends(get_async_session),
@@ -99,13 +100,14 @@ async def get_portfolio_by_string_id_overview(
     members_result = await session.execute(select(User).where(User.portfolio_id == searched_portfolio.id))
     members = members_result.scalars().all()
 
-    if not (role_perms.get("can_init_portfolio") or current_user.team == searched_portfolio.portfolio_string_id):
+    # if user doesn't have can_init_portfolio or isnt assigned to the portfolio (via portfolio_id) raise exception
+    if not (role_perms.get("can_init_portfolio") or current_user.portfolio_id == searched_portfolio.id):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You aren't authorised to view this portfolio.")
     
     if not searched_portfolio:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="We couldn't find the portfolio you requested.")
     
-    portfolio_read_data = PortfolioRead.model_validate(searched_portfolio)
+    portfolio_read_data = PortfolioReadOverview.model_validate(searched_portfolio)
     portfolio_read_data.members = members
     return portfolio_read_data
 
@@ -185,7 +187,7 @@ async def delete_portfolio_by_id(
     return PortfolioRead.model_validate(portfolio)
 
 # fetch all portfolios
-@router.get("/portfolio/all", response_model=list[PortfolioRead], tags=["portfolio"])
+@router.get("/portfolio/all", response_model=list[PortfolioReadOverview], tags=["portfolio"])
 async def get_all_portfolios(
     session=Depends(get_async_session), current_user: User = Depends(fastapi_users.current_user())
 ):
@@ -213,7 +215,7 @@ async def get_all_portfolios(
     # Attach pms to each portfolio
     result = []
     for portfolio in portfolios:
-        portfolio_data = PortfolioRead.model_validate(portfolio)
+        portfolio_data = PortfolioReadOverview.model_validate(portfolio)
         portfolio_data.members = pms_by_portfolio.get(portfolio.id, [])
         result.append(portfolio_data)
 
