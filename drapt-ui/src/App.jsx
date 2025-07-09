@@ -54,8 +54,9 @@ function App() {
     const location = useLocation();
     const user = useUserStore((state) => state.user);
     const setUser = useUserStore((state) => state.setUser);
-    const sessionExpired = useUserStore((state) => state.sessionExpired);
     const setSessionExpired = useUserStore((state) => state.setSessionExpired);
+
+    const topLevelKey = location.pathname.split("/")[1];
 
     useEffect(() => {
         // Only check auth if the current path is protected
@@ -91,8 +92,8 @@ function App() {
     return (
         <ErrorBoundary>
             <>
-                <AnimatePresence mode="wait">
-                    <Routes>
+                <AnimatePresence mode="wait" initial={false}>
+                    <Routes location={location} key={topLevelKey}>
                         <Route element={<MasterLayout />}>
                             {user ? (
                                 <Route
@@ -281,9 +282,9 @@ function App() {
                             <Route path="*" element={<NotFound />} />
                         </Route>
                     </Routes>
-                    <SpeedInsights />
-                    <Analytics />
                 </AnimatePresence>
+                <SpeedInsights />
+                <Analytics />
             </>
         </ErrorBoundary>
     );

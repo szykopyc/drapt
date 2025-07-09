@@ -5,6 +5,7 @@ import TabNav from "../components/baseui/TabNav";
 import useUserStore from "../stores/userStore";
 
 import { dummyGlobalPortfolios } from "../assets/dummy-data/tableData";
+import { useEffect } from "react";
 
 export default function Analyse() {
     const user = useUserStore((state) => state.user);
@@ -20,9 +21,11 @@ export default function Analyse() {
         (state) => state.setCurrentPortfolioBeingAnalysed
     );
 
-    if (selectedPortfolioData) {
-        setCurrentPortfolioBeingAnalysed(selectedPortfolioData);
-    }
+    useEffect(() => {
+        if (selectedPortfolioData) {
+            setCurrentPortfolioBeingAnalysed(selectedPortfolioData);
+        }
+    }, []);
 
     const location = useLocation();
 

@@ -4,6 +4,7 @@ import TabNav from "../components/baseui/TabNav";
 import { Outlet, useParams, useLocation } from "react-router-dom";
 import useUserStore from "../stores/userStore";
 import CardEmptyState from "../components/errorui/CardEmptyState";
+import { useEffect } from "react";
 
 import { dummyGlobalPortfolios } from "../assets/dummy-data/tableData";
 
@@ -28,11 +29,13 @@ export default function Portfolio() {
         (state) => state.setCurrentPortfolioBeingAnalysed
     );
 
-    if (selectedPortfolioData) {
-        setCurrentPortfolioBeingAnalysed(selectedPortfolioData);
-    } else {
-        setCurrentPortfolioBeingAnalysed(undefined);
-    }
+    useEffect(() => {
+        if (selectedPortfolioData) {
+            setCurrentPortfolioBeingAnalysed(selectedPortfolioData);
+        } else {
+            setCurrentPortfolioBeingAnalysed(undefined);
+        }
+    }, [selectedPortfolioData, setCurrentPortfolioBeingAnalysed]);
 
     const pathToTab = {
         overview: "overview",

@@ -26,3 +26,16 @@ export async function indexOfAllPortfolios(){
         throw error;
     }
 }
+
+export async function getPortfolioByStringIdOverview(portfolio_string_id){
+    try {
+        const response = await ApiClient.get(
+            `/portfolio/search/${portfolio_string_id}/overview`, {
+                withCredentials:true,
+            }
+        )
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}

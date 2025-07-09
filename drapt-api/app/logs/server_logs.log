@@ -16,3 +16,7 @@
 07/08/2025 07:50:44 PM - INFO - portfolio.py - (liysk64) deleted portfolio ID: 2 / STRING ID: na
 07/08/2025 07:50:44 PM - INFO - portfolio.py - (Server) unassigned all users from portfolio ID: 2 / STRING ID: na
 07/08/2025 08:08:45 PM - INFO - admin.py - (liysk64) deleted user USERNAME: jmk / FULLNAME: John Maynard Keynes
+07/09/2025 02:51:15 PM - INFO - auth.py - (liysk64) registered user USERNAME: analyst / FULLNAME: Analyst / ROLE: analyst / TEAM: industrial & ASSIGNED PORTFOLIO STRING ID: industrial
+07/09/2025 02:51:47 PM - INFO - admin.py - (liysk64) updated user USERNAME: analyst / FULLNAME: Maksimilian Nowak / ATTRIBUTES: fullname
+07/09/2025 04:07:04 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: description
+07/09/2025 04:25:28 PM - INFO - auth.py - (liysk64) registered user USERNAME: leo / FULLNAME: Leonard Nouira / ROLE: senioranalyst / TEAM: industrial & ASSIGNED PORTFOLIO STRING ID: industrial

@@ -84,7 +84,7 @@ async def get_portfolio_by_string_id(
 
 # OVERVIEW subroute will give a bigger picture of what it is, an overview
 @router.get("/portfolio/search/{portfolio_string_id}/overview", response_model=PortfolioRead, tags=["portfolio"])
-async def get_portfolio_by_string_id(
+async def get_portfolio_by_string_id_overview(
     portfolio_string_id: str,
     session=Depends(get_async_session),
     current_user: User = Depends(fastapi_users.current_user())

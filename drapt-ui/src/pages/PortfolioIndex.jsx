@@ -127,10 +127,7 @@ export default function PortfolioIndex() {
             {isLoading && <LoadingSpinner />}
             {!isLoading && allPortfoliosToRender.length > 0
                 ? allPortfoliosToRender.map((portfolio) => (
-                      <GlobalPortfolioCard
-                          key={portfolio.portfolioID}
-                          {...portfolio}
-                      />
+                      <GlobalPortfolioCard key={portfolio.id} {...portfolio} />
                   ))
                 : !isLoading && (
                       <CardNoTitle>
