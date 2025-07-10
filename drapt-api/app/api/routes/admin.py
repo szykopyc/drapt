@@ -1,11 +1,20 @@
+# core imports
 from fastapi import APIRouter, Depends, HTTPException, status
+
+# db imports
 from sqlalchemy.future import select
 from app.db import get_async_session
+
+# schema imports
 from app.models.user import User
 from app.schemas.user import UserUpdate, UserUpdateResponseModel, UserReadResponseModel
+from app.models.portfolio import Portfolio
+
+# permissions and dependencies
 from app.users.deps import fastapi_users
 from app.config.permissions import permissions as role_permissions
 
+# logger
 from app.utils.log import logger
 
 router = APIRouter()
@@ -36,6 +45,14 @@ async def update_user_by_id(
     # Update fields (only those present in the patch)
     for field, value in user_update.model_dump(exclude_unset=True).items():
         setattr(user, field, value) # this sets the attributes of an object which are affected by the patch.
+
+    try:
+        check_if_portfolio_has_to_change_result = await session.execute(select(Portfolio).where(Portfolio.portfolio_string_id == user.team))
+        avail_portfolio = check_if_portfolio_has_to_change_result.scalar_one_or_none()
+        user.portfolio_id = avail_portfolio.id if avail_portfolio else None
+         
+    except:
+        logger.warning(f"(Server) could not verify if USERNAME: {user.username} PORTFOLIO ID is valid for their assigned team") 
 
     await session.commit()
     await session.refresh(user)

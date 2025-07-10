@@ -14,10 +14,8 @@ from app.utils.log import logger
 
 # models and schemas
 from app.models.user import User
-from app.schemas.user import UserCreate, UserRead
+from app.schemas.user import UserCreate, UserRead, UserReadResponseModel
 from app.models.portfolio import Portfolio
-from app.schemas.portfolio import PortfolioRead
-
 # custom permssions and imports fastapi_users to make all routes not be circular if that makes sense
 from app.users.deps import fastapi_users
 from app.config.permissions import permissions as role_permissions
@@ -26,7 +24,7 @@ router = APIRouter()
 
 # register a user (obvious i know). only allows you to register users if you are an exec.
 # if no users have been created yet, use the create_first_user.py script
-@router.post("/auth/register", response_model=UserRead, tags=["auth"])
+@router.post("/auth/register", response_model=UserReadResponseModel, tags=["auth"])
 async def register_user(
     user_create: UserCreate,
     user_manager=Depends(get_user_manager),
@@ -66,7 +64,7 @@ async def register_user(
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Username already exists in the users table.")
 
     logger.info(f"({current_user.username}) registered user USERNAME: {user_create.username} / FULLNAME: {user_create.fullname} / ROLE: {user_create.role} / TEAM: {user_create.team} {log_if_assigned}")
-    return user
+    return UserReadResponseModel.model_validate(user)
 
 # this is for checking auth pretty much. gets the logged in user.
 # if user isn't logged in, the depends will throw exception anyway. that's good, don't need to overcomplicate this one with custom exceptions

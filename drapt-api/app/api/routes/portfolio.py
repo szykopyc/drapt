@@ -93,9 +93,12 @@ async def get_portfolio_by_string_id_overview(
     role_perms = role_permissions.get(current_user.role)
     if not role_perms or not role_perms.get("can_search_portfolio"):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You aren't authorised to search portfolios.")
-    
+
     searched_portfolio_result = await session.execute(select(Portfolio).where(Portfolio.portfolio_string_id == portfolio_string_id))
     searched_portfolio = searched_portfolio_result.scalar_one_or_none()
+
+    if not searched_portfolio:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="We couldn't find the portfolio you requested.")
 
     members_result = await session.execute(select(User).where(User.portfolio_id == searched_portfolio.id))
     members = members_result.scalars().all()
@@ -103,9 +106,6 @@ async def get_portfolio_by_string_id_overview(
     # if user doesn't have can_init_portfolio or isnt assigned to the portfolio (via portfolio_id) raise exception
     if not (role_perms.get("can_init_portfolio") or current_user.portfolio_id == searched_portfolio.id):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You aren't authorised to view this portfolio.")
-    
-    if not searched_portfolio:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="We couldn't find the portfolio you requested.")
     
     portfolio_read_data = PortfolioReadOverview.model_validate(searched_portfolio)
     portfolio_read_data.members = members
@@ -133,7 +133,7 @@ async def update_portfolio_by_id(
     if not fetched_portfolio:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Unable to find requested portfolio")
     
-    if not (role_perms.get("can_init_portfolio") or current_user.team == fetched_portfolio.portfolio_string_id):
+    if not (role_perms.get("can_init_portfolio") or current_user.portfolio_id == fetched_portfolio.id):
         logger.warning(f"({current_user.username}) tried to update different unassigned portfolio PORTFOLIO ID: {portfolio_id} / PORTFOLIO STRING ID: {fetched_portfolio.portfolio_string_id}")
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,

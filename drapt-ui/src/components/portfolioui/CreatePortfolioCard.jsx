@@ -6,13 +6,13 @@ import { FormErrorHelper } from "../helperui/FormErrorHelper";
 import { CustomButtonInputStyle } from "../baseui/CustomButton";
 import { FormField } from "../helperui/FormFieldHelper";
 import { useQueryClient } from "@tanstack/react-query";
-import { hookSearchUserByRole } from "../../reactqueryhooks/useAdminHook";
+import { useHookSearchUserByRole } from "../../reactqueryhooks/useAdminHook";
 import { initialisePortfolio } from "../../lib/PortfolioServices";
 import { teamMapperDict } from "../../helperfunctions/TeamMapper";
 
 export function CreatePortfolioCard() {
     // data fetch via RQ hook for managers who are available to be assigned
-    const { data: pmsAvailable = [], pmError } = hookSearchUserByRole("pm");
+    const { data: pmsAvailable = [], pmError } = useHookSearchUserByRole("pm");
     const queryClient = useQueryClient();
 
     // initialise states for errors

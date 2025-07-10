@@ -13,7 +13,7 @@ import { useState, useEffect } from "react";
 
 import { LoadingSpinner } from "../components/helperui/LoadingSpinnerHelper";
 
-import { hookIndexOfAllPortfolios } from "../reactqueryhooks/usePortfolioHook";
+import { useHookIndexOfAllPortfolios } from "../reactqueryhooks/usePortfolioHook";
 
 export default function PortfolioIndex() {
   const dummyGlobalPortfoliosToRender = dummyGlobalPortfolios;
@@ -49,7 +49,7 @@ const getSortedPortfolios = (portfoliosToSort, sortOption) => {
     data: allPortfoliosToRender = [],
     isLoading,
     error,
-  } = hookIndexOfAllPortfolios();
+  } = useHookIndexOfAllPortfolios();
 
 
   {

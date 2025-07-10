@@ -13,5 +13,5 @@ class Portfolio(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True) # auto inserted
     portfolio_string_id: Mapped[str] = mapped_column(String(length=50), unique=True, nullable=False) # auto inserted
     name: Mapped[str] = mapped_column(String(length=100), nullable=False, unique=True) # from user input
-    description: Mapped[Optional[str]] = mapped_column(String(length=255), nullable=True) # from user input
+    description: Mapped[Optional[str]] = mapped_column(String(length=1024), nullable=True) # from user input
     created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, server_default=func.now()) # auto inserted

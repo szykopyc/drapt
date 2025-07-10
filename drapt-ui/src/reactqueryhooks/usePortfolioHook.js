@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { indexOfAllPortfolios, getPortfolioByStringIdOverview } from "../lib/PortfolioServices";
 
-export function hookIndexOfAllPortfolios() {
+export function useHookIndexOfAllPortfolios() {
   return useQuery({
     queryKey: ["allportfolios"],
     queryFn: async () => {
@@ -9,10 +9,12 @@ export function hookIndexOfAllPortfolios() {
       return indexOfAllPortfolios();
     },
     staleTime: 1000 * 60 * 3,
+    retry: 3,
+    retryDelay: 500
   });
 }
 
-export function hookSearchPortfolioOverview(portfolio_string_id) {
+export function useHookSearchPortfolioOverview(portfolio_string_id) {
   return useQuery({
     queryKey: ["portfolio", portfolio_string_id],
     queryFn: async () => {
@@ -21,6 +23,6 @@ export function hookSearchPortfolioOverview(portfolio_string_id) {
     },
     staleTime: 1000 * 60 * 3,
     retry: 3,
-    retryDelay: 1000,
+    retryDelay: 500,
   })
 }

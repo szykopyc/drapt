@@ -26,3 +26,29 @@
 07/09/2025 10:10:19 PM - INFO - auth.py - (liysk64) registered user USERNAME: callumcooper / FULLNAME: Callum Cooper / ROLE: pm / TEAM: industrial & ASSIGNED PORTFOLIO STRING ID: industrial
 07/09/2025 10:24:19 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role
 07/09/2025 10:24:36 PM - INFO - admin.py - (liysk64) updated user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski / ATTRIBUTES: role
+07/10/2025 11:41:57 AM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/10/2025 11:42:16 AM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/10/2025 11:43:51 AM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/10/2025 11:44:05 AM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/10/2025 11:53:50 AM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/10/2025 11:54:46 AM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: description
+07/10/2025 12:09:56 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name, description
+07/10/2025 12:11:21 PM - INFO - admin.py - (liysk64) deleted user USERNAME: analyst / FULLNAME: Maksimilian Nowak
+07/10/2025 12:11:51 PM - INFO - admin.py - (liysk64) deleted user USERNAME: leo / FULLNAME: Leonard Nouira
+07/10/2025 12:12:07 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role
+07/10/2025 12:23:22 PM - INFO - admin.py - (liysk64) deleted user USERNAME: callumcooper / FULLNAME: Callum Cooper
+07/10/2025 12:23:45 PM - INFO - auth.py - (liysk64) registered user USERNAME: test / FULLNAME: Test user / ROLE: analyst / TEAM: industrial & ASSIGNED PORTFOLIO STRING ID: industrial
+07/10/2025 12:24:36 PM - INFO - admin.py - (liysk64) deleted user USERNAME: test / FULLNAME: Test user
+07/10/2025 12:37:27 PM - INFO - auth.py - (liysk64) registered user USERNAME: callumcooper / FULLNAME: Callum Cooper / ROLE: analyst / TEAM: industrial & ASSIGNED PORTFOLIO STRING ID: industrial
+07/10/2025 12:38:22 PM - INFO - auth.py - (liysk64) registered user USERNAME: random / FULLNAME: Random An / ROLE: analyst / TEAM: industrial & ASSIGNED PORTFOLIO STRING ID: industrial
+07/10/2025 12:39:53 PM - INFO - admin.py - (liysk64) deleted user USERNAME: random / FULLNAME: Random An
+07/10/2025 01:04:55 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role, team
+07/10/2025 01:05:08 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role, team
+07/10/2025 01:06:25 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role, team
+07/10/2025 01:06:29 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role, team
+07/10/2025 01:06:47 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role, team
+07/10/2025 01:13:31 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role, team
+07/10/2025 01:15:56 PM - INFO - auth.py - (liysk64) registered user USERNAME: leonou / FULLNAME: Leonard Nouira / ROLE: senioranalyst / TEAM: industrial & ASSIGNED PORTFOLIO STRING ID: industrial
+07/10/2025 01:20:16 PM - INFO - auth.py - (liysk64) registered user USERNAME: testuser / FULLNAME: Test User / ROLE: analyst / TEAM: industrial & ASSIGNED PORTFOLIO STRING ID: industrial
+07/10/2025 01:20:48 PM - INFO - admin.py - (liysk64) updated user USERNAME: testuser / FULLNAME: Different Test User / ATTRIBUTES: fullname, role, team
+07/10/2025 01:21:31 PM - INFO - admin.py - (liysk64) deleted user USERNAME: testuser / FULLNAME: Different Test User

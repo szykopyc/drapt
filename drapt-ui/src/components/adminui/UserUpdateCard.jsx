@@ -89,8 +89,8 @@ export function UserUpdateCard() {
       await new Promise((resolve) => setTimeout(resolve, 300));
       setSearchError(
         error?.response?.data?.detail ||
-          error?.message ||
-          "Failed to find user.",
+        error?.message ||
+        "Failed to find user.",
       );
     } finally {
       setLoading(false);
@@ -105,17 +105,19 @@ export function UserUpdateCard() {
       );
       const updatedUser = await updateUser(userDataFromSearch.id, filteredData);
       queryClient.invalidateQueries({ queryKey: ["user", role] });
+      queryClient.invalidateQueries({ queryKey: ["allusers"] });
       setModalData({
         ...filteredData,
         username: updatedUser.username,
+        portfolio_id: updatedUser.portfolio_id,
       });
       if (userUpdateModalRef.current) userUpdateModalRef.current.showModal();
       resetUpdate();
     } catch (error) {
       setUpdateError(
         error?.response?.data?.detail ||
-          error?.message ||
-          "Failed to update user.",
+        error?.message ||
+        "Failed to update user.",
       );
     }
   };
@@ -342,6 +344,12 @@ export function UserUpdateCard() {
                   </span>
                 </div>
               )}
+              <div className="flex justify-between">
+                Assigned to Portfolio?
+                <span className="text-primary">
+                  {modalData.portfolio_id ? "True" : "False"}
+                </span>
+              </div>
             </div>
             <p>
               Changes take 5 minutes to reflect automatically, or log out, then

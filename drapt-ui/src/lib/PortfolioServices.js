@@ -42,6 +42,22 @@ export async function getPortfolioByStringIdOverview(portfolio_string_id) {
   }
 }
 
+export async function updatePortfolioMetadata(portfolio_id, attributes) {
+  try {
+    const response = await ApiClient.patch(
+      `/portfolio/update/${portfolio_id}`, attributes, {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    }
+    )
+    return response.data;
+  }
+  catch (error) {
+    throw error;
+  }
+}
+
+
 export async function deletePortfolio(portfolio_id) {
   try {
     const response = await ApiClient.delete(

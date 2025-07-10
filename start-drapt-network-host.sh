@@ -10,11 +10,11 @@ pkill -f "vite" 2>/dev/null
 
 # Start backend
 echo "[INFO] Starting FastAPI backend (uvicorn)..."
-(cd drapt-api && source .venv/bin/activate && uvicorn app.main:app --reload) &
+(cd drapt-api && source .venv/bin/activate && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload) &
 
 # Start frontend
 echo "[INFO] Starting Vite frontend..."
-(cd drapt-ui && pnpm dev) &
+(cd drapt-ui && pnpm dev --host 0.0.0.0 --port 5173) &
 
 # Wait for all background jobs
 trap 'echo "[TERMINATED] Shutting down Drapt dev env..."; pkill -f "uvicorn"; pkill -f "vite"; exit' INT

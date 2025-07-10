@@ -7,15 +7,13 @@ import TextWithLabelDescription from "../baseui/TextWithLabelDescription"; // co
 import InnerEmptyState from "../errorui/InnerEmptyState";
 import { MdErrorOutline } from "react-icons/md";
 
-import { hookSearchPortfolioOverview } from "../../reactqueryhooks/usePortfolioHook";
+import { useHookSearchPortfolioOverview } from "../../reactqueryhooks/usePortfolioHook";
 
 export function OverviewPanel() {
   const { portfolioID } = useParams();
 
   const { data: portfolioOverviewData = [], isLoading, isError, error } =
-    hookSearchPortfolioOverview(portfolioID);
-
-  console.log(portfolioOverviewData);
+    useHookSearchPortfolioOverview(portfolioID);
 
   const portfolioManager = portfolioOverviewData?.members?.find((member) => member.role == "pm");
 

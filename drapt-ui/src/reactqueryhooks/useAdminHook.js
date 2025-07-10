@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { selectAllUsers, searchUserByRole, searchUserByUsername } from "../lib/AdminServices";
 
-export function hookSelectAllUsers(){
+export function useHookSelectAllUsers(){
     return useQuery({
         queryKey: ["allusers"],
         queryFn: selectAllUsers,
@@ -9,7 +9,7 @@ export function hookSelectAllUsers(){
     })
 }
 
-export function hookSearchUserByRole(role){
+export function useHookSearchUserByRole(role){
     return useQuery({
         queryKey: ["user",role],
         queryFn: () => searchUserByRole(role),
