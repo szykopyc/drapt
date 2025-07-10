@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import TabNav from "../components/baseui/TabNav";
 import { MainBlock } from "../components/baseui/MainBlock";
@@ -19,13 +18,13 @@ export default function AdminWrapper() {
     <MainBlock>
       <BeginText title={"User Administration"}>
       </BeginText>
-        <TabNav
-          tabs={[
-              {label:"User Management", value:"management", to: `/admin/management`, keyShortcut:"m"},
-              {label:"User Engagement", value:"engagement", to: `/admin/engagement`, keyShortcut:"e"},
-          ]}
-          initialTab={initialTab}
-        />
+      <TabNav
+        tabs={[
+          { label: "User Management", value: "management", to: `/admin/management`, keyShortcut: "m" },
+          { label: "User Engagement", value: "engagement", to: `/admin/engagement`, keyShortcut: "e" },
+        ]}
+        initialTab={initialTab}
+      />
       <Outlet />
     </MainBlock>
   );

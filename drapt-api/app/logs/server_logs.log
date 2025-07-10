@@ -52,3 +52,5 @@
 07/10/2025 01:20:16 PM - INFO - auth.py - (liysk64) registered user USERNAME: testuser / FULLNAME: Test User / ROLE: analyst / TEAM: industrial & ASSIGNED PORTFOLIO STRING ID: industrial
 07/10/2025 01:20:48 PM - INFO - admin.py - (liysk64) updated user USERNAME: testuser / FULLNAME: Different Test User / ATTRIBUTES: fullname, role, team
 07/10/2025 01:21:31 PM - INFO - admin.py - (liysk64) deleted user USERNAME: testuser / FULLNAME: Different Test User
+07/10/2025 01:56:53 PM - INFO - portfolio.py - (alekskopy) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/10/2025 01:58:48 PM - INFO - portfolio.py - (alekskopy) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name

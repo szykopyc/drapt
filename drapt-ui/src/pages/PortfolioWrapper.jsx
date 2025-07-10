@@ -22,7 +22,7 @@ export default function Portfolio() {
   if (!user) return null;
 
   const showPortfolioAdmin =
-    user && ["developer", "vd", "director"].includes(user?.role);
+    user && ["developer", "vd", "director", "pm"].includes(user?.role);
 
   const showTradeBooker =
     user && ["developer", "vd", "director", "pm"].includes(user?.role);
