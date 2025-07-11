@@ -91,11 +91,21 @@ export function OverviewPanel() {
               <TextWithLabelDescription label={"Team Members"}>
                 <div className="flex flex-col gap-1">
                   {portfolioOverviewData?.members?.length > 0 ? (
-                    portfolioOverviewData.members.map((member) => (
-                      <span key={member.id}>
-                        {member.fullname} - {roleMapperDict[member.role]}
-                      </span>
-                    ))
+                    portfolioOverviewData.members
+                      .slice() // create a shallow copy to avoid mutating original
+                      .sort((a, b) => {
+                        const roleOrder = {
+                          pm: 0,
+                          senioranalyst: 1,
+                          analyst: 2,
+                        };
+                        return (roleOrder[a.role] ?? 99) - (roleOrder[b.role] ?? 99);
+                      })
+                      .map((member) => (
+                        <span key={member.id}>
+                          {member.fullname} - {roleMapperDict[member.role]}
+                        </span>
+                      ))
                   ) : (
                     "No team members"
                   )}

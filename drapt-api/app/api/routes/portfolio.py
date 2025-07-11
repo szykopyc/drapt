@@ -50,7 +50,8 @@ async def create_portfolio(
         await session.refresh(portfolio)
         pm_id_assignment_result = await assign_user_to_portfolio(data.pm_id, portfolio.id, session)
         
-    except IntegrityError:
+    except IntegrityError as e:
+        print(e)
         await session.rollback()
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -58,7 +59,7 @@ async def create_portfolio(
         )
 
     logger.info(f"({current_user.username}) initialised portfolio ID: {portfolio.id} / STRING ID: {portfolio.portfolio_string_id} / PM: {pm_id_assignment_result.username}")
-    return portfolio
+    return PortfolioRead.model_validate(portfolio)
 
 # READ PORTFOLIO ROUTE
 @router.get("/portfolio/search/{portfolio_string_id}", response_model=PortfolioRead, tags=["portfolio"])

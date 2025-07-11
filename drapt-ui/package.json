@@ -28,6 +28,7 @@
     "react-dom": "^19.1.0",
     "react-heatmap-grid": "^0.9.1",
     "react-hook-form": "^7.58.1",
+    "react-hot-toast": "^2.5.2",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.6.2",
     "react-simple-typewriter": "^5.0.1",

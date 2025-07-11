@@ -8,62 +8,49 @@ import { dummyGlobalPortfolios } from "../assets/dummy-data/tableData";
 import { useEffect } from "react";
 
 export default function Analyse() {
-    const user = useUserStore((state) => state.user);
-    if (!user) return null;
+  const user = useUserStore((state) => state.user);
+  if (!user) return null;
 
-    const { portfolioID } = useParams();
 
-    const selectedPortfolioData = dummyGlobalPortfolios.filter((portfolio) =>
-        portfolio.portfolioID.includes(portfolioID)
-    )[0];
+  const selectedPortfolioData = dummyGlobalPortfolios.filter((portfolio) =>
+    portfolio.portfolioID.includes("industrial")
+  )[0];
 
-    const setCurrentPortfolioBeingAnalysed = useUserStore(
-        (state) => state.setCurrentPortfolioBeingAnalysed
-    );
+  const pathToTab = {
+    performance: "performance",
+    risk: "risk",
+  };
 
-    useEffect(() => {
-        if (selectedPortfolioData) {
-            setCurrentPortfolioBeingAnalysed(selectedPortfolioData);
+  const lastSegment = location.pathname.split("/").pop();
+  const initialTab = pathToTab[lastSegment] || "performance";
+
+  return (
+    <MainBlock>
+      <BeginText
+        title={
+          selectedPortfolioData
+            ? `Analyse ${selectedPortfolioData?.portfolioName} Portfolio`
+            : "Analyse"
         }
-    }, []);
-
-    const location = useLocation();
-
-    const pathToTab = {
-        performance: "performance",
-        risk: "risk",
-    };
-
-    const lastSegment = location.pathname.split("/").pop();
-    const initialTab = pathToTab[lastSegment] || "performance";
-
-    return (
-        <MainBlock>
-            <BeginText
-                title={
-                    selectedPortfolioData
-                        ? `Analyse ${selectedPortfolioData?.portfolioName} Portfolio`
-                        : "Analyse"
-                }
-            />
-            <TabNav
-                tabs={[
-                    {
-                        label: "Performance",
-                        value: "performance",
-                        to: `/analyse/${portfolioID}/performance`,
-                        keyShortcut: "p",
-                    },
-                    {
-                        label: "Risk",
-                        value: "risk",
-                        to: `/analyse/${portfolioID}/risk`,
-                        keyShortcut: "r",
-                    },
-                ]}
-                initialTab={initialTab}
-            />
-            <Outlet />
-        </MainBlock>
-    );
+      />
+      <TabNav
+        tabs={[
+          {
+            label: "Performance",
+            value: "performance",
+            to: `/analyse/industrial/performance`,
+            keyShortcut: "p",
+          },
+          {
+            label: "Risk",
+            value: "risk",
+            to: `/analyse/industrial/risk`,
+            keyShortcut: "r",
+          },
+        ]}
+        initialTab={initialTab}
+      />
+      <Outlet />
+    </MainBlock>
+  );
 }

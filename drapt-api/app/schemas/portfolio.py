@@ -7,6 +7,7 @@ class UserSummary(BaseModel):
     fullname: str
     username: str
     role: str
+    email: str
 
 # pydantic schemas for fetching/updating/creating portfolios
 class PortfolioRead(BaseModel):

@@ -54,3 +54,47 @@
 07/10/2025 01:21:31 PM - INFO - admin.py - (liysk64) deleted user USERNAME: testuser / FULLNAME: Different Test User
 07/10/2025 01:56:53 PM - INFO - portfolio.py - (alekskopy) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
 07/10/2025 01:58:48 PM - INFO - portfolio.py - (alekskopy) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/11/2025 05:31:27 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: callumcooper / FULLNAME: Callum Cooper from PORTFOLIO ID: 1
+07/11/2025 05:55:27 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/11/2025 05:56:12 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role, team
+07/11/2025 05:56:40 PM - INFO - admin.py - (liysk64) updated user USERNAME: leonou / FULLNAME: Leonard Nouira / ATTRIBUTES: role, team
+07/11/2025 06:45:24 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role, team
+07/11/2025 06:50:40 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: callumcooper / FULLNAME: Callum Cooper from PORTFOLIO ID: 1
+07/11/2025 06:56:02 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/11/2025 06:59:52 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role, team
+07/11/2025 07:00:00 PM - INFO - admin.py - (liysk64) updated user USERNAME: leonou / FULLNAME: Leonard Nouira / ATTRIBUTES: role, team
+07/11/2025 07:00:23 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/11/2025 07:00:28 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: callumcooper / FULLNAME: Callum Cooper from PORTFOLIO ID: 1
+07/11/2025 07:01:47 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role, team
+07/11/2025 07:01:55 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: callumcooper / FULLNAME: Callum Cooper from PORTFOLIO ID: 1
+07/11/2025 07:04:23 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role, team
+07/11/2025 07:04:32 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: callumcooper / FULLNAME: Callum Cooper from PORTFOLIO ID: 1
+07/11/2025 08:01:51 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/11/2025 08:02:06 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/11/2025 08:02:48 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/11/2025 08:03:47 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/11/2025 08:04:07 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/11/2025 08:04:29 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/11/2025 08:08:09 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role, team
+07/11/2025 08:08:21 PM - INFO - admin.py - (liysk64) updated user USERNAME: leonou / FULLNAME: Leonard Nouira / ATTRIBUTES: role, team
+07/11/2025 08:08:30 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/11/2025 08:09:02 PM - INFO - admin.py - (alekskopy) unassigned user USERNAME: callumcooper / FULLNAME: Callum Cooper from PORTFOLIO ID: 1
+07/11/2025 08:13:08 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role, team
+07/11/2025 08:14:28 PM - INFO - admin.py - (liysk64) updated user USERNAME: leonou / FULLNAME: Leonard Nouira / ATTRIBUTES: role, team & AUTOMATICALLY ASSIGNED PORTFOLIO STRING ID industrial
+07/11/2025 08:21:18 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: callumcooper / FULLNAME: Callum Cooper from PORTFOLIO ID: 1
+07/11/2025 08:25:41 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/11/2025 08:25:49 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/11/2025 08:26:24 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/11/2025 08:26:34 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/11/2025 08:33:14 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role, team & AUTOMATICALLY ASSIGNED PORTFOLIO STRING ID: industrial
+07/11/2025 08:34:13 PM - INFO - admin.py - (liysk64) updated user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski / ATTRIBUTES: role & AUTOMATICALLY ASSIGNED PORTFOLIO STRING ID: industrial
+07/11/2025 08:34:44 PM - INFO - admin.py - (liysk64) updated user USERNAME: leonou / FULLNAME: Leonard Nouira / ATTRIBUTES: role & AUTOMATICALLY ASSIGNED PORTFOLIO STRING ID: industrial
+07/11/2025 08:39:01 PM - INFO - auth.py - (liysk64) registered user USERNAME: justkopy / FULLNAME: Justyna Kopycinska / ROLE: pm / TEAM: health 
+07/11/2025 09:21:39 PM - INFO - portfolio.py - (liysk64) deleted portfolio ID: 2 / STRING ID: health
+07/11/2025 09:21:39 PM - INFO - portfolio.py - (Server) unassigned all users from portfolio ID: 2 / STRING ID: health
+07/11/2025 09:22:00 PM - INFO - portfolio.py - (liysk64) initialised portfolio ID: 2 / STRING ID: health / PM: justkopy
+07/11/2025 09:23:35 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 2 / PORTFOLIO STRING ID: health / ATTRIBUTES: description
+07/11/2025 09:23:51 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski from PORTFOLIO ID: 1
+07/11/2025 09:24:04 PM - INFO - admin.py - (liysk64) updated user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski / ATTRIBUTES: role, team & AUTOMATICALLY ASSIGNED PORTFOLIO STRING ID: health
+07/11/2025 09:29:26 PM - INFO - admin.py - (liysk64) deleted user USERNAME: justkopy / FULLNAME: Justyna Kopycinska
+07/11/2025 09:30:26 PM - INFO - admin.py - (liysk64) updated user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski / ATTRIBUTES: role & AUTOMATICALLY ASSIGNED PORTFOLIO STRING ID: health

@@ -27,7 +27,7 @@ export default function ThemeSwitcher() {
             <option value="cb-light">Colourblind Light</option>
             <option value="cb-dark">Colourblind Dark</option>
             <option value="high-contrast">High Contrast</option>
-            <option value="night-coding">Night Coding</option>
+            <option value="red-apple-light">Poland</option>
         </select>
     );
 }
