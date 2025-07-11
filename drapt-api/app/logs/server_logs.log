@@ -98,3 +98,17 @@
 07/11/2025 09:24:04 PM - INFO - admin.py - (liysk64) updated user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski / ATTRIBUTES: role, team & AUTOMATICALLY ASSIGNED PORTFOLIO STRING ID: health
 07/11/2025 09:29:26 PM - INFO - admin.py - (liysk64) deleted user USERNAME: justkopy / FULLNAME: Justyna Kopycinska
 07/11/2025 09:30:26 PM - INFO - admin.py - (liysk64) updated user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski / ATTRIBUTES: role & AUTOMATICALLY ASSIGNED PORTFOLIO STRING ID: health
+07/11/2025 09:53:58 PM - INFO - auth.py - (liysk64) registered user USERNAME: joshua / FULLNAME: Joshua Kerr-Sheperd / ROLE: vd / TEAM: executive 
+07/11/2025 09:58:12 PM - INFO - admin.py - (liysk64) updated user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski / ATTRIBUTES: role, team & AUTOMATICALLY ASSIGNED PORTFOLIO STRING ID: industrial
+07/11/2025 09:58:33 PM - INFO - admin.py - (liysk64) updated user USERNAME: leonou / FULLNAME: Leonard Nouira / ATTRIBUTES: role, team & AUTOMATICALLY ASSIGNED PORTFOLIO STRING ID: industrial
+07/11/2025 09:58:45 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role, team & AUTOMATICALLY ASSIGNED PORTFOLIO STRING ID: industrial
+07/11/2025 10:16:37 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/11/2025 10:17:00 PM - INFO - admin.py - (liysk64) updated user USERNAME: leonou / FULLNAME: Leonard Nouira / ATTRIBUTES: role, team & AUTOMATICALLY ASSIGNED PORTFOLIO STRING ID: industrial
+07/11/2025 10:32:18 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/11/2025 10:34:04 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski from PORTFOLIO ID: 1
+07/11/2025 10:34:37 PM - INFO - admin.py - (liysk64) updated user USERNAME: leonou / FULLNAME: Leonard Nouira / ATTRIBUTES: role & AUTOMATICALLY ASSIGNED PORTFOLIO STRING ID: industrial
+07/11/2025 10:34:45 PM - INFO - admin.py - (liysk64) updated user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski / ATTRIBUTES: role & AUTOMATICALLY ASSIGNED PORTFOLIO STRING ID: industrial
+07/11/2025 10:35:13 PM - INFO - auth.py - (liysk64) registered user USERNAME: joekerins / FULLNAME: Joe Kerins / ROLE: pm / TEAM: industrial & ASSIGNED PORTFOLIO STRING ID: industrial
+07/11/2025 10:35:24 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role & AUTOMATICALLY ASSIGNED PORTFOLIO STRING ID: industrial
+07/11/2025 10:47:44 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/11/2025 10:47:53 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
