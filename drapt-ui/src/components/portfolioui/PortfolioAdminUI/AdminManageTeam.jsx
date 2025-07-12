@@ -5,11 +5,13 @@ import { ModalHelper } from "../../helperui/ModalHelper"
 import { useRef, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
-import { unassignUserFromAnyPortfolio } from "../../../lib/AdminServices";
+import { assignUserToPortfolio, unassignUserFromAnyPortfolio } from "../../../lib/AdminServices";
+
 import { useQueryClient } from "@tanstack/react-query";
 import { roleMapperDict } from "../../../helperfunctions/RoleMapper";
 import { useHookSearchPortfolioOverview } from "../../../reactqueryhooks/usePortfolioHook";
-import { MdErrorOutline } from "react-icons/md";
+import { useHookSearchUserByTeam } from "../../../reactqueryhooks/useAdminHook";
+import { MdErrorOutline, MdInfoOutline } from "react-icons/md";
 
 export default function AdminManageTeamCard() {
 
@@ -17,19 +19,24 @@ export default function AdminManageTeamCard() {
 
   const { data: portfolioOverviewData = [] } = useHookSearchPortfolioOverview(portfolioID);
 
+  const { data: allTeamMembers = [] } = useHookSearchUserByTeam(portfolioID);
+
+  const unassignedTeamMembers = allTeamMembers.length > 0 ? allTeamMembers.filter((member) => member.portfolio_id == null) : []
+
   const queryClient = useQueryClient();
 
-  const portfolioTeamMembers = portfolioOverviewData?.members || [];
+  // THESE MEMBERS ARE THOSE WITH A VALID PORTFOLIO ID FOR THE PORTFOLIO IN QUESTION
+  const assignedPortfolioTeamMembers = portfolioOverviewData?.members || [];
 
   // FOR SORTING THE TEAM MEMBERS
-  const sortedPortfolioTeamMembers = portfolioTeamMembers.length > 0 ? portfolioTeamMembers.slice().sort((a, b) => {
+  const sortedPortfolioTeamMembers = [...assignedPortfolioTeamMembers].sort((a, b) => {
     const roleOrder = {
       pm: 0,
       senioranalyst: 1,
       analyst: 2,
     };
     return (roleOrder[a.role] ?? 99) - (roleOrder[b.role] ?? 99);
-  }) : [];
+  });
 
   const memberManageModalRef = useRef(null);
   const [memberManageModalData, setMemberManageModalData] = useState(null);
@@ -40,6 +47,7 @@ export default function AdminManageTeamCard() {
       memberManageModalRef.current.close();
     setMemberManageModalData(null);
     setWasMemberUnassigned(false);
+    setIsUnassigning(false);
   }
 
   // SHOW MODAL AS SOON AS THERE IS MODAL DATA
@@ -58,8 +66,10 @@ export default function AdminManageTeamCard() {
     { key: "action", label: "Action" }
   ];
 
+  // FOR UNASSIGNING MEMBERS
+
   const showMemberManagementModal = (memberID) => {
-    const member = portfolioTeamMembers.find((member) => member.id === memberID);
+    const member = assignedPortfolioTeamMembers.find((member) => member.id === memberID);
     if (member) setMemberManageModalData(member);
   };
 
@@ -67,6 +77,7 @@ export default function AdminManageTeamCard() {
   const [isUnassigning, setIsUnassigning] = useState(false);
 
   const memberUnassignHandler = async (member) => {
+    if (!member) return;
     setIsUnassigning(true);
     try {
       await unassignUserFromAnyPortfolio(member.id);
@@ -74,54 +85,122 @@ export default function AdminManageTeamCard() {
       setWasMemberUnassigned(true);
       toast.success(`Successfully unassigned ${member.fullname}`);
       queryClient.invalidateQueries(["portfolio", portfolioID]);
+      setIsUnassigning(false);
     } catch {
       toast.error("Failed to unassign user");
     } finally {
       setIsUnassigning(false);
     }
   };
+
+
+  // FOR ASSIGNING MEMBERS
+
+  const [assigningMemberId, setAssigningMemberId] = useState(null);
+
+  const memberAssignHandler = async (member) => {
+    setAssigningMemberId(member.id);
+    try {
+      await assignUserToPortfolio(member.id, portfolioOverviewData.id);
+      toast.success(`Assigned ${member.fullname} to this portfolio`);
+    } catch {
+      toast.error("Failed to assign user");
+    } finally {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      setAssigningMemberId(null);
+      queryClient.invalidateQueries(["portfolio", portfolioID]);
+    }
+  };
+
   return (
     <>
-      <CustomCollapseArrow title={"Manage Team Members"}>
-        {portfolioTeamMembers.length === 0 ? (
+      <CustomCollapseArrow title={"Manage Portfolio Members"}>
+        {unassignedTeamMembers.length === 0 ? (null) : (
+          <div className="flex flex-row items-center justify-start gap-1 mb-3">
+            <MdInfoOutline className="text-info text-lg" />
+            <span className="text-info">{unassignedTeamMembers.length === 1 ? "There is one team member who is unassigned to this portfolio." : `There are ${unassignedTeamMembers.length} members who are unassigned to this portfolio.`}</span>
+          </div>
+        )}
+        {assignedPortfolioTeamMembers.length === 0 ? (
           <InnerEmptyState
             title={"No team members in this portfolio"}
             message="We couldn't find any members assigned to this portfolio."
             icon={<MdErrorOutline className="text-4xl text-error" />}
           />
         ) : (
-          <div className="overflow-x-auto w-full">
-            <table className="w-full table-sm md:table table-zebra table-auto md:table-fixed">
-              <thead>
-                <tr>
-                  {columnsForTeamManagementTable.map((col) => (
-                    <th key={col.key}>{col.label}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {sortedPortfolioTeamMembers?.map((member) => (
-                  <tr key={member.id}>
-                    <td>{member.fullname}</td>
-                    <td>{member.username}</td>
-                    <td>{member.email}</td>
-                    <td>{roleMapperDict[member.role]}</td>
-                    <td>
-                      <button
-                        className="btn btn-sm btn-success"
-                        style={{ borderRadius: "var(--border-radius" }}
-                        disabled={member.role == "pm"}
-                        title={member.role === "pm" ? "PMs cannot be unassigned" : ""}
-                        onClick={() => showMemberManagementModal(member.id)}
-                      >
-                        Manage
-                      </button>
-                    </td>
+          <div className="flex flex-col gap-3 mb-3">
+            <p className="text-lg">Manage portfolio members</p>
+            <div className="overflow-x-auto w-full">
+              <table className="w-full table-sm md:table table-zebra table-auto md:table-fixed">
+                <thead>
+                  <tr>
+                    {columnsForTeamManagementTable.map((col) => (
+                      <th key={col.key}>{col.label}</th>
+                    ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {sortedPortfolioTeamMembers?.map((member) => (
+                    <tr key={member.id}>
+                      <td>{member.fullname}</td>
+                      <td>{member.username}</td>
+                      <td>{member.email}</td>
+                      <td>{roleMapperDict[member.role]}</td>
+                      <td>
+                        <button
+                          className="btn btn-sm btn-warning"
+                          style={{ borderRadius: "var(--border-radius" }}
+                          disabled={member.role == "pm"}
+                          title={member.role === "pm" ? "PMs cannot be unassigned" : ""}
+                          onClick={() => showMemberManagementModal(member.id)}
+                        >
+                          Manage
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
+        )}
+        {unassignedTeamMembers.length === 0 ? null : (
+          <div className="flex flex-col gap-3">
+            <p className="text-lg">Assign team members to this portfolio</p>
+            <div className="overflow-x-auto w-full">
+              <table className="w-full table-sm md:table table-zebra table-auto md:table-fixed">
+                <thead>
+                  <tr>
+                    {columnsForTeamManagementTable.map((col) => (
+                      <th key={col.key}>{col.label}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {unassignedTeamMembers?.map((member) => (
+                    <tr key={member.id}>
+                      <td>{member.fullname}</td>
+                      <td>{member.username}</td>
+                      <td>{member.email}</td>
+                      <td>{roleMapperDict[member.role]}</td>
+                      <td>
+                        <button
+                          className="btn btn-sm btn-success"
+                          style={{ borderRadius: "var(--border-radius" }}
+                          onClick={() => memberAssignHandler(member)}
+                          disabled={assigningMemberId !== null}
+                        >
+                          {assigningMemberId === member.id ? "Assigning..." : "Assign"}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
         )}
       </CustomCollapseArrow>
       {/* THIS IS THE MEMBER MANAGE MODAL SECTION*/}
@@ -139,7 +218,7 @@ export default function AdminManageTeamCard() {
               onClick={() => memberUnassignHandler(memberManageModalData)}
               disabled={wasMemberUnassigned}
             >
-              {isUnassigning ? "Unassigning..." : "Unassign"}
+              {isUnassigning === true ? "Unassigning..." : "Unassign"}
             </button>
           </div>
           <div className="mb-3">

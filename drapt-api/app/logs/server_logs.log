@@ -127,3 +127,34 @@
 07/12/2025 01:34:44 PM - INFO - portfolio.py - (liysk64) initialised portfolio ID: 2 / STRING ID: health / PM: justkopy
 07/12/2025 01:36:20 PM - INFO - portfolio.py - (liysk64) deleted portfolio ID: 2 / STRING ID: health
 07/12/2025 01:36:20 PM - INFO - portfolio.py - (Server) unassigned all users from portfolio ID: 2 / STRING ID: health
+07/12/2025 01:57:35 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/12/2025 01:58:07 PM - INFO - admin.py - (liysk64) assigned user USERNAME: leonou / FULLNAME: Leonard Nouira to PORTFOLIO ID: 1
+07/12/2025 02:18:54 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/12/2025 02:31:31 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: callumcooper / FULLNAME: Callum Cooper from PORTFOLIO ID: 1
+07/12/2025 02:48:06 PM - INFO - admin.py - (liysk64) assigned user USERNAME: callumcooper / FULLNAME: Callum Cooper to PORTFOLIO ID: 1
+07/12/2025 02:51:09 PM - INFO - admin.py - (liysk64) assigned user USERNAME: leonou / FULLNAME: Leonard Nouira to PORTFOLIO ID: 1
+07/12/2025 02:51:45 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/12/2025 02:52:25 PM - INFO - admin.py - (liysk64) assigned user USERNAME: leonou / FULLNAME: Leonard Nouira to PORTFOLIO ID: 1
+07/12/2025 02:53:42 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/12/2025 02:53:47 PM - INFO - admin.py - (liysk64) assigned user USERNAME: leonou / FULLNAME: Leonard Nouira to PORTFOLIO ID: 1
+07/12/2025 02:54:53 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/12/2025 02:54:58 PM - INFO - admin.py - (liysk64) assigned user USERNAME: leonou / FULLNAME: Leonard Nouira to PORTFOLIO ID: 1
+07/12/2025 02:56:07 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/12/2025 02:56:12 PM - INFO - admin.py - (liysk64) assigned user USERNAME: leonou / FULLNAME: Leonard Nouira to PORTFOLIO ID: 1
+07/12/2025 02:56:17 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/12/2025 02:58:25 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: callumcooper / FULLNAME: Callum Cooper from PORTFOLIO ID: 1
+07/12/2025 02:58:27 PM - INFO - admin.py - (liysk64) assigned user USERNAME: callumcooper / FULLNAME: Callum Cooper to PORTFOLIO ID: 1
+07/12/2025 02:58:30 PM - INFO - admin.py - (liysk64) assigned user USERNAME: leonou / FULLNAME: Leonard Nouira to PORTFOLIO ID: 1
+07/12/2025 02:58:32 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: callumcooper / FULLNAME: Callum Cooper from PORTFOLIO ID: 1
+07/12/2025 02:58:37 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/12/2025 02:58:44 PM - INFO - admin.py - (liysk64) assigned user USERNAME: callumcooper / FULLNAME: Callum Cooper to PORTFOLIO ID: 1
+07/12/2025 03:00:32 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: callumcooper / FULLNAME: Callum Cooper from PORTFOLIO ID: 1
+07/12/2025 03:00:38 PM - INFO - admin.py - (liysk64) assigned user USERNAME: callumcooper / FULLNAME: Callum Cooper to PORTFOLIO ID: 1
+07/12/2025 03:00:44 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski from PORTFOLIO ID: 1
+07/12/2025 03:00:53 PM - INFO - admin.py - (liysk64) assigned user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski to PORTFOLIO ID: 1
+07/12/2025 03:00:55 PM - INFO - admin.py - (liysk64) assigned user USERNAME: leonou / FULLNAME: Leonard Nouira to PORTFOLIO ID: 1
+07/12/2025 03:04:28 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/12/2025 03:05:43 PM - INFO - admin.py - (liysk64) assigned user USERNAME: leonou / FULLNAME: Leonard Nouira to PORTFOLIO ID: 1
+07/12/2025 03:05:47 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: callumcooper / FULLNAME: Callum Cooper from PORTFOLIO ID: 1
+07/12/2025 03:05:52 PM - INFO - admin.py - (liysk64) assigned user USERNAME: callumcooper / FULLNAME: Callum Cooper to PORTFOLIO ID: 1
+07/12/2025 03:05:56 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1

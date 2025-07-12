@@ -150,6 +150,25 @@ async def search_by_role(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="4O4: Failed to find users with the role you requested.")
     return [UserReadResponseModel.model_validate(user) for user in users]# returns a list
 
+# search user by team
+@router.get("/user/{team}/searchbyteam", response_model=list[UserReadResponseModel], tags=["user"])
+async def search_by_team(
+    team: str,
+    session = Depends(get_async_session),
+    current_user: User = Depends(fastapi_users.current_user())
+): 
+    role_perms = role_permissions.get(current_user.role)
+    if not role_perms or not role_perms.get("can_search_user"):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only PMs+ can search for users.")
+
+    result = await session.execute(select(User).where(User.team == team))
+    users = result.scalars().all()
+
+    if not users:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Failed to find users with the team you requested.")
+
+    return [UserReadResponseModel.model_validate(user) for user in users]
+
 ### unassign user from a portfolio
 @router.patch("/user/{user_id}/unassign-user-from-portfolio", response_model=UserReadResponseModel, tags=["user"])
 async def unassign_user_from_any_portfolio(
@@ -180,5 +199,34 @@ async def unassign_user_from_any_portfolio(
     await session.refresh(user)
 
     logger.info(f"({current_user.username}) unassigned user USERNAME: {user.username} / FULLNAME: {user.fullname} from PORTFOLIO ID: {user_portfolio_id_for_logging}")
+    
+    return UserReadResponseModel.model_validate(user)
+
+@router.patch("/user/{user_id}/assign-user-to-portfolio/{portfolio_id}", response_model=UserReadResponseModel, tags=["user"])
+async def assign_user_to_portfolio(
+    user_id: int,
+    portfolio_id: int,
+    session=Depends(get_async_session),
+    current_user: User = Depends(fastapi_users.current_user())
+):
+    role_perms = role_permissions.get(current_user.role)
+    if not role_perms or not role_perms.get("can_manage_portfolio"):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only PMs and above can manage portfolio members.")
+
+    result = await session.execute(select(User).where(User.id==user_id))
+    user = result.scalar_one_or_none()
+
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Failed to fetch the user you requested.")
+
+    if not (current_user.portfolio_id == user.portfolio_id or role_perms.get("can_manage_user")):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Unable to manage users assigned to other portfolios.")
+    
+    user.portfolio_id = portfolio_id
+    
+    await session.commit()
+    await session.refresh(user)
+
+    logger.info(f"({current_user.username}) assigned user USERNAME: {user.username} / FULLNAME: {user.fullname} to PORTFOLIO ID: {user.portfolio_id}")
     
     return UserReadResponseModel.model_validate(user)

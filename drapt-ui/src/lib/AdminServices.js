@@ -43,8 +43,17 @@ export async function searchUserByUsername(username) {
     );
     return response.data;
   } catch (error) {
-    throw error;
+    return error?.response?.data?.detail;
   }
+}
+
+export async function searchUserByTeam(team) {
+  const response = await ApiClient.get(
+    `/user/${team}/searchbyteam`, {
+    withCredentials: true
+  }
+  );
+  return response.data;
 }
 
 // this has a RQ hook
@@ -73,18 +82,28 @@ export async function unassignUserFromAnyPortfolio(user_id) {
   }
 }
 
-// exec only service
-// this doesn't need a RQ hook
-export async function deleteUserByID(user_id) {
+export async function assignUserToPortfolio(user_id, portfolio_id) {
   try {
-    const response = await ApiClient.delete(
-      `/user/${user_id}/delete`, {
-      headers: { "Content-Type": "application/json" },
+    const response = await ApiClient.patch(
+      `/user/${user_id}/assign-user-to-portfolio/${portfolio_id}`, {}, {
       withCredentials: true,
     }
     );
     return response.data;
-  } catch (error) {
-    throw error;
   }
+  catch (error) {
+    return error?.response?.data?.detail;
+  }
+}
+
+// exec only service
+// this doesn't need a RQ hook
+export async function deleteUserByID(user_id) {
+  const response = await ApiClient.delete(
+    `/user/${user_id}/delete`, {
+    headers: { "Content-Type": "application/json" },
+    withCredentials: true,
+  }
+  );
+  return response.data;
 }
