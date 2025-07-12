@@ -112,3 +112,18 @@
 07/11/2025 10:35:24 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role & AUTOMATICALLY ASSIGNED PORTFOLIO STRING ID: industrial
 07/11/2025 10:47:44 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
 07/11/2025 10:47:53 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/12/2025 01:28:04 PM - INFO - portfolio.py - (liysk64) deleted portfolio ID: 2 / STRING ID: health
+07/12/2025 01:28:04 PM - INFO - portfolio.py - (Server) unassigned all users from portfolio ID: 2 / STRING ID: health
+07/12/2025 01:29:06 PM - INFO - auth.py - (liysk64) registered user USERNAME: justkopy / FULLNAME: Justyna Kopycinska / ROLE: pm / TEAM: health 
+07/12/2025 01:29:22 PM - INFO - portfolio.py - (liysk64) initialised portfolio ID: 2 / STRING ID: health / PM: justkopy
+07/12/2025 01:31:46 PM - INFO - portfolio.py - (liysk64) deleted portfolio ID: 2 / STRING ID: health
+07/12/2025 01:31:46 PM - INFO - portfolio.py - (Server) unassigned all users from portfolio ID: 2 / STRING ID: health
+07/12/2025 01:33:10 PM - INFO - portfolio.py - (liysk64) initialised portfolio ID: 2 / STRING ID: health / PM: justkopy
+07/12/2025 01:33:21 PM - INFO - portfolio.py - (liysk64) deleted portfolio ID: 2 / STRING ID: health
+07/12/2025 01:33:21 PM - INFO - portfolio.py - (Server) unassigned all users from portfolio ID: 2 / STRING ID: health
+07/12/2025 01:34:01 PM - INFO - portfolio.py - (liysk64) initialised portfolio ID: 2 / STRING ID: health / PM: justkopy
+07/12/2025 01:34:10 PM - INFO - portfolio.py - (liysk64) deleted portfolio ID: 2 / STRING ID: health
+07/12/2025 01:34:10 PM - INFO - portfolio.py - (Server) unassigned all users from portfolio ID: 2 / STRING ID: health
+07/12/2025 01:34:44 PM - INFO - portfolio.py - (liysk64) initialised portfolio ID: 2 / STRING ID: health / PM: justkopy
+07/12/2025 01:36:20 PM - INFO - portfolio.py - (liysk64) deleted portfolio ID: 2 / STRING ID: health
+07/12/2025 01:36:20 PM - INFO - portfolio.py - (Server) unassigned all users from portfolio ID: 2 / STRING ID: health
