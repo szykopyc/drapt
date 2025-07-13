@@ -185,3 +185,11 @@
 07/12/2025 06:57:40 PM - INFO - admin.py - (liysk64) assigned user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski to PORTFOLIO ID: 1
 07/13/2025 02:37:06 AM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
 07/13/2025 11:58:14 AM - INFO - admin.py - (liysk64) assigned user USERNAME: leonou / FULLNAME: Leonard Nouira to PORTFOLIO ID: 1
+07/13/2025 12:16:50 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/13/2025 12:17:04 PM - INFO - admin.py - (liysk64) assigned user USERNAME: leonou / FULLNAME: Leonard Nouira to PORTFOLIO ID: 1
+07/13/2025 12:17:43 PM - INFO - portfolio.py - (liysk64) initialised portfolio ID: 2 / STRING ID: health / PM: justkopy
+07/13/2025 12:18:07 PM - INFO - auth.py - (liysk64) registered user USERNAME: sami / FULLNAME: Sami Hashmi / ROLE: senioranalyst / TEAM: health
+07/13/2025 12:18:23 PM - INFO - admin.py - (liysk64) assigned user USERNAME: sami / FULLNAME: Sami Hashmi to PORTFOLIO ID: 2
+07/13/2025 12:18:39 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: sami / FULLNAME: Sami Hashmi from PORTFOLIO ID: 2
+07/13/2025 12:24:57 PM - INFO - portfolio.py - (liysk64) deleted portfolio ID: 2 / STRING ID: health
+07/13/2025 12:24:57 PM - INFO - portfolio.py - (Server) unassigned all users from portfolio ID: 2 / STRING ID: health

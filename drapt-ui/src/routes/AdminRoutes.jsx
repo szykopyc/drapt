@@ -3,7 +3,7 @@ import UserRoleProtectedRoute from "../components/authcomponents/UserRoleProtect
 import ProtectedRoute from "../components/authcomponents/ProtectedRoute";
 
 import UserManagementPanel from "../components/adminpanel/UserManagementPanel";
-import UserEngagementPanel from "../components/adminpanel/UserEngagement";
+import UserEngagementPanel from "../components/adminpanel/UserEngagementPanel";
 import AdminWrapper from "../pages/AdminWrapper.jsx";
 
 export default [
