@@ -20,7 +20,7 @@ from app.config.permissions import permissions as role_permissions
 from app.utils.portfolio_assignment import assign_user_to_portfolio
 
 # logging functionality
-from app.utils.log import logger
+from app.utils.log import portfolio_logger as logger
 
 # for grouping members and other things into dicts with a portfolio id
 from collections import defaultdict

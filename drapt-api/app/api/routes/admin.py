@@ -14,7 +14,7 @@ from app.users.deps import fastapi_users
 from app.config.permissions import permissions as role_permissions
 
 # logger
-from app.utils.log import logger
+from app.utils.log import admin_logger as logger
 
 router = APIRouter()
 

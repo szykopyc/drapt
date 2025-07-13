@@ -1,11 +1,15 @@
 permissions = {
     "developer":{
+        "developer":True,
         "can_manage_user":True,
         "can_delete_user":True,
         "can_search_user":True,
         "can_init_portfolio":True,
         "can_manage_portfolio":True,
-        "can_search_portfolio":True
+        "can_search_portfolio":True,
+        # trade stuff
+        "can_book_trades":True,
+        "can_search_trades":True
     },
     "director":{
         "can_manage_user":True,
@@ -13,7 +17,10 @@ permissions = {
         "can_search_user":True,
         "can_init_portfolio":True,
         "can_manage_portfolio":True,
-        "can_search_portfolio":True
+        "can_search_portfolio":True,
+
+        "can_book_trades":False,
+        "can_search_trades":True
     },
     "vd":{
         "can_manage_user":True,
@@ -21,7 +28,10 @@ permissions = {
         "can_search_user":True,
         "can_init_portfolio":True,
         "can_manage_portfolio":True,
-        "can_search_portfolio":True
+        "can_search_portfolio":True,
+
+        "can_book_trades":False,
+        "can_search_trades":True
     },
     "pm":{
         "can_manage_user":False,
@@ -29,7 +39,10 @@ permissions = {
         "can_search_user":True,
         "can_init_portfolio":False,
         "can_manage_portfolio":True,
-        "can_search_portfolio":True
+        "can_search_portfolio":True,
+
+        "can_book_trades":True,
+        "can_search_trades":True
     },
     "senioranalyst":{
         "can_manage_user":False,
@@ -37,7 +50,10 @@ permissions = {
         "can_search_user":False,
         "can_init_portfolio":False,
         "can_manage_portfolio":False,
-        "can_search_portfolio":True
+        "can_search_portfolio":True,
+
+        "can_book_trades":False,
+        "can_search_trades":False
     },
     "analyst":{
         "can_manage_user":False,
@@ -45,6 +61,9 @@ permissions = {
         "can_search_user":False,
         "can_init_portfolio":False,
         "can_manage_portfolio":False,
-        "can_search_portfolio":True
+        "can_search_portfolio":True,
+
+        "can_book_trades":False,
+        "can_search_trades":False
     }
 }

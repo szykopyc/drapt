@@ -9,6 +9,7 @@ from contextlib import asynccontextmanager
 from app.api.routes.admin import router as admin_router
 from app.api.routes.auth import router as auth_router
 from app.api.routes.portfolio import router as portfolio_router
+from app.api.routes.trade import router as trade_router
 
 # fastapi_users required imports
 from app.users.auth import auth_backend
@@ -17,6 +18,9 @@ from app.users.deps import fastapi_users
 
 # inspirational quote lib lol
 import inspirational_quotes
+
+# imports logger
+from app.utils.log import general_logger as logger
 
 # initialises asynccontext with a lifespan as long as the app is running
 @asynccontextmanager
@@ -27,6 +31,8 @@ async def lifespan(app: FastAPI):
 
 # sets up the FastAPI app
 app = FastAPI(title="Drapt Backend", lifespan=lifespan)
+
+logger.info("(Server) Started Backend Dev")
 
 # Add CORS middleware (where the backend should allow requests from)
 app.add_middleware(
@@ -42,6 +48,7 @@ app.include_router(fastapi_users.get_auth_router(auth_backend), prefix="/auth/jw
 app.include_router(auth_router)
 app.include_router(admin_router)
 app.include_router(portfolio_router)
+app.include_router(trade_router)
 
 # root, good query to test if the backend is running.
 @app.get("/")
