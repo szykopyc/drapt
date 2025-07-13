@@ -42,7 +42,7 @@ export default function AdminDeletePortfolio() {
   return (
     <CustomCollapseArrow id={"deletePortfolio"} title={portfolioData ? `Delete ${portfolioData.name} Portfolio` : "Delete undefined portfolio"}>
       <p className="text-error font-semibold text-lg">Warning!</p>
-      <p>This action is irreversible. Deleting this portfolio will result in historical trades tied to this portfolio being deleted. Only do this if you are sure of the consequences and accept them.</p>
+      <p>This action is irreversible. Deleting this portfolio will result in historical trades tied to this portfolio being deleted. Only do this if you accept the consequences.</p>
       <div className="mt-3 flex flex-row justify-between gap-3">
         {!portfolioDeleteConfirmed ? (
           <CustomButtonInputStyle colour="error" onClick={() => setPortfolioDeleteConfirmed(true)}>

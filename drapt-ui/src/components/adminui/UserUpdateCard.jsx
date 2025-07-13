@@ -344,12 +344,6 @@ export function UserUpdateCard() {
                   </span>
                 </div>
               )}
-              <div className="flex justify-between">
-                Assigned to Portfolio?
-                <span className="text-primary">
-                  {modalData.portfolio_id ? "True" : "False"}
-                </span>
-              </div>
             </div>
             <p>
               Changes take 5 minutes to reflect automatically, or log out, then

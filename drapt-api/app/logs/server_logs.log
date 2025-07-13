@@ -158,3 +158,30 @@
 07/12/2025 03:05:47 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: callumcooper / FULLNAME: Callum Cooper from PORTFOLIO ID: 1
 07/12/2025 03:05:52 PM - INFO - admin.py - (liysk64) assigned user USERNAME: callumcooper / FULLNAME: Callum Cooper to PORTFOLIO ID: 1
 07/12/2025 03:05:56 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/12/2025 03:11:29 PM - INFO - auth.py - (liysk64) registered user USERNAME: another / FULLNAME: Another Analyst / ROLE: analyst / TEAM: industrial
+07/12/2025 03:12:44 PM - INFO - admin.py - (liysk64) updated user USERNAME: another / FULLNAME: Another Analyst / ATTRIBUTES: role, team
+07/12/2025 03:12:56 PM - INFO - admin.py - (liysk64) assigned user USERNAME: leonou / FULLNAME: Leonard Nouira to PORTFOLIO ID: 1
+07/12/2025 03:13:02 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/12/2025 03:13:04 PM - INFO - admin.py - (liysk64) assigned user USERNAME: leonou / FULLNAME: Leonard Nouira to PORTFOLIO ID: 1
+07/12/2025 03:13:18 PM - INFO - admin.py - (liysk64) assigned user USERNAME: another / FULLNAME: Another Analyst to PORTFOLIO ID: 1
+07/12/2025 03:13:23 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: another / FULLNAME: Another Analyst from PORTFOLIO ID: 1
+07/12/2025 03:14:35 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/12/2025 03:14:37 PM - INFO - admin.py - (liysk64) assigned user USERNAME: leonou / FULLNAME: Leonard Nouira to PORTFOLIO ID: 1
+07/12/2025 03:14:46 PM - INFO - admin.py - (liysk64) assigned user USERNAME: another / FULLNAME: Another Analyst to PORTFOLIO ID: 1
+07/12/2025 03:14:52 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski from PORTFOLIO ID: 1
+07/12/2025 03:14:54 PM - INFO - admin.py - (liysk64) assigned user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski to PORTFOLIO ID: 1
+07/12/2025 03:14:55 PM - INFO - admin.py - (liysk64) assigned user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski to PORTFOLIO ID: 1
+07/12/2025 03:14:55 PM - INFO - admin.py - (liysk64) assigned user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski to PORTFOLIO ID: 1
+07/12/2025 03:15:16 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/12/2025 03:15:20 PM - INFO - admin.py - (liysk64) assigned user USERNAME: leonou / FULLNAME: Leonard Nouira to PORTFOLIO ID: 1
+07/12/2025 03:18:07 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/12/2025 03:18:45 PM - INFO - admin.py - (liysk64) assigned user USERNAME: leonou / FULLNAME: Leonard Nouira to PORTFOLIO ID: 1
+07/12/2025 03:18:50 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski from PORTFOLIO ID: 1
+07/12/2025 03:21:08 PM - INFO - admin.py - (liysk64) deleted user USERNAME: another / FULLNAME: Another Analyst
+07/12/2025 03:21:30 PM - INFO - admin.py - (liysk64) updated user USERNAME: joekerins / FULLNAME: Joe Kerins / ATTRIBUTES: role
+07/12/2025 03:21:48 PM - INFO - admin.py - (liysk64) updated user USERNAME: callumcooper / FULLNAME: Callum Cooper / ATTRIBUTES: role
+07/12/2025 03:22:05 PM - INFO - admin.py - (liysk64) assigned user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski to PORTFOLIO ID: 1
+07/12/2025 06:48:30 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski from PORTFOLIO ID: 1
+07/12/2025 06:57:40 PM - INFO - admin.py - (liysk64) assigned user USERNAME: alekskopy / FULLNAME: Aleksander Kopycinski to PORTFOLIO ID: 1
+07/13/2025 02:37:06 AM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/13/2025 11:58:14 AM - INFO - admin.py - (liysk64) assigned user USERNAME: leonou / FULLNAME: Leonard Nouira to PORTFOLIO ID: 1

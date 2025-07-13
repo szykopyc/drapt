@@ -9,6 +9,7 @@ class UserRead(schemas.BaseUser[int]):
     username: str
     role: str
     team: str
+    portfolio_id: Optional[int] = None
 
 class UserCreate(schemas.BaseUserCreate):
     fullname: str

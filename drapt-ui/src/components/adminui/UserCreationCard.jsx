@@ -290,13 +290,6 @@ export function UserCreationCard() {
                 {teamMapperDict[modalData.team]}
               </span>
             </div>
-            <div className="flex justify-between">
-              Autoassigned Portfolio
-              <span className="text-primary">
-                {modalData.portfolio_id ? "True" : "False"}
-              </span>
-
-            </div>
           </div>
         )}
       </ModalHelper>

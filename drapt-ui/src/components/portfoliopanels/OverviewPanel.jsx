@@ -7,6 +7,8 @@ import TextWithLabelDescription from "../baseui/TextWithLabelDescription"; // co
 import InnerEmptyState from "../errorui/InnerEmptyState";
 import { MdErrorOutline } from "react-icons/md";
 
+import RoleRankSorter from "../../helperfunctions/RoleRankSorter";
+
 import { useHookSearchPortfolioOverview } from "../../reactqueryhooks/usePortfolioHook";
 
 export function OverviewPanel() {
@@ -91,21 +93,11 @@ export function OverviewPanel() {
               <TextWithLabelDescription label={"Team Members"}>
                 <div className="flex flex-col gap-1">
                   {portfolioOverviewData?.members?.length > 0 ? (
-                    portfolioOverviewData.members
-                      .slice() // create a shallow copy to avoid mutating original
-                      .sort((a, b) => {
-                        const roleOrder = {
-                          pm: 0,
-                          senioranalyst: 1,
-                          analyst: 2,
-                        };
-                        return (roleOrder[a.role] ?? 99) - (roleOrder[b.role] ?? 99);
-                      })
-                      .map((member) => (
-                        <span key={member.id}>
-                          {member.fullname} - {roleMapperDict[member.role]}
-                        </span>
-                      ))
+                    RoleRankSorter(portfolioOverviewData.members).map((member) => (
+                      <span key={member.id}>
+                        {member.fullname} - {roleMapperDict[member.role]}
+                      </span>
+                    ))
                   ) : (
                     "No team members"
                   )}

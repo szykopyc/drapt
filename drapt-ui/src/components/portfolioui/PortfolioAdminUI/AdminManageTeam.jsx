@@ -13,6 +13,8 @@ import { useHookSearchPortfolioOverview } from "../../../reactqueryhooks/usePort
 import { useHookSearchUserByTeam } from "../../../reactqueryhooks/useAdminHook";
 import { MdErrorOutline, MdInfoOutline } from "react-icons/md";
 
+import RoleRankSorter from "../../../helperfunctions/RoleRankSorter";
+
 export default function AdminManageTeamCard() {
 
   const { portfolioID } = useParams();
@@ -27,16 +29,6 @@ export default function AdminManageTeamCard() {
 
   // THESE MEMBERS ARE THOSE WITH A VALID PORTFOLIO ID FOR THE PORTFOLIO IN QUESTION
   const assignedPortfolioTeamMembers = portfolioOverviewData?.members || [];
-
-  // FOR SORTING THE TEAM MEMBERS
-  const sortedPortfolioTeamMembers = [...assignedPortfolioTeamMembers].sort((a, b) => {
-    const roleOrder = {
-      pm: 0,
-      senioranalyst: 1,
-      analyst: 2,
-    };
-    return (roleOrder[a.role] ?? 99) - (roleOrder[b.role] ?? 99);
-  });
 
   const memberManageModalRef = useRef(null);
   const [memberManageModalData, setMemberManageModalData] = useState(null);
@@ -140,7 +132,7 @@ export default function AdminManageTeamCard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {sortedPortfolioTeamMembers?.map((member) => (
+                  {RoleRankSorter(assignedPortfolioTeamMembers).map((member) => (
                     <tr key={member.id}>
                       <td>{member.fullname}</td>
                       <td>{member.username}</td>
@@ -177,7 +169,7 @@ export default function AdminManageTeamCard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {unassignedTeamMembers?.map((member) => (
+                  {RoleRankSorter(unassignedTeamMembers).map((member) => (
                     <tr key={member.id}>
                       <td>{member.fullname}</td>
                       <td>{member.username}</td>
@@ -188,7 +180,7 @@ export default function AdminManageTeamCard() {
                           className="btn btn-sm btn-success"
                           style={{ borderRadius: "var(--border-radius" }}
                           onClick={() => memberAssignHandler(member)}
-                          disabled={assigningMemberId !== null}
+                          disabled={assigningMemberId !== null && assigningMemberId !== member.id}
                         >
                           {assigningMemberId === member.id ? "Assigning..." : "Assign"}
                         </button>

@@ -8,7 +8,6 @@ from app.db import get_async_session
 # schema imports
 from app.models.user import User
 from app.schemas.user import UserRead, UserUpdate, UserUpdateResponseModel, UserReadResponseModel
-from app.models.portfolio import Portfolio
 
 # permissions and dependencies
 from app.users.deps import fastapi_users
@@ -46,22 +45,12 @@ async def update_user_by_id(
     for field, value in user_update.model_dump(exclude_unset=True).items():
         setattr(user, field, value) # this sets the attributes of an object which are affected by the patch.
 
-    did_autoreassign_portfolio ="" 
-
-    try:
-        check_if_portfolio_has_to_change_result = await session.execute(select(Portfolio).where(Portfolio.portfolio_string_id == user.team))
-        avail_portfolio = check_if_portfolio_has_to_change_result.scalar_one_or_none()
-        user.portfolio_id = avail_portfolio.id if avail_portfolio else None
-        did_autoreassign_portfolio=f" & AUTOMATICALLY ASSIGNED PORTFOLIO STRING ID: {avail_portfolio.portfolio_string_id}"
-         
-    except:
-        logger.warning(f"(Server) could not verify if USERNAME: {user.username} PORTFOLIO ID is valid for their assigned team") 
 
     await session.commit()
     await session.refresh(user)
     changed_fields = ", ".join(user_update.model_dump(exclude_unset=True).keys())
     logger.info(
-        f"({current_user.username}) updated user USERNAME: {user.username} / FULLNAME: {user.fullname} / ATTRIBUTES: {changed_fields}{did_autoreassign_portfolio}"
+        f"({current_user.username}) updated user USERNAME: {user.username} / FULLNAME: {user.fullname} / ATTRIBUTES: {changed_fields}"
     )
     return UserUpdateResponseModel.model_validate(user)
 
