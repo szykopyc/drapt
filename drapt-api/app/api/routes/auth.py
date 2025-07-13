@@ -5,7 +5,6 @@ from fastapi_users.exceptions import UserAlreadyExists
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.future import select
 
-
 # utils
 from app.utils.log import logger
 

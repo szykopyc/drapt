@@ -1,11 +1,14 @@
 import { CardOne } from "../baseui/CustomCard";
 import CustomButton from "../baseui/CustomButton";
+import { currencyMapperDict } from "../../helperfunctions/CurrencyMapper";
 // this
 export default function GlobalPortfolioCard({
   portfolio_string_id,
   name,
   created_at,
   members,
+  initial_cash,
+  currency
 }) {
 
   return (
@@ -23,10 +26,9 @@ export default function GlobalPortfolioCard({
             <span className="font-semibold">
               {new Date(created_at).toISOString().split("T")[0]}
             </span>
-            <span>Last Modified</span>
+            <span>Initial Cash</span>
             <span className="font-semibold">
-              YTC
-              {/*{portfolioLastModified}*/}
+              {currencyMapperDict[currency]}{initial_cash}
             </span>
           </div>
         </div>

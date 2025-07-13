@@ -1,5 +1,6 @@
 import { CardOne } from "../../baseui/CustomCard";
 import { roleMapperDict } from "../../../helperfunctions/RoleMapper";
+import { currencyMapperDict } from "../../../helperfunctions/CurrencyMapper";
 import TextWithLabelDescription from "../../baseui/TextWithLabelDescription";
 import RoleRankSorter from "../../../helperfunctions/RoleRankSorter";
 
@@ -36,8 +37,8 @@ export default function OverviewCard({ portfolioOverviewData }) {
               )
               : "N/A"}
           </TextWithLabelDescription>
-          <TextWithLabelDescription label={"Last Modified"}>
-            YTC
+          <TextWithLabelDescription label={"Initial Cash"}>
+            {portfolioOverviewData?.initial_cash < 0.01 ? "N/A" : `${currencyMapperDict[portfolioOverviewData?.currency]}${portfolioOverviewData?.initial_cash}`}
           </TextWithLabelDescription>
         </div>
 

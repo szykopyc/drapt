@@ -194,3 +194,10 @@
 07/13/2025 12:24:57 PM - INFO - portfolio.py - (liysk64) deleted portfolio ID: 2 / STRING ID: health
 07/13/2025 12:24:57 PM - INFO - portfolio.py - (Server) unassigned all users from portfolio ID: 2 / STRING ID: health
 07/13/2025 01:30:59 PM - INFO - admin.py - (liysk64) unassigned user USERNAME: leonou / FULLNAME: Leonard Nouira from PORTFOLIO ID: 1
+07/13/2025 06:46:51 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: initial_cash
+07/13/2025 06:46:57 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: initial_cash
+07/13/2025 06:50:06 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: initial_cash
+07/13/2025 06:52:16 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/13/2025 06:52:24 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: name
+07/13/2025 07:28:21 PM - INFO - admin.py - (liysk64) assigned user USERNAME: leonou / FULLNAME: Leonard Nouira to PORTFOLIO ID: 1
+07/13/2025 09:33:28 PM - INFO - portfolio.py - (liysk64) updated portfolio PORTFOLIO ID: 1 / PORTFOLIO STRING ID: industrial / ATTRIBUTES: initial_cash, currency
