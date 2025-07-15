@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import { FaChevronDown } from "react-icons/fa";
+import { FaInfoCircle } from "react-icons/fa";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
 const sizeClassMap = {
     full: "w-full",
@@ -250,6 +253,46 @@ export function ContactProfileCardElement({
             )}
             <p>{introText}</p>
             <div className="space-y-2 mt-2 text-base-content">{children}</div>
+        </div>
+    );
+}
+
+export function CardOneTooltip({
+    id = "",
+    title,
+    size = "",
+    tooltip,
+    children,
+    ...props
+}) {
+    const widthClass = sizeClassMap[size] || "w-full";
+    return (
+        <div
+            id={id}
+            className={`card card-border border-primary bg-base-100 shadow-md hover:shadow-lg transition-shadow w-full md:${widthClass} min-w-0`}
+            style={{ borderRadius: "var(--border-radius)" }}
+            {...props}
+        >
+            <div className="card-body">
+                <div className="flex justify-between items-center">
+                    <h2 className="card-title text-2xl">{title}</h2>
+                    {tooltip && (
+                        <Tippy
+                            content={tooltip}
+                            placement="top"
+                            animation="shift-away"
+                            arrow={true}
+                            interactive={false}
+                            delay={0}
+                        >
+                            <button className="w-5 h-5 flex items-center justofy-center rounded-full text-info hover:bg-transparent focus:outline-none">
+                                <FaInfoCircle className="w-4 h-4 text-info" />
+                            </button>
+                        </Tippy>
+                    )}
+                </div>
+                {children}
+            </div>
         </div>
     );
 }

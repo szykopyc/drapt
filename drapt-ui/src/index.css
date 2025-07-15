@@ -32,6 +32,18 @@
   max-height: 3px;
 }
 
+.input {
+  border-color: var(--color-base-300) !important;
+}
+
+.select {
+  border-color: var(--color-base-300) !important;
+}
+
+.textarea {
+  border-color: var(--color-base-300) !important;
+}
+
 [data-theme="draptlight"] {
   --color-base-100: oklch(98% 0.015 250);
   --color-base-200: oklch(94% 0.02 250);

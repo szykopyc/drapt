@@ -42,7 +42,8 @@ async def get_multiticker_metadata_fuzzy(query: str):
 
     try:
         client = get_client()
-        fresh_fetch = await client.get_ticker_metadata(query, exact_ticker_match=False, response_limit=5) # adjust as needed
+        fresh_fetch = await client.get_ticker_metadata(query, exact_ticker_match=False, response_limit=10) # adjust as needed
+        print(type(fresh_fetch))
 
         for fetched_result in fresh_fetch:
             cache_set(str(cache_base_key+fetched_result["ticker"]), fetched_result)
@@ -50,4 +51,4 @@ async def get_multiticker_metadata_fuzzy(query: str):
     except Exception as e:
         logger.error(f"(Server) {e}")
 
-    return [AssetMetadataRead.model_validate(asset) for asset in fresh_fetch]
+    return fresh_fetch

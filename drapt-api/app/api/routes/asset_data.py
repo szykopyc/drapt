@@ -26,7 +26,7 @@ async def get_ticker_metadata_route(
     
     return searched_ticker_metadata
 
-@router.get("/asset-data/fuzzy-search/{fuzzyquery}", response_model=List[AssetMetadataRead], tags=["asset-data"])
+@router.get("/asset-data/fuzzy-search/{fuzzyquery}", response_model=list[AssetMetadataRead], tags=["asset-data"])
 async def get_multiticker_metadata_fuzzy_route(
     fuzzyquery: str,
     current_user: User = Depends(fastapi_users.current_user())
@@ -40,5 +40,13 @@ async def get_multiticker_metadata_fuzzy_route(
 
     except Exception:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Your query did not find any assets.")
+
+    if isinstance(fuzzy_searched_metadata, dict):
+        # if it returns a single dict, wrap it in a list
+        fuzzy_searched_metadata = [fuzzy_searched_metadata]
+
+    if isinstance(fuzzy_searched_metadata, list):
+        # then return the proper object after checking/forcing it to be a list
+        return [AssetMetadataRead.model_validate(asset) for asset in fuzzy_searched_metadata]
     
-    return fuzzy_searched_metadata
+    raise HTTPException(status_code=500, detail="Unexpected data format from service")

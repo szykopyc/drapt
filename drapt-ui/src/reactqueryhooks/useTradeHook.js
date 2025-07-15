@@ -9,7 +9,6 @@ export function useHookGetTradesByPortfolioID(portfolio_id) {
       return getTradesByPortfolioID(portfolio_id);
     },
     staleTime: 1000 * 60 * 15,
-    retry: 3,
-    retryDelay: 500
+    retry: 1
   })
 }
