@@ -25,8 +25,11 @@ export default function ThemeSwitcher() {
             <option value="draptlight">NEFSIF Light</option>
             <option value="draptdark">NEFSIF Dark</option>
             <option value="cb-light">Colourblind Light</option>
-            <option value="cb-dark">Colourblind Dark</option>
-            <option value="high-contrast">High Contrast</option>
+            <option value="tokyo-storm">Tokyo Storm</option>
+            <option value="sunset-water">Sunset on the Water</option>
+            <option value="high-contrast">Chocolate Banana</option>
+            <option value="hacker-terminal">Scriptkiddie</option>
+            <option value="wheatfield-dream">WheatField Dream</option>
             <option value="red-apple-light">Poland</option>
         </select>
     );

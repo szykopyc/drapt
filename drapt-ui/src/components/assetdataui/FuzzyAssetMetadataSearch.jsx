@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { flagMapperDict } from "../../helperfunctions/FlagMapper";
 import { getAssetMetadataFuzzy } from "../../lib/AssetDataService";
 import { FaSearch } from "react-icons/fa";
-import { MdOutlineClose } from "react-icons/md";
+import { MdOutlineClose, MdInfoOutline, MdErrorOutline } from "react-icons/md";
 import { LoadingSpinner } from "../helperui/LoadingSpinnerHelper";
 
 // code explanation because it'll be very easy to get lost in this in the future
@@ -140,9 +140,12 @@ export default function FuzzyAssetMetadataSearchBar({
                 </ul>
             )}
             {showDropdown && queriedAssetMetadata.length === 0 && (
-                <div className="absolute z-10 w-full dropdown-content bg-base-100 border-base-300 border-t-0 border-x-1 border-b-1 shadow">
+                <div className="absolute z-10 w-full dropdown-content bg-base-100 border-base-300 border-t-0 border-x-1 border-b-1 shadow py-6">
                     <div className="flex justify-center items-center gap-3">
-                        <span className="text-sm">No results found</span>
+                        <MdInfoOutline className="text-2xl text-info" />
+                        <span className="text-info text-sm">
+                            No results found, try a different search query
+                        </span>
                     </div>
                 </div>
             )}
@@ -159,6 +162,7 @@ export default function FuzzyAssetMetadataSearchBar({
             {isError && (
                 <div className="absolute z-10 w-full dropdown-content bg-base-100 border-base-300 border-t-0 border-x-1 border-b-1 shadow">
                     <div className="flex justify-center items-center gap-3">
+                        <MdErrorOutline className="text-2xl text-error" />
                         {isError?.message || "Error searching tickers"}
                     </div>
                 </div>

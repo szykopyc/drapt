@@ -116,7 +116,7 @@
   --color-error: #f94144;           
 }
 
-[data-theme="cb-dark"] {
+[data-theme="tokyo-storm"] {
   --color-base-100: #232634;        
   --color-base-200: #2c2e3e;
   --color-base-300: #373a4d;
@@ -164,13 +164,102 @@
   --color-error: #ff0033;           
 }
 
+/* sunset on the water colour theme */
+[data-theme="sunset-water"] {
+  --color-base-100: #181c24;      /* Deep navy, like water at dusk */
+  --color-base-200: #23273a;      /* Slightly lighter navy */
+  --color-base-300: #2d3142;      /* For borders, a bit more gray */
+  --color-base-content: #f9fafb;  /* Light text for contrast */
+
+  --color-primary: #ff914d;       /* Sunset orange */
+  --color-primary-content: #181c24;
+
+  --color-secondary: #ffb86b;     /* Golden reflection */
+  --color-secondary-content: #181c24;
+
+  --color-accent: #a259c6;        /* Sunset purple */
+  --color-accent-content: #f9fafb;
+
+  --color-neutral: #3e5060;       /* Muted blue-gray for neutral elements */
+  --color-neutral-content: #f9fafb;
+
+  --color-info: #6ec6ff;          /* Sky blue for info */
+  --color-success: #7fffd4;       /* Aqua for success (water shimmer) */
+  --color-warning: #ffd166;       /* Warm yellow for warning */
+  --color-error: #ff4f4f;         /* Sunset red for error */
+}
+[data-theme="sunset-water"] *,
+[data-theme="sunset-water"] {
+  font-family: 'Montserrat', 'Lato', 'Segoe UI', 'Arial', sans-serif !important;
+}
+
+/* wheatfield-dream colour theme */
+[data-theme="wheatfield-dream"] {
+  --color-base-100: #f8f5e3;      /* Wheat field in sunlight */
+  --color-base-200: #efe2b2;      /* Sun-bleached wheat */
+  --color-base-300: #d6c086;      /* Golden straw for borders */
+  --color-base-content: #5e4b2c;  /* Earthy brown for text */
+
+  --color-primary: #b7d7e8;       /* Soft blue sky */
+  --color-primary-content: #5e4b2c;
+
+  --color-secondary: #f6e27a;     /* Sunlit wheat */
+  --color-secondary-content: #5e4b2c;
+
+  --color-accent: #e2b179;        /* Warm ochre accent */
+  --color-accent-content: #5e4b2c;
+
+  --color-neutral: #bfa77a;       /* Dry grass, neutral elements */
+  --color-neutral-content: #5e4b2c;
+
+  --color-info: #a3c9a8;          /* Sage green for info */
+  --color-success: #7fc29b;       /* Pasture green for success */
+  --color-warning: #ffe066;       /* Sun-yellow for warning */
+  --color-error: #e07a5f;         /* Soft terracotta for error */
+}
+
+[data-theme="wheatfield-dream"] *,
+[data-theme="wheatfield-dream"] {
+  font-family: 'Lato', 'Montserrat', 'Segoe UI', 'Arial', sans-serif !important;
+}
+
+/* comedic purposes only */
+[data-theme="hacker-terminal"] {
+  --color-base-100: #101010;      /* Terminal black */
+  --color-base-200: #181c18;      /* Slightly lighter for panels */
+  --color-base-300: #232b23;      /* For borders */
+  --color-base-content: #39ff14;  /* Hacker green text */
+
+  --color-primary: #39ff14;       /* Bright green */
+  --color-primary-content: #101010;
+
+  --color-secondary: #00ff99;     /* Neon green/teal accent */
+  --color-secondary-content: #101010;
+
+  --color-accent: #00ff41;        /* Matrix green */
+  --color-accent-content: #101010;
+
+  --color-neutral: #222;          /* For neutral elements */
+  --color-neutral-content: #39ff14;
+
+  --color-info: #00ffe7;          /* Cyan for info */
+  --color-success: #39ff14;       /* Green for success */
+  --color-warning: #fff700;       /* Yellow for warning */
+  --color-error: #ff1744;         /* Red for error */
+}
+
+[data-theme="hacker-terminal"] *,
+[data-theme="hacker-terminal"] {
+  font-family: 'Fira Mono', 'Consolas', 'Menlo', 'monospace', sans-serif !important;
+}
+
 [data-theme="cb-light"] .mockup-code code,
 [data-theme="cb-light"] .mockup-code .codeblock-button {
   color: #fff;
 }
 
-[data-theme="cb-dark"] .mockup-code code,
-[data-theme="cb-dark"] .mockup-code .codeblock-button {
+[data-theme="tokyo-storm"] .mockup-code code,
+[data-theme="tokyo-storm"] .mockup-code .codeblock-button {
   color: #fff;
 }
 
