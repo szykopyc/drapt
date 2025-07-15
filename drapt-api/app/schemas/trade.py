@@ -33,7 +33,6 @@ class TradeCreate(BaseModel):
     quantity: Decimal
     execution_date: datetime
     venue: str
-    trader_id: int
     analyst_id: int
     notes: Optional[str] = None
     currency: CurrencyEnum

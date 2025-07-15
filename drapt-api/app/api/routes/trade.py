@@ -53,7 +53,7 @@ async def book_trade(
             quantity = trade.quantity,
             execution_date=trade.execution_date,
             venue = trade.venue,
-            trader_id = trade.trader_id,
+            trader_id = current_user.id,
             analyst_id = trade.analyst_id,
             notes = trade.notes,
             currency=trade.currency,
@@ -87,9 +87,9 @@ async def get_trade_by_portfolio_id(
 
     # if user doesn't have can_init_portfolio or isnt assigned to the portfolio (via portfolio_id) raise exception
     if not (role_perms.get("developer") or current_user.portfolio_id == portfolio_id):
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Unauthorised to search this portfolio's trades.")
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Unauthorised to view this portfolio's trades.")
     
     if not searched_trades:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="We couldn't find the trade you requested.")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="We couldn't find any trades for your portfolio.")
     
     return [TradeRead.model_validate(trade) for trade in searched_trades]
