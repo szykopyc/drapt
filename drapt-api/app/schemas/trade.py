@@ -12,12 +12,14 @@ class TradeRead(BaseModel):
     id: int
     portfolio_id: int
     ticker: str
+    exchange: str
     price: Decimal
-    direction: TradeTypeEnum
     quantity: Decimal
-    execution_date: datetime
     notional: Decimal
     currency: CurrencyEnum
+
+    direction: TradeTypeEnum
+    execution_date: datetime
     venue: str
     trader_id: int
     analyst_id: int
@@ -29,10 +31,10 @@ class TradeCreate(BaseModel):
     portfolio_id: int
     ticker: str
     price: Decimal
-    direction: TradeTypeEnum
     quantity: Decimal
+    currency: CurrencyEnum
+    direction: TradeTypeEnum
     execution_date: datetime
     venue: str
     analyst_id: int
     notes: Optional[str] = None
-    currency: CurrencyEnum

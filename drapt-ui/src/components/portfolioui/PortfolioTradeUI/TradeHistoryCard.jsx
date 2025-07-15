@@ -90,11 +90,7 @@ export default function TradeHistoryCard(portfolioOverviewData) {
           )
         }
       </CardOne>
-      <ModalHelper id={"trade_note_data"} reference={tradeNoteDialogueRef} modalTitle={tradeNoteData ? `${tradeNoteData.ticker} ${tradeNoteData.direction} ${new Date(tradeNoteData.execution_date).toLocaleDateString("en-GB")} Notes` : "Trade Notes"} style={{
-        maxWidth: "50vw",
-        width: "auto",
-        minWidth: "min(600px, 50vw)",
-      }}>
+      <ModalHelper id={"trade_note_data"} reference={tradeNoteDialogueRef} modalTitle={tradeNoteData ? `${tradeNoteData.ticker} ${tradeNoteData.direction} ${new Date(tradeNoteData.execution_date).toLocaleDateString("en-GB")} Notes` : "Trade Notes"}>
         {tradeNoteData && (
           <p>{tradeNoteData.notes}</p>
         )}

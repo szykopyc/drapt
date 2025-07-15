@@ -15,15 +15,16 @@ class Trade(Base):
     portfolio_id: Mapped[int] = mapped_column(ForeignKey("portfolios.id"), nullable=False, index=True)
 
     ticker: Mapped[str] = mapped_column(String(length=6), nullable=False) # from input
+    exchange: Mapped[str] = mapped_column(String(length=10), nullable=False) # from input
     price: Mapped[Decimal] = mapped_column(Numeric(18,6), nullable=False) # from input
-    direction: Mapped[TradeTypeEnum] = mapped_column(SQLEnum(TradeTypeEnum), nullable=False)
     quantity: Mapped[Decimal] = mapped_column(Numeric(18,6), nullable=False) # from input
     notional: Mapped[Decimal] = mapped_column(Numeric(18,6), nullable=False)
-    execution_date: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=func.now(), server_default=func.now()) # auto inserted
-
     currency: Mapped[CurrencyEnum] = mapped_column(SQLEnum(CurrencyEnum), nullable=False) # from input
-
+    
+    direction: Mapped[TradeTypeEnum] = mapped_column(SQLEnum(TradeTypeEnum), nullable=False)
+    execution_date: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=func.now(), server_default=func.now()) # auto inserted
     venue: Mapped[str] = mapped_column(String(length=100), nullable=False, default="t212", server_default="t212") # by default its trading 212 for this example
+    
     trader_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False) # person who executed the trade
     analyst_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False) # person who recommended the trade
     notes: Mapped[Optional[str]] = mapped_column(String(length=1024), nullable=True) # trade notes, optional

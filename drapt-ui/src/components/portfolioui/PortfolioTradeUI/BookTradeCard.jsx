@@ -325,11 +325,6 @@ export default function BookTradeCard(portfolioOverviewData) {
         id={"trade_confirm"}
         reference={tradeConfirmModalRef}
         modalTitle={"Trade Details"}
-        style={{
-          maxWidth: "50vw",
-          width: "auto",
-          minWidth: "min(600px, 50vw)",
-        }}
       >
         {modalData && (
           <div className="flex flex-col">

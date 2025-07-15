@@ -9,7 +9,9 @@ permissions = {
         "can_search_portfolio":True,
         # trade stuff
         "can_book_trades":True,
-        "can_search_trades":True
+        "can_search_trades":True,
+        #asset stuff
+        "can_query_ticker":True
     },
     "director":{
         "can_manage_user":True,
@@ -20,7 +22,8 @@ permissions = {
         "can_search_portfolio":True,
 
         "can_book_trades":False,
-        "can_search_trades":True
+        "can_search_trades":True,
+        "can_query_ticker":True
     },
     "vd":{
         "can_manage_user":True,
@@ -31,7 +34,8 @@ permissions = {
         "can_search_portfolio":True,
 
         "can_book_trades":False,
-        "can_search_trades":True
+        "can_search_trades":True,
+        "can_query_ticker":True
     },
     "pm":{
         "can_manage_user":False,
@@ -42,7 +46,8 @@ permissions = {
         "can_search_portfolio":True,
 
         "can_book_trades":True,
-        "can_search_trades":True
+        "can_search_trades":True,
+        "can_query_ticker":True
     },
     "senioranalyst":{
         "can_manage_user":False,
@@ -53,7 +58,8 @@ permissions = {
         "can_search_portfolio":True,
 
         "can_book_trades":False,
-        "can_search_trades":False
+        "can_search_trades":False,
+        "can_query_ticker":True
     },
     "analyst":{
         "can_manage_user":False,
@@ -64,6 +70,7 @@ permissions = {
         "can_search_portfolio":True,
 
         "can_book_trades":False,
-        "can_search_trades":False
+        "can_search_trades":False,
+        "can_query_ticker":True
     }
 }

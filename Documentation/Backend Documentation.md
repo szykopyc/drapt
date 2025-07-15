@@ -96,3 +96,77 @@ If you happen to accidentally use SQLAlchemy to run the migration, here's what y
 ```
 alembic stamp head
 ```
+
+## Migrations using SQLite Database
+
+Unfortunately, SQLite does not support the database operation ```ALTER```. In that case, you will have to run the command:
+
+```
+alembic revision -m "<message>"
+```
+
+and run the migration manually. This involves renaming the old table into something like ```users_old```, creating a new table like ```users``` with the columns you desire to have, then inserting from ```users_old``` into ```users```, finally dropping ```users_old```. Yes it's a headache, but at least you don't have to run PostgreSQL locally if you are just prototyping.
+
+# Redis Cache
+
+This bit is primarily for my own reference, but it might be helpful if you are a contributor and want to replicate this on your own machine. Redis will be used as a lightweight cache for storing things such as ticker metadata, last closing price, those sorts of things. The Redis client file can be found in ```/app/redis_client.py```.
+
+To set up the Redis Client, you need to set a ```REDIS_URL``` in the ```/drapt-api/.env``` file.
+
+To start the CLI, use the command:
+
+```
+brew services start redis
+```
+
+To access the Redis CLI (if running locally), use the command:
+
+```
+redis-cli
+```
+
+If it's on another port or host, use:
+
+```
+redis-cli -h <host> -p <port>
+```
+
+## CLI Commands
+
+To see all keys, use the command:
+
+```
+keys *
+```
+
+Here is how you could get a specific key:
+
+```
+get ticker_metadata:AAPL
+```
+
+Where the key prefix (set in the backend for consistent lookups) is ticker_metadata, and the suffix is AAPL in this example.
+
+To check TTL (time to live), use the command:
+
+```
+ttl <key>
+```
+
+Deleting a key is just ```del <key>```.
+
+To flush the entire cache, use either: ```FLUSHALL SYNC``` or ```FLUSHALL ASYNC```, depending on if you want to do it synchronously or asynchronously.
+
+## Bonus commands
+
+To pretty-print a JSON string use:
+
+```
+redis-cli get <key> | jq .
+```
+
+This requires ```jq``` to be installed. If you don't have it already, on MacOS you can install it using:
+
+```
+brew install jq
+```

@@ -30,6 +30,7 @@ auth_logger = setup_logger("auth", "auth.log")
 portfolio_logger = setup_logger("portfolio", "portfolio.log")
 trade_logger = setup_logger("trade", "trade.log")
 admin_logger = setup_logger("admin", "admin.log")
+external_api_logger = setup_logger("external_api", "external_api.log")
 
 # Optional: keep a general fallback logger
 general_logger = setup_logger("general", "server_logs.log")
