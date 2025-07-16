@@ -7,6 +7,7 @@ from app.db import Base
 from app.models.user import User
 from app.models.portfolio import Portfolio
 from app.models.trade import Trade
+from app.models.lots import Lot
 
 import os
 from dotenv import load_dotenv
