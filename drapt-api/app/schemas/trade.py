@@ -30,6 +30,7 @@ class TradeCreate(BaseModel):
 
     portfolio_id: int
     ticker: str
+    exchange: str # user has no control regarding what the exhange is, it's autoinserted
     price: Decimal
     quantity: Decimal
     currency: CurrencyEnum

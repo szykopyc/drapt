@@ -48,7 +48,7 @@ async def book_trade(
         tradeToExecute = Trade(
             portfolio_id=trade.portfolio_id,
             ticker = trade.ticker.upper(),
-            exchange = "NYSE",
+            exchange = trade.exchange.upper(),
             price = trade.price,
             direction = trade.direction,
             quantity = trade.quantity,

@@ -94,6 +94,7 @@ export default function BookTradeCard(portfolioOverviewData) {
             ...data,
             portfolio_id: portfolioOverviewData?.id,
             ticker: selectedTickerFromSelection.ticker,
+            exchange: selectedTickerFromSelection.exchange,
         };
 
         try {
@@ -106,11 +107,13 @@ export default function BookTradeCard(portfolioOverviewData) {
             const modalDataToPass = {
                 ...data,
                 ticker: selectedTickerFromSelection.ticker.toUpperCase(),
+                exchange: selectedTickerFromSelection.exchange,
                 direction: data.direction.toUpperCase(),
                 analyst_fullname: portfolioOverviewData?.members.find(
                     (member) => member.id === Number(data.analyst_id)
                 ).fullname,
                 curr_price: currencyMapperDict[data.currency] + data.price,
+                countryCode: selectedTickerFromSelection.countryCode,
                 confirmShortWarning: confirmShortWarning,
             };
 
@@ -408,7 +411,7 @@ export default function BookTradeCard(portfolioOverviewData) {
                 reference={tradeConfirmModalRef}
                 modalTitle={"Trade Details"}
                 style={{
-                    minWidth: "max(40vw, 600px)",
+                    minWidth: "max(50vw, 600px)",
                 }}
             >
                 {modalData && (
@@ -418,6 +421,7 @@ export default function BookTradeCard(portfolioOverviewData) {
                                 <thead>
                                     <tr>
                                         <th>Ticker</th>
+                                        <th>Exchange</th>
                                         <th>Price</th>
                                         <th>Quantity</th>
                                         <th>Direction</th>
@@ -429,6 +433,13 @@ export default function BookTradeCard(portfolioOverviewData) {
                                 <tbody>
                                     <tr key={modalData.ticker}>
                                         <th>{modalData.ticker}</th>
+                                        <th>
+                                            {modalData.exchange +
+                                                " " +
+                                                flagMapperDict[
+                                                    modalData.countryCode
+                                                ]}
+                                        </th>
                                         <th>{modalData.curr_price}</th>
                                         <th>{modalData.quantity}</th>
                                         <th>{modalData.direction}</th>

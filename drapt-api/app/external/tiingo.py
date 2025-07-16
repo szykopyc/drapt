@@ -15,7 +15,7 @@ class TiingoClient:
             'Authorization':f'Token {self.api_key}'
         }
 
-    async def get_ticker_metadata(
+    async def get_ticker_base_data(
         self,
         ticker: str,
         exact_ticker_match: Optional[bool] = False,
@@ -37,8 +37,28 @@ class TiingoClient:
                     "company_name":item["name"],
                     "ticker":item["ticker"],
                     "type":item["assetType"],
-                    "exchange":item["countryCode"]
+                    "countryCode":item["countryCode"]
                 }
                 for item in response
             ]
+            return formatted_response
+        
+    
+    async def get_ticker_meta(
+            self,
+            ticker: str
+    ):
+        url = f"{self.base_url}tiingo/daily/{ticker.strip().upper()}"
+
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url, headers=self.headers)
+            response.raise_for_status()
+            response = response.json()
+            formatted_response = {
+                    "ticker":response["ticker"],
+                    "company_name":response["name"],
+                    "exchange":response["exchangeCode"],
+                    "description":response["description"]
+            }
+            
             return formatted_response

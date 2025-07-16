@@ -10,3 +10,5 @@ class AssetMetadataRead(BaseModel):
     ticker: str
     type: str
     exchange: str
+    description: Optional[str] = None
+    countryCode: str

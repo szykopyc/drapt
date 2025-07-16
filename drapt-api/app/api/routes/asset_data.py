@@ -3,7 +3,7 @@ from typing import List
 from app.config.permissions import permissions as role_permissions_dict
 from app.users.deps import fastapi_users
 from app.schemas.asset_data import AssetMetadataRead
-from app.services.market_data import get_ticker_metadata, get_multiticker_metadata_fuzzy
+from app.services.market_data import get_ticker_search, get_multiticker_search_fuzzy
 from app.utils.log import external_api_logger as logger
 from app.models.user import User
 
@@ -19,7 +19,7 @@ async def get_ticker_metadata_route(
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You are not authorised to query ticker metadata.")
     
     try:
-        searched_ticker_metadata = await get_ticker_metadata(ticker)
+        searched_ticker_metadata = await get_ticker_search(ticker)
     
     except Exception:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="The ticker you queried does not exist.")
@@ -36,7 +36,7 @@ async def get_multiticker_metadata_fuzzy_route(
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You are not authorised to query ticker metadata.")
     
     try:
-        fuzzy_searched_metadata = await get_multiticker_metadata_fuzzy(fuzzyquery)
+        fuzzy_searched_metadata = await get_multiticker_search_fuzzy(fuzzyquery)
 
     except Exception:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Your query did not find any assets.")

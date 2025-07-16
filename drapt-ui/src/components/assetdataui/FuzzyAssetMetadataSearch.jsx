@@ -38,7 +38,7 @@ export default function FuzzyAssetMetadataSearchBar({
         try {
             // Call API to get fuzzy-matched asset metadata for the search term
             const response = await getAssetMetadataFuzzy(searchTerm);
-            await new Promise((resolve) => setTimeout(resolve, 300)); // Small delay for UX
+            await new Promise((resolve) => setTimeout(resolve, 100)); // Small delay for UX
             setQueriedAssetMetadata(response); // Store results for dropdown
         } catch (error) {
             // Handle errors and show toast
@@ -131,7 +131,8 @@ export default function FuzzyAssetMetadataSearchBar({
                                     </span>
                                     <span>{asset.type}</span>
                                     <span>
-                                        {flagMapperDict[asset.exchange]}
+                                        {asset.exchange}{" "}
+                                        {flagMapperDict[asset.countryCode]}
                                     </span>
                                 </div>
                             </button>
