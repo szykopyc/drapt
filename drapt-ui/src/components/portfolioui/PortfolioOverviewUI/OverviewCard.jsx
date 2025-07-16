@@ -15,7 +15,7 @@ export default function OverviewCard({ portfolioOverviewData }) {
       {portfolioOverviewData?.description && (
         <>
           <TextWithLabelDescription label={"Description"}>
-            {portfolioOverviewData.description}
+            <p style={{ whiteSpace: 'pre-wrap' }}>{portfolioOverviewData.description}</p>
           </TextWithLabelDescription>
           <div className="divider my-0"></div>
         </>

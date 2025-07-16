@@ -5,7 +5,7 @@ export function useHookSelectAllUsers() {
   return useQuery({
     queryKey: ["allusers"],
     queryFn: selectAllUsers,
-    staleTime: 1000 * 60 * 1
+    staleTime: 1000 * 60 * 15
   })
 }
 
@@ -13,7 +13,7 @@ export function useHookSearchUserByRole(role) {
   return useQuery({
     queryKey: ["user", role],
     queryFn: () => searchUserByRole(role),
-    staleTime: 1000 * 60 * 1
+    staleTime: 1000 * 60 * 15
   })
 }
 

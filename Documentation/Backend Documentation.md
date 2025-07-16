@@ -2,7 +2,7 @@
 
 ## Project Structure
 
-###Backend Directory Root
+### Backend Directory Root
 This directory contains `.env`, `.gitignore`, `alembic.ini` and the development database `drapt.db`. The environment file is used to store secret keys. If you are a contributor, it is intentionally left off of the .gitignore file so that you don't accidentally expose secret environment variables. If you wish to test it on your local machine, reproduce the .env file, and set a `FASTAPIUSERS_SECRET_KEY` variable.
 
 ###/app
@@ -51,7 +51,7 @@ class UserReadResponseModel(BaseModel):
     username: str
     role: str
     team: str
-    portfolio_id: Optional[int] = None``
+    portfolio_id: Optional[int] = None
 ```
 
 ### ORM Model
@@ -97,17 +97,58 @@ If you happen to accidentally use SQLAlchemy to run the migration, here's what y
 alembic stamp head
 ```
 
-## Migrations using SQLite Database
+### PostgreSQL (psql)
 
-Unfortunately, SQLite does not support the database operation ```ALTER```. In that case, you will have to run the command:
+This section serves as a reference for working with the PostgreSQL database used in Drapt. It's helpful for contributors or future you when setting things up or debugging locally.
 
+The database is managed using **SQLAlchemy**, with configuration stored in the `.env` file at the project root:
+
+```bash
+POSTGRESQL_URL=postgresql+psycopg2://<user>:<password>@localhost:5432/<dbname>
 ```
-alembic revision -m "<message>"
+
+#### Inspecting the DB with psql
+
+If you’re using PostgreSQL locally (e.g., through Homebrew), start the service:
+
+```bash
+brew services start postgresql
 ```
 
-and run the migration manually. This involves renaming the old table into something like ```users_old```, creating a new table like ```users``` with the columns you desire to have, then inserting from ```users_old``` into ```users```, finally dropping ```users_old```. Yes it's a headache, but at least you don't have to run PostgreSQL locally if you are just prototyping.
+Then, access the database CLI:
 
-# Redis Cache
+```bash
+psql -U <your_user> -d <your_db>
+```
+
+Once inside psql, here are some useful commands.
+
+List of all tables:
+
+```sql
+\dt
+```
+
+Describe a table:
+
+```sql
+\d <table>
+```
+
+View contents of a table:
+
+```sql
+SELECT * FROM <table> LIMIT 10;
+```
+
+Exit the CLI:
+
+```sql
+\q
+```
+
+
+## Redis Cache
 
 This bit is primarily for my own reference, but it might be helpful if you are a contributor and want to replicate this on your own machine. Redis will be used as a lightweight cache for storing things such as ticker metadata, last closing price, those sorts of things. The Redis client file can be found in ```/app/redis_client.py```.
 
@@ -131,7 +172,7 @@ If it's on another port or host, use:
 redis-cli -h <host> -p <port>
 ```
 
-## CLI Commands
+### CLI Commands
 
 To see all keys, use the command:
 
@@ -157,7 +198,7 @@ Deleting a key is just ```del <key>```.
 
 To flush the entire cache, use either: ```FLUSHALL SYNC``` or ```FLUSHALL ASYNC```, depending on if you want to do it synchronously or asynchronously.
 
-## Bonus commands
+### Bonus commands
 
 To pretty-print a JSON string use:
 

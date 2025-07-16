@@ -43,18 +43,13 @@ export async function getPortfolioByStringIdOverview(portfolio_string_id) {
 }
 
 export async function updatePortfolioMetadata(portfolio_id, attributes) {
-  try {
-    const response = await ApiClient.patch(
-      `/portfolio/update/${portfolio_id}`, attributes, {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    }
-    )
-    return response.data;
+  const response = await ApiClient.patch(
+    `/portfolio/update/${portfolio_id}`, attributes, {
+    headers: { "Content-Type": "application/json" },
+    withCredentials: true,
   }
-  catch (error) {
-    throw error;
-  }
+  )
+  return response.data;
 }
 
 
