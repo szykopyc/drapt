@@ -345,4 +345,5 @@ input, select, .textarea, .skeleton, .modal-box, .modal, .modal-action, .modal .
   color: var(--color-base-100) !important;
 }
 [data-theme*="light"] .codeblock-button-2 {
-  background:
+  background: #000;
+}
