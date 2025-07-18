@@ -1,15 +1,12 @@
 # fastapi and db imports
 
 from fastapi import APIRouter, Depends, HTTPException, status # type: ignore
-from sqlalchemy.future import select # type: ignore
-from sqlalchemy.exc import IntegrityError # type: ignore
-from sqlalchemy import update, and_ # type: ignore
+from sqlalchemy.future import select
 from app.db import get_async_session
 
 # models, schemas and enum
 from app.models.trade import Trade
 from app.schemas.trade import TradeCreate, TradeRead
-from app.enums.trade import TradeTypeEnum, CurrencyEnum
 
 # auth and permissions
 from app.models.user import User
@@ -18,6 +15,10 @@ from app.config.permissions import permission_check_util
 
 # logging functionality
 from app.utils.log import trade_logger as logger
+
+# trade tradeservice
+from app.services.trade_services.trade_service import TradeService
+from app.services.position_services.position_service import PositionService
 
 router = APIRouter()
 
@@ -40,36 +41,21 @@ async def book_trade(
             status_code=status.HTTP_403_FORBIDDEN, detail="Unauthorised to book trades on this portfolio."
         )
 
-    tradeToExecute = None
+    TradeServiceObject = TradeService(session)
+    PositionServiceObject = PositionService(session)
 
-    ### ADD DATE CANNOT BE PLACED ON WEEKENDS/MORE THAN A WEEK IN THE PAST VALIDATION AT SOME POINT
+    trade_obj = await TradeServiceObject._book_trade(trade, current_user, logger)
+
     try:
-        tradeToExecute = Trade(
-            portfolio_id=trade.portfolio_id,
-            ticker = trade.ticker.upper(),
-            exchange = trade.exchange.upper(),
-            price = trade.price,
-            direction = trade.direction,
-            quantity = trade.quantity,
-            execution_date=trade.execution_date,
-            venue = trade.venue,
-            trader_id = current_user.id,
-            analyst_id = trade.analyst_id,
-            notes = trade.notes,
-            currency=trade.currency,
-            notional = trade.quantity * trade.price
-        )
-        session.add(tradeToExecute)
-        await session.commit()
-        await session.refresh(tradeToExecute)
+        if trade_obj:
+            await PositionServiceObject.process_trade(trade_obj)
 
-    except Exception as e:
-        logger.error(f"(Server) Error Occurred while creating trade: {e}")
-        await session.rollback()
+    except Exception:
+        logger.error(f"(Server) Position creation failed for trade {trade.ticker}/{trade.portfolio_id}")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Failed to create position for trade.")
 
-    logger.info(f"({current_user.username}) created trade TICKER: {trade.ticker} / DATE: {trade.execution_date}")
 
-    return TradeRead.model_validate(tradeToExecute)
+    return TradeRead.model_validate(trade_obj)
 
 # get trades by portfolio id
 @router.get("/trade/{portfolio_id}/getbyportfolioid", response_model=list[TradeRead], tags=["trade"])
@@ -81,14 +67,36 @@ async def get_trade_by_portfolio_id(
     if not permission_check_util(current_user,"can_search_trades"):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You aren't authorised to search trades.")
     
-    searched_trades_result = await session.execute(select(Trade).where(Trade.portfolio_id == portfolio_id))
-    searched_trades = searched_trades_result.scalars().all()
-
+    TradeServiceObject = TradeService(session)
+    
     # if user doesn't have can_init_portfolio or isnt assigned to the portfolio (via portfolio_id) raise exception
     if not (permission_check_util(current_user, "developer") or current_user.portfolio_id == portfolio_id):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Unauthorised to view this portfolio's trades.")
     
-    if not searched_trades:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="We couldn't find any trades for your portfolio.")
+    return await TradeServiceObject._get_trades_by_portfolio_id(portfolio_id)
+
+
+# development only service, DELETE IN PROD #############
+@router.delete("/trade/{portfolio_id}/delete", tags=["trade"])
+async def delete_trade_by_portfolio_id(
+        portfolio_id: int,
+        session = Depends(get_async_session),
+        current_user: User = Depends(fastapi_users.current_user())
+):
+    if not permission_check_util(current_user, "can_delete_trades"):
+        logger.warning(f"({current_user.username}) tried to delete trades from PORTFOLIO ID: {portfolio_id} (disallowed)")
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only developer can delete trades.")
     
-    return [TradeRead.model_validate(trade) for trade in searched_trades]
+    result = await session.execute(select(Trade).where(Trade.portfolio_id == portfolio_id))
+    trades = result.scalars().all()
+
+    if not trades:
+        raise HTTPException(status_code=404, detail="The trades that you requested to delete was not found.")
+    
+    for trade in trades:
+        await session.delete(trade)
+    
+    await session.commit()
+
+    logger.info(f"({current_user.username}) deleted trades for portfolio ID: {portfolio_id}")
+    return {"message":"All trades deleted"}

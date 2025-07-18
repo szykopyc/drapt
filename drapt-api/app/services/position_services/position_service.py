@@ -6,6 +6,7 @@ from app.models.position import Position
 from app.models.trade import Trade
 from app.enums.trade import TradeTypeEnum
 from app.enums.position import PositionDirection
+from app.schemas.trade import TradeRead
 
 class PositionService:
     def __init__(self, session: AsyncSession) -> None:

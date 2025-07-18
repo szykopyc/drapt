@@ -36,7 +36,8 @@ DEVELOPER_PERMS = {
     "can_search_portfolio",
     "can_book_trades",
     "can_search_trades",
-    "can_query_ticker"
+    "can_query_ticker",
+    "can_delete_trades"
 }
 
 permissions = {

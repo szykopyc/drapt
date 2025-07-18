@@ -9,6 +9,6 @@ class AssetMetadataRead(BaseModel):
     company_name: str
     ticker: str
     type: str
-    exchange: str
+    exchange: Optional[str] = "UNKWN" # this is because sometimes the exchange isn't known from tiingo for whatever reason
     description: Optional[str] = None
     countryCode: str
