@@ -11,6 +11,7 @@ from app.api.routes.auth import router as auth_router
 from app.api.routes.portfolio import router as portfolio_router
 from app.api.routes.trade import router as trade_router
 from app.api.routes.asset_data import router as asset_data_router
+from app.api.routes.position import router as position_router
 
 # fastapi_users required imports
 from app.users.auth import auth_backend
@@ -51,6 +52,7 @@ app.include_router(admin_router)
 app.include_router(portfolio_router)
 app.include_router(trade_router)
 app.include_router(asset_data_router)
+app.include_router(position_router)
 
 # root, good query to test if the backend is running.
 @app.get("/")

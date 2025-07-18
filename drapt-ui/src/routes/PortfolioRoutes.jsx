@@ -7,7 +7,7 @@ import Portfolio from "../pages/PortfolioWrapper";
 import PortfolioIndex from "../pages/PortfolioIndex";
 import CreatePortfolioPanel from "../components/portfoliopanels/CreatePortfolioPanel";
 import { OverviewPanel } from "../components/portfoliopanels/OverviewPanel";
-import PositionMonitoringPanel from "../components/portfoliopanels/PositionMonitoringPanel";
+import PositionMonitoringPanel from "../components/portfoliopanels/ReferencePositionMonitoringPanel";
 import { TradeBookerPanel } from "../components/portfoliopanels/TradeBookerPanel";
 import { PortfolioAdminPanel } from "../components/portfoliopanels/PortfolioAdminPanel";
 

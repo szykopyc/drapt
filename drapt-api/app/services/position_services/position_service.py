@@ -2,6 +2,7 @@ from decimal import Decimal
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import and_
+from app.enums import position
 from app.models.position import Position
 from app.models.trade import Trade
 from app.enums.trade import TradeTypeEnum
@@ -80,7 +81,7 @@ class PositionService:
         position.total_cost = Decimal("0")
 
     async def _handle_trade(self, trade: Trade):
-        position = await self._get_open_position(trade.portfolio_id, trade.ticker)
+        position = await self._get_open_position_with_ticker(trade.portfolio_id, trade.ticker)
 
         if position is None:  # no position exists, create a new one
             await self._create_position(trade)
@@ -155,7 +156,7 @@ class PositionService:
         if position is not None:
             await self.session.refresh(position)
 
-    async def _get_open_position(self, portfolio_id: int, ticker: str) -> Position | None:
+    async def _get_open_position_with_ticker(self, portfolio_id: int, ticker: str) -> Position | None:
         position_result = await self.session.execute(select(Position).where(and_(
             Position.portfolio_id == portfolio_id,
             Position.ticker == ticker,
@@ -164,7 +165,7 @@ class PositionService:
         
         return position_result.scalar_one_or_none()
     
-    async def _get_closed_position(self, portfolio_id: int, ticker: str) -> list[Position] | None:
+    async def _get_closed_position_with_ticker(self, portfolio_id: int, ticker: str) -> list[Position] | None:
         positions_result = await self.session.execute(select(Position).where(and_(
             Position.portfolio_id == portfolio_id,
             Position.ticker == ticker,
@@ -172,3 +173,14 @@ class PositionService:
         )))
         
         return list(positions_result.scalars().all())
+
+
+    async def _get_open_position_with_portfolio(self, portfolio_id: int) -> list[Position] | None:
+        positions_result = await self.session.execute(select(Position).where(and_(Position.portfolio_id == portfolio_id, Position.is_closed == False)))
+        return list(positions_result.scalars().all())
+
+    
+    async def _get_closed_position_with_portfolio(self, portfolio_id: int) -> list[Position] | None:
+        positions_result = await self.session.execute(select(Position).where(and_(Position.portfolio_id == portfolio_id, Position.is_closed == True)))
+        return list(positions_result.scalars().all())
+
