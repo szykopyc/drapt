@@ -33,6 +33,10 @@ export default function BookTradeCard(portfolioOverviewData) {
     const [tradeConfirmed, setTradeConfirmed] = useState(false);
     const fuzzySearchRef = useRef();
 
+    const now = new Date();
+    const pad = (n) => n.toString().padStart(2, "0");
+    const defaultTime = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+
     const {
         register,
         setValue,
@@ -48,7 +52,8 @@ export default function BookTradeCard(portfolioOverviewData) {
             price: "",
             direction: "BUY",
             analyst_id: "",
-            execution_date: new Date().toISOString().split("T")[0],
+            execution_date: now.toISOString().split("T")[0],
+            execution_time: defaultTime, // <-- Use current time
             venue: "",
             notes: "",
         },
@@ -87,11 +92,14 @@ export default function BookTradeCard(portfolioOverviewData) {
     // this is where API call happens and modal gets shown
     // IN FUTURE : need to prevent executing trades if it would take them into negative cash (from calculating cash based on lots)
     const guardedSubmitHandler = async (data) => {
-        console.log(data);
         if (!tradeConfirmed) return;
+
+        // Combine date and time into a single ISO string
+        const executionDateTime = `${data.execution_date}T${data.execution_time}:00`;
 
         const dataToSendForTradeBooking = {
             ...data,
+            execution_date: executionDateTime, // send as a new field or replace as needed
             portfolio_id: portfolioOverviewData?.id,
             ticker: selectedTickerFromSelection.ticker,
             exchange: selectedTickerFromSelection.exchange,
@@ -259,33 +267,50 @@ export default function BookTradeCard(portfolioOverviewData) {
                         </div>
 
                         <div className="flex flex-col gap-3 w-full">
-                            <FormField label="Trade Date">
-                                <input
-                                    type="date"
-                                    className="input input-bordered w-full"
-                                    {...register("execution_date", {
-                                        required: "Trade date is required",
-                                        validate: (value) => {
-                                            const selectedDate = new Date(
-                                                value
-                                            );
-                                            const currentDate = new Date();
-                                            const diffDays =
-                                                (currentDate - selectedDate) /
-                                                (1000 * 60 * 60 * 24);
-                                            if (
-                                                selectedDate.getDay() === 0 ||
-                                                selectedDate.getDay() === 6
-                                            )
-                                                return "Trades cannot be placed on weekends.";
-                                            if (diffDays > 7)
-                                                return "Trades must have happened in the last week.";
-                                            return true;
-                                        },
-                                    })}
-                                    max={new Date().toISOString().split("T")[0]}
-                                    disabled={tradeConfirmed}
-                                />
+                            <FormField label="Trade Date and Time">
+                                <div className="flex gap-3">
+                                    <input
+                                        type="date"
+                                        className="input input-bordered w-full"
+                                        {...register("execution_date", {
+                                            required: "Trade date is required",
+                                            validate: (value) => {
+                                                const selectedDate = new Date(
+                                                    value
+                                                );
+                                                const currentDate = new Date();
+                                                const diffDays =
+                                                    (currentDate -
+                                                        selectedDate) /
+                                                    (1000 * 60 * 60 * 24);
+                                                if (
+                                                    selectedDate.getDay() ===
+                                                        0 ||
+                                                    selectedDate.getDay() === 6
+                                                )
+                                                    return "Trades cannot be placed on weekends.";
+                                                if (diffDays > 7)
+                                                    return "Trades must have happened in the last week.";
+                                                return true;
+                                            },
+                                        })}
+                                        max={
+                                            new Date()
+                                                .toISOString()
+                                                .split("T")[0]
+                                        }
+                                        disabled={tradeConfirmed}
+                                    />
+                                    <input
+                                        type="time"
+                                        className="input input-bordered w-full"
+                                        {...register("execution_time", {
+                                            required: "Trade time is required",
+                                        })}
+                                        disabled={tradeConfirmed}
+                                        defaultValue="12:00"
+                                    />
+                                </div>
                             </FormField>
 
                             <FormField label={"Venue/Broker"}>

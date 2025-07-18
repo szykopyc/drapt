@@ -47,7 +47,4 @@ class TradeService:
         selected_trades = await self.session.execute(select(Trade).where(Trade.portfolio_id == portfolio_id))
         selected_trades = selected_trades.scalars().all()
 
-        if not selected_trades:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="We couldn't find any trades for the portfolio ID requested.")
-
         return [TradeRead.model_validate(trade) for trade in selected_trades]

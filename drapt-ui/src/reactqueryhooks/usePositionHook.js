@@ -15,7 +15,7 @@ export function useHookGetOpenPositionsByPortfolioID(portfolio_id) {
 
 export function useHookGetClosedPositionsByPortfolioID(portfolio_id) {
   return useQuery({
-    queryKey: ["open_positions_by_pid", portfolio_id],
+    queryKey: ["closed_positions_by_pid", portfolio_id],
     queryFn: async () => {
       await new Promise((resolve) => setTimeout(resolve, 200));
       return getClosedPositionsByPortfolioID(portfolio_id);

@@ -111,10 +111,37 @@ class PositionService:
 
                 # Partial close
                 elif trade.quantity < position.open_quantity:
-                    position.realised_pnl += self._calculate_realised_pnl(trade, position)
-                    proportion = trade.quantity / position.open_quantity
-                    position.total_cost -= position.total_cost * proportion
+                    #Create a synthetic position for the closed portion
+                    closed_position = Position(
+                        portfolio_id=position.portfolio_id,
+                        ticker=position.ticker,
+                        exchange=position.exchange,
+                        direction=position.direction,
+                        currency=position.currency,
+                        initial_quantity=trade.quantity,
+                        entry_price=position.average_entry_price,
+                        entry_date=position.entry_date,
+                        open_quantity=Decimal("0"),
+                        average_entry_price=position.average_entry_price,
+                        realised_pnl=Decimal("0"),
+                        is_closed=False,
+                        close_date=None,
+                        exit_price=None,
+                        total_cost=position.average_entry_price * trade.quantity,
+                        updated_at=trade.execution_date
+                    )
+                    self.session.add(closed_position)
+
+                    # fully close the partial position which was sold off
+                    self._close_position(closed_position, trade)
+
+                    # update the original position (part which is still open)
+                    position.total_cost -= position.average_entry_price * trade.quantity
                     position.open_quantity -= trade.quantity
+
+                    await self.session.commit()
+                    await self.session.refresh(position)
+                    await self.session.refresh(closed_position)
 
                 # Overclose
                 elif trade.quantity > position.open_quantity:

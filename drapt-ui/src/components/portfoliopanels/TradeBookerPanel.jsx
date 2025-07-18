@@ -15,7 +15,6 @@ export function TradeBookerPanel() {
 
   const { data: portfolioOverviewData, isLoading, isError, error } = useHookSearchPortfolioOverview(portfolioID);
 
-  const bookTradeRef = useRef(null);
   return (
     <>
       {

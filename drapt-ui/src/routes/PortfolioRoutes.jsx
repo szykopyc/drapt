@@ -7,89 +7,64 @@ import Portfolio from "../pages/PortfolioWrapper";
 import PortfolioIndex from "../pages/PortfolioIndex";
 import CreatePortfolioPanel from "../components/portfoliopanels/CreatePortfolioPanel";
 import { OverviewPanel } from "../components/portfoliopanels/OverviewPanel";
-import PositionMonitoringPanel from "../components/portfoliopanels/ReferencePositionMonitoringPanel";
 import { TradeBookerPanel } from "../components/portfoliopanels/TradeBookerPanel";
 import { PortfolioAdminPanel } from "../components/portfoliopanels/PortfolioAdminPanel";
 
-export default [
+import PositionMonitoringPanel from "../components/portfoliopanels/PositionMonitoringPanel";
 
-  <Route
-    path="portfolio"
-    element={
-      <UserRoleProtectedRoute
-        otherwiseNavigateTo={"/portfolio"}
-      >
-        <ProtectedRoute>
-          <PortfolioIndex />
-        </ProtectedRoute>
-      </UserRoleProtectedRoute>
-    }
-  />,
-  <Route
-    path="portfolio/create"
-    element={
-      <UserRoleProtectedRoute
-        otherwiseNavigateTo={"/portfolio"}
-      >
-        <ProtectedRoute>
-          <CreatePortfolioPanel />
-        </ProtectedRoute>
-      </UserRoleProtectedRoute>
-    }
-  />,
-  <Route
-    path="portfolio/:portfolioID"
-    element={
-      <ProtectedRoute>
-        <ProtectedPortfolioRoute>
-          <Portfolio />
-        </ProtectedPortfolioRoute>
-      </ProtectedRoute>
-    }
-  >,
+export default [
     <Route
-      index
-      element={
-        <Navigate to={"overview"} replace />
-      }
-    ></Route>
+        path="portfolio"
+        element={
+            <UserRoleProtectedRoute otherwiseNavigateTo={"/portfolio"}>
+                <ProtectedRoute>
+                    <PortfolioIndex />
+                </ProtectedRoute>
+            </UserRoleProtectedRoute>
+        }
+    />,
     <Route
-      path="overview"
-      element={<OverviewPanel />}
-    ></Route>
+        path="portfolio/create"
+        element={
+            <UserRoleProtectedRoute otherwiseNavigateTo={"/portfolio"}>
+                <ProtectedRoute>
+                    <CreatePortfolioPanel />
+                </ProtectedRoute>
+            </UserRoleProtectedRoute>
+        }
+    />,
     <Route
-      path="monitor"
-      element={<PositionMonitoringPanel />}
-    ></Route>
-    <Route
-      path="tradebooker"
-      element={
-        <UserRoleProtectedRoute
-          allowedRoles={[
-            "vd",
-            "director",
-            "developer",
-            "pm",
-          ]}
-        >
-          <TradeBookerPanel />
-        </UserRoleProtectedRoute>
-      }
-    ></Route>
-    <Route
-      path="administration"
-      element={
-        <UserRoleProtectedRoute
-          allowedRoles={[
-            "vd",
-            "director",
-            "developer",
-            "pm"
-          ]}
-        >
-          <PortfolioAdminPanel />
-        </UserRoleProtectedRoute>
-      }
-    ></Route>
-  </Route>
+        path="portfolio/:portfolioID"
+        element={
+            <ProtectedRoute>
+                <ProtectedPortfolioRoute>
+                    <Portfolio />
+                </ProtectedPortfolioRoute>
+            </ProtectedRoute>
+        }
+    >
+        ,<Route index element={<Navigate to={"overview"} replace />}></Route>
+        <Route path="overview" element={<OverviewPanel />}></Route>
+        <Route path="monitor" element={<PositionMonitoringPanel />}></Route>
+        <Route
+            path="tradebooker"
+            element={
+                <UserRoleProtectedRoute
+                    allowedRoles={["vd", "director", "developer", "pm"]}
+                >
+                    <TradeBookerPanel />
+                </UserRoleProtectedRoute>
+            }
+        ></Route>
+        <Route
+            path="administration"
+            element={
+                <UserRoleProtectedRoute
+                    allowedRoles={["vd", "director", "developer", "pm"]}
+                >
+                    <PortfolioAdminPanel />
+                </UserRoleProtectedRoute>
+            }
+        ></Route>
+    </Route>,
 ];
