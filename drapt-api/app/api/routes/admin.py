@@ -11,7 +11,7 @@ from app.schemas.user import UserRead, UserUpdate, UserUpdateResponseModel, User
 
 # permissions and dependencies
 from app.users.deps import fastapi_users
-from app.config.permissions import permissions as role_permissions
+from app.config.permissions import permission_check_util
 
 # logger
 from app.utils.log import admin_logger as logger
@@ -27,8 +27,7 @@ async def update_user_by_id(
     current_user: User = Depends(fastapi_users.current_user()),
 ):
     # Only allow execs to patch users
-    role_perms = role_permissions.get(current_user.role)
-    if not role_perms or not role_perms.get("can_manage_user"):
+    if not permission_check_util(current_user, "can_manage_user"):
         logger.warning(f"({current_user.username}) tried to update user USER ID: {user_id} (disallowed)")
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -61,8 +60,7 @@ async def get_user_by_username(
     session=Depends(get_async_session),
     current_user: User = Depends(fastapi_users.current_user())
 ):
-    role_perms = role_permissions.get(current_user.role)
-    if not role_perms or not role_perms.get("can_search_user"):
+    if not permission_check_util(current_user, "can_search_user"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Only PMs and above can search for a user.",
@@ -81,8 +79,7 @@ async def delete_user_by_id(
     session=Depends(get_async_session),
     current_user: User = Depends(fastapi_users.current_user())
 ):
-    role_perms = role_permissions.get(current_user.role)
-    if not role_perms or not role_perms.get("can_manage_user"):
+    if not permission_check_util(current_user, "can_manage_user"):
         logger.warning(f"({current_user.username}) tried to delete user USER ID: {user_id} (disallowed)")
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -104,8 +101,7 @@ async def list_all_users(
     session=Depends(get_async_session),
     current_user: User = Depends(fastapi_users.current_user()),
 ):
-    role_perms = role_permissions.get(current_user.role)
-    if not role_perms or not role_perms.get("can_manage_user"):
+    if not permission_check_util(current_user, "can_manage_user"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Only executives can see all users.",
@@ -126,8 +122,7 @@ async def search_by_role(
     session=Depends(get_async_session),
     current_user: User = Depends(fastapi_users.current_user())
 ):
-    role_perms = role_permissions.get(current_user.role)
-    if not role_perms or not role_perms.get("can_manage_user"):
+    if not permission_check_util(current_user, "can_manage_user"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Only executive users can search users by role."
@@ -146,8 +141,7 @@ async def search_by_team(
     session = Depends(get_async_session),
     current_user: User = Depends(fastapi_users.current_user())
 ): 
-    role_perms = role_permissions.get(current_user.role)
-    if not role_perms or not role_perms.get("can_search_user"):
+    if not permission_check_util(current_user, "can_search_user"):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only PMs+ can search for users.")
 
     result = await session.execute(select(User).where(User.team == team))
@@ -165,8 +159,7 @@ async def unassign_user_from_any_portfolio(
     session=Depends(get_async_session),
     current_user: User = Depends(fastapi_users.current_user())
 ):
-    role_perms = role_permissions.get(current_user.role)
-    if not role_perms or not role_perms.get("can_manage_portfolio"):
+    if not permission_check_util(current_user, "can_manage_portfolio"):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only PMs and above can manage portfolio members.")
 
     result = await session.execute(select(User).where(User.id==user_id))
@@ -178,7 +171,7 @@ async def unassign_user_from_any_portfolio(
     if user.portfolio_id is None:
         return UserReadResponseModel.model_validate(user)
 
-    if not (current_user.portfolio_id == user.portfolio_id or role_perms.get("can_manage_user")):
+    if not (current_user.portfolio_id == user.portfolio_id or permission_check_util(current_user, "can_manage_user")):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Unable to manage users assigned to other portfolios.")
     
     user_portfolio_id_for_logging = user.portfolio_id
@@ -198,8 +191,7 @@ async def assign_user_to_portfolio(
     session=Depends(get_async_session),
     current_user: User = Depends(fastapi_users.current_user())
 ):
-    role_perms = role_permissions.get(current_user.role)
-    if not role_perms or not role_perms.get("can_manage_portfolio"):
+    if not permission_check_util(current_user, "can_manage_portfolio"):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only PMs and above can manage portfolio members.")
 
     result = await session.execute(select(User).where(User.id==user_id))
@@ -208,7 +200,7 @@ async def assign_user_to_portfolio(
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Failed to fetch the user you requested.")
 
-    if not (current_user.portfolio_id == user.portfolio_id or role_perms.get("can_manage_user")):
+    if not (current_user.portfolio_id == user.portfolio_id or permission_check_util(current_user, "can_manage_user")):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Unable to manage users assigned to other portfolios.")
     
     user.portfolio_id = portfolio_id

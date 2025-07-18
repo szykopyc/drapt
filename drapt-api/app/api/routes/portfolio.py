@@ -14,10 +14,10 @@ from app.schemas.portfolio import PortfolioCreate, PortfolioRead, PortfolioUpdat
 # auth and permission imports
 from app.models.user import User
 from app.users.deps import fastapi_users
-from app.config.permissions import permissions as role_permissions
+from app.config.permissions import permission_check_util
 
 # adding a portfolio ID to the PM after initialisation of portfolio logic
-from app.utils.portfolio_assignment import assign_user_to_portfolio
+from app.services.portfolio_services.portfolio_assignment import assign_user_to_portfolio
 
 # logging functionality
 from app.utils.log import portfolio_logger as logger
@@ -34,8 +34,7 @@ async def create_portfolio(
     current_user: User = Depends(fastapi_users.current_user()),
     session=Depends(get_async_session)
 ):
-    role_perms = role_permissions.get(current_user.role)
-    if not role_perms or not role_perms.get("can_init_portfolio"):
+    if not permission_check_util(current_user, "can_init_portfolio"):
         logger.warning(f"({current_user.username}) tried to initialise portfolio (disallowed)")
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -68,15 +67,14 @@ async def get_portfolio_by_string_id(
     session=Depends(get_async_session),
     current_user: User = Depends(fastapi_users.current_user())
 ):
-    role_perms = role_permissions.get(current_user.role)
-    if not role_perms or not role_perms.get("can_search_portfolio"):
+    if not permission_check_util(current_user,"can_search_portfolio"):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You aren't authorised to search portfolios.")
     
     searched_portfolio_result = await session.execute(select(Portfolio).where(Portfolio.portfolio_string_id == portfolio_string_id))
     searched_portfolio = searched_portfolio_result.scalar_one_or_none()
 
     # if user doesn't have can_init_portfolio or isnt assigned to the portfolio (via portfolio_id) raise exception
-    if not (role_perms.get("can_init_portfolio") or current_user.portfolio_id == searched_portfolio.id):
+    if not (permission_check_util(current_user, "can_init_portfolio") or current_user.portfolio_id == searched_portfolio.id):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You aren't authorised to view this portfolio.")
     
     if not searched_portfolio:
@@ -91,8 +89,7 @@ async def get_portfolio_by_string_id_overview(
     session=Depends(get_async_session),
     current_user: User = Depends(fastapi_users.current_user())
 ):
-    role_perms = role_permissions.get(current_user.role)
-    if not role_perms or not role_perms.get("can_search_portfolio"):
+    if not permission_check_util(current_user, "can_search_portfolio"):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You aren't authorised to search portfolios.")
 
     searched_portfolio_result = await session.execute(select(Portfolio).where(Portfolio.portfolio_string_id == portfolio_string_id))
@@ -105,7 +102,7 @@ async def get_portfolio_by_string_id_overview(
     members = members_result.scalars().all()
 
     # if user doesn't have can_init_portfolio or isnt assigned to the portfolio (via portfolio_id) raise exception
-    if not (role_perms.get("can_init_portfolio") or current_user.portfolio_id == searched_portfolio.id):
+    if not (permission_check_util(current_user, "can_init_portfolio") or current_user.portfolio_id == searched_portfolio.id):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You aren't authorised to view this portfolio.")
     
     portfolio_read_data = PortfolioReadOverview.model_validate(searched_portfolio)
@@ -120,8 +117,7 @@ async def update_portfolio_by_id(
     session=Depends(get_async_session),
     current_user: User = Depends(fastapi_users.current_user())
 ):
-    role_perms = role_permissions.get(current_user.role)
-    if not role_perms or not role_perms.get("can_manage_portfolio"):
+    if not permission_check_util(current_user, "can_manage_portfolio"):
         logger.warning(f"({current_user.username}) tried to update portfolio PORTFOLIO ID: {portfolio_id}")
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -134,7 +130,7 @@ async def update_portfolio_by_id(
     if not fetched_portfolio:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Unable to find requested portfolio")
     
-    if not (role_perms.get("can_init_portfolio") or current_user.portfolio_id == fetched_portfolio.id):
+    if not (permission_check_util(current_user, "can_init_portfolio") or current_user.portfolio_id == fetched_portfolio.id):
         logger.warning(f"({current_user.username}) tried to update different unassigned portfolio PORTFOLIO ID: {portfolio_id} / PORTFOLIO STRING ID: {fetched_portfolio.portfolio_string_id}")
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -157,8 +153,7 @@ async def delete_portfolio_by_id(
     session=Depends(get_async_session),
     current_user: User = Depends(fastapi_users.current_user())
 ):
-    role_perms = role_permissions.get(current_user.role)
-    if not role_perms or not role_perms.get("can_init_portfolio"):
+    if not permission_check_util(current_user, "can_init_portfolio"):
         logger.warning(f"({current_user.username}) tried to delete portfolio PORTFOLIO ID: {portfolio_id} (disallowed)")
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only executives can delete portfolios.")
     
@@ -192,8 +187,7 @@ async def delete_portfolio_by_id(
 async def get_all_portfolios(
     session=Depends(get_async_session), current_user: User = Depends(fastapi_users.current_user())
 ):
-    role_perms = role_permissions.get(current_user.role)
-    if not role_perms or not role_perms.get("can_init_portfolio"):
+    if not permission_check_util(current_user, "can_init_portfolio"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Only executives can search all portfolios."

@@ -7,7 +7,7 @@ from app.models.trade import Trade
 from app.models.portfolio import Portfolio
 from app.models.user import User
 from app.enums.trade import TradeTypeEnum
-from app.services.position_service import PositionService
+from app.services.position_services.position_service import PositionService
 from app.schemas.position import PositionRead
 
 from app.tests.pretty_prints_for_testing_purposes import terminalcolours, pretty_print_position, print_test_end_banner

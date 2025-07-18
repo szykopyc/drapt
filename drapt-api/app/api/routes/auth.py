@@ -4,7 +4,7 @@ from app.users.manager import get_user_manager
 from fastapi_users.exceptions import UserAlreadyExists
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.future import select
-
+from app.config.permissions import permission_check_util
 # utils
 from app.utils.log import auth_logger as logger
 
@@ -13,7 +13,6 @@ from app.models.user import User
 from app.schemas.user import UserCreate, UserRead, UserReadResponseModel
 # custom permssions and imports fastapi_users to make all routes not be circular if that makes sense
 from app.users.deps import fastapi_users
-from app.config.permissions import permissions as role_permissions
 
 router = APIRouter()
 
@@ -25,8 +24,7 @@ async def register_user(
     user_manager=Depends(get_user_manager),
     current_user: User = Depends(fastapi_users.current_user()),
 ):
-    role_perms = role_permissions.get(current_user.role)
-    if not role_perms or not role_perms.get("can_manage_user"):
+    if not permission_check_util(current_user, "can_manage_user"):
         logger.warning(f"({current_user.username}) tried to register a new user (disallowed)")
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,

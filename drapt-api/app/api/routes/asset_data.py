@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status 
 from typing import List
-from app.config.permissions import permissions as role_permissions_dict
+from app.config.permissions import permission_check_util
 from app.users.deps import fastapi_users
 from app.schemas.asset_data import AssetMetadataRead
-from app.services.market_data import get_ticker_search, get_multiticker_search_fuzzy
+from app.services.data_services.market_data import get_ticker_search, get_multiticker_search_fuzzy
 from app.utils.log import external_api_logger as logger
 from app.models.user import User
 
@@ -14,8 +14,7 @@ async def get_ticker_metadata_route(
     ticker: str,
     current_user: User = Depends(fastapi_users.current_user())
 ):
-    role_perms = role_permissions_dict.get(current_user.role)
-    if not role_perms or not role_perms.get("can_query_ticker"):
+    if not permission_check_util(current_user, "can_query_ticker"):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You are not authorised to query ticker metadata.")
     
     try:
@@ -31,8 +30,7 @@ async def get_multiticker_metadata_fuzzy_route(
     fuzzyquery: str,
     current_user: User = Depends(fastapi_users.current_user())
 ):
-    role_perms = role_permissions_dict.get(current_user.role)
-    if not role_perms or not role_perms.get("can_query_ticker"):
+    if not permission_check_util(current_user, "can_query_ticker"):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You are not authorised to query ticker metadata.")
     
     try:

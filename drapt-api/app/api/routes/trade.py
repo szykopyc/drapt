@@ -14,7 +14,7 @@ from app.enums.trade import TradeTypeEnum, CurrencyEnum
 # auth and permissions
 from app.models.user import User
 from app.users.deps import fastapi_users
-from app.config.permissions import permissions as role_permissions_dict
+from app.config.permissions import permission_check_util
 
 # logging functionality
 from app.utils.log import trade_logger as logger
@@ -30,12 +30,11 @@ async def book_trade(
     current_user: User = Depends(fastapi_users.current_user()),
     session = Depends(get_async_session)
 ):
-    role_perms = role_permissions_dict.get(current_user.role)
-    if not role_perms or not role_perms.get("can_book_trades"):
+    if not permission_check_util(current_user, "can_book_trades"):
         logger.warning(f"({current_user.username}) tried to book trade (disallowed)")
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only PMs+ can book trades.")
 
-    if not (role_perms.get("developer") or current_user.portfolio_id == trade.portfolio_id):
+    if not (permission_check_util(current_user, "developer") or current_user.portfolio_id == trade.portfolio_id):
         logger.warning(f"({current_user.username}) tried to book a trade on a different portfolio PORTFOLIO ID: {trade.portfolio_id}")
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Unauthorised to book trades on this portfolio."
@@ -79,15 +78,14 @@ async def get_trade_by_portfolio_id(
     session=Depends(get_async_session),
     current_user: User = Depends(fastapi_users.current_user())
 ):
-    role_perms = role_permissions_dict.get(current_user.role)
-    if not role_perms or not role_perms.get("can_search_trades"):
+    if not permission_check_util(current_user,"can_search_trades"):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You aren't authorised to search trades.")
     
     searched_trades_result = await session.execute(select(Trade).where(Trade.portfolio_id == portfolio_id))
     searched_trades = searched_trades_result.scalars().all()
 
     # if user doesn't have can_init_portfolio or isnt assigned to the portfolio (via portfolio_id) raise exception
-    if not (role_perms.get("developer") or current_user.portfolio_id == portfolio_id):
+    if not (permission_check_util(current_user, "developer") or current_user.portfolio_id == portfolio_id):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Unauthorised to view this portfolio's trades.")
     
     if not searched_trades:
