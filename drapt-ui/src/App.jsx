@@ -1,9 +1,9 @@
 import {
-  Routes,
-  Route,
-  Navigate,
-  useNavigate,
-  useLocation,
+    Routes,
+    Route,
+    Navigate,
+    useNavigate,
+    useLocation,
 } from "react-router-dom";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Analytics } from "@vercel/analytics/react";
@@ -32,106 +32,112 @@ import AnalyseRoutes from "./routes/AnalyseRoutes";
 import PortfolioRoutes from "./routes/PortfolioRoutes";
 import AdminRoutes from "./routes/AdminRoutes";
 
+// AG GRID TABLES
+import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
+
+// Register all Community features
+ModuleRegistry.registerModules([AllCommunityModule]);
+
 // List of protected route prefixes
 const protectedRoutes = ["/analyse", "/portfolio", "/admin", "/profile"];
 
 function App() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const user = useUserStore((state) => state.user);
-  const setUser = useUserStore((state) => state.setUser);
-  const setSessionExpired = useUserStore((state) => state.setSessionExpired);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const user = useUserStore((state) => state.user);
+    const setUser = useUserStore((state) => state.setUser);
+    const setSessionExpired = useUserStore((state) => state.setSessionExpired);
 
-  const topLevelKey = location.pathname.split("/")[1];
+    const topLevelKey = location.pathname.split("/")[1];
 
-  useEffect(() => {
-    // Only check auth if the current path is protected
-    const isProtected = protectedRoutes.some((route) =>
-      location.pathname.startsWith(route)
-    );
-    if (!isProtected) return;
+    useEffect(() => {
+        // Only check auth if the current path is protected
+        const isProtected = protectedRoutes.some((route) =>
+            location.pathname.startsWith(route)
+        );
+        if (!isProtected) return;
 
-    const check = async () => {
-      try {
-        const response = await checkAuth();
-        if (response) {
-          setUser(response);
-          setSessionExpired(false);
-        } else {
-          setUser(null);
-          navigate("/unauthorised", { replace: true });
-        }
-      } catch {
-        if (user) {
-          setSessionExpired(true);
-          navigate("/session-expired", { replace: true });
-        } else {
-          setUser(null);
-          navigate("/unauthorised", { replace: true });
-        }
-      }
-    };
-    check();
-    // eslint-disable-next-line
-  }, [location.pathname]);
-
-  return (
-    <ErrorBoundary>
-      <>
-        <AnimatePresence mode="wait" initial={false}>
-          <Routes location={location} key={topLevelKey}>
-            <Route element={<MasterLayout />}>
-              {user ? (
-                <Route
-                  path="/"
-                  element={
-                    <ProtectedRoute>
-                      <Landing />
-                    </ProtectedRoute>
-                  }
-                />
-              ) : (
-                <Route path="/" element={<Index />} />
-              )}
-              {UnprotectedRoutes}
-              {AnalyseRoutes}
-              {PortfolioRoutes}
-              {AdminRoutes}
-              <Route
-                path="profile"
-                element={
-                  <ProtectedRoute>
-                    <Profile />
-                  </ProtectedRoute>
+        const check = async () => {
+            try {
+                const response = await checkAuth();
+                if (response) {
+                    setUser(response);
+                    setSessionExpired(false);
+                } else {
+                    setUser(null);
+                    navigate("/unauthorised", { replace: true });
                 }
-              />
-              <Route path="logout" element={<LogoutHandler />} />
-              <Route
-                path="ise"
-                element={<InternalServerError />}
-              />
-              <Route
-                path="unauthorised"
-                element={<Unauthorised />}
-              />
-              <Route path="forbidden" element={<Forbidden />} />
-              <Route
-                path="maintenance"
-                element={<MaintenanceError />}
-              />
-              <Route
-                path="session-expired"
-                element={<SessionExpired />}
-              />
-              <Route path="*" element={<NotFound />} />
-            </Route>
-          </Routes>
-        </AnimatePresence>
-        <SpeedInsights />
-        <Analytics />
-      </>
-    </ErrorBoundary>
-  );
+            } catch {
+                if (user) {
+                    setSessionExpired(true);
+                    navigate("/session-expired", { replace: true });
+                } else {
+                    setUser(null);
+                    navigate("/unauthorised", { replace: true });
+                }
+            }
+        };
+        check();
+        // eslint-disable-next-line
+    }, [location.pathname]);
+
+    return (
+        <ErrorBoundary>
+            <>
+                <AnimatePresence mode="wait" initial={false}>
+                    <Routes location={location} key={topLevelKey}>
+                        <Route element={<MasterLayout />}>
+                            {user ? (
+                                <Route
+                                    path="/"
+                                    element={
+                                        <ProtectedRoute>
+                                            <Landing />
+                                        </ProtectedRoute>
+                                    }
+                                />
+                            ) : (
+                                <Route path="/" element={<Index />} />
+                            )}
+                            {UnprotectedRoutes}
+                            {AnalyseRoutes}
+                            {PortfolioRoutes}
+                            {AdminRoutes}
+                            <Route
+                                path="profile"
+                                element={
+                                    <ProtectedRoute>
+                                        <Profile />
+                                    </ProtectedRoute>
+                                }
+                            />
+                            <Route path="logout" element={<LogoutHandler />} />
+                            <Route
+                                path="ise"
+                                element={<InternalServerError />}
+                            />
+                            <Route
+                                path="unauthorised"
+                                element={<Unauthorised />}
+                            />
+                            <Route path="forbidden" element={<Forbidden />} />
+                            <Route
+                                path="maintenance"
+                                element={<MaintenanceError />}
+                            />
+                            <Route
+                                path="session-expired"
+                                element={<SessionExpired />}
+                            />
+                            <Route path="*" element={<NotFound />} />
+                        </Route>
+                    </Routes>
+                </AnimatePresence>
+                <SpeedInsights />
+                <Analytics />
+            </>
+        </ErrorBoundary>
+    );
 }
 
 export default App;

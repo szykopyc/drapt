@@ -1,13 +1,15 @@
 import { CardOne } from "../../baseui/CustomCard";
-import CustomTable from "../../baseui/CustomTable";
 import { useHookGetTradesByPortfolioID } from "../../../reactqueryhooks/useTradeHook";
 import InnerEmptyState from "../../errorui/InnerEmptyState";
-import { MdInfo, MdInfoOutline } from "react-icons/md";
+import { MdInfoOutline } from "react-icons/md";
 import { LoadingSpinner } from "../../helperui/LoadingSpinnerHelper";
 import { currencyMapperDict } from "../../../helperfunctions/CurrencyMapper";
 import { venueMapperDict } from "../../../helperfunctions/VenueMapper";
 import { ModalHelper } from "../../helperui/ModalHelper";
 import { useState, useRef, useMemo } from "react";
+import { AgGridReact } from "ag-grid-react"; // Add this import
+import { timeAndDateFormatter } from "../../../helperfunctions/VariousTextFormatter";
+import { directionCellRenderer } from "../../../helperfunctions/AGCellRenderers";
 
 export default function TradeHistoryCard(portfolioOverviewData) {
     const {
@@ -45,6 +47,121 @@ export default function TradeHistoryCard(portfolioOverviewData) {
             tradeNoteDialogueRef.current.showModal();
     };
 
+    const columnDefs = useMemo(
+        () => [
+            {
+                headerName: "Ticker",
+                field: "ticker",
+                sortable: true,
+                filter: true,
+                minWidth: 100,
+            },
+            {
+                headerName: "Exchange",
+                field: "exchange",
+                sortable: true,
+                filter: true,
+                minWidth: 100,
+            },
+            {
+                headerName: "Direction",
+                field: "direction",
+                cellRenderer: directionCellRenderer,
+                sortable: true,
+                filter: true,
+                minWidth: 110,
+            },
+            {
+                headerName: "Price",
+                field: "price",
+                valueFormatter: ({ data }) =>
+                    currencyPriceFormatter(data.currency, data.price),
+                sortable: true,
+                minWidth: 120,
+            },
+            {
+                headerName: "Quantity",
+                field: "quantity",
+                valueFormatter: ({ value }) => parseFloat(value).toFixed(2),
+                sortable: true,
+                minWidth: 120,
+            },
+            {
+                headerName: "Notional",
+                field: "notional",
+                valueFormatter: ({ data }) =>
+                    currencyPriceFormatter(data.currency, data.notional),
+                sortable: true,
+                minWidth: 120,
+            },
+            {
+                headerName: "Analyst",
+                field: "analyst_id",
+                valueGetter: ({ data }) =>
+                    portfolioMemberFullnameFinder(data.analyst_id),
+                sortable: true,
+                minWidth: 130,
+            },
+            {
+                headerName: "Trader",
+                field: "trader_id",
+                valueGetter: ({ data }) =>
+                    portfolioMemberFullnameFinder(data.trader_id),
+                sortable: true,
+                minWidth: 130,
+            },
+            {
+                headerName: "Date and Time",
+                field: "execution_date",
+                valueFormatter: ({ value }) => timeAndDateFormatter(value),
+                sortable: true,
+                minWidth: 160,
+                sort: "desc",
+                sortIndex: 0,
+            },
+            {
+                headerName: "Venue/Broker",
+                field: "venue",
+                valueGetter: ({ data }) => venueMapperDict[data.venue],
+                sortable: true,
+                minWidth: 120,
+            },
+            {
+                headerName: "Notes",
+                field: "notes",
+                cellRenderer: ({ data }) => {
+                    if (!data.notes) return "N/A";
+                    return (
+                        <button
+                            className="btn btn-info rounded-none w-full h-full"
+                            type="button"
+                        >
+                            View
+                        </button>
+                    );
+                },
+                onCellClicked: ({ data }) => {
+                    if (data.notes) handleShowNoteDialogue(data);
+                },
+                sortable: true,
+                minWidth: 100,
+            },
+        ],
+        [portfolioMemberFullnameFinder]
+    );
+
+    const defaultColDef = useMemo(
+        () => ({
+            flex: 1,
+            filter: true,
+            resizable: true,
+            minWidth: 100,
+            sortable: true,
+            sortingOrder: ["desc", "asc", null],
+        }),
+        []
+    );
+
     return (
         <>
             <CardOne title={"Trade History"}>
@@ -53,111 +170,38 @@ export default function TradeHistoryCard(portfolioOverviewData) {
                 ) : isError || trade_history_data?.length === 0 ? (
                     <InnerEmptyState
                         title="No Trades Yet"
-                        message={"No trade history available for is portfolio."}
+                        message={
+                            "No trade history available for this portfolio."
+                        }
                         icon={<MdInfoOutline className="text-4xl text-info" />}
                     />
                 ) : (
-                    <div className="overflow-x-auto max-h-[500px] overflow-y-auto">
-                        <table className="table-sm md:table table-zebra table-auto">
-                            <thead>
-                                <tr>
-                                    <th>Ticker</th>
-                                    <th>Exchange</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Notional</th>
-                                    <th>Direction</th>
-                                    <th>Analyst</th>
-                                    <th>Trader</th>
-                                    <th>Date and Time</th>
-                                    <th>Venue/Broker</th>
-                                    <th>Notes</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {trade_history_data
-                                    .toReversed()
-                                    .map((trade) => (
-                                        <tr
-                                            key={`${trade.id}-${trade.execution_date}`}
-                                        >
-                                            <td>{trade.ticker}</td>
-                                            <td>{trade.exchange}</td>
-                                            <td>
-                                                {currencyPriceFormatter(
-                                                    trade.currency,
-                                                    trade.price
-                                                )}
-                                            </td>
-                                            <td>
-                                                {parseFloat(
-                                                    trade.quantity
-                                                ).toFixed(2)}
-                                            </td>
-                                            <td>
-                                                {currencyPriceFormatter(
-                                                    trade.currency,
-                                                    trade.notional
-                                                )}
-                                            </td>
-                                            <td>
-                                                <span
-                                                    className={`badge font-semibold ${
-                                                        trade.direction ===
-                                                        "BUY"
-                                                            ? "badge-success rounded-none"
-                                                            : "badge-error rounded-none text-white"
-                                                    }`}
-                                                >
-                                                    {trade.direction}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                {portfolioMemberFullnameFinder(
-                                                    trade.analyst_id
-                                                )}
-                                            </td>
-                                            <td>
-                                                {portfolioMemberFullnameFinder(
-                                                    trade.trader_id
-                                                )}
-                                            </td>
-                                            <td>
-                                                {new Date(
-                                                    trade.execution_date
-                                                ).toLocaleDateString("en-GB") +
-                                                    " " +
-                                                    new Date(
-                                                        trade.execution_date
-                                                    ).toLocaleTimeString()}
-                                            </td>
-                                            <td>
-                                                {venueMapperDict[trade.venue]}
-                                            </td>
-                                            <td>
-                                                {trade.notes ? (
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-sm btn-success rounded-none"
-                                                        onClick={() =>
-                                                            handleShowNoteDialogue(
-                                                                trade
-                                                            )
-                                                        }
-                                                    >
-                                                        View
-                                                    </button>
-                                                ) : (
-                                                    "N/A"
-                                                )}
-                                            </td>
-                                        </tr>
-                                    ))}
-                            </tbody>
-                        </table>
+                    <div
+                        className="ag-theme-quartz"
+                        style={{
+                            width: "100%",
+                            maxHeight: "500px",
+                            minHeight: "auto",
+                            height: "auto",
+                            overflow: "auto",
+                        }}
+                    >
+                        <AgGridReact
+                            rowData={trade_history_data}
+                            columnDefs={columnDefs}
+                            defaultColDef={defaultColDef}
+                            domLayout="autoHeight"
+                            getRowHeight={() => 32}
+                            headerHeight={32}
+                            animateRows={true}
+                            suppressCellFocus={true}
+                            pagination={false}
+                            suppressHorizontalScroll={true}
+                        />
                     </div>
                 )}
             </CardOne>
+
             <ModalHelper
                 id={"trade_note_data"}
                 reference={tradeNoteDialogueRef}
@@ -171,7 +215,9 @@ export default function TradeHistoryCard(portfolioOverviewData) {
                         : "Trade Notes"
                 }
             >
-                {tradeNoteData && <p>{tradeNoteData.notes}</p>}
+                {tradeNoteData && (
+                    <p className="whitespace-pre-line">{tradeNoteData.notes}</p>
+                )}
             </ModalHelper>
         </>
     );

@@ -323,6 +323,54 @@ input, select, .textarea, .skeleton, .modal-box, .modal, .modal-action, .modal .
 }
 
 /* ##############################
+   AG TABLE THEMES
+   Custom AG Grid theme variables for each app theme.
+   These styles make ag-theme-quartz match your DaisyUI/Tailwind themes.
+############################## */
+
+.ag-theme-quartz {
+  --ag-background-color: var(--color-base-100) !important;
+  --ag-header-background-color: var(--color-base-200) !important;
+  --ag-odd-row-background-color: var(--color-base-100) !important;
+  --ag-row-hover-color: var(--color-base-200) !important;
+  --ag-font-size: 15px !important;
+  --ag-header-foreground-color: var(--color-base-content) !important;
+  --ag-foreground-color: var(--color-base-content) !important;
+  --ag-border-color: var(--color-base-300) !important;
+  --ag-header-cell-hover-background-color: var(--color-base-300) !important;
+  --ag-selected-row-background-color: var(--color-accent) !important;
+  --ag-selected-row-foreground-color: var(--color-accent-content) !important;
+  --ag-row-border-color: var(--color-base-200) !important;
+}
+
+/* Add this to your AG TABLE THEMES section */
+/* AG TABLE THEMES */
+.ag-theme-quartz .ag-root {
+    background-color: var(--color-base-200) !important;
+    --ag-border-color: var(--color-base-300) !important;
+}
+
+.ag-theme-quartz .ag-header,
+.ag-theme-quartz .ag-header-cell {
+    background-color: var(--color-base-200) !important;
+    color: var(--color-base-content) !important;
+}
+
+.ag-theme-quartz .ag-cell,
+.ag-theme-quartz .ag-row {
+    background-color: var(--color-base-100) !important;
+    color: var(--color-base-content) !important;
+    display: flex;
+    align-items: center;
+}
+
+.ag-theme-quartz .ag-row-hover {
+    background-color: var(--color-base-200) !important;
+}
+
+
+
+/* ##############################
    Miscellaneous
 ############################## */
 @media print {

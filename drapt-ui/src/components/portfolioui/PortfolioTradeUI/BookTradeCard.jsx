@@ -107,6 +107,7 @@ export default function BookTradeCard(portfolioOverviewData) {
             direction: data.direction,
             venue: data.venue,
             analyst_id: data.analyst_id,
+            notes: data.notes,
             execution_date: executionDateTime, // send as a new field or replace as needed
             currency:
                 CountryToCurrencyMapper[
