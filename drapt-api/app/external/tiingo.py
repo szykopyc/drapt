@@ -62,3 +62,38 @@ class TiingoClient:
             }
             
             return formatted_response
+        
+
+    async def get_ticker_last_close(
+        self,
+        ticker: str
+    ):
+        url = f"{self.base_url}tiingo/daily/{ticker.strip().upper()}/prices"
+
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url, headers=self.headers)
+            response.raise_for_status()
+            response = response.json()
+
+            if not response or not isinstance(response, list):
+                raise ValueError("No price data returned from Tiingo")
+
+            price = response[0]
+
+            formatted_response = {
+                "ticker": ticker.strip().upper(),
+                "open": price["open"],
+                "high": price["high"],
+                "low": price["low"],
+                "close": price["close"],
+                "volume": price["volume"],
+                "adjOpen": price["adjOpen"],
+                "adjHigh": price["adjHigh"],
+                "adjLow": price["adjLow"],
+                "adjClose": price["adjClose"],
+                "adjVolume": price["adjVolume"],
+                "divCash": price["divCash"],
+                "date": price.get("date"),
+            }
+
+            return formatted_response

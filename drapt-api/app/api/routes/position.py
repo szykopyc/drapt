@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from app.db import get_async_session
 
 # models and schemas
-from app.schemas.position import PositionRead
+from app.schemas.position import PositionRead, EnhancedPosition
 
 # permissions and auth
 from app.config.permissions import permission_check_util
@@ -18,7 +18,7 @@ from app.services.position_services.position_service import PositionService
 
 router = APIRouter()
 
-@router.get("/positions/getopenpositions/{portfolio_id}", response_model=list[PositionRead], tags=["position"])
+@router.get("/positions/getopenpositions/{portfolio_id}", response_model=list[EnhancedPosition], tags=["position"])
 async def get_open_positions_with_portfolio_id(
     portfolio_id: int,
     current_user: User = Depends(fastapi_users.current_user()),

@@ -1,7 +1,5 @@
 from app.external.tiingo import TiingoClient
-from app.redis_client import cache_get, cache_set
-import asyncio
-import json
+from app.redis_client import cache_get, cache_set, cache_set_short_exp
 from app.schemas.asset_data import AssetMetadataRead
 
 from app.utils.log import external_api_logger as logger
@@ -62,3 +60,22 @@ async def get_multiticker_search_fuzzy(query: str):
         logger.error(f"(Server) {e}")
 
     return enriched_results
+
+async def get_ticker_last_close(ticker: str):
+    cache_key = f"ticker_last_close:{ticker.strip().upper()}"
+
+    cached = cache_get(cache_key)
+    if cached:
+        return cached
+    
+    fresh_fetch = []
+
+    try:
+        client = get_client()
+        fresh_fetch = await client.get_ticker_last_close(ticker)
+        cache_set_short_exp(cache_key, fresh_fetch)
+
+    except Exception as e:
+        logger.error(f"(Server) {e}")
+
+    return fresh_fetch

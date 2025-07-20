@@ -28,3 +28,33 @@ class PositionRead(BaseModel):
 
     total_cost: Decimal
     updated_at: datetime
+
+
+class EnhancedPosition(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    portfolio_id: int
+    ticker: str
+    exchange: str
+    direction: PositionDirection
+    currency: str
+
+    initial_quantity: Decimal
+    entry_price: Decimal
+    entry_date: datetime
+
+    open_quantity: Decimal
+    average_entry_price: Decimal
+    
+    realised_pnl: Decimal
+    is_closed: bool
+    close_date: Optional[datetime] = None
+    exit_price: Optional[Decimal] = None
+
+    total_cost: Decimal
+    updated_at: datetime
+
+    unrealised_pnl: Optional[Decimal] = Decimal("0")
+    last_asset_price: Decimal
+    valid_price_date: datetime

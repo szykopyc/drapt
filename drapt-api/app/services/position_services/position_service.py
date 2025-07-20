@@ -8,6 +8,8 @@ from app.models.trade import Trade
 from app.enums.trade import TradeTypeEnum
 from app.enums.position import PositionDirection
 from app.schemas.trade import TradeRead
+from app.services.position_services.unrealised_pnl_service import calculate_open_position_unrealised_pnl
+from app.schemas.position import EnhancedPosition
 
 class PositionService:
     def __init__(self, session: AsyncSession) -> None:
@@ -202,9 +204,14 @@ class PositionService:
         return list(positions_result.scalars().all())
 
 
-    async def _get_open_position_with_portfolio(self, portfolio_id: int) -> list[Position] | None:
+    async def _get_open_position_with_portfolio(self, portfolio_id: int) -> list[EnhancedPosition] | None:
         positions_result = await self.session.execute(select(Position).where(and_(Position.portfolio_id == portfolio_id, Position.is_closed == False)))
-        return list(positions_result.scalars().all())
+        
+        positions = list(positions_result.scalars().all())
+
+        enhanced_positions = await calculate_open_position_unrealised_pnl(positions)
+
+        return enhanced_positions
 
     
     async def _get_closed_position_with_portfolio(self, portfolio_id: int) -> list[Position] | None:
