@@ -28,7 +28,7 @@ export async function updateUser(user_id, fieldsToPatch) {
     );
     return response.data;
   } catch (error) {
-    throw error;
+    throw error?.response?.data?.detail;
   }
 }
 
@@ -43,7 +43,7 @@ export async function searchUserByUsername(username) {
     );
     return response.data;
   } catch (error) {
-    return error?.response?.data?.detail;
+    throw error?.response?.data?.detail;
   }
 }
 
@@ -78,7 +78,7 @@ export async function unassignUserFromAnyPortfolio(user_id) {
     return response.data;
   }
   catch (error) {
-    throw error;
+    throw error?.response?.data?.detail;
   }
 }
 
@@ -92,7 +92,7 @@ export async function assignUserToPortfolio(user_id, portfolio_id) {
     return response.data;
   }
   catch (error) {
-    return error?.response?.data?.detail;
+    throw error?.response?.data?.detail;
   }
 }
 
@@ -105,5 +105,5 @@ export async function deleteUserByID(user_id) {
     withCredentials: true,
   }
   );
-  return response.data;
+  throw error?.response?.data?.detail;
 }

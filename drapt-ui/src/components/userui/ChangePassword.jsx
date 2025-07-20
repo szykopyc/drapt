@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CustomCollapseArrow } from "../baseui/CustomCard";
-import { ModalHelper } from "../helperui/ModalHelper";
+import ModalHelper from "../helperui/ModalHelper";
 import { FormField } from "../helperui/FormFieldHelper";
 import { getPasswordStrength } from "../validators/PasswordValidator";
 

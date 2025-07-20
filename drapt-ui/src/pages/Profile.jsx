@@ -3,7 +3,7 @@ import { CardOne } from "../components/baseui/CustomCard";
 import ProfileCard from "../components/userui/ProfileCard";
 import ChangePassword from "../components/userui/ChangePassword";
 import LogoutCard from "../components/userui/LogoutCard";
-import { MainBlock } from "../components/baseui/MainBlock";
+import MainBlock from "../components/layout/MainBlock";
 import { BeginText } from "../components/baseui/BeginText";
 import { useEffect, useState } from "react";
 import useUserStore from "../stores/userStore";

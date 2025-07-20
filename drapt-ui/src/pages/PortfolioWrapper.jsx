@@ -1,4 +1,4 @@
-import { MainBlock } from "../components/baseui/MainBlock";
+import WidenedMainBlock from "../components/baseui/WidenedMainBlock";
 import { BeginText } from "../components/baseui/BeginText";
 import TabNav from "../components/baseui/TabNav";
 import { Outlet, useParams, useLocation } from "react-router-dom";
@@ -41,7 +41,7 @@ export default function Portfolio() {
     const initialTab = pathToTab[lastSegment] || "overview";
 
     return (
-        <MainBlock>
+        <WidenedMainBlock>
             {isLoading ? (
                 <LoadingSpinner />
             ) : isError ? (
@@ -114,6 +114,6 @@ export default function Portfolio() {
                     </>
                 </>
             )}
-        </MainBlock>
+        </WidenedMainBlock>
     );
 }

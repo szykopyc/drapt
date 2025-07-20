@@ -1,9 +1,9 @@
 import { CardOne } from "../baseui/CustomCard";
 import React, { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { ModalHelper } from "../helperui/ModalHelper";
+import ModalHelper from "../helperui/ModalHelper";
 import { FormErrorHelper } from "../helperui/FormErrorHelper";
-import { CustomButtonInputStyle } from "../baseui/CustomButton";
+import CustomButton from "../baseui/CustomButton";
 import { FormField } from "../helperui/FormFieldHelper";
 import { useQueryClient } from "@tanstack/react-query";
 import { useHookSearchUserByRole } from "../../reactqueryhooks/useAdminHook";
@@ -151,7 +151,7 @@ export function CreatePortfolioCard() {
                         </FormField>
                         <div className="h-[40px] flex gap-3 w-full">
                             {!portfolioCreationConfirmed ? (
-                                <CustomButtonInputStyle
+                                <CustomButton
                                     form="createPortfolio"
                                     colour="success"
                                     type="button"
@@ -159,17 +159,17 @@ export function CreatePortfolioCard() {
                                     disabled={!allFieldsFilledMask}
                                 >
                                     Create Portfolio
-                                </CustomButtonInputStyle>
+                                </CustomButton>
                             ) : (
                                 <>
-                                    <CustomButtonInputStyle
+                                    <CustomButton
                                         form="createPortfolio"
                                         colour="success"
                                         type="submit"
                                     >
                                         Confirm
-                                    </CustomButtonInputStyle>
-                                    <CustomButtonInputStyle
+                                    </CustomButton>
+                                    <CustomButton
                                         form="createPortfolio"
                                         colour="error"
                                         onClick={() =>
@@ -177,7 +177,7 @@ export function CreatePortfolioCard() {
                                         }
                                     >
                                         Cancel
-                                    </CustomButtonInputStyle>
+                                    </CustomButton>
                                 </>
                             )}
                         </div>

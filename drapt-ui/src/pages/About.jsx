@@ -6,7 +6,7 @@ import {
 import LargeCodeBlock from "../components/baseui/LargeCodeBlock";
 import { CardOne, CardTwo } from "../components/baseui/CustomCard";
 import { BeginText } from "../components/baseui/BeginText";
-import { MainBlock } from "../components/baseui/MainBlock";
+import MainBlock from "../components/layout/MainBlock";
 import {
     CustomUL,
     CustomLI,

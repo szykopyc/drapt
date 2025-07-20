@@ -41,13 +41,6 @@ export function CardOne({
                             {badge}
                         </span>
                     )}
-                    {/* 
-          {keyboardShortcut && (
-            <kbd className="ml-2 px-2 py-1 rounded bg-base-200 text-xs border border-base-300">
-              {keyboardShortcut}
-            </kbd>
-          )}
-          */}
                 </div>
                 {children}
             </div>

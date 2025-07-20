@@ -1,4 +1,4 @@
-import { MainBlock } from "../baseui/MainBlock";
+import MainBlock from "../layout/MainBlock";
 import { BeginText } from "../baseui/BeginText";
 import { CreatePortfolioCard } from "../portfolioui/CreatePortfolioCard";
 

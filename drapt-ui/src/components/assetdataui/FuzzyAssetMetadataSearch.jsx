@@ -140,7 +140,7 @@ export default function FuzzyAssetMetadataSearchBar({
                     ))}
                 </ul>
             )}
-            {showDropdown && queriedAssetMetadata.length === 0 && (
+            {showDropdown && queriedAssetMetadata.length === 0 && !isError && (
                 <div className="absolute z-10 w-full dropdown-content bg-base-100 border-base-300 border-t-0 border-x-1 border-b-1 shadow py-6">
                     <div className="flex justify-center items-center gap-3">
                         <MdInfoOutline className="text-2xl text-info" />
@@ -161,7 +161,7 @@ export default function FuzzyAssetMetadataSearchBar({
             )}
             {/* Show error if search fails */}
             {isError && (
-                <div className="absolute z-10 w-full dropdown-content bg-base-100 border-base-300 border-t-0 border-x-1 border-b-1 shadow">
+                <div className="absolute z-10 w-full dropdown-content bg-base-100 border-base-300 border-t-0 border-x-1 border-b-1 shadow py-6 ">
                     <div className="flex justify-center items-center gap-3">
                         <MdErrorOutline className="text-2xl text-error" />
                         {isError?.message || "Error searching tickers"}

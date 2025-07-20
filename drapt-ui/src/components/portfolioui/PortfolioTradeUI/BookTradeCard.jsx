@@ -1,11 +1,11 @@
 import { CardOneTooltip } from "../../baseui/CustomCard";
 import React, { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { ModalHelper } from "../../helperui/ModalHelper";
+import ModalHelper from "../../helperui/ModalHelper";
 import { FormErrorHelper } from "../../helperui/FormErrorHelper";
-import { CustomButtonInputStyle } from "../../baseui/CustomButton";
+import CustomButton from "../../baseui/CustomButton";
 import { FormField } from "../../helperui/FormFieldHelper";
-import BuySellToggle from "../BuySellToggle";
+import BuySellToggle from "./BuySellToggle";
 import { currencyMapperDict } from "../../../helperfunctions/CurrencyMapper";
 import { roleMapperDict } from "../../../helperfunctions/RoleMapper";
 import { venueMapperDict } from "../../../helperfunctions/VenueMapper";
@@ -304,17 +304,17 @@ export default function BookTradeCard(portfolioOverviewData) {
                                 </div>
                             </FormField>
 
-                            <FormField label={"Venue/Broker"}>
+                            <FormField label={"Broker"}>
                                 <select
                                     className="select w-full"
                                     {...register("venue", {
-                                        required: "Venue is required",
+                                        required: "Broker is required",
                                     })}
                                     disabled={tradeConfirmed}
                                     defaultValue=""
                                 >
                                     <option value="" disabled>
-                                        Select Venue
+                                        Select Broker
                                     </option>
                                     {Object.entries(venueMapperDict).map(
                                         ([venueID, venueSTR]) => (
@@ -331,7 +331,7 @@ export default function BookTradeCard(portfolioOverviewData) {
 
                             <FormField label={"Optional Trade Notes"}>
                                 <textarea
-                                    className="textarea w-full min-h-[185px]"
+                                    className="textarea w-full min-h-[188px]"
                                     {...register("notes", {
                                         validate: (value) => {
                                             if (value.length > 1024)
@@ -379,7 +379,7 @@ export default function BookTradeCard(portfolioOverviewData) {
                     </div>
                     <div className="h-auto md:h-[40px] mt-3 flex gap-3 w-full">
                         {!tradeConfirmed ? (
-                            <CustomButtonInputStyle
+                            <CustomButton
                                 colour="success"
                                 type="button"
                                 onClick={handlePlaceOrderClick}
@@ -390,23 +390,23 @@ export default function BookTradeCard(portfolioOverviewData) {
                                 }
                             >
                                 Place Order
-                            </CustomButtonInputStyle>
+                            </CustomButton>
                         ) : (
                             <>
-                                <CustomButtonInputStyle
+                                <CustomButton
                                     form="bookTrade"
                                     colour="success"
                                     type="submit"
                                 >
                                     Confirm
-                                </CustomButtonInputStyle>
-                                <CustomButtonInputStyle
+                                </CustomButton>
+                                <CustomButton
                                     form="bookTrade"
                                     colour="error"
                                     onClick={() => setTradeConfirmed(false)}
                                 >
                                     Cancel
-                                </CustomButtonInputStyle>
+                                </CustomButton>
                             </>
                         )}
                     </div>
@@ -441,7 +441,7 @@ export default function BookTradeCard(portfolioOverviewData) {
                                         <th>Direction</th>
                                         <th>Analyst</th>
                                         <th>Date</th>
-                                        <th>Venue/Broker</th>
+                                        <th>Broker</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -472,7 +472,6 @@ export default function BookTradeCard(portfolioOverviewData) {
                                 {modalData.confirmShortWarning
                                     ? "You affirmed the short warning, this trade is irrevocable."
                                     : "This trade is irrevocable."}
-                                .
                             </span>
                         </div>
                         {modalData?.notes ? (

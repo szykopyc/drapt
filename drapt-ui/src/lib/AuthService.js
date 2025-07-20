@@ -24,22 +24,15 @@ export async function login(username, password) {
   }
 }
 
-// Check if user is logged in by pinging a protected endpoint
 export async function checkAuth() {
   try {
-    // This endpoint should require authentication and return user info if logged in
     const response = await ApiClient.get("/auth/me", { withCredentials: true });
-    return response.data; // user info if authenticated
+    return response.data; 
   } catch {
-    throw "User not authenticated"; // not authenticated
+    throw "User not authenticated"; 
   }
 }
 
-// Logout: backend should clear the cookie
 export async function logout() {
-  try {
-    await ApiClient.post("/auth/jwt/logout", {}, { withCredentials: true });
-  } catch {
-    // ignore errors
-  }
+  await ApiClient.post("/auth/jwt/logout", {}, { withCredentials: true });
 }
