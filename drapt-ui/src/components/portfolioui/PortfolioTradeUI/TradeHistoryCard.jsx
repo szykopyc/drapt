@@ -62,6 +62,7 @@ export default function TradeHistoryCard(portfolioOverviewData) {
                             <thead>
                                 <tr>
                                     <th>Ticker</th>
+                                    <th>Exchange</th>
                                     <th>Price</th>
                                     <th>Quantity</th>
                                     <th>Notional</th>
@@ -81,6 +82,7 @@ export default function TradeHistoryCard(portfolioOverviewData) {
                                             key={`${trade.id}-${trade.execution_date}`}
                                         >
                                             <td>{trade.ticker}</td>
+                                            <td>{trade.exchange}</td>
                                             <td>
                                                 {currencyPriceFormatter(
                                                     trade.currency,

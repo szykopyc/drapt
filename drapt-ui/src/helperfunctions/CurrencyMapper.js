@@ -1,5 +1,6 @@
 export const currencyMapperDict = {
   "GBP": "£",
   "USD": "$",
-  "EUR": "€"
+  "EUR": "€",
+  "CNY": "¥"
 }

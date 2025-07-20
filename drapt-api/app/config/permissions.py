@@ -11,6 +11,7 @@ SENIOR_ANALYST_PERMS = ANALYST_PERMS.copy()
 PM_PERMS = SENIOR_ANALYST_PERMS | {
     "can_manage_portfolio",
     "can_book_trades",
+    "can_search_user",
     "can_search_trades",
 }
 
@@ -18,7 +19,6 @@ PM_PERMS = SENIOR_ANALYST_PERMS | {
 VD_PERMS = PM_PERMS | {
     "can_manage_user",
     "can_init_portfolio",
-    "can_search_user",
     "can_fetch_all_positions"
 }
 # Remove perms PMs have that VDs should not have

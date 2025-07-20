@@ -19,41 +19,6 @@ export default function PositionMonitoringPanel() {
         error,
     } = useHookSearchPortfolioOverview(portfolioID);
 
-    // Log the closed positions data for verification
-    {
-        /*
-    useEffect(() => {
-        if (closed_position_data) {
-            console.log("Closed positions:", closed_position_data);
-        }
-        if (open_position_data) {
-            console.log("Open positions:", open_position_data);
-        }
-    }, [closed_position_data, open_position_data]);
-
-    useEffect(() => {
-        if (errorForClosedPositions) {
-            console.log("Error for closed:", errorForClosedPositions);
-        }
-        if (errorForOpenPositions) {
-            console.log("Error for open:", errorForOpenPositions);
-        }
-    }, [errorForClosedPositions, errorForOpenPositions]);
-*/
-    }
-    const portfolio_members = Array.isArray(portfolioOverviewData?.members)
-        ? portfolioOverviewData?.members
-        : [];
-
-    const memberNameMap = useMemo(() => {
-        const map = {};
-        portfolio_members.forEach((m) => (map[m.id] = m.fullname));
-        return map;
-    }, [portfolio_members]);
-
-    const portfolioMemberFullnameFinder = (id) =>
-        memberNameMap[id] || `User ID ${id}`;
-
     return (
         <>
             {isLoading ? (

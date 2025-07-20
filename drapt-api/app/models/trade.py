@@ -21,7 +21,7 @@ class Trade(Base):
     currency: Mapped[CurrencyEnum] = mapped_column(String(length=10), nullable=False) # from input
     
     direction: Mapped[TradeTypeEnum] = mapped_column(String(length=10), nullable=False)
-    execution_date: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=func.now(), server_default=func.now()) # auto inserted
+    execution_date: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=func.now(), server_default=func.now()) # auto inserted
     venue: Mapped[str] = mapped_column(String(length=100), nullable=False, default="t212", server_default="t212") # by default its trading 212 for this example
     
     trader_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False) # person who executed the trade

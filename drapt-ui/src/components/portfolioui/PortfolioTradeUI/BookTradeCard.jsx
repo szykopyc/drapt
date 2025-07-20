@@ -17,6 +17,7 @@ import { FaSearch } from "react-icons/fa";
 import { getAssetMetadataFuzzy } from "../../../lib/AssetDataService";
 import { flagMapperDict } from "../../../helperfunctions/FlagMapper";
 import FuzzyAssetMetadataSearchBar from "../../assetdataui/FuzzyAssetMetadataSearch";
+import { CountryToCurrencyMapper } from "../../../helperfunctions/CountryToCurrencyMapper";
 
 export default function BookTradeCard(portfolioOverviewData) {
     const queryClient = useQueryClient();
@@ -48,7 +49,6 @@ export default function BookTradeCard(portfolioOverviewData) {
     } = useForm({
         mode: "onSubmit",
         defaultValues: {
-            currency: "",
             price: "",
             direction: "BUY",
             analyst_id: "",
@@ -73,7 +73,6 @@ export default function BookTradeCard(portfolioOverviewData) {
     const watchedFields = watch([
         "quantity",
         "price",
-        "currency",
         "direction",
         "analyst_id",
         "execution_date",
@@ -95,14 +94,24 @@ export default function BookTradeCard(portfolioOverviewData) {
         if (!tradeConfirmed) return;
 
         // Combine date and time into a single ISO string
-        const executionDateTime = `${data.execution_date}T${data.execution_time}:00`;
+        const executionDateTime = new Date(
+            `${data.execution_date}T${data.execution_time}:00Z`
+        ).toISOString();
 
         const dataToSendForTradeBooking = {
-            ...data,
-            execution_date: executionDateTime, // send as a new field or replace as needed
             portfolio_id: portfolioOverviewData?.id,
             ticker: selectedTickerFromSelection.ticker,
             exchange: selectedTickerFromSelection.exchange,
+            price: data.price,
+            quantity: data.quantity,
+            direction: data.direction,
+            venue: data.venue,
+            analyst_id: data.analyst_id,
+            execution_date: executionDateTime, // send as a new field or replace as needed
+            currency:
+                CountryToCurrencyMapper[
+                    selectedTickerFromSelection.countryCode
+                ],
         };
 
         try {
@@ -120,7 +129,9 @@ export default function BookTradeCard(portfolioOverviewData) {
                 analyst_fullname: portfolioOverviewData?.members.find(
                     (member) => member.id === Number(data.analyst_id)
                 ).fullname,
-                curr_price: currencyMapperDict[data.currency] + data.price,
+                curr_price:
+                    currencyMapperDict[dataToSendForTradeBooking.currency] +
+                    data.price,
                 countryCode: selectedTickerFromSelection.countryCode,
                 confirmShortWarning: confirmShortWarning,
             };
@@ -166,44 +177,23 @@ export default function BookTradeCard(portfolioOverviewData) {
                                 />
                             </FormField>
 
-                            <FormField label="Currency and Price">
-                                <div className="flex flex-col md:flex-row gap-3 justify-between">
-                                    <select
-                                        className="select w-full md:w-1/2"
-                                        {...register("currency", {
-                                            required: "Currency is required",
-                                        })}
-                                        disabled={tradeConfirmed}
-                                        defaultValue=""
-                                    >
-                                        <option value="" disabled>
-                                            Select Trade Currency
-                                        </option>
-                                        {Object.entries(currencyMapperDict).map(
-                                            ([code, symbol]) => (
-                                                <option key={code} value={code}>
-                                                    {symbol} - {code}
-                                                </option>
-                                            )
-                                        )}
-                                    </select>
-                                    <input
-                                        type="number"
-                                        step="0.01"
-                                        min={0}
-                                        placeholder="Enter price"
-                                        className="input input-bordered w-full md:w-1/2"
-                                        {...register("price", {
-                                            required: "Price is required",
-                                            setValueAs: (v) => parseFloat(v),
-                                            validate: (value) =>
-                                                value < 0.01
-                                                    ? "Price must be nonzero and positive."
-                                                    : true,
-                                        })}
-                                        disabled={tradeConfirmed}
-                                    />
-                                </div>
+                            <FormField label="Price">
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    min={0}
+                                    placeholder="Enter price"
+                                    className="input input-bordered w-full"
+                                    {...register("price", {
+                                        required: "Price is required",
+                                        setValueAs: (v) => parseFloat(v),
+                                        validate: (value) =>
+                                            value < 0.01
+                                                ? "Price must be nonzero and positive."
+                                                : true,
+                                    })}
+                                    disabled={tradeConfirmed}
+                                />
                             </FormField>
 
                             <FormField label="Quantity">
@@ -435,12 +425,10 @@ export default function BookTradeCard(portfolioOverviewData) {
                 id={"trade_confirm"}
                 reference={tradeConfirmModalRef}
                 modalTitle={"Trade Details"}
-                style={{
-                    minWidth: "max(50vw, 600px)",
-                }}
+                width={50}
             >
                 {modalData && (
-                    <div className="flex flex-col">
+                    <div className="flex flex-col ">
                         <div className="overflow-x-auto">
                             <table className="table-sm md:table table-zebra table-auto">
                                 <thead>

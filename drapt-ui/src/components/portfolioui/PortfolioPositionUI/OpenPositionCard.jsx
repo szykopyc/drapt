@@ -38,7 +38,7 @@ export default function OpenPositionCard(portfolioOverviewData) {
                 />
             ) : (
                 <div className="overflow-x-auto max-h-[500px] overflow-y-auto">
-                    <table className="table-sm md:table table-zebra table-auto md:table-fixed">
+                    <table className="table-sm md:table table-zebra table-auto">
                         <thead>
                             <tr>
                                 <th>Ticker</th>

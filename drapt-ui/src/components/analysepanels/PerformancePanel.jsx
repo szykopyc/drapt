@@ -13,24 +13,12 @@ import { useParams } from "react-router-dom";
 export default function PerformancePanel() {
     const portfolioIDfromParams = useParams().portfolioID;
 
-    const portfolioFromState = useUserStore(
-        (state) => state.currentPortfolioBeingAnalysed
-    );
-
     const user = useUserStore((state) => state.user);
 
     if (!user) return null;
 
-    if (!portfolioFromState) return null;
-
-    const portfolio = portfolioFromState;
-
     const [loaded, setLoaded] = useState(false);
     const [fullScreenItem, setFullScreenItem] = useState(null);
-
-    const portfolioData = portfolioAnalyseData.find(
-        (data) => data.portfolioID === portfolioIDfromParams
-    );
 
     useEffect(() => {
         setTimeout(() => {
@@ -38,7 +26,11 @@ export default function PerformancePanel() {
         }, 1000);
     }, []);
 
-    if (!portfolioData) {
+    const portfolioData = portfolioAnalyseData.find(
+        (data) => data.portfolioID === "industrial"
+    );
+
+    if (false) {
         return (
             <CardEmptyState
                 title="No portfolio to analyse..."
@@ -108,62 +100,54 @@ export default function PerformancePanel() {
 
     return (
         <div className="flex flex-col gap-3">
-            {portfolio ? (
-                loaded ? (
-                    <>
-                        <ChartCard
-                            title="Performance Chart"
-                            data={portfolioData.portfolioPerformanceChart}
-                            size="large"
-                            tooltip="This chart visualises your portfolio's performance over time."
-                            expandButton={true}
-                            onExpand={() =>
-                                setFullScreenItem("performanceChart")
-                            }
-                        />
-                        <MetricHelper>
-                            {metrics.map((metric) => (
-                                <MetricRenderer
-                                    key={metric.key}
-                                    metric={metric.metric}
-                                    value={metric.value}
-                                    tooltip={metric.tooltip}
-                                    valuestatus={metric.valuestatus}
-                                    onExpand={() =>
-                                        setFullScreenItem(metric.key)
-                                    }
-                                />
-                            ))}
-                        </MetricHelper>
-                        <DualChartCard
-                            title="Portfolio vs Benchmark"
-                            data={portfolioData.portfolioBenchmarkComparison}
-                            dataKey1="value"
-                            dataKey2="value2"
-                            label1="Portfolio"
-                            label2="Benchmark"
-                            size="large"
-                            tooltip="Compare your portfolio's returns to a benchmark index."
-                            expandButton={true}
-                            onExpand={() =>
-                                setFullScreenItem(
-                                    "portfolioBenchmarkComparison"
-                                )
-                            }
-                        />
-                    </>
-                ) : (
-                    <>
-                        <div className="skeleton w-full h-[384px]"></div>
-                        <MetricHelper>
-                            <div className="skeleton flex-1 h-[150px]"></div>
-                            <div className="skeleton flex-1 h-[150px]"></div>
-                            <div className="skeleton flex-1 h-[150px]"></div>
-                        </MetricHelper>
-                        <div className="skeleton w-full h-[384px]"></div>
-                    </>
-                )
-            ) : null}
+            {loaded ? (
+                <>
+                    <ChartCard
+                        title="Performance Chart"
+                        data={portfolioData.portfolioPerformanceChart}
+                        size="large"
+                        tooltip="This chart visualises your portfolio's performance over time."
+                        expandButton={true}
+                        onExpand={() => setFullScreenItem("performanceChart")}
+                    />
+                    <MetricHelper>
+                        {metrics.map((metric) => (
+                            <MetricRenderer
+                                key={metric.key}
+                                metric={metric.metric}
+                                value={metric.value}
+                                tooltip={metric.tooltip}
+                                valuestatus={metric.valuestatus}
+                                onExpand={() => setFullScreenItem(metric.key)}
+                            />
+                        ))}
+                    </MetricHelper>
+                    <DualChartCard
+                        title="Portfolio vs Benchmark"
+                        data={portfolioData.portfolioBenchmarkComparison}
+                        dataKey1="value"
+                        dataKey2="value2"
+                        label1="Portfolio"
+                        label2="Benchmark"
+                        size="large"
+                        tooltip="Compare your portfolio's returns to a benchmark index."
+                        expandButton={true}
+                        onExpand={() =>
+                            setFullScreenItem("portfolioBenchmarkComparison")
+                        }
+                    />
+                </>
+            ) : (
+                <>
+                    <div className="skeleton w-full h-[384px]"></div>
+                    <MetricHelper>
+                        <div className="skeleton flex-1 h-[150px]"></div>
+                        <div className="skeleton flex-1 h-[150px]"></div>
+                        <div className="skeleton flex-1 h-[150px]"></div>
+                    </MetricHelper>
+                    <div className="skeleton w-full h-[384px]"></div>
+                </>
+            )}
             {fullScreenItem && (
                 <FullscreenItem
                     reference={setFullScreenItem}
