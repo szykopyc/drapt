@@ -19,7 +19,7 @@ from app.utils.log import admin_logger as logger
 router = APIRouter()
 
 # updates a user from the admin dashboard
-@router.patch("/user/{user_id}/update", response_model=UserUpdateResponseModel, tags=["user"])
+@router.patch("/users/{user_id}/update", response_model=UserUpdateResponseModel, tags=["users"])
 async def update_user_by_id(
     user_id: int,
     user_update: UserUpdate,
@@ -54,7 +54,7 @@ async def update_user_by_id(
     return UserUpdateResponseModel.model_validate(user)
 
 # searches a user. this is ideally for admins to use, might make a new one for regular users to use which will return less data (for instance no email address or ID)
-@router.get("/user/{username}/search", response_model=UserReadResponseModel, tags=["user"])
+@router.get("/users/{username}/search", response_model=UserReadResponseModel, tags=["users"])
 async def get_user_by_username(
     username: str,
     session=Depends(get_async_session),
@@ -73,7 +73,7 @@ async def get_user_by_username(
     return UserReadResponseModel.model_validate(user)
 
 # deletes a user (obviously), only the developer can do it. then again it wouldn't hurt for any exec to do it, since a user has no FK unless they're a PM
-@router.delete("/user/{user_id}/delete", response_model=UserReadResponseModel, tags=["user"])
+@router.delete("/users/{user_id}/delete", response_model=UserReadResponseModel, tags=["users"])
 async def delete_user_by_id(
     user_id: int,
     session=Depends(get_async_session),
@@ -96,7 +96,7 @@ async def delete_user_by_id(
     return UserReadResponseModel.model_validate(user)
 
 # gets all users. again may make a new one which returns less data for non exec/pm users.
-@router.get("/user/all", response_model=list[UserReadResponseModel], tags=["user"])
+@router.get("/users/all", response_model=list[UserReadResponseModel], tags=["users"])
 async def list_all_users(
     session=Depends(get_async_session),
     current_user: User = Depends(fastapi_users.current_user()),
@@ -116,7 +116,7 @@ async def list_all_users(
     return [UserReadResponseModel.model_validate(user) for user in users] # returns a list
 
 # searches user by role. honestly this can just stay as exec/pm only, an analyst would never need to see all other users with a certain role. unless leaderboards come in, i can worry about that later
-@router.get("/user/{role}/searchbyrole", response_model=list[UserReadResponseModel], tags=["user"])
+@router.get("/users/{role}/searchbyrole", response_model=list[UserReadResponseModel], tags=["users"])
 async def search_by_role(
     role: str,
     session=Depends(get_async_session),
@@ -135,7 +135,7 @@ async def search_by_role(
     return [UserReadResponseModel.model_validate(user) for user in users]# returns a list
 
 # search user by team
-@router.get("/user/{team}/searchbyteam", response_model=list[UserReadResponseModel], tags=["user"])
+@router.get("/users/{team}/searchbyteam", response_model=list[UserReadResponseModel], tags=["users"])
 async def search_by_team(
     team: str,
     session = Depends(get_async_session),
@@ -153,7 +153,7 @@ async def search_by_team(
     return [UserReadResponseModel.model_validate(user) for user in users]
 
 ### unassign user from a portfolio
-@router.patch("/user/{user_id}/unassign-user-from-portfolio", response_model=UserReadResponseModel, tags=["user"])
+@router.patch("/users/{user_id}/unassign-user-from-portfolio", response_model=UserReadResponseModel, tags=["users"])
 async def unassign_user_from_any_portfolio(
     user_id: int,
     session=Depends(get_async_session),
@@ -184,7 +184,7 @@ async def unassign_user_from_any_portfolio(
     
     return UserReadResponseModel.model_validate(user)
 
-@router.patch("/user/{user_id}/assign-user-to-portfolio/{portfolio_id}", response_model=UserReadResponseModel, tags=["user"])
+@router.patch("/users/{user_id}/assign-user-to-portfolio/{portfolio_id}", response_model=UserReadResponseModel, tags=["users"])
 async def assign_user_to_portfolio(
     user_id: int,
     portfolio_id: int,

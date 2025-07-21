@@ -1,5 +1,5 @@
 # db
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from app.db import get_async_session
 
 # models and schemas
@@ -18,9 +18,10 @@ from app.services.position_services.position_service import PositionService
 
 router = APIRouter()
 
-@router.get("/positions/getopenpositions/{portfolio_id}", response_model=list[EnhancedPosition], tags=["position"])
+@router.get("/portfolios/{portfolio_id}/positions", response_model=list[EnhancedPosition], tags=["positions"])
 async def get_open_positions_with_portfolio_id(
     portfolio_id: int,
+    status: str = Query("open", regex="^(open|closed)$"),
     current_user: User = Depends(fastapi_users.current_user()),
     session = Depends(get_async_session)
 ):
@@ -30,19 +31,8 @@ async def get_open_positions_with_portfolio_id(
 
     PositionServiceObject = PositionService(session)
 
-    return await PositionServiceObject._get_open_position_with_portfolio(portfolio_id)
-
-
-@router.get("/positions/getclosedpositions/{portfolio_id}", response_model=list[PositionRead], tags=["position"])
-async def get_closed_positions_with_portfolio_id(
-    portfolio_id: int,
-    current_user: User = Depends(fastapi_users.current_user()),
-    session = Depends(get_async_session)
-):
-    if not (permission_check_util(current_user, "can_fetch_all_positions") or current_user.portfolio_id == portfolio_id):
-        logger.warning(f"({current_user.username}) tried to fetch all positions (disallowed)")
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Unauthorised to view positions.")
-
-    PositionServiceObject = PositionService(session)
-
-    return await PositionServiceObject._get_closed_position_with_portfolio(portfolio_id)
+    if status == "open":
+        return await PositionServiceObject._get_open_position_with_portfolio(portfolio_id)
+    
+    elif status == "closed":
+        return await PositionServiceObject._get_closed_position_with_portfolio(portfolio_id)    

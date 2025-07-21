@@ -28,7 +28,7 @@ from collections import defaultdict
 router = APIRouter()
 
 # CREATE PORTFOLIO ROUTE
-@router.post("/portfolio/create", response_model=PortfolioRead, tags=["portfolio"])
+@router.post("/portfolios", response_model=PortfolioRead, tags=["portfolios"])
 async def create_portfolio(
     data: PortfolioCreate,
     current_user: User = Depends(fastapi_users.current_user()),
@@ -61,7 +61,7 @@ async def create_portfolio(
     return PortfolioRead.model_validate(portfolio)
 
 # READ PORTFOLIO ROUTE
-@router.get("/portfolio/search/{portfolio_string_id}", response_model=PortfolioRead, tags=["portfolio"])
+@router.get("/portfolios/search/{portfolio_string_id}", response_model=PortfolioRead, tags=["portfolios"])
 async def get_portfolio_by_string_id(
     portfolio_string_id: str,
     session=Depends(get_async_session),
@@ -83,7 +83,7 @@ async def get_portfolio_by_string_id(
     return PortfolioRead.model_validate(searched_portfolio)
 
 # OVERVIEW subroute will give a bigger picture of what it is, an overview
-@router.get("/portfolio/search/{portfolio_string_id}/overview", response_model=PortfolioReadOverview, tags=["portfolio"])
+@router.get("/portfolios/{portfolio_string_id}/overview", response_model=PortfolioReadOverview, tags=["portfolios"])
 async def get_portfolio_by_string_id_overview(
     portfolio_string_id: str,
     session=Depends(get_async_session),
@@ -110,7 +110,7 @@ async def get_portfolio_by_string_id_overview(
     return portfolio_read_data
 
 # UPDATE PORTFOLIO ROUTE
-@router.patch("/portfolio/update/{portfolio_id}", response_model=PortfolioRead, tags=["portfolio"])
+@router.patch("/portfolios/{portfolio_id}", response_model=PortfolioRead, tags=["portfolios"])
 async def update_portfolio_by_id(
     portfolio_id: int,
     portfolio_update: PortfolioUpdate,
@@ -147,7 +147,7 @@ async def update_portfolio_by_id(
     return PortfolioRead.model_validate(fetched_portfolio)
 
 # DELETE PORTFOLIO ROUTE
-@router.delete("/portfolio/delete/{portfolio_id}", response_model=PortfolioRead, tags=["portfolio"])
+@router.delete("/portfolios/{portfolio_id}", response_model=PortfolioRead, tags=["portfolios"])
 async def delete_portfolio_by_id(
     portfolio_id: int,
     session=Depends(get_async_session),
@@ -183,7 +183,7 @@ async def delete_portfolio_by_id(
     return PortfolioRead.model_validate(portfolio)
 
 # fetch all portfolios
-@router.get("/portfolio/all", response_model=list[PortfolioReadOverview], tags=["portfolio"])
+@router.get("/portfolios", response_model=list[PortfolioReadOverview], tags=["portfolios"])
 async def get_all_portfolios(
     session=Depends(get_async_session), current_user: User = Depends(fastapi_users.current_user())
 ):

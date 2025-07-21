@@ -4,7 +4,7 @@ import ApiClient from "../../api/ApiClient";
 export async function selectAllUsers() {
   try {
     const response = await ApiClient.get(
-      "/user/all",
+      "/users/all",
       {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
@@ -21,7 +21,7 @@ export async function selectAllUsers() {
 export async function updateUser(user_id, fieldsToPatch) {
   try {
     const response = await ApiClient.patch(
-      `/user/${user_id}/update`, fieldsToPatch, {
+      `/users/${user_id}/update`, fieldsToPatch, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     }
@@ -36,7 +36,7 @@ export async function updateUser(user_id, fieldsToPatch) {
 export async function searchUserByUsername(username) {
   try {
     const response = await ApiClient.get(
-      `/user/${username}/search`, {
+      `/users/${username}/search`, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     }
@@ -49,7 +49,7 @@ export async function searchUserByUsername(username) {
 
 export async function searchUserByTeam(team) {
   const response = await ApiClient.get(
-    `/user/${team}/searchbyteam`, {
+    `/users/${team}/searchbyteam`, {
     withCredentials: true
   }
   );
@@ -59,7 +59,7 @@ export async function searchUserByTeam(team) {
 // this has a RQ hook
 export async function searchUserByRole(role) {
   const response = await ApiClient.get(
-    `/user/${role}/searchbyrole`, {
+    `/users/${role}/searchbyrole`, {
     headers: { "Content-Type": "application/json" },
     withCredentials: true,
   }
@@ -71,7 +71,7 @@ export async function searchUserByRole(role) {
 export async function unassignUserFromAnyPortfolio(user_id) {
   try {
     const response = await ApiClient.patch(
-      `/user/${user_id}/unassign-user-from-portfolio`, {}, {
+      `/users/${user_id}/unassign-user-from-portfolio`, {}, {
       withCredentials: true,
     }
     );
@@ -85,7 +85,7 @@ export async function unassignUserFromAnyPortfolio(user_id) {
 export async function assignUserToPortfolio(user_id, portfolio_id) {
   try {
     const response = await ApiClient.patch(
-      `/user/${user_id}/assign-user-to-portfolio/${portfolio_id}`, {}, {
+      `/users/${user_id}/assign-user-to-portfolio/${portfolio_id}`, {}, {
       withCredentials: true,
     }
     );
@@ -100,7 +100,7 @@ export async function assignUserToPortfolio(user_id, portfolio_id) {
 // this doesn't need a RQ hook
 export async function deleteUserByID(user_id) {
   const response = await ApiClient.delete(
-    `/user/${user_id}/delete`, {
+    `/users/${user_id}/delete`, {
     headers: { "Content-Type": "application/json" },
     withCredentials: true,
   }

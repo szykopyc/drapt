@@ -55,6 +55,6 @@ class EnhancedPosition(BaseModel):
     total_cost: Decimal
     updated_at: datetime
 
-    unrealised_pnl: Optional[Decimal] = Decimal("0")
-    last_asset_price: Decimal
-    valid_price_date: datetime
+    unrealised_pnl: Optional[Decimal] = None
+    last_asset_price: Optional[Decimal] = None
+    valid_price_date: Optional[datetime] = None

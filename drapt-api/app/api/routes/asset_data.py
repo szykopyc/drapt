@@ -23,9 +23,9 @@ async def get_ticker_metadata_route(
     except Exception:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="The ticker you queried does not exist.")
     
-    return searched_ticker_metadata
+    return AssetMetadataRead.model_validate(searched_ticker_metadata)
 
-@router.get("/asset-data/fuzzy-search/{fuzzyquery}", response_model=list[AssetMetadataRead], tags=["asset-data"])
+@router.get("/asset-data/{fuzzyquery}", response_model=list[AssetMetadataRead], tags=["asset-data"])
 async def get_multiticker_metadata_fuzzy_route(
     fuzzyquery: str,
     current_user: User = Depends(fastapi_users.current_user())
@@ -51,7 +51,7 @@ async def get_multiticker_metadata_fuzzy_route(
     raise HTTPException(status_code=500, detail="Unexpected data format from service")
 
 
-@router.get("/asset-data/last-close/{ticker}", response_model=AssetLastCloseRead, tags=["asset-data"])
+@router.get("/asset-data/{ticker}/last-close", response_model=AssetLastCloseRead, tags=["asset-data"])
 async def get_ticker_last_close_route(
         ticker:str,
         current_user: User = Depends(fastapi_users.current_user())

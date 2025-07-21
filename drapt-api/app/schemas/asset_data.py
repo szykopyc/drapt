@@ -13,6 +13,7 @@ class AssetMetadataRead(BaseModel):
     exchange: Optional[str] = "UNKWN" # this is because sometimes the exchange isn't known from tiingo for whatever reason
     description: Optional[str] = None
     countryCode: str
+    adjClose: Optional[Decimal] = None
 
 
 class AssetLastCloseRead(BaseModel):
@@ -20,6 +21,7 @@ class AssetLastCloseRead(BaseModel):
 
     ticker: str
     open: Decimal
+    high: Decimal
     low: Decimal
     close: Decimal
     volume: Decimal

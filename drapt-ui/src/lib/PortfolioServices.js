@@ -3,7 +3,7 @@ import ApiClient from "../../api/ApiClient"
 export async function initialisePortfolio(attributes) {
   try {
     const response = await ApiClient.post(
-      '/portfolio/create', attributes, {
+      '/portfolios', attributes, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     }
@@ -18,7 +18,7 @@ export async function initialisePortfolio(attributes) {
 export async function indexOfAllPortfolios() {
   try {
     const response = await ApiClient.get(
-      '/portfolio/all', {
+      '/portfolios', {
       withCredentials: true,
     }
     )
@@ -32,7 +32,7 @@ export async function indexOfAllPortfolios() {
 export async function getPortfolioByStringIdOverview(portfolio_string_id) {
   try {
     const response = await ApiClient.get(
-      `/portfolio/search/${portfolio_string_id}/overview`, {
+      `/portfolios/${portfolio_string_id}/overview`, {
       withCredentials: true,
     }
     )
@@ -44,7 +44,7 @@ export async function getPortfolioByStringIdOverview(portfolio_string_id) {
 
 export async function updatePortfolioMetadata(portfolio_id, attributes) {
   const response = await ApiClient.patch(
-    `/portfolio/update/${portfolio_id}`, attributes, {
+    `/portfolio/${portfolio_id}`, attributes, {
     headers: { "Content-Type": "application/json" },
     withCredentials: true,
   }
@@ -56,7 +56,7 @@ export async function updatePortfolioMetadata(portfolio_id, attributes) {
 export async function deletePortfolio(portfolio_id) {
   try {
     const response = await ApiClient.delete(
-      `/portfolio/delete/${portfolio_id}`, {
+      `/portfolio/${portfolio_id}`, {
       withCredentials: true,
     }
     )

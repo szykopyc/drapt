@@ -1,18 +1,8 @@
 import ApiClient from "../../api/ApiClient";
 
-export async function getOpenPositionsByPortfolioID(portfolio_id) {
+export async function getPositionsByPortfolioID(portfolio_id, status) {
   const response = await ApiClient.get(
-    `/positions/getopenpositions/${portfolio_id}`, {
-    withCredentials: true
-  }
-  );
-  return response.data;
-}
-
-
-export async function getClosedPositionsByPortfolioID(portfolio_id) {
-  const response = await ApiClient.get(
-    `/positions/getclosedpositions/${portfolio_id}`, {
+    `/portfolios/${portfolio_id}/positions?status=${status}`, {
     withCredentials: true
   }
   );

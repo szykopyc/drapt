@@ -25,7 +25,7 @@ router = APIRouter()
 # CREATE TRADE ROUTE
 # this does allow shorting. warnings for going short will be visible on the frontend, yes. but you can go short if you wanna
 
-@router.post("/trade", response_model=TradeRead, tags=["trade"])
+@router.post("/trades", response_model=TradeRead, tags=["trade"])
 async def book_trade(
     trade: TradeCreate,
     current_user: User = Depends(fastapi_users.current_user()),
@@ -58,7 +58,7 @@ async def book_trade(
     return TradeRead.model_validate(trade_obj)
 
 # get trades by portfolio id
-@router.get("/trade/{portfolio_id}/getbyportfolioid", response_model=list[TradeRead], tags=["trade"])
+@router.get("/portfolios/{portfolio_id}/trades", response_model=list[TradeRead], tags=["trade"])
 async def get_trade_by_portfolio_id(
     portfolio_id: int,
     session=Depends(get_async_session),
@@ -77,7 +77,7 @@ async def get_trade_by_portfolio_id(
 
 
 # development only service, DELETE IN PROD #############
-@router.delete("/trade/{portfolio_id}/delete", tags=["trade"])
+@router.delete("/trades/{portfolio_id}", tags=["trade"])
 async def delete_trade_by_portfolio_id(
         portfolio_id: int,
         session = Depends(get_async_session),

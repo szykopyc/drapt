@@ -183,7 +183,11 @@ export default function BookTradeCard(portfolioOverviewData) {
                                     type="number"
                                     step="0.01"
                                     min={0}
-                                    placeholder="Enter price"
+                                    placeholder={
+                                        selectedTickerFromSelection?.adjClose
+                                            ? `${selectedTickerFromSelection.adjClose}`
+                                            : `Enter price`
+                                    }
                                     className="input input-bordered w-full"
                                     {...register("price", {
                                         required: "Price is required",
@@ -345,10 +349,10 @@ export default function BookTradeCard(portfolioOverviewData) {
                             </FormField>
                         </div>
                     </div>
-                    <div className="w-full flex flex-row justify-between items-center mt-3">
+                    <div className="w-full flex flex-row justify-between gap-1 items-center mt-3">
                         {watch("direction") === "SELL" ? (
                             <>
-                                <div className="flex flex-row justify-start gap-1">
+                                <div className="flex flex-col md:flex-row justify-start gap-1">
                                     <MdInfoOutline className="text-xl text-error" />
                                     <span className="text-md text-error">
                                         Trades are final and cannot be undone.
@@ -369,7 +373,7 @@ export default function BookTradeCard(portfolioOverviewData) {
                                 />
                             </>
                         ) : (
-                            <div className="w-full flex justify-start items-center gap-1">
+                            <div className="w-full flex flex-col md:flex-row justify-start md:items-center gap-1">
                                 <MdInfoOutline className="text-xl text-info" />
                                 <span className="text-md text-info">
                                     Trades are final and cannot be undone.

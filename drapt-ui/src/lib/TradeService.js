@@ -2,7 +2,7 @@ import ApiClient from "../../api/ApiClient";
 
 export async function BookTrade(tradedata) {
   const response = await ApiClient.post(
-    `/trade`, tradedata, {
+    `/trades`, tradedata, {
     headers: { "Content-Type": "application/json" },
     withCredentials: true
   }
@@ -12,7 +12,7 @@ export async function BookTrade(tradedata) {
 
 export async function getTradesByPortfolioID(portfolio_id) {
   const response = await ApiClient.get(
-    `/trade/${portfolio_id}/getbyportfolioid`, {
+    `/portfolios/${portfolio_id}/trades`, {
     withCredentials: true
   }
   );
