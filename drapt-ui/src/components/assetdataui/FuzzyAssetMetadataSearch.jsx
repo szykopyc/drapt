@@ -4,6 +4,8 @@ import { getAssetMetadataFuzzy } from "../../lib/AssetDataService";
 import { FaSearch } from "react-icons/fa";
 import { MdOutlineClose, MdInfoOutline, MdErrorOutline } from "react-icons/md";
 import { LoadingSpinner } from "../helperui/LoadingSpinnerHelper";
+import { currencyMapperDict } from "../../helperfunctions/CurrencyMapper";
+import { CountryToCurrencyMapper } from "../../helperfunctions/CountryToCurrencyMapper";
 
 // code explanation because it'll be very easy to get lost in this in the future
 // this component is designed to be the child of a parent component. it acts as a search bar for getting some asset metadata using the /asset-data/fuzzy-search route
@@ -57,13 +59,13 @@ export default function FuzzyAssetMetadataSearchBar({
                 <input
                     type="text"
                     className={`input focus:outline-none w-full border-base-300 ${
-                        selectedAsset.ticker ? "font-semibold text-info" : ""
+                        selectedAsset.ticker ? "font-semibold" : ""
                     }`}
                     placeholder="Search ticker..."
                     // If a ticker is selected, show it (with flag, ticker, company name), otherwise show search term
                     value={
                         selectedAsset.ticker
-                            ? `${selectedAsset.ticker} — ${selectedAsset.company_name}`
+                            ? `${selectedAsset.ticker} - ${selectedAsset.company_name}`
                             : searchTerm || ""
                     }
                     // When user types, clear selection and dropdown, and update search term
@@ -123,11 +125,17 @@ export default function FuzzyAssetMetadataSearchBar({
                                     <span className="font-bold">
                                         {asset.ticker}
                                     </span>
+                                    <span>{asset.company_name}</span>
                                     <span>
-                                        {asset.company_name.length < 26
-                                            ? asset.company_name
-                                            : asset.company_name.slice(0, 26) +
-                                              "..."}
+                                        Last Close:{" "}
+                                        {
+                                            currencyMapperDict[
+                                                CountryToCurrencyMapper[
+                                                    asset.countryCode
+                                                ]
+                                            ]
+                                        }
+                                        {asset.adjClose}
                                     </span>
                                     <span>{asset.type}</span>
                                     <span>

@@ -57,7 +57,7 @@ async def get_ticker_search(ticker: str):
         }
         enriched_result.append(data_to_cache_and_send)
 
-        cache_set(cache_key, data_to_cache_and_send)
+        cache_set_short_exp(cache_key, data_to_cache_and_send)
     
     except Exception as e:
         logger.error(f"(Server) {e}")
@@ -94,7 +94,7 @@ async def get_multiticker_search_fuzzy(query: str):
                 "adjClose":fetched_last_close_result["adjClose"]
             }
             enriched_results.append(data_to_cache_and_send)
-            cache_set(str(cache_base_key + fetched_search_result["ticker"]), data_to_cache_and_send)
+            cache_set_short_exp(str(cache_base_key + fetched_search_result["ticker"]), data_to_cache_and_send)
     
     except Exception as e:
         logger.error(f"(Server) {e}")
