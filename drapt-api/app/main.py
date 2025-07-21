@@ -24,6 +24,11 @@ import inspirational_quotes
 # imports logger
 from app.utils.log import general_logger as logger
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # initialises asynccontext with a lifespan as long as the app is running
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -32,14 +37,16 @@ async def lifespan(app: FastAPI):
     yield
 
 # sets up the FastAPI app
-app = FastAPI(title="Drapt Backend", lifespan=lifespan)
+app = FastAPI(title="Drapt Backend", lifespan=lifespan, root_path="/api")
 
 logger.info("(Server) Started Backend Dev")
+
+origins = os.getenv("ALLOWED_ORIGINS","").split(",")
 
 # Add CORS middleware (where the backend should allow requests from)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://192.168.0.21:5173"],  # frontend origins
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
