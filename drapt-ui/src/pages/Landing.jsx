@@ -1,4 +1,4 @@
-import { MainBlock } from "../components/baseui/MainBlock";
+import MainBlock from "../components/layout/MainBlock";
 import { BeginText } from "../components/baseui/BeginText";
 import { CardOne } from "../components/baseui/CustomCard";
 import { ChartNoBorderCard } from "../components/analyseui/ChartCard";
@@ -11,8 +11,43 @@ import { CardHelper } from "../components/helperui/DivHelper";
 import InnerEmptyState from "../components/errorui/InnerEmptyState";
 import React, { useState, useEffect, useRef } from "react";
 import useUserStore from "../stores/userStore";
+import { checkAuth } from "../lib/AuthService";
+import { useNavigate } from "react-router-dom";
 
 export default function Landing() {
+    const user = useUserStore((state) => state.user);
+    const setUser = useUserStore((state) => state.setUser);
+    const setSessionExpired = useUserStore((state) => state.setSessionExpired);
+    const navigate = useNavigate();
+
+    const dummyPerformanceToRender = dummyPerformance;
+
+    const [loading, setLoading] = useState(false);
+
+    const metricsRef = useRef(null);
+    const [metricsHeight, setMetricsHeight] = useState(0);
+
+    useEffect(() => {
+        const authCheck = async () => {
+            try {
+                const response = await checkAuth();
+                if (response) {
+                    setUser(response);
+                    setSessionExpired(false);
+                }
+            } catch {
+                if (user) {
+                    setSessionExpired(true);
+                    navigate("/session-expired", { replace: true });
+                } else {
+                    setUser(null);
+                    navigate("/unauthorised", { replace: true });
+                }
+            }
+        };
+        authCheck();
+    }, []);
+
     try {
         var theme = localStorage.getItem("theme");
         if (theme) {
@@ -20,27 +55,17 @@ export default function Landing() {
         }
     } catch (e) {}
 
-    const user = useUserStore((state) => state.user);
-    if (!user) return null;
-
-    const dummyPerformanceToRender = dummyPerformance;
-
-    const [loading, setLoading] = useState(false);
-    const [loaded, setLoaded] = useState(false);
-
-    const metricsRef = useRef(null);
-    const [metricsHeight, setMetricsHeight] = useState(0);
-
     useEffect(() => {
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
-            setLoaded(true);
             if (metricsRef.current) {
                 setMetricsHeight(metricsRef.current.clientHeight);
             }
         }, 1000);
     }, []);
+
+    if (!user) return null;
 
     return (
         <MainBlock>
@@ -54,7 +79,7 @@ export default function Landing() {
                     performing, and view any news you may have missed.
                 </p>
             </BeginText>
-            {loaded && (
+            {!loading && (
                 <>
                     <div className="divider my-0"></div>
                     {dummyPerformanceToRender.length == 0 ? (
@@ -124,7 +149,7 @@ export default function Landing() {
                 </>
             )}
 
-            {!loaded && loading && (
+            {loading && (
                 <>
                     <div className="divider my-0"></div>
                     <div className="skeleton w-full h-[542px]"></div>

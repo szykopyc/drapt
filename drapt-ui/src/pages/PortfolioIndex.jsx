@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { MainBlock } from "../components/baseui/MainBlock";
+import MainBlock from "../components/layout/MainBlock";
 import { BeginText } from "../components/baseui/BeginText";
 import GlobalPortfolioCard from "../components/portfolioui/GlobalPortfolioCard";
 import {
@@ -11,40 +11,57 @@ import { dummyGlobalPortfolios } from "../assets/dummy-data/tableData";
 import InnerEmptyState from "../components/errorui/InnerEmptyState";
 import { useState, useEffect } from "react";
 
+import { LoadingSpinner } from "../components/helperui/LoadingSpinnerHelper";
+
+import { useHookIndexOfAllPortfolios } from "../reactqueryhooks/usePortfolioHook";
+
 export default function PortfolioIndex() {
     const dummyGlobalPortfoliosToRender = dummyGlobalPortfolios;
 
     const [sortingOption, setSortingOption] = useState("alphabetical");
     const [sortedPortfolios, setSortedPortfolios] = useState([]);
+    {
+        /**
+const getSortedPortfolios = (portfoliosToSort, sortOption) => {
+    if (!portfoliosToSort || portfoliosToSort.length === 0) return [];
 
-    const getSortedPortfolios = (portfoliosToSort, sortOption) => {
-        if (!portfoliosToSort || portfoliosToSort.length === 0) return [];
+    switch (sortOption) {
+        case "alphabetical":
+            return [...portfoliosToSort].sort((a, b) =>
+                a.portfolioName.localeCompare(b.portfolioName)
+            );
+        case "monthReturn":
+            return [...portfoliosToSort].sort(
+                (a, b) => b.portfolio1MonthChange - a.portfolio1MonthChange
+            );
+        case "currentValue":
+            return [...portfoliosToSort].sort(
+                (a, b) => b.portfolioCurrentValue - a.portfolioCurrentValue
+            );
+        default:
+            return portfoliosToSort;
+    }
+};
+ */
+    }
 
-        switch (sortOption) {
-            case "alphabetical":
-                return [...portfoliosToSort].sort((a, b) =>
-                    a.portfolioName.localeCompare(b.portfolioName)
-                );
-            case "monthReturn":
-                return [...portfoliosToSort].sort(
-                    (a, b) => b.portfolio1MonthChange - a.portfolio1MonthChange
-                );
-            case "currentValue":
-                return [...portfoliosToSort].sort(
-                    (a, b) => b.portfolioCurrentValue - a.portfolioCurrentValue
-                );
-            default:
-                return portfoliosToSort;
-        }
-    };
+    const {
+        data: allPortfoliosToRender = [],
+        isLoading,
+        error,
+    } = useHookIndexOfAllPortfolios();
 
-    useEffect(() => {
-        const sorted = getSortedPortfolios(
-            dummyGlobalPortfoliosToRender,
-            sortingOption
-        );
-        setSortedPortfolios(sorted);
-    }, [sortingOption, dummyGlobalPortfoliosToRender]);
+    {
+        /*
+useEffect(() => {
+    const sorted = getSortedPortfolios(
+        dummyGlobalPortfoliosToRender,
+        sortingOption
+    );
+    setSortedPortfolios(sorted);
+}, [sortingOption, dummyGlobalPortfoliosToRender]);
+ */
+    }
 
     const navigate = useNavigate();
 
@@ -74,7 +91,7 @@ export default function PortfolioIndex() {
                     <div className="flex flex-row justify-center items-center gap-3">
                         <FaPlus className="text-info text-lg" />
                         <span className="text-lg text-info">
-                            Add New Portfolio
+                            Initialise New Portfolio
                         </span>
                     </div>
                 </CardNoTitleChildrenCentred>
@@ -107,24 +124,22 @@ export default function PortfolioIndex() {
                     </div>
                 </CardNoTitleChildrenCentred>
             </div>
-            {sortedPortfolios.length > 0 ? (
-                sortedPortfolios.map((portfolio) => (
-                    <GlobalPortfolioCard
-                        key={portfolio.portfolioID}
-                        {...portfolio}
-                    />
-                ))
-            ) : (
-                <CardNoTitle>
-                    <InnerEmptyState
-                        icon={
-                            <FaBuffer className="text-4xl text-base-content/40" />
-                        }
-                        title="No portfolios to display"
-                        message="No portfolios have been created yet."
-                    />
-                </CardNoTitle>
-            )}
+            {isLoading && <LoadingSpinner />}
+            {!isLoading && allPortfoliosToRender.length > 0
+                ? allPortfoliosToRender.map((portfolio) => (
+                      <GlobalPortfolioCard key={portfolio.id} {...portfolio} />
+                  ))
+                : !isLoading && (
+                      <CardNoTitle>
+                          <InnerEmptyState
+                              icon={
+                                  <FaBuffer className="text-4xl text-base-content/40" />
+                              }
+                              title="No portfolios to display"
+                              message="No portfolios have been created yet."
+                          />
+                      </CardNoTitle>
+                  )}
         </MainBlock>
     );
 }

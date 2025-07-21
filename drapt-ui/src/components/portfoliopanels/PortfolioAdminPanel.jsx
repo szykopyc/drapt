@@ -1,47 +1,50 @@
 import { useParams } from "react-router-dom";
-import { CardOne } from "../baseui/CustomCard";
-import { useForm } from "react-hook-form";
-import React, { useState, useRef } from "react";
-import { ModalHelper } from "../helperui/ModalHelper";
-import { FormErrorHelper } from "../helperui/FormErrorHelper";
-import { CustomButtonInputStyle } from "../baseui/CustomButton";
-import { FormField } from "../helperui/FormFieldHelper";
+import InnerEmptyState from "../errorui/InnerEmptyState";
+import { MdErrorOutline } from "react-icons/md";
+import { LoadingSpinner } from "../helperui/LoadingSpinnerHelper";
+import { useHookSearchPortfolioOverview } from "../../reactqueryhooks/usePortfolioHook";
 
-import SectionMaintenanceWarning from "../baseui/SectionMaintenanceWarning";
+import useUserStore from "../../stores/userStore";
+
+//toasts
+import { Toaster } from 'react-hot-toast';
+
+import AdminManageTeamCard from "../portfolioui/PortfolioAdminUI/AdminManageTeam";
+import AdminUpdatePortfolioDetails from "../portfolioui/PortfolioAdminUI/AdminUpdatePortfolioDetails";
+import AdminDeletePortfolio from "../portfolioui/PortfolioAdminUI/AdminDeletePortfolio";
 
 export function PortfolioAdminPanel() {
-    const { portfolioID } = useParams();
 
-    const portfolioAdminModalRef = useRef(null);
-    const [modalData, setModalData] = useState(null);
-    const [portfolioAdminConfirmed, setPortfolioAdminConfirmed] =
-        useState(false);
+  const user = useUserStore((state) => state.user);
 
-    const {
-        register,
-        handleSubmit,
-        reset: resetForm,
-        setValue,
-        watch,
-        formState: { errors },
-        trigger,
-    } = useForm({
-        mode: "onSubmit",
-    });
+  const { portfolioID } = useParams();
 
-    const handlePortfolioAdminClick = async (e) => {
-        e.preventDefault();
-        const valid = await trigger();
-        if (valid) setPortfolioAdminConfirmed(true);
-    };
+  const { isLoading, isError, error } = useHookSearchPortfolioOverview(portfolioID);
 
-    const guardedSubmitHandler = (data) => {
-        if (!portfolioAdminConfirmed) return;
-    };
+  if (!user) return null;
 
-    return (
+  return (
+    <>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : isError ? (
+        <div className="flex flex-col items-center justify-center">
+          <InnerEmptyState
+            title={"An Error Occurred"}
+            message={error?.response?.data?.detail || error?.message || "An unknown error occurred."}
+            icon={<MdErrorOutline className="text-4xl text-error" />}
+          />
+        </div>
+      ) : (
         <>
-            <CardOne title={"Portfolio Administration"}></CardOne>
+          <AdminUpdatePortfolioDetails />
+          <AdminManageTeamCard />
+          {["developer"].includes(user?.role) ? (
+            <AdminDeletePortfolio />
+          ) : null}
         </>
-    );
+      )}
+      <Toaster />
+    </>
+  );
 }

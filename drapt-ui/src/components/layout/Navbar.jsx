@@ -18,7 +18,7 @@ export default function Navbar() {
             ...(!showAdmin
                 ? [{ to: "/portfolio", label: "Portfolio" }]
                 : [{ to: "/portfolio", label: "Fund Scope" }]),
-            ...(showAdmin ? [{ to: "/admin", label: "Admin" }] : []),
+            ...(showAdmin ? [{ to: "/admin", label: "Administration" }] : []),
             { to: "/profile", label: "Profile" },
         ];
     }, [showAdmin]);
@@ -49,7 +49,7 @@ export default function Navbar() {
                     onClick={() => setMenuOpen(false)}
                     to="/"
                 >
-                    Drapt
+                    drapt
                 </Link>
             )}
             {loggedIn && (
@@ -60,7 +60,7 @@ export default function Navbar() {
                         onClick={() => setMenuOpen(false)}
                         to="/"
                     >
-                        Drapt
+                        drapt
                     </Link>
                     {/* Desktop nav */}
                     <div className="hidden md:flex flex-row justify-between items-center gap-3 text-base font-normal">

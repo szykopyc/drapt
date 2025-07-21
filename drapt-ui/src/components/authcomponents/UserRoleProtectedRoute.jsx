@@ -2,7 +2,7 @@ import { Navigate } from "react-router-dom";
 import useUserStore from "../../stores/userStore";
 
 export default function UserRoleProtectedRoute({
-    roles = ["vd", "director", "developer"],
+    allowedRoles = ["vd", "director", "developer"],
     children,
     otherwiseNavigateTo,
 }) {
@@ -12,7 +12,7 @@ export default function UserRoleProtectedRoute({
         return <Navigate to="/unauthorised" replace />;
     }
 
-    if (roles.includes(user?.role)) {
+    if (allowedRoles.includes(user?.role)) {
         return children;
     } else if (user && otherwiseNavigateTo) {
         return <Navigate to={`${otherwiseNavigateTo}/${user?.team}`} replace />;

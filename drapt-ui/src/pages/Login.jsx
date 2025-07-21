@@ -1,73 +1,54 @@
 import { Link, useNavigate } from "react-router-dom";
-import { MainBlock } from "../components/baseui/MainBlock";
-import { BeginText } from "../components/baseui/BeginText";
+import MainBlock from "../components/layout/MainBlock";
 import { CardOne } from "../components/baseui/CustomCard";
 import { useForm } from "react-hook-form";
 import { FormField } from "../components/helperui/FormFieldHelper";
-import LargeSubmit from "../components/baseui/LargeSubmitHelper";
+import CustomButton from "../components/baseui/CustomButton";
 import { useState } from "react";
 import { FormErrorHelper } from "../components/helperui/FormErrorHelper";
 import useUserStore from "../stores/userStore";
+import { login, checkAuth } from "../lib/AuthService";
 
 export default function Login() {
     const navigate = useNavigate();
+    const setUser = useUserStore((state) => state.setUser);
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
-    } = useForm({
-        mode: "onChange",
-    });
+    } = useForm({ mode: "onSubmit" });
 
     const typedUsername = watch("username");
     const typedPassword = watch("password");
     const fieldFilled = typedUsername && typedPassword;
 
     const [incorrectPasswordError, setIncorrectPasswordError] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const handleInputChange = (e) => {
+    const onSubmit = async (data) => {
+        setLoading(true);
         setIncorrectPasswordError("");
-    };
-
-    const setUser = useUserStore((state) => state.setUser);
-
-    const onSubmit = (data) => {
-        // Handle login logic here
-        // For now a simple redirect will suffice...
-        if (data.username === "dev" && data.password === "dev") {
-            setUser({
-                fullname: "Szymon Kopyciński",
-                username: "szymonkp",
-                email: "szymon.kopycinski@outlook.com",
-                role: "developer",
-                team: "executive",
-            });
-        } else if (data.username === "abc" && data.password === "abc") {
-            setUser({
-                fullname: "Random Analyst",
-                username: "randomanalyst",
-                email: "random.analyst@outlook.com",
-                role: "analyst",
-                team: "industrial",
-            });
-        } else if (data.username === "pm" && data.password === "pm") {
-            setUser({
-                fullname: "Portfolio Manager",
-                username: "portfoliomanager",
-                email: "portfolio.manager@outlook.com",
-                role: "pm",
-                team: "industrial",
-            });
-        } else {
+        try {
+            await login(data.username, data.password);
+            // Wait 100ms to ensure the cookie is set
+            await new Promise((resolve) => setTimeout(resolve, 100));
+            const userData = await checkAuth();
+            if (!userData) {
+                setIncorrectPasswordError(
+                    "Login failed. Please check your credentials."
+                );
+                return;
+            }
+            setUser(userData);
+            navigate("/");
+        } catch (err) {
             setIncorrectPasswordError(
-                "Login failed. Please make sure that your username and password are both correct."
+                err?.toString() || "Incorrect username or password."
             );
-            return;
+        } finally {
+            setLoading(false);
         }
-
-        setIncorrectPasswordError("");
-        navigate("/");
     };
 
     return (
@@ -81,19 +62,17 @@ export default function Login() {
                         autoComplete="off"
                     >
                         <FormField
-                            label={"Username"}
+                            label={"Email"}
                             error={errors.username && errors.username.message}
                         >
                             <input
-                                type="text"
+                                type="email"
                                 className="input input-bordered w-full"
                                 {...register("username", {
                                     required: "Username is required",
+                                    onChange: () =>
+                                        setIncorrectPasswordError(""),
                                 })}
-                                onChange={(e) => {
-                                    handleInputChange(e);
-                                    register("username").onChange(e);
-                                }}
                                 autoComplete="username"
                                 autoCapitalize="false"
                             />
@@ -107,46 +86,34 @@ export default function Login() {
                                 className="input input-bordered w-full"
                                 {...register("password", {
                                     required: "Password is required",
+                                    onChange: () =>
+                                        setIncorrectPasswordError(""),
                                 })}
-                                onChange={(e) => {
-                                    handleInputChange(e);
-                                    register("password").onChange(e);
-                                }}
                                 autoComplete="current-password"
                             />
                         </FormField>
-                        <div className="flex items-center justify-between">
-                            <label className="label cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    className="checkbox checkbox-sm mr-2"
-                                />
-                                <span className="label-text text-base-content text-sm">
-                                    Remember me
-                                </span>
-                            </label>
+                        <div className="flex justify-between">
+                            {incorrectPasswordError && (
+                                <FormErrorHelper textSize="md">
+                                    {incorrectPasswordError}
+                                </FormErrorHelper>
+                            )}
                             <Link
                                 to="/forgot-password"
-                                className="text-sm text-info underline hover:text-primary-focus"
+                                className="text-sm text-info underline hover:text-primary-focus ml-auto"
                             >
                                 Forgot password?
                             </Link>
                         </div>
                     </form>
-                    {incorrectPasswordError && (
-                        <FormErrorHelper textSize="md">
-                            {incorrectPasswordError}
-                        </FormErrorHelper>
-                    )}
                     <div className="flex flex-row gap-2 w-full">
-                        <LargeSubmit form="loginForm" disabled={!fieldFilled}>
-                            Log In
-                        </LargeSubmit>
+                        <CustomButton
+                            form="loginForm"
+                            disabled={!fieldFilled || loading}
+                        >
+                            {loading ? "Logging in..." : "Log In"}
+                        </CustomButton>
                     </div>
-                    <p>
-                        Dummy login credentials: Developer - "dev" & "dev";
-                        Analyst - "abc" & "abc"; PM - "pm" & "pm".
-                    </p>
                 </CardOne>
             </div>
         </MainBlock>

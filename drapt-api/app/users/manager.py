@@ -1,15 +1,18 @@
 from fastapi_users import BaseUserManager, IntegerIDMixin, InvalidPasswordException
-from fastapi_users.db import SQLAlchemyUserDatabase
+from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 from fastapi import Depends
 from app.models.user import User
 from app.db import async_session_maker
 from typing import Union
+import os
+from dotenv import load_dotenv
 
-SECRET = "SUPER_SECRET"  # Replace with env var for production!
+load_dotenv()
+SECRET = os.getenv("FASTAPIUSERS_SECRET_KEY")
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
-    reset_password_token_secret = SECRET
-    verification_token_secret = SECRET
+    reset_password_token_secret = SECRET # type: ignore[override]
+    verification_token_secret = SECRET # type: ignore[override]
 
 async def validate_password(self, password: str) -> None:
     if len(password) < 8:

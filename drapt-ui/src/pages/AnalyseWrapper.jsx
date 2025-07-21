@@ -1,32 +1,19 @@
-import { Outlet, useLocation, useParams } from "react-router-dom";
-import { MainBlock } from "../components/baseui/MainBlock";
+import { Outlet } from "react-router-dom";
+import WidenedMainBlock from "../components/baseui/WidenedMainBlock";
 import { BeginText } from "../components/baseui/BeginText";
 import TabNav from "../components/baseui/TabNav";
 import useUserStore from "../stores/userStore";
 
 import { dummyGlobalPortfolios } from "../assets/dummy-data/tableData";
+import { useEffect } from "react";
 
 export default function Analyse() {
     const user = useUserStore((state) => state.user);
     if (!user) return null;
 
-    const { portfolioID } = useParams();
-
     const selectedPortfolioData = dummyGlobalPortfolios.filter((portfolio) =>
-        portfolio.portfolioID.includes(portfolioID)
+        portfolio.portfolioID.includes("industrial")
     )[0];
-
-    const setCurrentPortfolioBeingAnalysed = useUserStore(
-        (state) => state.setCurrentPortfolioBeingAnalysed
-    );
-
-    if (selectedPortfolioData) {
-        console.log("Analysing portfolio: ");
-        console.log(selectedPortfolioData);
-        setCurrentPortfolioBeingAnalysed(selectedPortfolioData);
-    }
-
-    const location = useLocation();
 
     const pathToTab = {
         performance: "performance",
@@ -37,7 +24,7 @@ export default function Analyse() {
     const initialTab = pathToTab[lastSegment] || "performance";
 
     return (
-        <MainBlock>
+        <WidenedMainBlock>
             <BeginText
                 title={
                     selectedPortfolioData
@@ -50,19 +37,19 @@ export default function Analyse() {
                     {
                         label: "Performance",
                         value: "performance",
-                        to: `/analyse/${portfolioID}/performance`,
+                        to: `/analyse/industrial/performance`,
                         keyShortcut: "p",
                     },
                     {
                         label: "Risk",
                         value: "risk",
-                        to: `/analyse/${portfolioID}/risk`,
+                        to: `/analyse/industrial/risk`,
                         keyShortcut: "r",
                     },
                 ]}
                 initialTab={initialTab}
             />
             <Outlet />
-        </MainBlock>
+        </WidenedMainBlock>
     );
 }

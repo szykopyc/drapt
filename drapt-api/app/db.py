@@ -1,10 +1,21 @@
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from sqlalchemy.orm import DeclarativeBase
+from dotenv import load_dotenv
+import os
 
-DATABASE_URL = "sqlite+aiosqlite:///./drapt.db"
+# sets up the database and returns an async session
 
-engine = create_async_engine(DATABASE_URL, echo=True)
+load_dotenv()
+DATABASE_URL_FROM_SECRETS = os.getenv("POSTGRESQL_URL")
+DATABASE_URL = f"{DATABASE_URL_FROM_SECRETS}"
+
+engine = create_async_engine(DATABASE_URL, echo=False)
 async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
 
 class Base(DeclarativeBase):
     pass
+
+# Dependency for FastAPI to get an async session
+async def get_async_session():
+    async with async_session_maker() as session:
+        yield session

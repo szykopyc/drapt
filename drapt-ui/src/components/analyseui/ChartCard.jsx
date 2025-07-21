@@ -17,7 +17,7 @@ import {
 
 // Global left margin for all charts
 // This is done since Recharts has a stupid bug which introduces excess left padding to all charts. Verrrrryyyy dumb...
-export let leftMargin = -30;
+export let leftMargin = 5;
 
 // global margin modifier
 export let margin = { top: 5, right: 5, left: leftMargin, bottom: 5 };
@@ -214,7 +214,7 @@ export default function ChartCard({
     const CustomTooltip = (props) =>
         theme === "draptdark" ||
         theme === "dark" ||
-        theme == "cb-dark" ||
+        theme == "tokyo-storm" ||
         theme == "night-coding" ? (
             <DarkTooltip
                 {...props}
@@ -376,7 +376,7 @@ export function DualChartCard({
             ? document.documentElement.getAttribute("data-theme")
             : "light";
     const CustomTooltip = (props) =>
-        theme === "draptdark" || theme === "dark" || theme == "cb-dark" ? (
+        theme === "draptdark" || theme === "dark" || theme == "tokyo-storm" ? (
             <DualTooltipDark
                 {...props}
                 currency={getCurrencySymbol(currency)}
@@ -545,7 +545,7 @@ export function ChartNoBorderCard({
     const CustomTooltip = (props) =>
         theme === "draptdark" ||
         theme === "dark" ||
-        theme == "cb-dark" ||
+        theme == "tokyo-storm" ||
         theme == "night-coding" ? (
             <DarkTooltip
                 {...props}

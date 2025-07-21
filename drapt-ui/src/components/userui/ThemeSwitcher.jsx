@@ -24,10 +24,21 @@ export default function ThemeSwitcher() {
         >
             <option value="draptlight">NEFSIF Light</option>
             <option value="draptdark">NEFSIF Dark</option>
+            <option value="" disabled>
+                Accessibility
+            </option>
             <option value="cb-light">Colourblind Light</option>
-            <option value="cb-dark">Colourblind Dark</option>
+            <option value="tokyo-storm">
+                Tokyo Storm (colourblind friendly)
+            </option>
             <option value="high-contrast">High Contrast</option>
-            <option value="night-coding">Night Coding</option>
+            <option value="" disabled>
+                Artistic Themes
+            </option>
+            <option value="sunset-water">Sunset on the Water</option>
+            <option value="hacker-terminal">Mr. Robot</option>
+            <option value="wheatfield-dream-light">WheatField Dream</option>
+            <option value="red-apple-light">Red Apple Light</option>
         </select>
     );
 }

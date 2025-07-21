@@ -1,3 +1,6 @@
+/* ##############################
+   Imports & Plugins
+############################## */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 @import "tailwindcss";
 
@@ -5,17 +8,18 @@
   themes: all;
 }
 
+/* ##############################
+   Animations & Utilities
+############################## */
 @layer utilities {
   @keyframes slideUpFade {
     from { opacity: 0; transform: translateY(24px);}
     to { opacity: 1; transform: translateY(0);}
   }
-
   @keyframes mobileMenuOpen {
     from {opacity: 1; transform: translateY(-24px);}
     to { opacity: 1; transform: translateY(0px);}
   }
-
   @keyframes fadeIn {
     to { opacity: 1; }
   }
@@ -28,255 +32,10 @@
   }
 }
 
-.divider {
-  max-height: 3px;
-}
-
-[data-theme="draptlight"] {
-  --color-base-100: oklch(98% 0.015 250);
-  --color-base-200: oklch(94% 0.02 250);
-  --color-base-300: oklch(90% 0.025 250);
-  --color-base-content: oklch(25% 0.02 250);
-
-  --color-primary: rgb(40, 57, 67);
-  --color-primary-content: oklch(98% 0.005 240);
-  
-  --color-secondary: oklch(85% 0.12 160);
-  --color-secondary-content: oklch(25% 0.02 160);
-
-  --color-accent: oklch(74% 0.10 100);
-  --color-accent-content: oklch(25% 0.015 100);
-
-  --color-neutral: oklch(80% 0.02 240);
-  --color-neutral-content: oklch(25% 0.015 240);
-
-  --color-info: oklch(70% 0.2 240);
-  --color-success: oklch(80% 0.15 140);
-  --color-warning: oklch(85% 0.15 85);
-  --color-error: oklch(75% 0.15 30);
-}
-
-[data-theme="draptdark"] {
-  --color-base-100: rgb(20, 26, 30);
-  --color-base-200: rgb(28, 37, 43);
-  --color-base-300: rgb(35, 45, 52);
-  --color-base-content: rgb(240, 248, 255);
-
-  --color-primary: rgb(40, 57, 67);
-  --color-primary-content: rgb(230, 240, 245);
-
-  --color-secondary: rgb(60, 100, 110);
-  --color-secondary-content: rgb(235, 245, 240);
-
-  --color-accent: oklch(65% 0.17 105);
-  --color-accent-content: oklch(92% 0.01 105);
-
-  --color-neutral: rgb(50, 60, 65);
-  --color-neutral-content: rgb(240, 245, 250);
-
-  --color-info: oklch(70% 0.2 240);
-  --color-success: oklch(70% 0.25 140);
-  --color-warning: oklch(75% 0.25 85);
-  --color-error: oklch(65% 0.3 30);
-}
-
-[data-theme="cb-light"] {
-  --color-base-100: #f8f9fa;        
-  --color-base-200: #e9ecef;
-  --color-base-300: #dee2e6;
-  --color-base-content: #22223b;    
-
-  --color-primary: #009ca6;         
-  --color-primary-content: #f8f9fa;
-
-  --color-secondary: #ffb000;       
-  --color-secondary-content: #22223b;
-
-  --color-accent: #a259c6;          
-  --color-accent-content: #f8f9fa;
-
-  --color-neutral: #adb5bd;         
-  --color-neutral-content: #22223b;
-
-  --color-info: #00b4d8;            
-  --color-success: #43aa8b;         
-  --color-warning: #ffb000;         
-  --color-error: #f94144;           
-}
-
-[data-theme="cb-dark"] {
-  --color-base-100: #232634;        
-  --color-base-200: #2c2e3e;
-  --color-base-300: #373a4d;
-  --color-base-content: #f8f9fa;    
-
-  --color-primary: #009ca6;         
-  --color-primary-content: #232634;
-
-  --color-secondary: #ffb000;       
-  --color-secondary-content: #232634;
-
-  --color-accent: #a259c6;          
-  --color-accent-content: #232634;
-
-  --color-neutral: #868e96;         
-  --color-neutral-content: #f8f9fa;
-
-  --color-info: #00b4d8;            
-  --color-success: #43aa8b;         
-  --color-warning: #ffb000;         
-  --color-error: #f94144;           
-}
-
-[data-theme="high-contrast"] {
-  --color-base-100: #000000;        
-  --color-base-200: #1a1a1a;
-  --color-base-300: #333333;
-  --color-base-content: #ffffff;    
-
-  --color-primary: #ffff00;         
-  --color-primary-content: #000000;
-
-  --color-secondary: #00ffff;       
-  --color-secondary-content: #000000;
-
-  --color-accent: #ff00ff;          
-  --color-accent-content: #000000;
-
-  --color-neutral: #ffffff;         
-  --color-neutral-content: #000000;
-
-  --color-info: #00bfff;            
-  --color-success: #00ff00;         
-  --color-warning: #ff8800;         
-  --color-error: #ff0033;           
-}
-
-
-[data-theme="night-coding"] {
-  --color-base-100: #181c24;        
-  --color-base-200: #23283a;
-  --color-base-300: #2a3042;
-  --color-base-content: #e0e6f0;    
-
-  --color-primary: #3ba1c8;         
-  --color-primary-content: #e0e6f0;
-
-  --color-secondary: #2e3a4e;       
-  --color-secondary-content: #e0e6f0;
-
-  --color-accent: #7fd1b9;          
-  --color-accent-content: #181c24;
-
-  --color-neutral: #23283a;         
-  --color-neutral-content: #e0e6f0;
-
-  --color-info: #4fc3f7;            
-  --color-success: #81c784;         
-  --color-warning: #ffd54f;         
-  --color-error: #e57373;           
-}
-
-
-[data-theme="night-coding"] .mockup-code,
-[data-theme="night-coding"] .mockup-code *,
-[data-theme="night-coding"] .mockup-code code,
-[data-theme="night-coding"] .mockup-code pre,
-[data-theme="night-coding"] .large-code-block,
-[data-theme="night-coding"] .large-code-block *,
-[data-theme="night-coding"] .large-code-block code,
-[data-theme="night-coding"] .large-code-block pre {
-  background: #181c24 !important;
-  color: #b6c2e0 !important;
-  border-radius: 6px;
-}
-
-
-[data-theme="night-coding"] .btn,
-[data-theme="night-coding"] .codeblock-button {
-  background: #23283a;
-  color: #e0e6f0;
-  border: none;
-}
-
-[data-theme="night-coding"] .badge-theme {
-  background-color: #3ba1c8;
-  color: #181c24;
-}
-
-[data-theme="cb-light"] .mockup-code code,
-[data-theme="cb-light"] .mockup-code .codeblock-button {
-  color: #fff;
-}
-
-[data-theme="cb-dark"] .mockup-code code,
-[data-theme="cb-dark"] .mockup-code .codeblock-button {
-  color: #fff;
-}
-
-[data-theme="high-contrast"] .mockup-code,
-[data-theme="high-contrast"] .mockup-code *,
-[data-theme="high-contrast"] .mockup-code code,
-[data-theme="high-contrast"] .mockup-code pre {
-  color: #000 !important;
-  background: var(--color-primary);
-}
-
-
-[data-theme="high-contrast"] .mockup-code,
-[data-theme="high-contrast"] .mockup-code *,
-[data-theme="high-contrast"] .mockup-code code,
-[data-theme="high-contrast"] .mockup-code pre,
-[data-theme="high-contrast"] .large-code-block,
-[data-theme="high-contrast"] .large-code-block *,
-[data-theme="high-contrast"] .large-code-block code,
-[data-theme="high-contrast"] .large-code-block pre {
-  color: #000 !important;
-}
-
-[data-theme="high-contrast"] .large-code-block-2,
-[data-theme="high-contrast"] .large-code-block-2 *,
-[data-theme="high-contrast"] .large-code-block-2 code,
-[data-theme="high-contrast"] .large-code-block-2 pre {
-  color: #fff !important;
-}
-
-[data-theme="high-contrast"] .codeblock-button {
-  background: #000;
-}
-
-[data-theme="high-contrast"] .bg-primary,
-[data-theme="high-contrast"] .badge-theme,
-[data-theme="high-contrast"] .card.bg-primary,
-[data-theme="high-contrast"] figcaption {
-  color: #000 !important;
-}
-
-[data-theme*="light"] .large-code-block-2 code {
-  color: var(--color-primary) !important;
-}
-
-[data-theme*="light"] .large-code-block code {
-  color: var(--color-base-100) !important;
-}
-
-[data-theme*="light"] .codeblock-button-2 {
-  background: #000;
-}
-
-@media print {
-  .card {
-    page-break-inside: avoid;
-    break-inside: avoid;
-  }
-}
-
-.badge-theme {
-  background-color: var(--color-primary);
-  color: var(--color-primary-content);
-}
-
-html{
+/* ##############################
+   Base Element Styles
+############################## */
+html {
   scroll-behavior: smooth;
   scrollbar-gutter: stable;
   font-family: 'Roboto', sans-serif !important;
@@ -290,39 +49,349 @@ body {
     box-shadow 0.4s ease,
     fill 0.4s ease;
 }
-
-input {
-  border-radius: 0;
+input, select, .textarea, .skeleton, .modal-box, .modal, .modal-action, .modal .btn {
+  border-radius: 0 !important;
 }
-
-select {
-  border-radius: 0;
-}
-
-.modal-box {
-  border-radius: 0 !important; 
-}
-
-.modal {
-  border-radius: 0 !important; 
-}
-
-.modal-action {
-  border-radius: 0 !important; 
-}
-
-.modal .btn {
-    border-radius: 0 !important;
-}
-
-.skeleton {
-  border-radius: 0;
-}
-
 .textarea {
   border-radius: 0;
 }
-
+.divider {
+  max-height: 3px;
+}
+.input, .select, .textarea {
+  border-color: var(--color-base-300) !important;
+}
 :root {
-    --border-radius: 0px; 
+  --border-radius: 0px; 
+}
+
+/* ##############################
+   Theme: Drapt Light
+############################## */
+[data-theme="draptlight"] {
+  --color-base-100: oklch(98% 0.015 250);
+  --color-base-200: oklch(94% 0.02 250);
+  --color-base-300: oklch(90% 0.025 250);
+  --color-base-content: oklch(25% 0.02 250);
+
+  --color-primary: rgb(40, 57, 67);
+  --color-primary-content: oklch(98% 0.005 240);
+  --color-secondary: oklch(85% 0.12 160);
+  --color-secondary-content: oklch(25% 0.02 160);
+  --color-accent: oklch(74% 0.10 100);
+  --color-accent-content: oklch(25% 0.015 100);
+  --color-neutral: oklch(80% 0.02 240);
+  --color-neutral-content: oklch(25% 0.015 240);
+  --color-info: oklch(70% 0.2 240);
+  --color-success: oklch(80% 0.15 140);
+  --color-warning: oklch(85% 0.15 85);
+  --color-error: oklch(75% 0.15 30);
+}
+
+/* ##############################
+   Theme: Drapt Dark
+############################## */
+[data-theme="draptdark"] {
+  --color-base-100: rgb(20, 26, 30);
+  --color-base-200: rgb(28, 37, 43);
+  --color-base-300: rgb(35, 45, 52);
+  --color-base-content: rgb(240, 248, 255);
+
+  --color-primary: rgb(40, 57, 67);
+  --color-primary-content: rgb(230, 240, 245);
+  --color-secondary: rgb(60, 100, 110);
+  --color-secondary-content: rgb(235, 245, 240);
+  --color-accent: oklch(65% 0.17 105);
+  --color-accent-content: oklch(92% 0.01 105);
+  --color-neutral: rgb(50, 60, 65);
+  --color-neutral-content: rgb(240, 245, 250);
+  --color-info: oklch(70% 0.2 240);
+  --color-success: oklch(70% 0.25 140);
+  --color-warning: oklch(75% 0.25 85);
+  --color-error: oklch(65% 0.3 30);
+}
+
+/* ##############################
+   Theme: Colourblind Light
+############################## */
+[data-theme="cb-light"] {
+  --color-base-100: #f8f9fa;        
+  --color-base-200: #e9ecef;
+  --color-base-300: #dee2e6;
+  --color-base-content: #22223b;    
+  --color-primary: #009ca6;         
+  --color-primary-content: #f8f9fa;
+  --color-secondary: #ffb000;       
+  --color-secondary-content: #22223b;
+  --color-accent: #a259c6;          
+  --color-accent-content: #f8f9fa;
+  --color-neutral: #adb5bd;         
+  --color-neutral-content: #22223b;
+  --color-info: #00b4d8;            
+  --color-success: #43aa8b;         
+  --color-warning: #ffb000;         
+  --color-error: #f94144;           
+}
+[data-theme="cb-light"] .mockup-code code,
+[data-theme="cb-light"] .mockup-code .codeblock-button {
+  color: #fff;
+}
+
+/* ##############################
+   Theme: Tokyo Storm
+############################## */
+[data-theme="tokyo-storm"] {
+  --color-base-100: #232634;        
+  --color-base-200: #2c2e3e;
+  --color-base-300: #373a4d;
+  --color-base-content: #f8f9fa;    
+  --color-primary: #009ca6;         
+  --color-primary-content: #232634;
+  --color-secondary: #ffb000;       
+  --color-secondary-content: #232634;
+  --color-accent: #a259c6;          
+  --color-accent-content: #232634;
+  --color-neutral: #868e96;         
+  --color-neutral-content: #f8f9fa;
+  --color-info: #00b4d8;            
+  --color-success: #43aa8b;         
+  --color-warning: #ffb000;         
+  --color-error: #f94144;           
+}
+[data-theme="tokyo-storm"] .mockup-code code,
+[data-theme="tokyo-storm"] .mockup-code .codeblock-button {
+  color: #fff;
+}
+
+/* ##############################
+   Theme: High Contrast (Chocolate Banana)
+############################## */
+[data-theme="high-contrast"] {
+  --color-base-100: #000000;        
+  --color-base-200: #1a1a1a;
+  --color-base-300: #333333;
+  --color-base-content: #ffffff;    
+  --color-primary: #ffff00;         
+  --color-primary-content: #000000;
+  --color-secondary: #00ffff;       
+  --color-secondary-content: #000000;
+  --color-accent: #ff00ff;          
+  --color-accent-content: #000000;
+  --color-neutral: #ffffff;         
+  --color-neutral-content: #000000;
+  --color-info: #00bfff;            
+  --color-success: #00ff00;         
+  --color-warning: #ff8800;         
+  --color-error: #ff0033;           
+}
+[data-theme="high-contrast"] .mockup-code,
+[data-theme="high-contrast"] .mockup-code *,
+[data-theme="high-contrast"] .mockup-code code,
+[data-theme="high-contrast"] .mockup-code pre {
+  color: #000 !important;
+  background: var(--color-primary);
+}
+[data-theme="high-contrast"] .large-code-block,
+[data-theme="high-contrast"] .large-code-block *,
+[data-theme="high-contrast"] .large-code-block code,
+[data-theme="high-contrast"] .large-code-block pre {
+  color: #000 !important;
+}
+[data-theme="high-contrast"] .large-code-block-2,
+[data-theme="high-contrast"] .large-code-block-2 *,
+[data-theme="high-contrast"] .large-code-block-2 code,
+[data-theme="high-contrast"] .large-code-block-2 pre {
+  color: #fff !important;
+}
+[data-theme="high-contrast"] .codeblock-button {
+  background: #000;
+}
+[data-theme="high-contrast"] .bg-primary,
+[data-theme="high-contrast"] .badge-theme,
+[data-theme="high-contrast"] .card.bg-primary,
+[data-theme="high-contrast"] figcaption {
+  color: #000 !important;
+}
+[data-theme="high-contrast"] .buy_sell_toggle_text {
+  color: black;
+}
+
+/* ##############################
+   Theme: Sunset on the Water
+############################## */
+[data-theme="sunset-water"] {
+  --color-base-100: #181c24;      /* Deep navy, like water at dusk */
+  --color-base-200: #23273a;      /* Slightly lighter navy */
+  --color-base-300: #2d3142;      /* For borders, a bit more gray */
+  --color-base-content: #f9fafb;  /* Light text for contrast */
+  --color-primary: #ff914d;       /* Sunset orange */
+  --color-primary-content: #181c24;
+  --color-secondary: #ffb86b;     /* Golden reflection */
+  --color-secondary-content: #181c24;
+  --color-accent: #a259c6;        /* Sunset purple */
+  --color-accent-content: #f9fafb;
+  --color-neutral: #3e5060;       /* Muted blue-gray for neutral elements */
+  --color-neutral-content: #f9fafb;
+  --color-info: #6ec6ff;          /* Sky blue for info */
+  --color-success: #7fffd4;       /* Aqua for success (water shimmer) */
+  --color-warning: #ffd166;       /* Warm yellow for warning */
+  --color-error: #ff4f4f;         /* Sunset red for error */
+}
+[data-theme="sunset-water"] *,
+[data-theme="sunset-water"] {
+  font-family: 'Montserrat', 'Lato', 'Segoe UI', 'Arial', sans-serif !important;
+}
+[data-theme="sunset-water"] .buy_sell_toggle_text {
+  color: black;
+}
+
+/* ##############################
+   Theme: Wheatfield Dream Light
+############################## */
+[data-theme="wheatfield-dream-light"] {
+  --color-base-100: #f8f5e3;      /* Wheat field in sunlight */
+  --color-base-200: #efe2b2;      /* Sun-bleached wheat */
+  --color-base-300: #d6c086;      /* Golden straw for borders */
+  --color-base-content: #5e4b2c;  /* Earthy brown for text */
+  --color-primary: #b7d7e8;       /* Soft blue sky */
+  --color-primary-content: #5e4b2c;
+  --color-secondary: #f6e27a;     /* Sunlit wheat */
+  --color-secondary-content: #5e4b2c;
+  --color-accent: #e2b179;        /* Warm ochre accent */
+  --color-accent-content: #5e4b2c;
+  --color-neutral: #bfa77a;       /* Dry grass, neutral elements */
+  --color-neutral-content: #5e4b2c;
+  --color-info: #a3c9a8;          /* Sage green for info */
+  --color-success: #7fc29b;       /* Pasture green for success */
+  --color-warning: #ffe066;       /* Sun-yellow for warning */
+  --color-error: #e07a5f;         /* Soft terracotta for error */
+}
+[data-theme="wheatfield-dream-light"] *,
+[data-theme="wheatfield-dream-light"] {
+  font-family: 'Lato', 'Montserrat', 'Segoe UI', 'Arial', sans-serif !important;
+}
+
+/* ##############################
+   Theme: Hacker Terminal (Comedic)
+############################## */
+[data-theme="hacker-terminal"] {
+  --color-base-100: #101010;      /* Terminal black */
+  --color-base-200: #181c18;      /* Slightly lighter for panels */
+  --color-base-300: #232b23;      /* For borders */
+  --color-base-content: #39ff14;  /* Hacker green text */
+  --color-primary: #39ff14;       /* Bright green */
+  --color-primary-content: #101010;
+  --color-secondary: #00ff99;     /* Neon green/teal accent */
+  --color-secondary-content: #101010;
+  --color-accent: #00ff41;        /* Matrix green */
+  --color-accent-content: #101010;
+  --color-neutral: #222;          /* For neutral elements */
+  --color-neutral-content: #39ff14;
+  --color-info: #00ffe7;          /* Cyan for info */
+  --color-success: #39ff14;       /* Green for success */
+  --color-warning: #fff700;       /* Yellow for warning */
+  --color-error: #ff1744;         /* Red for error */
+}
+[data-theme="hacker-terminal"] *,
+[data-theme="hacker-terminal"] {
+  font-family: 'Fira Mono', 'Consolas', 'Menlo', 'monospace', sans-serif !important;
+}
+[data-theme="hacker-terminal"] .buy_sell_toggle_text {
+  color: green;
+}
+
+/* ##############################
+   Theme: Red Apple Light
+############################## */
+[data-theme="red-apple-light"] {
+  --color-base-100: #FCF7F8;         /* Snow */
+  --color-base-200: #f5e9eb;         /* Slightly darker Snow */
+  --color-base-300: #e9d3d6;         /* Even darker Snow */
+  --color-base-content: #2d1a1b;     /* Deep brownish for contrast */
+  --color-primary: #A31621;          /* Madder */
+  --color-primary-content: #FCF7F8;  /* Snow for text on Madder */
+  --color-secondary: #F76C5E;        /* Apple flesh (warm coral) */
+  --color-secondary-content: #2d1a1b;
+  --color-accent: #D90429;           /* Apple skin highlight (vivid red) */
+  --color-accent-content: #FCF7F8;
+  --color-neutral: #B0A8B9;          /* Muted purple-grey for neutral elements */
+  --color-neutral-content: #2d1a1b;
+  --color-info: #1976D2;             /* Blue for info */
+  --color-success: #43aa8b;          /* Green for success */
+  --color-warning: #ffb000;          /* Orange for warning */
+  --color-error: #A31621;            /* Madder for error */
+}
+
+/* ##############################
+   AG TABLE THEMES
+   Custom AG Grid theme variables for each app theme.
+   These styles make ag-theme-quartz match your DaisyUI/Tailwind themes.
+############################## */
+
+.ag-theme-quartz {
+  --ag-background-color: var(--color-base-100) !important;
+  --ag-header-background-color: var(--color-base-200) !important;
+  --ag-odd-row-background-color: var(--color-base-100) !important;
+  --ag-row-hover-color: var(--color-base-200) !important;
+  --ag-font-size: 15px !important;
+  --ag-header-foreground-color: var(--color-base-content) !important;
+  --ag-foreground-color: var(--color-base-content) !important;
+  --ag-border-color: var(--color-base-300) !important;
+  --ag-header-cell-hover-background-color: var(--color-base-300) !important;
+  --ag-selected-row-background-color: var(--color-accent) !important;
+  --ag-selected-row-foreground-color: var(--color-accent-content) !important;
+  --ag-row-border-color: var(--color-base-200) !important;
+}
+
+/* Add this to your AG TABLE THEMES section */
+/* AG TABLE THEMES */
+.ag-theme-quartz .ag-root {
+    background-color: var(--color-base-200) !important;
+    --ag-border-color: var(--color-base-300) !important;
+}
+
+.ag-theme-quartz .ag-header,
+.ag-theme-quartz .ag-header-cell {
+    background-color: var(--color-base-200) !important;
+    color: var(--color-base-content) !important;
+}
+
+.ag-theme-quartz .ag-cell,
+.ag-theme-quartz .ag-row {
+    background-color: var(--color-base-100) !important;
+    color: var(--color-base-content) !important;
+    display: flex;
+    align-items: center;
+}
+
+.ag-theme-quartz .ag-row-hover {
+    background-color: var(--color-base-200) !important;
+}
+
+
+
+/* ##############################
+   Miscellaneous
+############################## */
+@media print {
+  .card {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+.badge-theme {
+  background-color: var(--color-primary);
+  color: var(--color-primary-content);
+}
+.buy_sell_toggle_text {
+  color: white;
+}
+[data-theme*="light"] .large-code-block-2 code {
+  color: var(--color-primary) !important;
+}
+[data-theme*="light"] .large-code-block code {
+  color: var(--color-base-100) !important;
+}
+[data-theme*="light"] .codeblock-button-2 {
+  background: #000;
 }

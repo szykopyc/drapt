@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
-import { MainBlock } from "../components/baseui/MainBlock";
+import MainBlock from "../components/layout/MainBlock";
 import { BeginText } from "../components/baseui/BeginText";
 import { CardOne } from "../components/baseui/CustomCard";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ModalHelper } from "../components/helperui/ModalHelper";
+import ModalHelper from "../components/helperui/ModalHelper";
 import { isValidEmail } from "../components/validators/EmailValidator";
 import { getPasswordStrength } from "../components/validators/PasswordValidator";
-import LargeSubmit from "../components/baseui/LargeSubmitHelper";
+import CustomButton from "../components/baseui/CustomButton";
 import { FormField } from "../components/helperui/FormFieldHelper";
 
 export default function ForgotPassword() {
@@ -75,14 +75,13 @@ export default function ForgotPassword() {
                         />
                     </FormField>
                 </form>
-                <div className="flex flex-row gap-2 w-full">
-                    <LargeSubmit
+                <div className="flex w-full">
+                    <CustomButton
                         form={"resetPassword"}
-                        size={1}
                         disabled={!fieldFilled}
                     >
                         Send password reset link
-                    </LargeSubmit>
+                    </CustomButton>
                 </div>
             </CardOne>
             <ModalHelper

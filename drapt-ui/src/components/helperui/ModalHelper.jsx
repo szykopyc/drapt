@@ -1,4 +1,4 @@
-export function ModalHelper({
+export default function ModalHelper({
     id,
     reference,
     modalTitle,
@@ -21,7 +21,7 @@ export function ModalHelper({
                     // On md and up, override with the custom width
                     ...(typeof window !== "undefined" &&
                     window.innerWidth >= 768
-                        ? { width: `${width}%` }
+                        ? { minWidth: `${width}%` }
                         : {}),
 
                     borderRadius: "var(--border-radius)",

@@ -1,2 +1,4 @@
 __pycache__
-create_user.py
+create_first_user.py
+.env
+drapt.db
