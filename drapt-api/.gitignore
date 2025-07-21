@@ -2,3 +2,6 @@ __pycache__
 create_first_user.py
 .env
 drapt.db
+
+/venv
+/venv/*
