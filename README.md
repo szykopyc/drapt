@@ -1,93 +1,57 @@
 # Drapt
 
-**Drapt** is a modular portfolio analytics platform designed for modern analysts. Built with speed, clarity, and control in mind, 
+**Drapt** is a modular portfolio analytics platform designed for modern analysts. Built with speed, clarity, and control in mind. But it's not just a tool. It's a statement.
+
+Built from the ground up by a single developer who thrives in systems most fear, Drapt is designed to make complex portfolio insights simple, fast, and honest. That being said, Drapt doesn't trade off performance or precision for simplicity. I, the engineer behind Drapt, truly care about educating others in this space, and Drapt is a mere extension of myself.
 
 ---
 
-## 🚀 Features
+## What is Drapt?
 
-- 📊 Clean, responsive frontend built with React, TailwindCSS, and daisyUI  
-- 🧠 Intuitive interface for interpreting portfolios in chaotic market conditions  
+Drapt aims to bridge the gap between:
 
----
+-   Quantitative rigour and real usability
+-   Institutional-grade analytics and individuals
 
-## 🧱 Tech Stack
+Built with FastAPI, SQLAlchemy, Alembic, React, and a modular architecture, it empowers users to:
 
-- **Frontend**: React + Vite  
-- **Styling**: TailwindCSS + daisyUI  
-- **Backend**: FastAPI, Pandas, NumPy, statsmodels, requests - coming soon...
+-   Track portfolio composition, value, and performance
+-   Analyse risk, exposure, and return distributions
+-   Collaborate in teams
+-   And see beyond just numbers
 
----
-
-## 📁 Project Structure
-
-```
-src/
-┣ assets/
-┃ ┗ dummy-data/
-┃   ┗ tableData.js
-┣ components/
-┃ ┣ adminpanel/
-┃ ┃ ┗ UserManagementPanel.jsx
-┃ ┣ adminui/
-┃ ┃ ┗ UserShowAllCard.jsx
-┃ ┣ analysepanels/
-┃ ┃ ┣ PerformancePanel.jsx
-┃ ┃ ┗ RiskPanel.jsx
-┃ ┣ analyseui/
-┃ ┃ ┣ ChartCard.jsx
-┃ ┃ ┗ GlobalAnalysisCard.jsx
-┃ ┣ baseui/
-┃ ┃ ┣ BeginText.jsx
-┃ ┃ ┣ CustomButton.jsx
-┃ ┃ ┣ CustomCard.jsx
-┃ ┃ ┣ CustomTable.jsx
-┃ ┃ ┣ LargeSubmitHelper.jsx
-┃ ┃ ┣ MainBlock.jsx
-┃ ┃ ┗ TabNav.jsx
-┃ ┣ errorui/
-┃ ┃ ┗ InnerEmptyState.jsx
-┃ ┣ helperui/
-┃ ┃ ┣ FormErrorHelper.jsx
-┃ ┃ ┣ FormFieldHelper.jsx
-┃ ┃ ┗ ModalHelper.jsx
-┃ ┣ layout/
-┃ ┃ ┣ Footer.jsx
-┃ ┃ ┗ Navbar.jsx
-┃ ┣ portfoliopanels/
-┃ ┃ ┣ OverviewPanel.jsx
-┃ ┃ ┣ PositionMonitoringPanel.jsx
-┃ ┃ ┗ TradeBookerPanel.jsx
-┃ ┣ portfolioui/
-┃ ┃ ┣ BookTradeCard.jsx
-┃ ┃ ┣ ClosePositionModal.jsx
-┃ ┃ ┗ GlobalPortfolioCard.jsx
-┃ ┣ userui/
-┃ ┃ ┣ ProfileCard.jsx
-┃ ┃ ┗ ThemeSwitcher.jsx
-┣ errorpages/
-┃ ┣ 404NotFound.jsx
-┃ ┗ ErrorBoundary.jsx
-┣ pages/
-┃ ┣ About.jsx
-┃ ┣ AnalyseIndex.jsx
-┃ ┣ Contact.jsx
-┃ ┣ Index.jsx
-┃ ┣ Landing.jsx
-┃ ┣ Login.jsx
-┃ ┣ PortfolioIndex.jsx
-┃ ┗ Profile.jsx
-┣ App.jsx
-┣ index.css
-┗ main.jsx
-```
+This platform is for those who **don't turn away in the face of complexity**, those who want to understand, not just observe and memorise.
 
 ---
 
-## 📌 Status
+## Core Principles
 
-Drapt is currently under active solo development by [Szymon Kopyciński](https://linkedin.com/in/szymonkopycinski). He originally founded Drapt in November 2024, and has been working on it since, with 2 stings: November - February, May - Present.
-The UI is nearing feature completion; work on the backend will begin soon.
+-   Intuition comes first: if something doesn't make sense or add value, it's gone
+-   Modularity and abstraction: no spaghetti code
+-   Transparency: every function has intent, and can be recreated - nothing has to be reverse engineered
+-   Ownership: One engineer, one vision
+
+---
+
+## Tech Stack
+
+-   **Backend**: FastAPI, Pydantic, Alembic, SQLAlchemy, NumPy, Pandas, statsmodels
+-   **Frontend**: React, Zustand, Axios, TailwindCSS/DaisyUI
+-   **Data**: Daily EOD pricing from Tiingo API, scheduled valuation updates and portfolio analyses
+-   And more coming soon...
+
+---
+
+## Status
+
+Drapt is currently under active solo development by [Szymon Kopyciński](https://linkedin.com/in/szymonkopycinski). He originally founded Drapt in November 2024, and has been working on it since, with 2 focused development stints: November - February, May - Present.
+The UI was completed on the 1st of July 2025. Now, Szymon is working on the backend infrastructure.
+
+---
+
+## Final Word
+
+Drapt is being built in public, every mistake, failed deploy, broken branch, and even easter eggs are for you to see. I'm not a professional developer, nor am I a quant. But I do have a vision, a passion, and a desire to help others.
 
 ---
 
