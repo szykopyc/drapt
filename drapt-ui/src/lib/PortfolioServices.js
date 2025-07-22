@@ -44,7 +44,7 @@ export async function getPortfolioByStringIdOverview(portfolio_string_id) {
 
 export async function updatePortfolioMetadata(portfolio_id, attributes) {
   const response = await ApiClient.patch(
-    `/portfolio/${portfolio_id}`, attributes, {
+    `/portfolios/${portfolio_id}`, attributes, {
     headers: { "Content-Type": "application/json" },
     withCredentials: true,
   }
@@ -56,7 +56,7 @@ export async function updatePortfolioMetadata(portfolio_id, attributes) {
 export async function deletePortfolio(portfolio_id) {
   try {
     const response = await ApiClient.delete(
-      `/portfolio/${portfolio_id}`, {
+      `/portfolios/${portfolio_id}`, {
       withCredentials: true,
     }
     )
