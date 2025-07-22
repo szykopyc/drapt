@@ -70,7 +70,7 @@ async def test_position_overclose():
             analyst_id=1
         )
         await service.process_trade(open_trade)
-        pos = await service._get_open_position(portfolio_id=1, ticker="AVAV")
+        pos = await service._get_open_position_with_ticker(portfolio_id=1, ticker="AVAV")
         assert pos is not None
         assert pos.open_quantity == Decimal("10")
         assert pos.direction == PositionDirection.LONG
@@ -100,7 +100,7 @@ async def test_position_overclose():
         await service.process_trade(overclose_trade)
 
         # After overclose, check closed positions
-        closed_pos = await service._get_closed_position(portfolio_id=1, ticker="AVAV")
+        closed_pos = await service._get_closed_position_with_ticker(portfolio_id=1, ticker="AVAV")
         if closed_pos is not None:
             closed_pos_schema_applied = [PositionRead.model_validate(pos_ind) for pos_ind in closed_pos]
             for i in closed_pos_schema_applied:
@@ -113,7 +113,7 @@ async def test_position_overclose():
             print(f"{terminalcolours.WARNING}⚠️ No closed positions found after overclose.{terminalcolours.ENDC}")
 
         # After overclose, check the new open position
-        pos = await service._get_open_position(portfolio_id=1, ticker="AVAV")
+        pos = await service._get_open_position_with_ticker(portfolio_id=1, ticker="AVAV")
         assert pos is not None
         assert pos.open_quantity == Decimal("5")
         assert pos.direction == PositionDirection.SHORT

@@ -19,3 +19,10 @@ class Portfolio(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False,default=func.now(), server_default=func.now()) # auto inserted
     initial_cash: Mapped[Optional[Decimal]] = mapped_column(Numeric(18,2), nullable=False, default="0.00", server_default="0.00") # from PM admin input
     currency: Mapped[str] = mapped_column(String(length=3), nullable=False, default="GBP", server_default="GBP") # auto inserted, can be updated
+
+    def __repr__(self) -> str:
+        return (
+            f"<Portfolio #{self.id} | String ID: {self.portfolio_string_id} | Name: {self.name} | "
+            f"Currency: {self.currency} | Initial Cash: {self.initial_cash} | "
+            f"Created At: {self.created_at.isoformat()}>"
+        )

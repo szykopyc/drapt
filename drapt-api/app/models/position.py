@@ -35,3 +35,11 @@ class Position(Base):
 
     # Optional timestamps
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now(), onupdate=func.now())
+
+    def __repr__(self) -> str:
+        return (
+            f"<Position #{self.id} | Portfolio {self.portfolio_id} | Ticker {self.ticker} | Exchange {self.exchange} | Direction {self.direction} | "
+            f"Currency {self.currency} | Initial Qty {self.initial_quantity} | Entry Price {self.entry_price} | Entry Date {self.entry_date} | "
+            f"Open Qty {self.open_quantity} | Avg Entry Price {self.average_entry_price} | Realised PnL {self.realised_pnl} | "
+            f"Closed: {self.is_closed} | Close Date {self.close_date} | Exit Price {self.exit_price} | Total Cost {self.total_cost}>"
+        )

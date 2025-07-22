@@ -64,7 +64,7 @@ async def test_position_lifecycle():
             analyst_id=1
         )
         await service.process_trade(open_trade)
-        pos = await service._get_open_position(portfolio_id=1, ticker="AVAV")
+        pos = await service._get_open_position_with_ticker(portfolio_id=1, ticker="AVAV")
         assert pos is not None
         assert pos.open_quantity == Decimal("10")
         assert pos.average_entry_price == Decimal("10")
@@ -92,7 +92,7 @@ async def test_position_lifecycle():
             analyst_id=1
         )
         await service.process_trade(close_trade)
-        pos = await service._get_open_position(portfolio_id=1, ticker="AVAV")
+        pos = await service._get_open_position_with_ticker(portfolio_id=1, ticker="AVAV")
         assert pos is not None
         assert pos.open_quantity == Decimal("5")
         assert pos.is_closed is False
@@ -119,7 +119,7 @@ async def test_position_lifecycle():
             analyst_id=1
         )
         await service.process_trade(close_trade2)
-        pos = await service._get_open_position(portfolio_id=1, ticker="AVAV")
+        pos = await service._get_open_position_with_ticker(portfolio_id=1, ticker="AVAV")
         assert pos is None  # Position should be closed
 
         print(f"{terminalcolours.OKBLUE}🔒 Position fully closed, no open positions remain.{terminalcolours.ENDC}")

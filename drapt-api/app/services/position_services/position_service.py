@@ -73,7 +73,7 @@ class PositionService:
         await self.session.commit()
         await self.session.refresh(position)
 
-    def _close_position(self, position: Position, trade: Trade):
+    def _close_position(self, position: Position, trade: Trade) -> Trade:
         position.realised_pnl += self._calculate_realised_pnl(trade, position)
         position.is_closed = True
         position.close_date = trade.execution_date
@@ -81,6 +81,9 @@ class PositionService:
         position.average_entry_price = Decimal("0")
         position.open_quantity = Decimal("0")
         position.total_cost = Decimal("0")
+
+        # returns a synthetic trade for cash flow logging downsteam
+        return trade
 
     async def _handle_trade(self, trade: Trade):
         position = await self._get_open_position_with_ticker(trade.portfolio_id, trade.ticker)

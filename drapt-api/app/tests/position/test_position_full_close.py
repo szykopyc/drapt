@@ -66,7 +66,7 @@ async def test_position_lifecycle():
         )
 
         await service.process_trade(open_trade)
-        pos = await service._get_open_position(portfolio_id=1, ticker="AVAV")
+        pos = await service._get_open_position_with_ticker(portfolio_id=1, ticker="AVAV")
         assert pos is not None
         assert pos.open_quantity == Decimal("10")
         assert pos.average_entry_price == Decimal("10")
@@ -94,10 +94,10 @@ async def test_position_lifecycle():
             analyst_id=1
         )
         await service.process_trade(close_trade2)
-        pos = await service._get_open_position(portfolio_id=1, ticker="AVAV")
+        pos = await service._get_open_position_with_ticker(portfolio_id=1, ticker="AVAV")
         assert pos is None  # After full close, there should be no open position
 
-        closed_pos = await service._get_closed_position(portfolio_id=1, ticker="AVAV")
+        closed_pos = await service._get_closed_position_with_ticker(portfolio_id=1, ticker="AVAV")
         assert closed_pos is not None
         assert len(closed_pos) == 1  # Only one closed position expected
 
