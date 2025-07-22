@@ -57,6 +57,7 @@
 -   `sudo systemctl restart service` — restart service
 -   `sudo systemctl enable service` — enable service on boot
 -   `sudo systemctl disable service` — disable service on boot
+-   `journalctl -u drapt -f` - view logs
 
 ## Editing Files
 

@@ -200,7 +200,7 @@ async def assign_user_to_portfolio(
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Failed to fetch the user you requested.")
 
-    if not (current_user.portfolio_id == user.portfolio_id or permission_check_util(current_user, "can_manage_user")):
+    if not (current_user.portfolio_id == portfolio_id or permission_check_util(current_user, "can_manage_user")):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Unable to manage users assigned to other portfolios.")
     
     user.portfolio_id = portfolio_id
