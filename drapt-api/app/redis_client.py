@@ -15,7 +15,7 @@ redis_client = redis.Redis.from_url(REDIS_URL, decode_responses=True)
 def cache_set(key: str, value: dict, ttle: int = 86400):
     redis_client.setex(key, ttle, json.dumps(value))
 
-def cache_set_short_exp(key: str, value: dict, ttle:int = 43200): # 12 hour exp
+def cache_set_short_exp(key: str, value: dict, ttle:int = 14400): # 4 hour exp
     redis_client.setex(key, ttle, json.dumps(value))
 
 def cache_get(key: str):

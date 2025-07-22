@@ -345,6 +345,10 @@ input, select, .textarea, .skeleton, .modal-box, .modal, .modal-action, .modal .
 
 /* Add this to your AG TABLE THEMES section */
 /* AG TABLE THEMES */
+.ag-theme-quartz .ag-root-wrapper{
+  border-radius: 0;
+}
+
 .ag-theme-quartz .ag-root {
     background-color: var(--color-base-200) !important;
     --ag-border-color: var(--color-base-300) !important;
@@ -362,6 +366,7 @@ input, select, .textarea, .skeleton, .modal-box, .modal, .modal-action, .modal .
     color: var(--color-base-content) !important;
     display: flex;
     align-items: center;
+    padding: 0;
 }
 
 .ag-theme-quartz .ag-row-hover {

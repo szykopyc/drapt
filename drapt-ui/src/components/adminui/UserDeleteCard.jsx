@@ -128,7 +128,14 @@ export function UserDeleteCard() {
                 id={"userDeleteCard"}
                 title={"Delete a user"}
                 defaultOpen={false}
-                onClose={() => reset()}
+                onClose={() => {
+                    reset();
+                    setShowDeleteData(false);
+                    setShowConfirm(false);
+                    setLoading(false);
+                    setSearchError(null);
+                    setDeleteError(null);
+                }}
             >
                 <form
                     id="userToDelete"
@@ -183,17 +190,16 @@ export function UserDeleteCard() {
                                     <table className="table-sm md:table">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
                                                 <th>Full Name</th>
                                                 <th>Username</th>
                                                 <th>Email</th>
                                                 <th>Role</th>
                                                 <th>Team</th>
+                                                <th>Assigned</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <th>{targetUser.id}</th>
                                                 <td>{targetUser.fullname}</td>
                                                 <td>{targetUser.username}</td>
                                                 <td>{targetUser.email}</td>
@@ -210,6 +216,11 @@ export function UserDeleteCard() {
                                                             targetUser.team
                                                         ]
                                                     }
+                                                </td>
+                                                <td>
+                                                    {targetUser.portfolio_id
+                                                        ? "True"
+                                                        : "False"}
                                                 </td>
                                             </tr>
                                         </tbody>

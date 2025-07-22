@@ -1,5 +1,27 @@
 # Drapt Backend Documentation
 
+## Secret Key Setup
+
+### Backend /drapt-api
+
+The backend requires the following variables to be set in `.env` at the root of the folder:
+
+```
+FASTAPIUSERS_SECRET_KEY
+TIINGO_API_KEY
+REDIS_URL
+POSTGRESQL_URL
+POSTGRESQL_URL_FOR_MIGRATIONS
+ALLOWED_ORIGINS
+```
+
+-   **FASTAPIUSERS_SECRET_KEY**: I recommend using Pythons secret's library to generate a 'random' key.
+-   **TIINGO_API_KEY**: Get a free API key from Tiingo if you're a contributor and want to run the backend.
+-   **REDIS_URL**: Set your own redis URL, default is `redis://localhost:6379/0`
+-   **POSTGRESQL_URL**: This is what the backend interacts with. The format is: `postgresql+asyncpg://<username>:<password>@<host>:<port>/<database>`
+-   **POSTGRESQL_URL_FOR_MIGRATIONS**: This is for running Alembic migrations. More on migrations in the Database section. The format is: `postgresql+psycopg2://<username>:<password>@<host>:<port>/<database>`\*\*
+-   **ALLOWED_ORIGINS**: This is for the CORS middleware in `main.py` in the app folder. Comma separated values, for local development use `http://localhost:5173` if running the Vite dev server.
+
 ## Project Structure
 
 ### Backend Directory Root
