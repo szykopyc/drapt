@@ -13,6 +13,8 @@ class CashFlowRead(BaseModel):
     currency: CurrencyEnum
     timestamp: datetime
     amount: Decimal
+    converted_amount: Decimal
+    fx_at_time_of_conversion: Decimal
     flow_type: CashFlowType
     flow_description: Optional[str] = None
     trade_id: Optional[int] = None

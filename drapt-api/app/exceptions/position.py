@@ -1,0 +1,2 @@
+class PositionHandlingFailedError(Exception):
+    pass

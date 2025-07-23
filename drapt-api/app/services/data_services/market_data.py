@@ -1,6 +1,7 @@
 from app.external.tiingo import TiingoClient
-from app.redis_client import cache_get, cache_set, cache_set_short_exp
+from app.redis_client import cache_get, cache_set, cache_set_short_exp, cache_set_ultrashort_exp
 from app.schemas.asset_data import AssetMetadataRead
+from decimal import Decimal
 
 from app.utils.log import external_api_logger as logger
 
@@ -100,3 +101,62 @@ async def get_multiticker_search_fuzzy(query: str):
         logger.error(f"(Server) {e}")
 
     return enriched_results
+
+
+async def get_last_fx(fx_ticker: str):
+    fx_ticker = fx_ticker.strip().upper()
+
+    base = fx_ticker[:3]
+    quote = fx_ticker[-3:]
+
+    if base == quote:  # for the case of USDUSD, EUREUR etc.
+        return {"midPrice": 1.0}
+
+    cache_key = f"fx_rate:{base}{quote}"
+    inverse_cache_key = f"fx_rate:{quote}{base}"
+
+    # Check direct cache
+    cached = cache_get(cache_key)
+    if cached:
+        return cached
+
+    # Check inverse cache and invert if found
+    cached_inverse = cache_get(inverse_cache_key)
+    if cached_inverse:
+        inverted = {
+            "ticker": f"{base}{quote}",
+            "quoteTimestamp": cached_inverse["quoteTimestamp"],
+            "bidPrice": float(1) / float(cached_inverse["askPrice"]),
+            "askPrice": float(1) / float(cached_inverse["bidPrice"]),
+            "midPrice": float(1) / float(cached_inverse["midPrice"]),
+            "bidSize": cached_inverse["askSize"],
+            "askSize": cached_inverse["bidSize"]
+        }
+        cache_set_ultrashort_exp(cache_key, inverted)
+        return inverted
+
+    # Try fetching normally
+    client = get_client()
+    try:
+        fx_rate = await client.get_last_fx_rate(f"{base}{quote}")
+        cache_set_ultrashort_exp(cache_key, fx_rate)
+        return fx_rate
+
+    # Try inverse fetch and invert if not available directly
+    except ValueError:
+        fx_rate_inverse = await client.get_last_fx_rate(f"{quote}{base}")
+        inverted = {
+            "ticker": f"{base}{quote}",
+            "quoteTimestamp": fx_rate_inverse["quoteTimestamp"],
+            "bidPrice": float(1) / float(fx_rate_inverse["askPrice"]),
+            "askPrice": float(1) / float(fx_rate_inverse["bidPrice"]),
+            "midPrice": float(1) / float(fx_rate_inverse["midPrice"]),
+            "bidSize": fx_rate_inverse["askSize"],
+            "askSize": fx_rate_inverse["bidSize"]
+        }
+        cache_set_ultrashort_exp(cache_key, inverted)
+        return inverted
+
+    except Exception as e:
+        logger.error(f"(Server) {e}")
+        raise ValueError(f"Could not fetch FX rate for {fx_ticker}")

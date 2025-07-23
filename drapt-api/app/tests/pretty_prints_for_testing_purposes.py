@@ -9,16 +9,25 @@ class terminalcolours:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-def pretty_print_position(pos, title, colour=terminalcolours.OKCYAN):
-    print(f"{colour}{title}{terminalcolours.ENDC}")
-    for key, value in dict(pos).items():
-        print(f"{terminalcolours.BOLD}{key}{terminalcolours.ENDC}: {value}")
-    print()  # single newline
-
-def print_test_start_banner(text="TEST STARTED", width=60, colour=terminalcolours.HEADER):
-    banner = f"{colour}{'#' * ((width - len(text) - 2) // 2)} {text} {'#' * ((width - len(text) - 2) // 2)}{terminalcolours.ENDC}"
+def print_test_banner(text="TEST BANNER", width=60, colour=terminalcolours.HEADER):
+    if len(text) + 2 > width:
+        width = len(text) + 20  # fallback so text always fits
+    padding = width - len(text) - 2
+    left = padding // 2
+    right = padding // 2 + (padding % 2)
+    banner = f"{colour}{'#' * left} {text} {'#' * right}{terminalcolours.ENDC}"
     print(banner)
 
-def print_test_end_banner(text="TEST ENDED", width=60, colour=terminalcolours.HEADER):
-    banner = f"{colour}{'#' * ((width - len(text) - 2) // 2)} {text} {'#' * ((width - len(text) - 2) // 2)}{terminalcolours.ENDC}"
-    print(banner)
+def print_test_start_banner(text="TEST STARTED", width=60, colour=terminalcolours.OKBLUE):
+    print_test_banner(text, width, colour)
+
+def print_test_end_banner(text="TEST ENDED", width=60, colour=terminalcolours.OKBLUE):
+    print_test_banner(text, width, colour)
+
+def print_zebra_table(list_passed_in):
+    for id, i in enumerate(list_passed_in):
+        if id % 2 == 0:
+                print(f"{i}")
+            
+        else:
+            print(f"{terminalcolours.OKBLUE}{i}{terminalcolours.ENDC}")

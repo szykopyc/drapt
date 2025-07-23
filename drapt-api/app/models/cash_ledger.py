@@ -15,6 +15,8 @@ class CashFlow(Base):
     currency: Mapped[CurrencyEnum] = mapped_column(String(length=4), nullable=False)
     timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now(), server_default=func.now(), nullable=False)
     amount: Mapped[Decimal] = mapped_column(Numeric(18,6), nullable=False)
+    converted_amount: Mapped[Decimal] = mapped_column(Numeric(18,6), nullable=False)
+    fx_at_time_of_conversion: Mapped[Decimal] = mapped_column(Numeric(10,6), nullable = False)
     flow_type: Mapped[CashFlowType] = mapped_column(String(length=100), nullable=False)
     flow_description: Mapped[str] = mapped_column(String(length=1024), nullable=True)
 
@@ -25,6 +27,6 @@ class CashFlow(Base):
     def __repr__(self) -> str:
         return (
             f"<CashFlow #{self.id} | Portfolio {self.portfolio_id} | Currency {self.currency} | "
-            f"{self.flow_type}: {self.amount} @ {self.timestamp.isoformat()} | "
+            f"{self.flow_type}: {self.amount} @ {self.timestamp.isoformat()} | Converted Amount {self.converted_amount} | FX rate {self.fx_at_time_of_conversion} | "
             f"Trade ID: {self.trade_id} | Position ID: {self.position_id}>"
         )

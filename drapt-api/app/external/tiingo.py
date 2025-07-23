@@ -97,3 +97,22 @@ class TiingoClient:
             }
 
             return formatted_response
+
+
+    async def get_last_fx_rate(
+        self,
+        fx_pair: str
+    ):
+        url = f"{self.base_url}tiingo/fx/{fx_pair.strip().upper()}/top"
+
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url, headers=self.headers)
+            response.raise_for_status()
+            response = response.json()
+
+            if not response or not isinstance(response, list):
+                raise ValueError("No FX data returned from Tiingo")
+
+            last_fx = response[0]
+
+            return last_fx

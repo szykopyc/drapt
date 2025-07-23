@@ -2,7 +2,6 @@ from decimal import Decimal
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import and_
-from sqlalchemy.orm import selectinload
 from app.enums import position
 from app.models.position import Position
 from app.models.trade import Trade
@@ -267,4 +266,3 @@ class PositionService:
     async def _get_closed_position_with_portfolio(self, portfolio_id: int) -> list[Position] | None:
         positions_result = await self.session.execute(select(Position).where(and_(Position.portfolio_id == portfolio_id, Position.is_closed == True)))
         return list(positions_result.scalars().all())
-

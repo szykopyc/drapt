@@ -44,15 +44,16 @@ async def book_trade(
     TradeServiceObject = TradeService(session)
     PositionServiceObject = PositionService(session)
 
-    trade_obj = await TradeServiceObject._book_trade(trade, current_user, logger)
-
     try:
+        trade_obj = await TradeServiceObject._book_trade(trade, current_user, logger)
+
         if trade_obj:
             await PositionServiceObject._handle_trade(trade_obj)
             await session.commit() ## commit all db changes.
             #this is only for now until the trade orchestrator is set up
 
     except Exception:
+        await session.rollback()
         logger.error(f"(Server) Position creation failed for trade {trade.ticker}/{trade.portfolio_id}")
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Failed to create position for trade.")
 

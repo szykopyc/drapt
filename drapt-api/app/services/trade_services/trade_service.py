@@ -3,7 +3,7 @@ from app.models.trade import Trade
 from app.schemas.trade import TradeRead
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import HTTPException, status
-
+from app.exceptions.trade import TradeCreationError
 from app.utils.log import trade_logger as logger
 
 class TradeService:
@@ -41,8 +41,8 @@ class TradeService:
             logger.error(f"(Server) Error occurred while creating trade {trade.ticker}/{trade.portfolio_id}: {e}")
             logger.info("(Server) Initiating session rollback")
             await self.session.rollback()
-
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"An error occurred while booking the trade for {trade.ticker}") 
+            
+            raise TradeCreationError(f"An error occurred while booking the trade for {trade.ticker}") from e
 
 
     async def _get_trades_by_portfolio_id(self, portfolio_id: int) -> list[TradeRead]:

@@ -1,7 +1,6 @@
 import pytest
 from decimal import Decimal
 from datetime import datetime
-import asyncio
 from fastapi_users.password import PasswordHelper
 from app.models.trade import Trade
 from app.models.portfolio import Portfolio
@@ -11,9 +10,8 @@ from app.enums.trade_orchestrator import TradeIntentionEnum
 from app.services.position_services.position_service import PositionService
 from app.services.trade_services.trade_service import TradeService
 from app.services.cash_services.cash_service import CashService
-from app.schemas.position import PositionRead
 from app.redis_client import cache_get
-from app.tests.pretty_prints_for_testing_purposes import terminalcolours, pretty_print_position, print_test_end_banner
+from app.tests.pretty_prints_for_testing_purposes import terminalcolours, print_test_end_banner
 
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from app.db import Base
@@ -25,12 +23,12 @@ test_engine = create_async_engine(TEST_DATABASE_URL, echo=False)
 async_session = async_sessionmaker(bind=test_engine)
 
 @pytest.mark.asyncio
-async def test_overclose_long_position_with_cash_service():
+async def test_multicurrency_position_lifecycle():
     async with test_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
     async with async_session() as session:
-        print(f"{terminalcolours.OKGREEN}🚀 Running: {__name__} - Overclose Long Position Test with Cash Service {terminalcolours.ENDC}\n")
+        print(f"{terminalcolours.OKGREEN}🚀 Running: {__name__} - Multicurrency Portfolio/Position Test {terminalcolours.ENDC}")
 
         # Initialise services
         print(f"{terminalcolours.OKCYAN}Initialising services...{terminalcolours.ENDC}")
@@ -56,14 +54,14 @@ async def test_overclose_long_position_with_cash_service():
         print(f"{terminalcolours.OKGREEN}User created: {test_user}{terminalcolours.ENDC}\n")
 
         # Create a portfolio
-        print(f"{terminalcolours.OKCYAN}Creating portfolio...{terminalcolours.ENDC}")
+        print(f"{terminalcolours.OKCYAN}Creating portfolio base currency EUR...{terminalcolours.ENDC}")
         test_portfolio = Portfolio(
             id=1,
             portfolio_string_id="industrial",
             name="Industrial Portfolio",
             created_at=datetime.now(),
             initial_cash=Decimal("1000"),
-            currency="USD"
+            currency="EUR"
         )
         session.add(test_portfolio)
         await session.flush()
@@ -73,13 +71,9 @@ async def test_overclose_long_position_with_cash_service():
         # Record initial portfolio cash
         print(f"{terminalcolours.OKCYAN}Recording initial portfolio cash...{terminalcolours.ENDC}")
         await cash_service._record_initial_portfolio_cash(test_portfolio)
-        initial_cash_balance = await cash_service._get_portfolio_cash_balance(test_portfolio.id)
+        initial_cash_balance = await cash_service._get_portfolio_balance_all_currency(test_portfolio.id)
         print(f"{terminalcolours.OKGREEN}Initial portfolio cash balance: {initial_cash_balance}{terminalcolours.ENDC}\n")
-        assert initial_cash_balance["USD"] == Decimal("1000.000000")
-
-        # make sure that portfolio currency was set to cache
-        cache_res = cache_get("portfolio_native_currency:1")
-        print(cache_res)
+        assert initial_cash_balance["EUR"] == Decimal("1000.000000")
 
         # Create a long trade
         print(f"{terminalcolours.OKCYAN}Creating a long trade...{terminalcolours.ENDC}")
@@ -159,4 +153,10 @@ async def test_overclose_long_position_with_cash_service():
         assert len(cash_ledger) == 4  # Initial deposit, long buy, overclose sell
         assert cash_ledger[3].amount == Decimal("60.000000")  # Overclose sell amount
 
+        # final portfolio balance
+        print(f"{terminalcolours.OKCYAN}Getting final portfolio balance...{terminalcolours.ENDC}")
+        balance = await cash_service._get_portfolio_balance_all_currency(test_portfolio.id)
+        print(f"{terminalcolours.OKGREEN}Balance fetched: {balance}{terminalcolours.ENDC}")
+        aware_balance = await cash_service._get_portfolio_balance_native(test_portfolio.id)
+        print(f"{terminalcolours.OKGREEN}Aware balance fetched: {aware_balance}{terminalcolours.ENDC}")
         print_test_end_banner(f"{terminalcolours.OKGREEN}{__name__} TEST ENDED{terminalcolours.ENDC}\n")
