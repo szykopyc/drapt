@@ -1,4 +1,5 @@
 # portfolio imports
+from app.services.cash_services import cash_service
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.future import select # type: ignore
 from sqlalchemy.exc import IntegrityError # type: ignore # this is for when a unique key is violated
@@ -10,6 +11,8 @@ from app.db import get_async_session
 # models and schemas
 from app.models.portfolio import Portfolio
 from app.schemas.portfolio import PortfolioCreate, PortfolioRead, PortfolioUpdate, PortfolioReadOverview
+
+from app.services.cash_services.cash_service import CashService
 
 # auth and permission imports
 from app.models.user import User
@@ -139,6 +142,11 @@ async def update_portfolio_by_id(
     
     for field, value in portfolio_update.model_dump(exclude_unset=True).items():
         setattr(fetched_portfolio, field, value)
+        await session.flush()
+
+    if "initial_cash" in portfolio_update.model_dump(exclude_unset=True).keys():
+        cash_service_obj = CashService(session)
+        await cash_service_obj._record_initial_portfolio_cash(fetched_portfolio)
 
     await session.commit()
     await session.refresh(fetched_portfolio)

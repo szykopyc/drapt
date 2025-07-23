@@ -32,9 +32,7 @@ class CashService:
             portfolio_id=Portfolio.id,
             amount=Portfolio.initial_cash,
             flow_type=CashFlowType.DEPOSIT,
-            currency=Portfolio.currency,
-            converted_amount=Portfolio.initial_cash,
-            fx_at_time_of_conversion=1
+            currency=Portfolio.currency
         )
         # sets the portfolio currency in cache. this is so that you dont need to query the portfolios table to get portfolio currency
         cache_set_indefinite(f"portfolio_native_currency:{Portfolio.id}", {"currency":Portfolio.currency})

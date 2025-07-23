@@ -192,10 +192,21 @@ export default function BookTradeCard(portfolioOverviewData) {
                                     {...register("price", {
                                         required: "Price is required",
                                         setValueAs: (v) => parseFloat(v),
-                                        validate: (value) =>
-                                            value < 0.01
-                                                ? "Price must be nonzero and positive."
-                                                : true,
+                                        validate: (value) => {
+                                            if (value < 0.01)
+                                                return "Price must be nonzero and positive.";
+
+                                            if (
+                                                Math.abs(
+                                                    value -
+                                                        selectedTickerFromSelection?.adjClose
+                                                ) /
+                                                    selectedTickerFromSelection?.adjClose >
+                                                0.1
+                                            )
+                                                return "Price must not be more than 10% away from its last close.";
+                                            else return true;
+                                        },
                                     })}
                                     disabled={tradeConfirmed}
                                 />

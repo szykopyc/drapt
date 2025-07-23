@@ -8,9 +8,8 @@ export function useHookIndexOfAllPortfolios() {
       await new Promise((resolve) => setTimeout(resolve, 500));
       return indexOfAllPortfolios();
     },
-    staleTime: 1000 * 60 * 3,
-    retry: 3,
-    retryDelay: 500
+    staleTime: 1000 * 60 * 10,
+    retry: 1,
   });
 }
 
@@ -21,8 +20,7 @@ export function useHookSearchPortfolioOverview(portfolio_string_id) {
       await new Promise((resolve) => setTimeout(resolve, 500));
       return getPortfolioByStringIdOverview(portfolio_string_id);
     },
-    staleTime: 1000 * 60 * 3,
-    retry: 3,
-    retryDelay: 500,
+    staleTime: 1000 * 60 * 10,
+    retry: 1,
   })
 }
