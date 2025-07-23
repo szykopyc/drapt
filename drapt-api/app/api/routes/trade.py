@@ -19,6 +19,8 @@ from app.utils.log import trade_logger as logger
 # trade tradeservice
 from app.services.trade_services.trade_service import TradeService
 from app.services.position_services.position_service import PositionService
+from app.services.cash_services.cash_service import CashService
+from app.orchestrators.trade_orchestrator import TradeOrchestrator
 
 router = APIRouter()
 
@@ -43,14 +45,13 @@ async def book_trade(
 
     TradeServiceObject = TradeService(session)
     PositionServiceObject = PositionService(session)
+    CashServiceObject = CashService(session)
+    TradeOrchestratorObject = TradeOrchestrator(session, TradeServiceObject, PositionServiceObject, CashServiceObject)
 
     try:
-        trade_obj = await TradeServiceObject._book_trade(trade, current_user, logger)
-
-        if trade_obj:
-            await PositionServiceObject._handle_trade(trade_obj)
-            await session.commit() ## commit all db changes.
-            #this is only for now until the trade orchestrator is set up
+        trade_obj = await TradeOrchestratorObject.orchestrator_process_trade(trade, current_user)
+        await session.commit()
+        await session.refresh(trade_obj)
 
     except Exception:
         await session.rollback()

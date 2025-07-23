@@ -16,7 +16,7 @@ class TradeOrchestrator:
         self.position_service = position_service
         self.cash_service = cash_service
         
-    async def orchestrator_process_trade(self, trade: Trade, user: User):
+    async def orchestrator_process_trade(self, trade, user: User):
         trade_obj = await self.trade_service._book_trade(trade, user)
         if not trade_obj:
             raise TradeCreationError("No trade object returned from trade booking")
@@ -36,4 +36,4 @@ class TradeOrchestrator:
                 case TradeIntentionEnum.CLOSE:
                     await self.cash_service._realise_position(trade_action["trade"], trade_action["position"])
 
-        return True
+        return trade_obj
