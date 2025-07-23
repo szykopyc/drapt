@@ -99,11 +99,16 @@ export async function assignUserToPortfolio(user_id, portfolio_id) {
 // exec only service
 // this doesn't need a RQ hook
 export async function deleteUserByID(user_id) {
-  const response = await ApiClient.delete(
-    `/users/${user_id}/delete`, {
-    headers: { "Content-Type": "application/json" },
-    withCredentials: true,
+  try {
+    const response = await ApiClient.delete(
+      `/users/${user_id}/delete`, {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    }
+    );
+    return response.data;
   }
-  );
-  throw error?.response?.data?.detail;
+  catch (error) {
+    throw error?.response?.data?.detail;
+  }
 }

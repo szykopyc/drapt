@@ -6,7 +6,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.future import select
 from app.config.permissions import permission_check_util
 # utils
-from app.utils.log import auth_logger as logger
+from app.utils.log import admin_logger as logger
 
 # models and schemas
 from app.models.user import User

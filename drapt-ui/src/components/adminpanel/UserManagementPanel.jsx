@@ -3,6 +3,7 @@ import { UserCreationCard } from "../adminui/UserCreationCard";
 import { UserUpdateCard } from "../adminui/UserUpdateCard";
 import { UserDeleteCard } from "../adminui/UserDeleteCard";
 import useUserStore from "../../stores/userStore";
+import { Toaster } from "react-hot-toast";
 
 export default function UserManagementPanel() {
   const user = useUserStore((state) => state.user);
@@ -13,6 +14,7 @@ export default function UserManagementPanel() {
       <UserCreationCard />
       <UserUpdateCard />
       {user?.role === "developer" && <UserDeleteCard />}
+      <Toaster />
     </div>
   );
 }
