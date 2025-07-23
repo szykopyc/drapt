@@ -4,9 +4,6 @@ from sqlalchemy import Integer, String, ForeignKey
 from app.db import Base
 from typing import Optional
 
-# this is a base user, used for auth (by FastAPI users)
-# it also optionally connects a user to a portfolio ID
-
 class User(SQLAlchemyBaseUserTable[int], Base):
     __tablename__ = "users"
 
@@ -16,3 +13,9 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     role: Mapped[str] = mapped_column(String(length=20), nullable=False)
     team: Mapped[str] = mapped_column(String(length=50), nullable=False)
     portfolio_id: Mapped[Optional[int]] = mapped_column(ForeignKey("portfolios.id"), nullable=True) # optional portfolio ID, maps the user to a portfolio. handle this on creation/update
+
+    def __repr__(self) -> str:
+        return (
+            f"<User id={self.id} username={self.username} fullname={self.fullname} "
+            f"role={self.role} team={self.team} portfolio_id={self.portfolio_id}>"
+        )

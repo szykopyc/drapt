@@ -27,3 +27,10 @@ class Trade(Base):
     trader_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False) # person who executed the trade
     analyst_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False) # person who recommended the trade
     notes: Mapped[Optional[str]] = mapped_column(String(length=1024), nullable=True) # trade notes, optional
+
+    def __repr__(self) -> str:
+        return (
+            f"<Trade id={self.id} ticker={self.ticker} exchange={self.exchange} "
+            f"price={self.price} quantity={self.quantity} direction={self.direction} "
+            f"portfolio_id={self.portfolio_id} execution_date={self.execution_date}>"
+        )

@@ -46,10 +46,11 @@ async def test_position_lifecycle():
         session.add(portfolio)
         await session.commit()
 
-        service = PositionService(session)
+        position_service = PositionService(session)
 
         # Open a long position
         open_trade = Trade(
+            id=1,
             portfolio_id=1,
             ticker="AVAV",
             exchange="NDQ",
@@ -63,8 +64,8 @@ async def test_position_lifecycle():
             trader_id=1,
             analyst_id=1
         )
-        await service.process_trade(open_trade)
-        pos = await service._get_open_position_with_ticker(portfolio_id=1, ticker="AVAV")
+        await position_service._handle_trade(open_trade)
+        pos = await position_service._get_open_position_with_ticker(portfolio_id=1, ticker="AVAV")
         assert pos is not None
         assert pos.open_quantity == Decimal("10")
         assert pos.average_entry_price == Decimal("10")
@@ -78,6 +79,7 @@ async def test_position_lifecycle():
 
         # Partial close (sell 5)
         close_trade = Trade(
+            id=2,
             portfolio_id=1,
             ticker="AVAV",
             exchange="NDQ",
@@ -91,8 +93,11 @@ async def test_position_lifecycle():
             trader_id=1,
             analyst_id=1
         )
-        await service.process_trade(close_trade)
-        pos = await service._get_open_position_with_ticker(portfolio_id=1, ticker="AVAV")
+        
+        await position_service._handle_trade(close_trade)
+
+
+        pos = await position_service._get_open_position_with_ticker(portfolio_id=1, ticker="AVAV")
         assert pos is not None
         assert pos.open_quantity == Decimal("5")
         assert pos.is_closed is False
@@ -118,8 +123,8 @@ async def test_position_lifecycle():
             trader_id=1,
             analyst_id=1
         )
-        await service.process_trade(close_trade2)
-        pos = await service._get_open_position_with_ticker(portfolio_id=1, ticker="AVAV")
+        await position_service._handle_trade(close_trade2)
+        pos = await position_service._get_open_position_with_ticker(portfolio_id=1, ticker="AVAV")
         assert pos is None  # Position should be closed
 
         print(f"{terminalcolours.OKBLUE}🔒 Position fully closed, no open positions remain.{terminalcolours.ENDC}")

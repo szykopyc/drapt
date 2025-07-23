@@ -69,7 +69,7 @@ async def test_position_overclose():
             trader_id=1,
             analyst_id=1
         )
-        await service.process_trade(open_trade)
+        await service._handle_trade(open_trade)
         pos = await service._get_open_position_with_ticker(portfolio_id=1, ticker="AVAV")
         assert pos is not None
         assert pos.open_quantity == Decimal("10")
@@ -97,7 +97,7 @@ async def test_position_overclose():
             trader_id=1,
             analyst_id=1
         )
-        await service.process_trade(overclose_trade)
+        await service._handle_trade(overclose_trade)
 
         # After overclose, check closed positions
         closed_pos = await service._get_closed_position_with_ticker(portfolio_id=1, ticker="AVAV")

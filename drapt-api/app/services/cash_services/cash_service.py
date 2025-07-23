@@ -18,7 +18,7 @@ class CashService:
 
     async def _add_cash_flow(self, cashflow: CashFlow):
         self.session.add(cashflow)
-        await self.session.commit()
+        await self.session.flush()
         await self.session.refresh(cashflow)
 
 
@@ -35,7 +35,7 @@ class CashService:
 
         await self._add_cash_flow(initial_deposit)
     
-    async def _cash_from_realised_position(self, position: Position, closing_trade: Trade):
+    async def _realise_position(self, closing_trade: Trade, position: Position):
         if not position.is_closed:
             raise ValueError("Position must be closed")
 
@@ -60,9 +60,9 @@ class CashService:
             )
             self.session.add(sale_proceeds)
 
-        await self.session.commit()
+        await self.session.flush()
 
-    async def _cash_cost_from_trade(self, trade: Trade):
+    async def _cash_cost_from_trade(self, trade: Trade, position: Position):
         if trade.direction == TradeTypeEnum.BUY:
             amount = -trade.notional
             flow_type = CashFlowType.LONG_BUY
@@ -75,6 +75,7 @@ class CashService:
             amount=amount,
             flow_type=flow_type,
             trade_id=trade.id,
+            position_id = position.id,
             currency = trade.currency
         )
 

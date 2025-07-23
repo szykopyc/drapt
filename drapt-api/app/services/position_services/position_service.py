@@ -2,6 +2,7 @@ from decimal import Decimal
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import and_
+from sqlalchemy.orm import selectinload
 from app.enums import position
 from app.models.position import Position
 from app.models.trade import Trade
@@ -10,6 +11,7 @@ from app.enums.position import PositionDirection
 from app.schemas.trade import TradeRead
 from app.services.position_services.unrealised_pnl_service import calculate_open_position_unrealised_pnl
 from app.schemas.position import EnhancedPosition
+from app.enums.trade_orchestrator import TradeIntentionEnum
 
 class PositionService:
     def __init__(self, session: AsyncSession) -> None:
@@ -22,13 +24,7 @@ class PositionService:
         elif trade_dir == TradeTypeEnum.SELL:
             return PositionDirection.SHORT
 
-
-    async def process_trade(self, trade: Trade) -> None:
-        if trade.direction == TradeTypeEnum.BUY or trade.direction == TradeTypeEnum.SELL:
-            await self._handle_trade(trade)
-
-        else:
-            raise ValueError(f"Invalid trade direction: {trade.direction}")
+    ### the below func is unneccessary. delete later
 
     def is_same_direction(self, trade: Trade, position: Position) -> bool:
         return self.convert_trade_dir_to_position_dir(trade.direction) == position.direction
@@ -49,7 +45,7 @@ class PositionService:
         return Decimal(pnl)
 
 
-    async def _create_position(self, trade: Trade):
+    async def _create_position(self, trade: Trade) -> Position:
         position = Position(
             portfolio_id = trade.portfolio_id,
             ticker = trade.ticker,
@@ -70,10 +66,10 @@ class PositionService:
         )
 
         self.session.add(position)
-        await self.session.commit()
-        await self.session.refresh(position)
+        await self.session.flush()
+        return position
 
-    def _close_position(self, position: Position, trade: Trade) -> Trade:
+    async def _close_position(self, position: Position, trade: Trade) -> Position:
         position.realised_pnl += self._calculate_realised_pnl(trade, position)
         position.is_closed = True
         position.close_date = trade.execution_date
@@ -82,14 +78,29 @@ class PositionService:
         position.open_quantity = Decimal("0")
         position.total_cost = Decimal("0")
 
+        await self.session.flush()
         # returns a synthetic trade for cash flow logging downsteam
-        return trade
+        return position
 
-    async def _handle_trade(self, trade: Trade):
+    async def _handle_trade(self, trade: Trade) -> list:
+        if not (trade.direction == TradeTypeEnum.BUY or trade.direction == TradeTypeEnum.SELL):
+            raise ValueError(f"Invalid trade direction: {trade.direction}")
+
+        trade_intention = []
+
         position = await self._get_open_position_with_ticker(trade.portfolio_id, trade.ticker)
 
         if position is None:  # no position exists, create a new one
-            await self._create_position(trade)
+            new_pos = await self._create_position(trade)
+            trade_intention = [
+                {
+                    "intent": TradeIntentionEnum.CREATE,
+                    "position": new_pos,
+                    "trade": trade
+                }
+            ]
+            return trade_intention
+
         else:
             position.updated_at = trade.execution_date
 
@@ -109,14 +120,28 @@ class PositionService:
 
                 position.total_cost += trade.price * trade.quantity
 
+                trade_intention = [
+                    {
+                        "intent": TradeIntentionEnum.ADDTO,
+                        "position": position,
+                        "trade": trade
+                    }
+                ]
+
             else:
                 # Full close
                 if trade.quantity == position.open_quantity:
-                    self._close_position(position, trade)
+                    close_pos = await self._close_position(position, trade)
+                    trade_intention = [
+                        {
+                            "intent": TradeIntentionEnum.CLOSE,
+                            "position": close_pos,
+                            "trade": trade
+                        }
+                    ]
 
                 # Partial close
                 elif trade.quantity < position.open_quantity:
-                    #Create a synthetic position for the closed portion
                     closed_position = Position(
                         portfolio_id=position.portfolio_id,
                         ticker=position.ticker,
@@ -136,21 +161,25 @@ class PositionService:
                         updated_at=trade.execution_date
                     )
                     self.session.add(closed_position)
+                    await self.session.flush()
 
-                    # fully close the partial position which was sold off
-                    self._close_position(closed_position, trade)
+                    close_pos = await self._close_position(closed_position, trade)
 
-                    # update the original position (part which is still open)
                     position.total_cost -= position.average_entry_price * trade.quantity
                     position.open_quantity -= trade.quantity
 
-                    await self.session.commit()
-                    await self.session.refresh(position)
-                    await self.session.refresh(closed_position)
+                    trade_intention = [
+                        {
+                            "intent": TradeIntentionEnum.CLOSE,
+                            "position": close_pos,
+                            "trade": trade
+                        }
+                    ]
 
                 # Overclose
                 elif trade.quantity > position.open_quantity:
                     closing_trade = Trade(
+                        id = trade.id,
                         quantity=position.open_quantity,
                         price=trade.price,
                         direction=trade.direction,
@@ -164,11 +193,12 @@ class PositionService:
                         trader_id=trade.trader_id,
                         analyst_id=trade.analyst_id
                     )
-                    self._close_position(position, closing_trade)
+                    closing_portion = await self._close_position(position, closing_trade)
 
                     over_quantity = trade.quantity - closing_trade.quantity
-                    await self._create_position(
-                        Trade(
+
+                    create_trade = Trade(
+                            id = trade.id,
                             portfolio_id=trade.portfolio_id,
                             ticker=trade.ticker,
                             exchange=trade.exchange,
@@ -182,11 +212,23 @@ class PositionService:
                             trader_id=trade.trader_id,
                             analyst_id=trade.analyst_id
                         )
-                    )
 
-        await self.session.commit()
-        if position is not None:
-            await self.session.refresh(position)
+                    create_portion = await self._create_position(create_trade)
+
+                    trade_intention = [
+                        {
+                            "intent": "CLOSE",
+                            "position": closing_portion,
+                            "trade": closing_trade,
+                        },
+                        {
+                            "intent": "CREATE",
+                            "position": create_portion,
+                            "trade": create_trade
+                        }
+                    ]
+
+            return trade_intention
 
     async def _get_open_position_with_ticker(self, portfolio_id: int, ticker: str) -> Position | None:
         position_result = await self.session.execute(select(Position).where(and_(
@@ -195,7 +237,12 @@ class PositionService:
             Position.is_closed == False
         )))
         
-        return position_result.scalar_one_or_none()
+        position = position_result.scalar_one_or_none()
+    
+        if position:
+            await self.session.refresh(position)
+
+        return position
     
     async def _get_closed_position_with_ticker(self, portfolio_id: int, ticker: str) -> list[Position] | None:
         positions_result = await self.session.execute(select(Position).where(and_(

@@ -4,11 +4,13 @@ from app.schemas.trade import TradeRead
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import HTTPException, status
 
+from app.utils.log import trade_logger as logger
+
 class TradeService:
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
 
-    async def _book_trade(self, trade, current_user, logger) -> Trade | None:
+    async def _book_trade(self, trade, current_user, logger = logger) -> Trade | None:
         try:
             trade = Trade(
                 portfolio_id = trade.portfolio_id,
@@ -27,7 +29,7 @@ class TradeService:
             )
 
             self.session.add(trade)
-            await self.session.commit()
+            await self.session.flush()
             await self.session.refresh(trade)
 
             logger.info(f"({current_user.username}) created trade TICKER: {trade.ticker} / DATE: {trade.execution_date}")

@@ -48,7 +48,9 @@ async def book_trade(
 
     try:
         if trade_obj:
-            await PositionServiceObject.process_trade(trade_obj)
+            await PositionServiceObject._handle_trade(trade_obj)
+            await session.commit() ## commit all db changes.
+            #this is only for now until the trade orchestrator is set up
 
     except Exception:
         logger.error(f"(Server) Position creation failed for trade {trade.ticker}/{trade.portfolio_id}")
