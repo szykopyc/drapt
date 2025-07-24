@@ -2,12 +2,10 @@ from decimal import Decimal
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import and_
-from app.enums import position
 from app.models.position import Position
 from app.models.trade import Trade
 from app.enums.trade import TradeTypeEnum
 from app.enums.position import PositionDirection
-from app.schemas.trade import TradeRead
 from app.services.position_services.unrealised_pnl_service import calculate_open_position_unrealised_pnl
 from app.schemas.position import EnhancedPosition
 from app.enums.trade_orchestrator import TradeIntentionEnum
@@ -65,6 +63,8 @@ class PositionService:
         )
 
         self.session.add(position)
+        await self.session.flush()
+        position.root_position_id = position.id
         await self.session.flush()
         return position
 
@@ -157,7 +157,8 @@ class PositionService:
                         close_date=None,
                         exit_price=None,
                         total_cost=position.average_entry_price * trade.quantity,
-                        updated_at=trade.execution_date
+                        updated_at=trade.execution_date,
+                        root_position_id = position.id
                     )
                     self.session.add(closed_position)
                     await self.session.flush()

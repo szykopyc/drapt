@@ -31,3 +31,11 @@ def print_zebra_table(list_passed_in):
             
         else:
             print(f"{terminalcolours.OKBLUE}{i}{terminalcolours.ENDC}")
+
+    print()
+
+def pretty_print_info(text):
+    print(f"{terminalcolours.OKCYAN}{text}{terminalcolours.ENDC}")
+
+def pretty_print_result(text):
+    print(f"{terminalcolours.OKGREEN}{text}{terminalcolours.ENDC}\n")

@@ -36,6 +36,8 @@ class Position(Base):
     # Optional timestamps
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now(), onupdate=func.now())
 
+    root_position_id: Mapped[int] = mapped_column(ForeignKey("positions.id"), index= True, nullable=True) # for synthetic position created on partial close
+
     def __repr__(self) -> str:
         return (
             f"<Position #{self.id} | Portfolio {self.portfolio_id} | Ticker {self.ticker} | Exchange {self.exchange} | Direction {self.direction} | "

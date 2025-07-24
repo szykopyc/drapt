@@ -24,9 +24,12 @@ class CashFlow(Base):
     trade_id: Mapped[int] = mapped_column(ForeignKey("trades.id"), nullable=True)
     position_id: Mapped[int] = mapped_column(ForeignKey("positions.id"), nullable=True)
 
+    # root position id for partial closes
+    root_position_id: Mapped[int] = mapped_column(ForeignKey("positions.id"), nullable=True)
+
     def __repr__(self) -> str:
         return (
             f"<CashFlow #{self.id} | Portfolio {self.portfolio_id} | Currency {self.currency} | "
             f"{self.flow_type}: {self.amount} @ {self.timestamp.isoformat()} | Converted Amount {self.converted_amount} | FX rate {self.fx_at_time_of_conversion} | "
-            f"Trade ID: {self.trade_id} | Position ID: {self.position_id}>"
+            f"Trade ID: {self.trade_id} | Position ID: {self.position_id} | Root Pos ID: {self.root_position_id}>"
         )

@@ -9,7 +9,7 @@ class CashFlowType(str, enum.Enum):
     LONG_SELL = "LONG_SELL"      # close long
     SHORT_SELL = "SHORT_SELL"    # open short
     SHORT_COVER = "SHORT_COVER"  # close short
-    
+
     # Income
     DIVIDEND = "DIVIDEND"
     INTEREST = "INTEREST"

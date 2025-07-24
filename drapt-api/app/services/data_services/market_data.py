@@ -104,10 +104,14 @@ async def get_multiticker_search_fuzzy(query: str):
 
 
 async def get_last_fx(fx_ticker: str):
+    CURRENCY_ALIAS = {"CNY":"CNH"} # CNY is not listed on tiingo, but CNH (chinese yuan offshore) is...
+
     fx_ticker = fx_ticker.strip().upper()
 
-    base = fx_ticker[:3]
-    quote = fx_ticker[-3:]
+    base,quote = fx_ticker[:3], fx_ticker[3:]
+
+    base = CURRENCY_ALIAS.get(base, base)
+    quote = CURRENCY_ALIAS.get(quote,quote)
 
     if base == quote:  # for the case of USDUSD, EUREUR etc.
         return {"midPrice": 1.0}
@@ -144,19 +148,20 @@ async def get_last_fx(fx_ticker: str):
 
     # Try inverse fetch and invert if not available directly
     except ValueError:
-        fx_rate_inverse = await client.get_last_fx_rate(f"{quote}{base}")
-        inverted = {
-            "ticker": f"{base}{quote}",
-            "quoteTimestamp": fx_rate_inverse["quoteTimestamp"],
-            "bidPrice": float(1) / float(fx_rate_inverse["askPrice"]),
-            "askPrice": float(1) / float(fx_rate_inverse["bidPrice"]),
-            "midPrice": float(1) / float(fx_rate_inverse["midPrice"]),
-            "bidSize": fx_rate_inverse["askSize"],
-            "askSize": fx_rate_inverse["bidSize"]
-        }
-        cache_set_ultrashort_exp(cache_key, inverted)
-        return inverted
-
-    except Exception as e:
-        logger.error(f"(Server) {e}")
-        raise ValueError(f"Could not fetch FX rate for {fx_ticker}")
+        try:
+            fx_rate_inverse = await client.get_last_fx_rate(f"{quote}{base}")
+            inverted = {
+                "ticker": f"{base}{quote}",
+                "quoteTimestamp": fx_rate_inverse["quoteTimestamp"],
+                "bidPrice": float(1) / float(fx_rate_inverse["askPrice"]),
+                "askPrice": float(1) / float(fx_rate_inverse["bidPrice"]),
+                "midPrice": float(1) / float(fx_rate_inverse["midPrice"]),
+                "bidSize": fx_rate_inverse["askSize"],
+                "askSize": fx_rate_inverse["bidSize"]
+            }
+            cache_set_ultrashort_exp(cache_key, inverted)
+            return inverted
+        
+        except Exception as e:
+            logger.error(f"(Server) {e}")
+            raise ValueError(f"Could not fetch FX rate for {fx_ticker}")
