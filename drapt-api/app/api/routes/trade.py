@@ -21,6 +21,7 @@ from app.services.trade_services.trade_service import TradeService
 from app.services.position_services.position_service import PositionService
 from app.services.cash_services.cash_service import CashService
 from app.orchestrators.trade_orchestrator import TradeOrchestrator
+from app.services.risk_services.risk_engine import RiskService
 
 router = APIRouter()
 
@@ -46,16 +47,18 @@ async def book_trade(
     TradeServiceObject = TradeService(session)
     PositionServiceObject = PositionService(session)
     CashServiceObject = CashService(session)
-    TradeOrchestratorObject = TradeOrchestrator(session, TradeServiceObject, PositionServiceObject, CashServiceObject)
+    RiskServiceObject = RiskService(session)
+
+    TradeOrchestratorObject = TradeOrchestrator(session, TradeServiceObject, PositionServiceObject, CashServiceObject, RiskServiceObject)
 
     try:
         trade_obj = await TradeOrchestratorObject.orchestrator_process_trade(trade, current_user)
         await session.commit()
         await session.refresh(trade_obj)
 
-    except Exception:
+    except Exception as e:
         await session.rollback()
-        logger.error(f"(Server) Position creation failed for trade {trade.ticker}/{trade.portfolio_id}")
+        logger.error(f"(Server) Position creation failed for trade {trade.ticker}/{trade.portfolio_id} : {e}")
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Failed to create position for trade.")
 
 

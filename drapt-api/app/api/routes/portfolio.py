@@ -11,7 +11,6 @@ from app.db import get_async_session
 # models and schemas
 from app.models.portfolio import Portfolio
 from app.schemas.portfolio import PortfolioCreate, PortfolioRead, PortfolioUpdate, PortfolioReadOverview
-
 from app.services.cash_services.cash_service import CashService
 
 # auth and permission imports
@@ -180,7 +179,7 @@ async def delete_portfolio_by_id(
 
     if not portfolio:
         raise HTTPException(status_code=404, detail="The portfolio that you requested to delete was not found.")
-    
+
     await session.delete(portfolio)
     await session.commit()
 
@@ -205,7 +204,7 @@ async def get_all_portfolios(
     portfolios = allPortfoliosResult.scalars().all()
 
     if not portfolios:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Could not find any portfolios")
+        return []
 
     # Fetch all PMs who are assigned to a portfolio
     allPmsResult = await session.execute(select(User).where(and_(User.portfolio_id != None ,User.role == "pm")))

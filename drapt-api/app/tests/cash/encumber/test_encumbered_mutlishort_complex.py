@@ -10,6 +10,7 @@ from app.enums.trade_orchestrator import TradeIntentionEnum
 from app.services.position_services.position_service import PositionService
 from app.services.trade_services.trade_service import TradeService
 from app.services.cash_services.cash_service import CashService
+from app.services.risk_services.risk_engine import RiskService
 from app.redis_client import cache_get
 from app.tests.pretty_prints_for_testing_purposes import terminalcolours, print_test_end_banner, print_test_start_banner, print_zebra_table, pretty_print_info, pretty_print_result
 
@@ -37,9 +38,10 @@ async def test_encumbered_multishort():
         position_service = PositionService(session)
         trade_service = TradeService(session)
         cash_service = CashService(session)
+        risk_service = RiskService(session)
 
         print(f"{terminalcolours.OKCYAN}Initialising orchestrator...{terminalcolours.ENDC}")
-        trade_orchestrator = TradeOrchestrator(session, trade_service, position_service, cash_service)
+        trade_orchestrator = TradeOrchestrator(session, trade_service, position_service, cash_service, risk_service)
 
         # Create a user
         print(f"{terminalcolours.OKCYAN}Creating user...{terminalcolours.ENDC}")
@@ -94,7 +96,6 @@ async def test_encumbered_multishort():
             currency="EUR",
             price=Decimal("10"),
             quantity=Decimal("10"),
-            notional=Decimal("100"),
             execution_date=datetime.now(),
             venue="T212",
             trader_id=test_user.id,
@@ -131,7 +132,6 @@ async def test_encumbered_multishort():
             currency="EUR",
             price=Decimal("11"),
             quantity=Decimal("5"),
-            notional=Decimal("55"),
             execution_date=datetime.now(),
             venue="T212",
             trader_id=test_user.id,
@@ -168,7 +168,6 @@ async def test_encumbered_multishort():
             currency="USD",
             price=Decimal("20"),
             quantity=Decimal("5"),
-            notional=Decimal("100"),
             execution_date=datetime.now(),
             venue="T212",
             trader_id=test_user.id,
@@ -203,9 +202,8 @@ async def test_encumbered_multishort():
             exchange="NDQ",
             direction=TradeTypeEnum.BUY,
             currency="EUR",
-            price=Decimal("8"),
+            price=Decimal("80"),
             quantity=Decimal("5"),
-            notional=Decimal("40"),
             execution_date=datetime.now(),
             venue="T212",
             trader_id=test_user.id,
@@ -240,9 +238,8 @@ async def test_encumbered_multishort():
             exchange="SHNG",
             direction=TradeTypeEnum.BUY,
             currency="CNY",
-            price=Decimal("80"),
+            price=Decimal("100"),
             quantity=Decimal("5"),
-            notional=Decimal("400"),
             execution_date=datetime.now(),
             venue="T212",
             trader_id=test_user.id,
@@ -279,7 +276,6 @@ async def test_encumbered_multishort():
             currency="USD",
             price=Decimal("15"),
             quantity=Decimal("5"),
-            notional=Decimal("75"),
             execution_date=datetime.now(),
             venue="T212",
             trader_id=test_user.id,
@@ -316,7 +312,6 @@ async def test_encumbered_multishort():
             currency="CNY",
             price=Decimal("100"),
             quantity=Decimal("5"),
-            notional=Decimal("500"),
             execution_date=datetime.now(),
             venue="T212",
             trader_id=test_user.id,

@@ -22,6 +22,7 @@ class CashService:
         await self.session.flush()
         await self.session.refresh(cashflow)
 
+        return cashflow
 
     async def _record_initial_portfolio_cash(self, Portfolio):
         # Ensure the portfolio is properly loaded
@@ -121,7 +122,8 @@ class CashService:
             fx_at_time_of_conversion = fx_mid_price
         )
 
-        await self._add_cash_flow(cash_cost)
+        result = await self._add_cash_flow(cash_cost)
+        return result
 
     # this service gets cash balance but is currency unaware. to get currency aware (like realised portfolio balance) use the next function
     async def _get_portfolio_balance_all_currency(self, portfolio_id: int) -> dict:
@@ -143,6 +145,7 @@ class CashService:
         )
 
         row =result.one_or_none()
+
         return row[0] if row else Decimal("0")
 
     async def _get_cash_ledger_by_portfolio(self, portfolio_id: int) -> list[CashFlow]:

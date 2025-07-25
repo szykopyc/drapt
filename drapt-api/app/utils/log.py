@@ -33,5 +33,7 @@ admin_logger = setup_logger("admin", "admin.log")
 external_api_logger = setup_logger("external_api", "external_api.log")
 position_logger = setup_logger("position", "position.log")
 
+risk_engine_logger = setup_logger("risk_engine", "risk_engine.log")
+
 # Optional: keep a general fallback logger
 general_logger = setup_logger("general", "server_logs.log")

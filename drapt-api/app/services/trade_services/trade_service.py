@@ -32,8 +32,6 @@ class TradeService:
             await self.session.flush()
             await self.session.refresh(trade)
 
-            logger.info(f"({current_user.username}) created trade TICKER: {trade.ticker} / DATE: {trade.execution_date}")
-
             return trade
 
         
