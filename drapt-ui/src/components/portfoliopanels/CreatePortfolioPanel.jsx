@@ -1,6 +1,7 @@
 import MainBlock from "../layout/MainBlock";
 import { BeginText } from "../baseui/BeginText";
 import { CreatePortfolioCard } from "../portfolioui/CreatePortfolioCard";
+import { Toaster } from "react-hot-toast";
 
 export default function CreatePortfolioPanel() {
     return (
@@ -15,6 +16,7 @@ export default function CreatePortfolioPanel() {
             </BeginText>
             <div className="divider my-0"></div>
             <CreatePortfolioCard></CreatePortfolioCard>
+            <Toaster />
         </MainBlock>
     );
 }

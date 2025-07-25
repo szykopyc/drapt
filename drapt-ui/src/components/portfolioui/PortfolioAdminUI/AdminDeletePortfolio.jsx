@@ -27,18 +27,18 @@ export default function AdminDeletePortfolio() {
             await new Promise((resolve) => setTimeout(resolve, 500));
             setIsPortfolioBeingDeleted(false);
             toast.success(`Deleted ${portfoliodata.name} Portfolio`);
-        } catch {
-            toast.error(`Failed to delete ${portfoliodata.name} Portfolio`);
-        } finally {
             setPortfolioDeleteConfirmed(false);
             await new Promise((resolve) => setTimeout(resolve, 1000));
             toast("Redirecting to Fund Scope...");
             await new Promise((resolve) => setTimeout(resolve, 1000));
+            toast.dismiss();
             queryClient.invalidateQueries([
                 "portfolio",
                 portfoliodata.portfolio_string_id,
             ]);
             navigate("/portfolio");
+        } catch {
+            toast.error(`Failed to delete ${portfoliodata.name} Portfolio`);
         }
     };
 
